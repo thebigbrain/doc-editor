@@ -1,10 +1,15 @@
 {
-  "name": "futures-components",
+  "name": "doc-editor",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.20.7",
+    "graphql": "^14.4.2",
+    "parse": "^2.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
@@ -27,5 +32,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-relay": "^2.0.0-rc.2",
+    "typescript": "^3.5.3"
   }
 }

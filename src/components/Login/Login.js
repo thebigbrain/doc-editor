@@ -14,16 +14,23 @@ class NormalLoginForm extends React.Component {
 
         if (this.props.onLogin) await this.props.onLogin(values);
       }
-      return false;
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { status = {}, i18n, match } = this.props;
+    const { status = {}, i18n, match, routePath, history } = this.props;
 
-    if (status === LoginStatus.FAILED) {
-      message.error(status.message);
+    switch (status) {
+      case LoginStatus.FAILED:
+        message.error(status.message);
+        break;
+      case LoginStatus.SUCCESS:
+        console.log(routePath.app);
+        history.replace(routePath.app);
+        return null;
+      default:
+        break;
     }
 
     return (
@@ -54,13 +61,13 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>{i18n.remember}</Checkbox>)}
-          <Link className="login-form-forgot" to={`${match.url}/forget`}>
+          <Link className="login-form-forgot" to={routePath.forget}>
             {i18n.forget}
           </Link>
           <Button type="primary" htmlType="submit" className="login-form-button">
             {i18n.login}
           </Button>
-          <Link to={`${match.url}/register`}>{i18n.register}</Link>
+          <Link to={routePath.register}>{i18n.register}</Link>
         </Form.Item>
       </Form>
     );

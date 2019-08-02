@@ -1,24 +1,23 @@
 import Page from 'base/page';
-import handlers from 'base/handler';
-import Login from 'components/Login/Login';
+import User from 'components/Login/User';
 import { LoginStatus } from 'base/const';
 
-async function onLogin(values) {
-  const h = handlers.get('login');
-  const r = await h(values.username, values.password);
-  if (r.hasError()) {
-    pageLogin.setState({'status': LoginStatus.FAILED});
-  } else {
-    pageLogin.setState({'status': LoginStatus.SUCCESS});
-  }
-}
-
-const pageLogin = Page.newInstance({
-  path: '/user/login',
-  component: Login,
+Page.newInstance({
+  name: 'user',
+  path: '/user',
+  component: User,
+  callbacks: {
+    onLogin: 'login',
+    onRegister: 'register'
+  },
   props: {
-    onLogin,
-    status: LoginStatus.NONE
+    status: LoginStatus.NONE,
+    routePath: {
+      app: '/app',
+      login: '/user/login',
+      register: '/user/register',
+      forget: '/user/forget'
+    }
   },
   i18n: {
     register: '注册账户',

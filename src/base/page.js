@@ -16,13 +16,25 @@ export const Switch = _Switch;
 
 
 export default class Page {
+  static pages = new Map();
   static routes = [];
   static store = null;
   static reducers = {};
   static updater = {};
+  static handlers = {};
 
   static newInstance(options) {
-    let {path, component, exact = false, props = {}, i18n} = options;
+    let {name, path, component, exact = false, props = {}, i18n, callbacks} = options;
+
+    if (name == null) name = options.name = `__page_name_${Math.random()}`;
+
+    for (let cb in callbacks) {
+      let eventName = callbacks[cb];
+      callbacks[cb] = (...args) => this.get(name).emit(eventName, ...args);
+    }
+
+    const page = new Page(options);
+    this.pages.set(name, page);
 
     const comp = (routeOptions) => (
       <WrappedComponent
@@ -30,25 +42,25 @@ export default class Page {
         options={options}
         routeOptions={routeOptions}
         state={Object.assign(props, {i18n})}
+        page={page}
+        callbacks={callbacks}
       />
     );
 
     exact = exact === true || path === '/';
-    const key = `__page_route_${path}`;
+    const key = `__page_route_${name}`;
     this.routes.push(<Route key={key} exact={exact} path={path} component={comp}/>);
 
-    const reducerKey = Page.convertReducerKey(options.path);
+    const reducerKey = Page.convertReducerKey(name);
     Page.reducers[reducerKey] = (state = null, action={}) => {
       if (action.type === reducerKey) {
-        if (typeof this.updater[reducerKey] === 'function') {
-          this.updater[reducerKey](action.payload);
-        }
+        this.updateState(reducerKey, action.payload);
         return Object.assign({}, state, action.payload);
       }
       return state;
     };
 
-    return new Page(options);
+    return page;
   }
 
   static getRouter() {
@@ -57,14 +69,41 @@ export default class Page {
 
     return (
       <BrowserRouter>
-        <Route path='/' component={withRouter(Session)}/>
+        <Route path='/' component={Session}/>
         {this.routes}
       </BrowserRouter>
     );
   }
 
-  static convertReducerKey(path) {
-    return String(path).replace('/', '_');
+  static updateState(key, state) {
+    if (typeof this.updater[key] === 'function') {
+      this.updater[key](state);
+    }
+  }
+
+  static convertReducerKey(name) {
+    return String(name).replace('.', '_');
+  }
+
+  static setState(name, state) {
+    this.updateState(this.convertReducerKey(name), state);
+  }
+
+  static getState() {
+    return this.store.getState();
+  }
+
+  static get(name) {
+    return this.pages.get(name);
+  }
+
+  static register(handlers) {
+    for (let k in handlers) {
+      if (handlers.hasOwnProperty(k) && typeof handlers[k] === 'function') {
+
+        this.handlers[k] = handlers[k];
+      }
+    }
   }
 
   constructor(option) {
@@ -73,9 +112,19 @@ export default class Page {
 
   setState(state) {
     Page.store.dispatch({
-      type: Page.convertReducerKey(this.option.path),
+      type: Page.convertReducerKey(this.option.name),
       payload: state
     });
+  }
+
+  emit(eventName, ...args) {
+    const fn = `${this.option.name}.${eventName}`;
+
+    if (Page.handlers[fn] != null) {
+      (async () => {
+        await Page.handlers[fn](...args);
+      })();
+    }
   }
 }
 
@@ -89,14 +138,17 @@ class WrappedComponent extends React.Component {
 
     this.routeOptions = props.routeOptions;
     this.state = props.state;
+    this.page = props.page;
+    this.callbacks = props.callbacks;
     const options = props.options;
 
-    Page.updater[Page.convertReducerKey(options.path)] = this.setState.bind(this);
+
+    Page.updater[Page.convertReducerKey(options.name)] = (state) => this.setState(state);
   }
 
   render() {
     return (
-      <this.C {...this.routeOptions} {...this.state}/>
+      <this.C {...this.routeOptions} {...this.state} {...this.callbacks} page={this.page}/>
     );
   }
 }
@@ -108,14 +160,27 @@ class Session extends React.Component {
     const {history} = props;
 
     getCurrentSession().then(() => {
-      history.replace('/app');
+      history.replace(this.isRoot() ? '/app' : this.getUrl());
     }).catch(() => {
-      history.replace('/user/login');
+      history.replace(`/user/login?redirect=${this.getRedirect()}`);
     });
   }
 
+  getRedirect() {
+    const {location} = this.props;
+    return location.pathname.startsWith('/user/login') ? '/app' : this.getUrl();
+  }
+
+  getUrl() {
+    return this.props.location.pathname + this.props.location.search;
+  }
+
+  isRoot() {
+    const {location} = this.props;
+    return location.pathname === '' || location.pathname === '/' || location.pathname.startsWith('/user');
+  }
+
   render() {
-    console.log('render session');
     return null;
   }
 }

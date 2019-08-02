@@ -1,4 +1,4 @@
-import Page from 'base/page';
+import {Page} from '@doce';
 import Landing from 'components/Landing/Landing';
 
 Page.newInstance({

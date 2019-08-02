@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 import './Login.css';
-import { LoginStatus } from 'base/const';
-import {Link} from 'base/page';
+import {LoginStatus} from 'utils/const';
+import {Link} from '@doce';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {

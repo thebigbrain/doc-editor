@@ -1,4 +1,4 @@
-import Parse from './parse-client';
+import {Parse} from './parse-client';
 
 
 export async function getCurrentSession() {

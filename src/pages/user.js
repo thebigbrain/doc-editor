@@ -1,6 +1,6 @@
-import Page from 'base/page';
+import {Page} from '@doce';
 import User from 'components/Login/User';
-import { LoginStatus } from 'base/const';
+import {LoginStatus} from 'utils/const';
 
 Page.newInstance({
   name: 'user',

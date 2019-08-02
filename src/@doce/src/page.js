@@ -15,7 +15,7 @@ export const Link = _Link;
 export const Switch = _Switch;
 
 
-export default class Page {
+export class Page {
   static pages = new Map();
   static routes = [];
   static store = null;

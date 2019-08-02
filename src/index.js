@@ -1,12 +1,10 @@
-import 'base/es-shim';
+import {Page} from '@doce';
 
 // import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-import './base/session';
-import Page from './base/page';
 import './pages';
 import './handlers';
 

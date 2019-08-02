@@ -1,6 +1,5 @@
-import Parse from 'base/parse-client';
-import Page from 'base/page';
-import { LoginStatus } from 'base/const';
+import {Page, Parse} from '@doce';
+import {LoginStatus} from 'utils/const';
 
 const USER = 'user';
 const LOGIN = 'login';

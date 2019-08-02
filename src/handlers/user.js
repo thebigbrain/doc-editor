@@ -36,4 +36,3 @@ Page.register({
   [`${USER}.${LOGIN}`]: login,
   [`${USER}.${SIGNUP}`]: signUp
 });
-

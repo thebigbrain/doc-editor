@@ -20,9 +20,7 @@ class NormalLoginForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { status = {}, i18n = {}, location, match } = this.props;
-
-    console.log(match.url);
+    const { status = {}, i18n, match } = this.props;
 
     if (status === LoginStatus.FAILED) {
       message.error(status.message);

@@ -12,18 +12,10 @@ const style = {
   userSelect: 'none'
 };
 
-export default class Landing extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.log(props.match.url);
-  }
-
-  render() {
-    return (
-      <div className='landing' style={style}>
-        LANDING ...
-      </div>
-    );
-  }
+export default function Landing() {
+  return (
+    <div className='landing' style={style}>
+      LANDING ...
+    </div>
+  );
 }

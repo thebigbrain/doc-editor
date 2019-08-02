@@ -1,21 +1,21 @@
 import Page from 'base/page';
 import handlers from 'base/handler';
-import User from 'components/Login/User';
+import Login from 'components/Login/Login';
 import { LoginStatus } from 'base/const';
 
 async function onLogin(values) {
   const h = handlers.get('login');
   const r = await h(values.username, values.password);
   if (r.hasError()) {
-    this.setState({'status': LoginStatus.FAILED});
+    pageLogin.setState({'status': LoginStatus.FAILED});
   } else {
-    this.setState({'status': LoginStatus.SUCCESS});
+    pageLogin.setState({'status': LoginStatus.SUCCESS});
   }
 }
 
-Page.newInstance('user', {
-  path: '/user',
-  component: User,
+const pageLogin = Page.newInstance({
+  path: '/user/login',
+  component: Login,
   props: {
     onLogin,
     status: LoginStatus.NONE

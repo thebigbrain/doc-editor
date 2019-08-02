@@ -1,18 +1,15 @@
-import React from 'react';
+// import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from "react-router-dom"
 import './index.css';
-// import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 
+import './base/session';
 import Page from './base/page';
 import './pages';
 import './handlers';
 
 ReactDOM.render(
-  <BrowserRouter>
-    {Page.getRootComponent()}
-  </BrowserRouter>,
+  Page.getRouter(),
   document.getElementById('root')
 );
 

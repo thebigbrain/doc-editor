@@ -6,10 +6,11 @@ import {
   Icon,
   Select,
   Checkbox,
-  Button,
+  Button, message,
   // AutoComplete,
 } from 'antd';
 import {Link} from '@doce';
+import {LoginStatus} from '../../utils/const';
 
 const { Option } = Select;
 
@@ -57,6 +58,19 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     // const { autoCompleteResult } = this.state;
+
+    const {status, routePath, history} = this.props;
+
+    switch (status) {
+      case LoginStatus.FAILED:
+        message.error(status);
+        break;
+      case LoginStatus.SUCCESS:
+        history.replace(routePath.app);
+        return null;
+      default:
+        break;
+    }
 
     const formItemLayout = {
       labelCol: {

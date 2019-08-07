@@ -1,19 +1,21 @@
 import React from 'react';
 import { combineReducers, createStore } from 'redux';
 import {
+  Redirect as _Redirect,
   Route as _Route,
   Link as _Link,
   withRouter as _withRouter,
   Switch as _Switch,
   BrowserRouter,
 } from "react-router-dom";
-import {getCurrentSession} from './session';
+import {getCurrentSession, logOut} from './session';
 
+export const Router = BrowserRouter;
 export const Route = _Route;
 export const withRouter = _withRouter;
 export const Link = _Link;
 export const Switch = _Switch;
-
+export const Redirect = _Redirect;
 
 export class Page {
   static pages = new Map();
@@ -161,7 +163,8 @@ class Session extends React.Component {
 
     getCurrentSession().then(() => {
       history.replace(this.isRoot() ? '/app' : this.getUrl());
-    }).catch(() => {
+    }).catch(async () => {
+      await logOut();
       history.replace(`/user/login?redirect=${this.getRedirect()}`);
     });
   }

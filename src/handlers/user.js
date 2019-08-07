@@ -14,6 +14,38 @@ async function login({username, password}) {
   }
 }
 
+async function mobileLogin(authData) {
+  try {
+    const provider = {
+      authenticate: () => Promise.resolve(),
+      restoreAuthentication() {
+        return true;
+      },
+
+      getAuthType() {
+        return 'mobile';
+      },
+
+      getAuthData() {
+        return {authData};
+      },
+    };
+    Parse.User._registerAuthenticationProvider(provider);
+    const user = new Parse.User();
+    // user.setUsername('Alice');
+    // user.setPassword('sekrit');
+    // await user.signUp();
+    await user._linkWith(provider.getAuthType(), provider.getAuthData());
+
+    // const user = new Parse.User();
+    // await user._linkWith('phone', { authData });
+
+    Page.get(USER).setState({status: LoginStatus.SUCCESS})
+  } catch (e) {
+    Page.get(USER).setState({status: LoginStatus.FAILED});
+  }
+}
+
 async function signUp({username, password, email, phone}) {
   try {
     const user = new Parse.User();
@@ -32,6 +64,7 @@ async function signUp({username, password, email, phone}) {
 }
 
 Page.register({
+  'user.mobile': mobileLogin,
   [`${USER}.${LOGIN}`]: login,
   [`${USER}.${SIGNUP}`]: signUp
 });

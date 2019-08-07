@@ -5,8 +5,11 @@
   "dependencies": {
     "antd": "^3.20.7",
     "codemirror": "^5.48.2",
+    "express": "latest",
     "graphql": "^14.4.2",
     "parse": "^2.6.0",
+    "parse-dashboard": "^1.4.3",
+    "parse-server": "^3.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
@@ -18,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "server": "node ./server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,7 +42,6 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@storybook/react": "^5.1.10",
-    "babel-loader": "^8.0.6",
     "babel-plugin-relay": "^2.0.0-rc.2",
     "typescript": "^3.5.3"
   }

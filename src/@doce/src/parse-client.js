@@ -1,9 +1,18 @@
-import _Parse from 'parse/lib/browser/Parse';
+import _Parse from 'parse';
+
+const appId = 'appid';
 
 // const Parse = require('parse');
-_Parse.initialize("appid", null);
+_Parse.initialize(appId, null);
 
 //javascriptKey is required only if you have it on server.
-_Parse.serverURL = 'http://192.168.1.104:1337/parse';
+_Parse.serverURL = 'http://localhost:1337/parse';
+
+// let LiveQueryClient = _Parse.LiveQueryClient;
+// let client = new LiveQueryClient({
+//   applicationId: appId,
+//   serverURL: 'ws://localhost:1337/parse',
+// });
 
 export const Parse = _Parse;
+// export const LiveClient = client;

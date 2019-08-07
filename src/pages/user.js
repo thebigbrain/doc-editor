@@ -1,5 +1,5 @@
 import {Page} from '@doce';
-import User from 'components/Login/User';
+import User from 'components/User/User';
 import {LoginStatus} from 'utils/const';
 
 Page.newInstance({
@@ -8,6 +8,7 @@ Page.newInstance({
   component: User,
   callbacks: {
     onLogin: 'login',
+    onMobileLogin: 'mobile',
     onRegister: 'register'
   },
   props: {
@@ -24,9 +25,14 @@ Page.newInstance({
     login: '登录',
     forget: '忘记密码',
     remember: '自动登录',
+    userTab: '账户密码登录',
+    phoneTab: '手机号登录',
     placeholder: {
       username: '用户名',
-      password: '密码'
+      password: '密码',
+      phone: '手机号',
+      code: '验证码',
+      codeButton: '获取验证码'
     }
   }
 });

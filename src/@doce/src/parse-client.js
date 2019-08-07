@@ -1,9 +1,9 @@
-import _Parse from 'parse';
+import _Parse from 'parse'
 
-const appId = 'appid';
+const APP_ID = 'appid'
+const JS_KEY = 'javascriptkey'
 
-// const Parse = require('parse');
-_Parse.initialize(appId, null);
+_Parse.initialize(APP_ID, JS_KEY)
 
 //javascriptKey is required only if you have it on server.
 _Parse.serverURL = 'http://localhost:1337/parse';

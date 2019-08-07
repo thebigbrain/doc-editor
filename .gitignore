@@ -24,3 +24,4 @@ yarn-error.log*
 .idea
 /build
 /logs
+/dist

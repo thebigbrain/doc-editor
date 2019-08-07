@@ -30,7 +30,9 @@ export default class Game extends React.Component {
     this.subscription = await query.subscribe();
 
     this.subscription.on('create', (people) => {
-      console.log(people.get('name')); // This should output Mengyan
+      const dataSource = this.state.dataSource
+      dataSource.push(people.toJSON())
+      this.setState({dataSource})
     });
   }
 

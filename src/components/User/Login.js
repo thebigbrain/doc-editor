@@ -1,43 +1,43 @@
-import React from 'react';
-import {Form, Icon, Input, Button, Checkbox, message, Radio} from 'antd';
+import React from 'react'
+import {Button, Checkbox, Form, Icon, Input, message, Radio} from 'antd'
 
-import './Login.css';
-import {LoginStatus} from 'utils/const';
-import {Link} from '@doce';
+import './Login.css'
+import {LoginStatus} from 'utils/const'
+import {Link} from '@doce'
 
 class LoginType {
-  static MOBILE = '2';
-  static USER = '1';
+  static MOBILE = '2'
+  static USER = '1'
 }
 
 class NormalLoginForm extends React.Component {
   state = {
     currentTab: LoginType.USER
-  };
+  }
 
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields(async (err, values = {}) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values)
 
-        if (this.state.currentTab === LoginType.USER && this.props.onLogin) await this.props.onLogin(values);
-        if (this.state.currentTab === LoginType.MOBILE && this.props.onMobileLogin) await this.props.onMobileLogin(values);
+        if (this.state.currentTab === LoginType.USER && this.props.onLogin) await this.props.onLogin(values)
+        if (this.state.currentTab === LoginType.MOBILE && this.props.onMobileLogin) await this.props.onMobileLogin(values)
       }
-    });
-  };
+    })
+  }
 
   onTabChange = e => {
     this.setState({
       currentTab: e.target.value
-    });
-  };
+    })
+  }
 
   getUserPane(key) {
-    if (String(key) !== this.state.currentTab) return null;
+    if (String(key) !== this.state.currentTab) return null
 
-    const {getFieldDecorator} = this.props.form;
-    const {i18n} = this.props;
+    const {getFieldDecorator} = this.props.form
+    const {i18n} = this.props
 
     return (
       <React.Fragment>
@@ -63,14 +63,14 @@ class NormalLoginForm extends React.Component {
           )}
         </Form.Item>
       </React.Fragment>
-    );
+    )
   }
 
   getPhonePane(key) {
-    if (String(key) !== this.state.currentTab) return null;
+    if (String(key) !== this.state.currentTab) return null
 
-    const {getFieldDecorator} = this.props.form;
-    const {i18n} = this.props;
+    const {getFieldDecorator} = this.props.form
+    const {i18n} = this.props
 
     return (
       <React.Fragment>
@@ -97,23 +97,23 @@ class NormalLoginForm extends React.Component {
           <Button>{i18n.placeholder.codeButton}</Button>
         </Form.Item>
       </React.Fragment>
-    );
+    )
   }
 
   render() {
-    const {getFieldDecorator} = this.props.form;
-    const {status, i18n, routePath, history} = this.props;
+    const {getFieldDecorator} = this.props.form
+    const {status, i18n, routePath, history} = this.props
 
     switch (status) {
       case LoginStatus.FAILED:
-        message.error(status);
-        break;
+        message.error(status)
+        break
       case LoginStatus.SUCCESS:
-        console.log(routePath.app);
-        history.replace(routePath.app);
-        return null;
+        console.log(routePath.app)
+        history.replace(routePath.app)
+        return null
       default:
-        break;
+        break
     }
 
     return (
@@ -138,10 +138,10 @@ class NormalLoginForm extends React.Component {
           <Link to={routePath.register}>{i18n.register}</Link>
         </Form.Item>
       </Form>
-    );
+    )
   }
 }
 
-const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(NormalLoginForm);
+const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(NormalLoginForm)
 
-export default WrappedNormalLoginForm;
+export default WrappedNormalLoginForm

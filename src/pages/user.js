@@ -1,6 +1,6 @@
-import {Page} from '@doce';
-import User from 'components/User/User';
-import {LoginStatus} from 'utils/const';
+import {Page} from '@doce'
+import User from 'components/User/User'
+import {LoginStatus} from 'utils/const'
 
 Page.newInstance({
   name: 'user',
@@ -13,6 +13,7 @@ Page.newInstance({
   },
   props: {
     status: LoginStatus.NONE,
+    error: null,
     routePath: {
       app: '/app',
       login: '/user/login',
@@ -35,4 +36,4 @@ Page.newInstance({
       codeButton: '获取验证码'
     }
   }
-});
+})

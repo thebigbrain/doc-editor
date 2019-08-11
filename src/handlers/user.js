@@ -10,6 +10,7 @@ async function login({username, password}) {
     await Parse.User.logIn(username, password)
     Page.get(USER).setState({status: LoginStatus.SUCCESS, error: null})
   } catch (error) {
+    console.log(error)
     Page.get(USER).setState({
       status: LoginStatus.FAILED,
       error

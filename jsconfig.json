@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "target": "ES6",
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "build",
     "node_modules",

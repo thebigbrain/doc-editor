@@ -8,6 +8,8 @@ import {
   Switch as _Switch,
   withRouter as _withRouter,
 } from "react-router-dom"
+import {createMuiTheme} from '@material-ui/core/styles'
+import {ThemeProvider, withTheme} from '@material-ui/styles'
 import {getCurrentSession, logOut} from './session'
 
 export const Router = BrowserRouter
@@ -18,6 +20,7 @@ export const Switch = _Switch
 export const Redirect = _Redirect
 
 export class Page {
+  static theme = createMuiTheme()
   static pages = new Map()
   static routes = []
   static store = null
@@ -74,10 +77,12 @@ export class Page {
     this.store = createStore(reducer)
 
     return (
-      <BrowserRouter>
-        <Route path='/' component={Session}/>
-        {this.routes}
-      </BrowserRouter>
+      <ThemeProvider theme={this.theme}>
+        <BrowserRouter>
+          <Route path='/' component={Session}/>
+          {this.routes}
+        </BrowserRouter>
+      </ThemeProvider>
     )
   }
 
@@ -130,7 +135,7 @@ export class Page {
   }
 }
 
-class WrappedComponent extends React.Component {
+class _WrappedComponent extends React.Component {
   state = {}
   C = null
 
@@ -144,16 +149,23 @@ class WrappedComponent extends React.Component {
     this.callbacks = props.callbacks
     const options = props.options
 
-
     Page.updater[Page.convertReducerKey(options.name)] = (state) => this.setState(state)
   }
 
   render() {
     return (
-      <this.C {...this.routeOptions} {...this.state} {...this.callbacks} page={this.page}/>
+      <this.C
+        {...this.routeOptions}
+        {...this.state}
+        {...this.callbacks}
+        page={this.page}
+        theme={this.props.theme}
+      />
     )
   }
 }
+
+const WrappedComponent = withTheme(_WrappedComponent)
 
 class Session extends React.Component {
   constructor(props) {

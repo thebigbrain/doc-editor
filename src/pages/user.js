@@ -2,7 +2,7 @@ import {Page} from '@doce'
 import User from 'components/User/User'
 import {LoginStatus} from 'utils/const'
 
-Page.newInstance({
+const PageConfig = {
   name: 'user',
   path: '/user',
   component: User,
@@ -36,4 +36,6 @@ Page.newInstance({
       codeButton: '获取验证码'
     }
   }
-})
+}
+
+Page.newInstance(PageConfig)

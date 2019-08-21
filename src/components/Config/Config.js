@@ -4,8 +4,14 @@ import Resizable from 'components/Resizable/Resizable'
 import {VertBar} from 'components/Resizable/DragBar'
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import {withStyles, withTheme} from '@material-ui/styles'
+import ListItemText from '@material-ui/core/ListItemText'
+import {withStyles} from '@material-ui/styles'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+import FabContainer from "components/FabContainer/FabContainer"
+import FormDialog from "./FormDialog"
 
 const exampleCode = `import React from 'react'
 
@@ -52,7 +58,7 @@ export class HorizBar extends DragBar {
 }
 `
 
-const styles = {
+const styles = theme => ({
   root: {
     width: '100%',
     height: '100%',
@@ -63,31 +69,82 @@ const styles = {
   list: {
     backgroundColor: '#fff'
   },
-  listItemIcon: {
-    minWidth: 0
-  }
-}
+  listItemText: {
+    minWidth: '12em'
+  },
+  fab: {
+    margin: theme.spacing(1)
+  },
+})
 
 class Config extends React.Component {
   state = {
-    icons: []
+    components: {
+      'drag-bar': {
+        title: 'DragBar',
+        content: exampleCode
+      }
+    },
+    selectedComponent: 'drag-bar',
+    open: false
+  }
+
+  handleCmChange = (inst, co) => {
+    console.log(inst.getValue())
+    const {components, selectedComponent} = this.state
+    components[selectedComponent] = inst.getValue()
+    this.setState({components})
+  }
+
+  handleClose = () => {
+    this.setState({open: false})
+  }
+
+  handleOk = (title) => {
+    if (title == null) return
+    const components = this.state.components
+    components[title] = {title}
+    this.setState({
+      selectedComponent: title,
+      components
+    })
+  }
+
+  handleListItemClick = (key) => {
+    this.setState({selectedComponent: key})
+  }
+
+  handleAdd = () => {
+    this.setState({open: true})
+  }
+
+  getComponent(key = null) {
+    return this.state.components[key || this.state.selectedComponent]
   }
 
   getComponentList() {
     const {classes} = this.props
 
-    return this.state.icons.map(SomeIcon => (
-      <ListItem button key={Math.random()}>
-        <ListItemIcon classes={{root: classes.listItemIcon}}>
-          <SomeIcon/>
-        </ListItemIcon>
-      </ListItem>
-    ))
+    return Object.keys(this.state.components).map(key => {
+      const c = this.getComponent(key)
+      return (
+        <ListItem
+          selected={this.state.selectedComponent === key}
+          button
+          key={key}
+          onClick={this.handleListItemClick.bind(this, key)}
+        >
+          <ListItemText classes={{root: classes.listItemText}}>
+            {c.title}
+          </ListItemText>
+        </ListItem>
+      )
+    })
   }
 
   render() {
     const {classes} = this.props
-    console.log(classes)
+    const c = this.getComponent()
 
     return (
       <React.Fragment>
@@ -105,14 +162,28 @@ class Config extends React.Component {
             lineNumbers={true}
             styleActiveLine={true}
             matchBrackets={true}
-            readOnly={true}
-            cursorBlinkRate={-1}
-            value={exampleCode}
+            // readOnly={c.content}
+            // cursorBlinkRate={c.content ? -1 : 530}
+            value={c.content}
+            onChange={this.handleCmChange}
           />
         </Resizable>
+        <FabContainer>
+          <Fab color="primary" aria-label="add" className={classes.fab} onClick={this.handleAdd}>
+            <AddIcon/>
+          </Fab>
+          <Fab color="secondary" aria-label="edit" className={classes.fab}>
+            {/*<Icon>edit_icon</Icon>*/}
+            <EditIcon/>
+          </Fab>
+          <Fab disabled aria-label="delete" className={classes.fab}>
+            <DeleteIcon/>
+          </Fab>
+        </FabContainer>
+        <FormDialog open={this.state.open} close={this.handleClose} ok={this.handleOk}/>
       </React.Fragment>
     )
   }
 }
 
-export default withTheme(withStyles(styles)(Config))
+export default withStyles(styles)(Config)

@@ -33,9 +33,9 @@ const styles = {
 class App extends React.Component {
   state = {
     icons: [
-      {key: 1, to: '/app/config', component: ListIcon},
-      {key: 2, to: '/app/users', component: InboxIcon},
-      {key: 3, to: '/app/games', component: DraftsIcon},
+      {key: 'config', to: '/app/config', component: ListIcon},
+      {key: 'users', to: '/app/users', component: InboxIcon},
+      {key: 'games', to: '/app/games', component: DraftsIcon},
     ]
   }
 

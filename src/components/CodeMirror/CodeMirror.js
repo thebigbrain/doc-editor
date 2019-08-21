@@ -1,10 +1,10 @@
-import React from 'react';
-import CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/jsx/jsx';
+import React from 'react'
+import CodeMirror from 'codemirror'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/jsx/jsx'
 
-import './CodeMirror.css';
+import './CodeMirror.css'
 
 const style = {
   width: '100%',
@@ -14,19 +14,61 @@ const style = {
   overflow: 'auto'
 };
 
+const defaultOption = {
+  autofocus: true,
+  cursorHeight: .85
+}
+
 export default class _ extends React.Component {
   ref = React.createRef();
-  _codeMirror = null;
+  doc = null
+  events = {}
+
+  registerEvents() {
+    for (let evt in this.events) {
+      console.log(evt, this.events[evt])
+      this.doc.on(evt, this.events[evt])
+    }
+  }
+
+  deregisterEvents() {
+    for (let evt in this.events) {
+      this.doc.off(evt)
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    this.doc.setValue(nextProps.value || '')
+    for (let k in nextProps) {
+      if (k !== 'value' && !k.startsWith('on')) {
+        this.doc.setOption(k, nextProps[k])
+      }
+    }
+    return false
+  }
 
   componentDidMount() {
     const container = this.ref.current;
-    this._codeMirror = CodeMirror(
-      // function(elt) {
-      //   container.parentNode.replaceChild(elt, container);
-      // },
+    this.doc = CodeMirror(
       container,
-      this.props
+      Object.assign({}, defaultOption, this.props)
     );
+
+    Object.keys(this.props).forEach(key => {
+      if (key.startsWith('on')) {
+        let k = key.substring(2).split('')
+        k[0] = k[0].toLowerCase()
+        if (typeof this.props[key] === 'function') {
+          this.events[k.join('')] = this.props[key]
+        }
+      }
+
+      this.registerEvents()
+    })
+  }
+
+  componentWillUnmount() {
+    this.deregisterEvents()
   }
 
   render() {

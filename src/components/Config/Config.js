@@ -89,13 +89,6 @@ class Config extends React.Component {
     open: false
   }
 
-  handleCmChange = (inst, co) => {
-    console.log(inst.getValue())
-    const {components, selectedComponent} = this.state
-    components[selectedComponent] = inst.getValue()
-    this.setState({components})
-  }
-
   handleClose = () => {
     this.setState({open: false})
   }
@@ -116,6 +109,28 @@ class Config extends React.Component {
 
   handleAdd = () => {
     this.setState({open: true})
+  }
+
+  handleCmChange = (inst, co) => {
+    const c = this.getComponent()
+    c.content = inst.getValue()
+  }
+
+  renderCodeMirror() {
+    const c = this.getComponent()
+
+    return (
+      <CodeMirror
+        mode={{name: "jsx", json: true}}
+        lineNumbers={true}
+        styleActiveLine={true}
+        matchBrackets={true}
+        // readOnly={c.content}
+        // cursorBlinkRate={c.content ? -1 : 530}
+        value={c.content}
+        onChange={this.handleCmChange}
+      />
+    )
   }
 
   getComponent(key = null) {
@@ -144,7 +159,6 @@ class Config extends React.Component {
 
   render() {
     const {classes} = this.props
-    const c = this.getComponent()
 
     return (
       <React.Fragment>
@@ -157,16 +171,7 @@ class Config extends React.Component {
             {this.getComponentList()}
           </List>
           <VertBar/>
-          <CodeMirror
-            mode={{name: "jsx", json: true}}
-            lineNumbers={true}
-            styleActiveLine={true}
-            matchBrackets={true}
-            // readOnly={c.content}
-            // cursorBlinkRate={c.content ? -1 : 530}
-            value={c.content}
-            onChange={this.handleCmChange}
-          />
+          {this.renderCodeMirror()}
         </Resizable>
         <FabContainer>
           <Fab color="primary" aria-label="add" className={classes.fab} onClick={this.handleAdd}>

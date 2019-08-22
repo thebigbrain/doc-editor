@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@doce/live-query": "git+https://github.com/thebigbrain/live-query-js.git",
     "@material-ui/core": "^4.3.1",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/styles": "^4.3.0",

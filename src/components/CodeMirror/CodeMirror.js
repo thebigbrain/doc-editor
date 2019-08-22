@@ -24,9 +24,10 @@ export default class _ extends React.Component {
   doc = null
   events = {}
 
+  defaultValue = null
+
   registerEvents() {
     for (let evt in this.events) {
-      console.log(evt, this.events[evt])
       this.doc.on(evt, this.events[evt])
     }
   }

@@ -3,7 +3,7 @@ import {Button, Checkbox, Form, Icon, Input, message, Radio} from 'antd'
 
 import './Login.css'
 import {LoginStatus} from 'utils/const'
-import {Link} from '@doce'
+import {Link} from '@doce/core'
 
 class LoginType {
   static MOBILE = '2'

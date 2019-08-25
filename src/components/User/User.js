@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route} from '@doce'
+import {Route} from '@doce/core'
 import Login from './Login'
 import Register from './Register'
 

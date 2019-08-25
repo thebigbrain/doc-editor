@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'antd/es/table';
 
-import {Parse} from '@doce';
+import {Parse} from '@doce/core';
 
 const columns = [
   {

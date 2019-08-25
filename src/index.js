@@ -1,4 +1,4 @@
-import {Page} from '@doce';
+import {Page} from '@doce/core';
 
 // import React from 'react';
 import ReactDOM from 'react-dom';

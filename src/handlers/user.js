@@ -1,4 +1,4 @@
-import {Page, Parse} from '@doce'
+import {Page, Parse} from '@doce/core'
 import {LoginStatus} from 'utils/const'
 
 const USER = 'user'

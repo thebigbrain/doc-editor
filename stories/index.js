@@ -18,7 +18,7 @@ import {LoginStatus} from '../src/utils/const';
 
   storiesOf('Login', module)
     .add('login', () => {
-      const {Router} = require('@doce');
+      const {Router} = require('@doce/core');
 
       const routePath = {
         app: '/app',

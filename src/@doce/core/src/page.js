@@ -199,3 +199,5 @@ class Session extends React.Component {
     return null
   }
 }
+
+export default Page

@@ -1,4 +1,4 @@
-import {Page} from '@doce'
+import {Page} from '@doce/core'
 import User from 'components/User/User'
 import {LoginStatus} from 'utils/const'
 

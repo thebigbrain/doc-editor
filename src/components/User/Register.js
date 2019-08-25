@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Checkbox, Form, Icon, Input, message, Select, Tooltip,} from 'antd'
-import {Link} from '@doce'
+import {Link} from '@doce/core'
 import {LoginStatus} from '../../utils/const'
 
 const {Option} = Select

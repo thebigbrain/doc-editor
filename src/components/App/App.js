@@ -1,12 +1,6 @@
 import React from 'react'
-import {Link as RouterLink, Route} from '@doce'
+import {Link as RouterLink, Route} from '@doce/core'
 
-import UserList from '../User/UserList'
-import Game from 'components/Game/Game'
-import Config from 'components/Config/Config'
-import InboxIcon from '@material-ui/icons/Inbox'
-import ListIcon from '@material-ui/icons/List'
-import DraftsIcon from '@material-ui/icons/Drafts'
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItem from "@material-ui/core/ListItem"
 import List from "@material-ui/core/List"
@@ -32,17 +26,12 @@ const styles = {
 
 class App extends React.Component {
   state = {
-    icons: [
-      {key: 'config', to: '/app/config', component: ListIcon},
-      {key: 'users', to: '/app/users', component: InboxIcon},
-      {key: 'games', to: '/app/games', component: DraftsIcon},
-    ]
   }
 
   renderIcons() {
-    const {classes} = this.props
+    const {classes, icons} = this.props
 
-    return this.state.icons.map(ic => (
+    return icons.map(ic => (
       <Link to={ic.to} component={RouterLink} key={ic.key}>
         <ListItem button>
           <ListItemIcon classes={{root: classes.listItemIcon}}>
@@ -64,10 +53,7 @@ class App extends React.Component {
         >
           {this.renderIcons()}
         </List>
-
-        {<Route path='/app/config' component={Config}/>}
-        {<Route path='/app/users' component={UserList}/>}
-        {<Route path='/app/games' component={Game}/>}
+        <div>{this.props.children}</div>
       </div>
     )
   }

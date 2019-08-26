@@ -1,28 +1,26 @@
 import React from 'react'
 import {combineReducers, createStore} from 'redux'
-import {
-  BrowserRouter,
-  Link as _Link,
-  Redirect as _Redirect,
-  Route as _Route,
-  Switch as _Switch,
-  withRouter as _withRouter,
-} from "react-router-dom"
+import {Route, Router,} from "react-router-dom"
 import {createMuiTheme} from '@material-ui/core/styles'
 import {ThemeProvider, withTheme} from '@material-ui/styles'
-import {getCurrentSession, logOut} from './session'
+import {createBrowserHistory} from 'history'
 
-export const Router = BrowserRouter
-export const Route = _Route
-export const withRouter = _withRouter
-export const Link = _Link
-export const Switch = _Switch
-export const Redirect = _Redirect
+export * from 'react-router-dom'
+
+// export const Router = _Router
+// export const Route = _Route
+// export const withRouter = _withRouter
+// export const Link = _Link
+// export const Switch = _Switch
+// export const Redirect = _Redirect
+
+const RouteMap = new Map()
+const history = createBrowserHistory()
 
 export class Page {
   static theme = createMuiTheme()
   static pages = new Map()
-  static routes = []
+  static routes = new Map()
   static store = null
   static reducers = {}
   static updater = {}
@@ -33,9 +31,9 @@ export class Page {
   }
 
   static newInstance(options) {
-    let {name, path, component, exact = false, props = {}, i18n, callbacks} = options
+    let {path, component, exact = false, props = {}, i18n, callbacks} = options
 
-    if (name == null) name = options.name = `__page_name_${Math.random()}`
+    const name = options.name = path.replace('/', '_')
 
     for (let cb in callbacks) {
       let eventName = callbacks[cb]
@@ -45,22 +43,30 @@ export class Page {
     const page = new Page(options)
     this.pages.set(name, page)
 
-    const comp = (routeOptions) => (
-      <WrappedComponent
-        __internal_page_component={component}
-        options={options}
-        routeOptions={routeOptions}
-        state={Object.assign(props, {i18n})}
-        page={page}
-        callbacks={callbacks}
-      />
-    )
+    const wrapProps = {
+      __internal_page_component: component,
+      options,
+      state: Object.assign(props, {i18n}),
+      page,
+      callbacks,
+    }
 
     exact = exact === true || path === '/'
-    const key = `__page_route_${name}`
-    this.routes.push(<Route key={key} exact={exact} path={path} component={comp}/>)
+    if (RouteMap.has(path)) {
+      throw `Conflict: route with path ${path} found`
+    }
 
-    const reducerKey = Page.convertReducerKey(name)
+    const parentRoute = this.findDeepestParentRoute(this.routes, path)
+    const route = {exact, path, wrapProps, children: new Map()}
+    if (parentRoute != null) {
+      parentRoute.children.set(path, route)
+    } else {
+      this.routes.set(path, route)
+    }
+
+    RouteMap.set(path, route)
+
+    const reducerKey = Page.getReducerKey(name)
     Page.reducers[reducerKey] = (state = null, action = {}) => {
       if (action.type === reducerKey) {
         this.updateState(reducerKey, action.payload)
@@ -72,16 +78,41 @@ export class Page {
     return page
   }
 
+  static findDeepestParentRoute(routes, key) {
+    const keys = Array.from(routes.keys())
+    const parentKey = keys.find(k => key.startsWith(k))
+    if (parentKey != null) {
+      const parent = routes.get(parentKey)
+      return this.findDeepestParentRoute(parent.children, key) || parent
+    }
+    return null
+  }
+
+  static renderRoutes(routes) {
+    return Array.from(routes.values()).map(({exact, path, wrapProps, children}) => {
+      const key = `__route_key_${String(path).replace('/', '_')}`
+      console.log(key, exact)
+      const subRoutes = Page.renderRoutes(children)
+      const C = (props) => (
+        <WrappedComponent {...props} {...wrapProps}>
+          {subRoutes}
+        </WrappedComponent>
+      )
+      return (
+        <Route key={key} exact={exact} path={path} component={C}/>
+      )
+    })
+  }
+
   static getRouter() {
     const reducer = combineReducers(this.reducers)
     this.store = createStore(reducer)
 
     return (
       <ThemeProvider theme={this.theme}>
-        <BrowserRouter>
-          <Route path='/' component={Session}/>
-          {this.routes}
-        </BrowserRouter>
+        <Router history={history}>
+          {this.renderRoutes(this.routes)}
+        </Router>
       </ThemeProvider>
     )
   }
@@ -92,20 +123,24 @@ export class Page {
     }
   }
 
-  static convertReducerKey(name) {
-    return String(name).replace('.', '_')
+  static getRouteKey(name) {
+    return `__page_route_${name}`
+  }
+
+  static getReducerKey(name) {
+    return '__reducer_' + String(name).replace('.', '_')
   }
 
   static setState(name, state) {
-    this.updateState(this.convertReducerKey(name), state)
+    this.updateState(this.getReducerKey(name), state)
   }
 
   static getState() {
     return this.store.getState()
   }
 
-  static get(name) {
-    return this.pages.get(name)
+  static get(path) {
+    return this.pages.get(String(path).replace('/', '_'))
   }
 
   static register(handlers) {
@@ -119,7 +154,7 @@ export class Page {
 
   setState(state) {
     Page.store.dispatch({
-      type: Page.convertReducerKey(this.option.name),
+      type: Page.getReducerKey(this.option.name),
       payload: state
     })
   }
@@ -143,24 +178,30 @@ class _WrappedComponent extends React.Component {
     super(props)
     this.C = props.__internal_page_component
 
-    this.routeOptions = props.routeOptions
+    this.routeProps = props.routeProps
     this.state = props.state
     this.page = props.page
     this.callbacks = props.callbacks
     const options = props.options
 
-    Page.updater[Page.convertReducerKey(options.name)] = (state) => this.setState(state)
+    Page.updater[Page.getReducerKey(options.name)] = (state) => this.setState(state)
   }
 
   render() {
+    console.log(this.props.children)
+
     return (
-      <this.C
-        {...this.routeOptions}
-        {...this.state}
-        {...this.callbacks}
-        page={this.page}
-        theme={this.props.theme}
-      />
+      <Session>
+        <this.C
+          {...this.routeProps}
+          {...this.state}
+          {...this.callbacks}
+          page={this.page}
+          theme={this.props.theme}
+        >
+          {this.props.children}
+        </this.C>
+      </Session>
     )
   }
 }
@@ -168,35 +209,12 @@ class _WrappedComponent extends React.Component {
 const WrappedComponent = withTheme(_WrappedComponent)
 
 class Session extends React.Component {
-  constructor(props) {
-    super(props)
-
-    const {history} = props
-
-    getCurrentSession().then(() => {
-      history.replace(this.isRoot() ? '/app' : this.getUrl())
-    }).catch(async () => {
-      await logOut()
-      history.replace(`/user/login?redirect=${this.getRedirect()}`)
-    })
-  }
-
-  getRedirect() {
-    const {location} = this.props
-    return location.pathname.startsWith('/user/login') ? '/app' : this.getUrl()
-  }
-
-  getUrl() {
-    return this.props.location.pathname + this.props.location.search
-  }
-
-  isRoot() {
-    const {location} = this.props
-    return location.pathname === '' || location.pathname === '/' || location.pathname.startsWith('/user')
-  }
-
   render() {
-    return null
+    return (
+      <React.Fragment>
+        {this.props.children}
+      </React.Fragment>
+    )
   }
 }
 

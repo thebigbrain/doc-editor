@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link as RouterLink, Route} from '@doce/core'
+import {Link as RouterLink} from '@doce/core'
 
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItem from "@material-ui/core/ListItem"
@@ -30,6 +30,8 @@ class App extends React.Component {
 
   renderIcons() {
     const {classes, icons} = this.props
+
+    console.log(icons)
 
     return icons.map(ic => (
       <Link to={ic.to} component={RouterLink} key={ic.key}>

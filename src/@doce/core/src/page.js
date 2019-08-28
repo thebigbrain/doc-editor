@@ -1,24 +1,15 @@
 import React from 'react'
 import {combineReducers, createStore} from 'redux'
-import {Route, Router,} from "react-router-dom"
-import {createMuiTheme} from '@material-ui/core/styles'
-import {ThemeProvider, withTheme} from '@material-ui/styles'
-import {createBrowserHistory} from 'history'
+import {Route} from "react-router"
+import WrappedComponent from './components/WrappedComponent'
+import Root from './components/Root'
+import Session from "@doce/core/src/components/Session"
 
 export * from 'react-router-dom'
 
-// export const Router = _Router
-// export const Route = _Route
-// export const withRouter = _withRouter
-// export const Link = _Link
-// export const Switch = _Switch
-// export const Redirect = _Redirect
-
 const RouteMap = new Map()
-const history = createBrowserHistory()
 
 export class Page {
-  static theme = createMuiTheme()
   static pages = new Map()
   static routes = new Map()
   static store = null
@@ -31,7 +22,15 @@ export class Page {
   }
 
   static newInstance(options) {
-    let {path, component, exact = false, props = {}, i18n, callbacks} = options
+    let {
+      path,
+      component,
+      exact = false,
+      props = {},
+      i18n,
+      callbacks,
+      authorization = true
+    } = options
 
     const name = options.name = path.replace('/', '_')
 
@@ -49,6 +48,7 @@ export class Page {
       state: Object.assign(props, {i18n}),
       page,
       callbacks,
+      setUpdater: updater => this.updater[this.getReducerKey(name)] = updater
     }
 
     exact = exact === true || path === '/'
@@ -57,7 +57,7 @@ export class Page {
     }
 
     const parentRoute = this.findDeepestParentRoute(this.routes, path)
-    const route = {exact, path, wrapProps, children: new Map()}
+    const route = {exact, path, wrapProps, children: new Map(), auth: authorization}
     if (parentRoute != null) {
       parentRoute.children.set(path, route)
     } else {
@@ -89,14 +89,16 @@ export class Page {
   }
 
   static renderRoutes(routes) {
-    return Array.from(routes.values()).map(({exact, path, wrapProps, children}) => {
+    return Array.from(routes.values()).map(({exact, path, wrapProps, children, auth}) => {
       const key = `__route_key_${String(path).replace('/', '_')}`
-      console.log(key, exact)
+
       const subRoutes = Page.renderRoutes(children)
       const C = (props) => (
-        <WrappedComponent {...props} {...wrapProps}>
-          {subRoutes}
-        </WrappedComponent>
+        <Session skip={auth === false}>
+          <WrappedComponent {...props} {...wrapProps}>
+            {subRoutes}
+          </WrappedComponent>
+        </Session>
       )
       return (
         <Route key={key} exact={exact} path={path} component={C}/>
@@ -104,17 +106,11 @@ export class Page {
     })
   }
 
-  static getRouter() {
+  static getRoot() {
     const reducer = combineReducers(this.reducers)
     this.store = createStore(reducer)
 
-    return (
-      <ThemeProvider theme={this.theme}>
-        <Router history={history}>
-          {this.renderRoutes(this.routes)}
-        </Router>
-      </ThemeProvider>
-    )
+    return (<Root>{this.renderRoutes(this.routes)}</Root>)
   }
 
   static updateState(key, state) {
@@ -128,7 +124,7 @@ export class Page {
   }
 
   static getReducerKey(name) {
-    return '__reducer_' + String(name).replace('.', '_')
+    return '__reducer_' + String(name)
   }
 
   static setState(name, state) {
@@ -152,6 +148,10 @@ export class Page {
     }
   }
 
+  static setLanding(Landing) {
+    Root.withLanding(Landing)
+  }
+
   setState(state) {
     Page.store.dispatch({
       type: Page.getReducerKey(this.option.name),
@@ -167,54 +167,6 @@ export class Page {
         await Page.handlers[fn](...args)
       })()
     }
-  }
-}
-
-class _WrappedComponent extends React.Component {
-  state = {}
-  C = null
-
-  constructor(props) {
-    super(props)
-    this.C = props.__internal_page_component
-
-    this.routeProps = props.routeProps
-    this.state = props.state
-    this.page = props.page
-    this.callbacks = props.callbacks
-    const options = props.options
-
-    Page.updater[Page.getReducerKey(options.name)] = (state) => this.setState(state)
-  }
-
-  render() {
-    console.log(this.props.children)
-
-    return (
-      <Session>
-        <this.C
-          {...this.routeProps}
-          {...this.state}
-          {...this.callbacks}
-          page={this.page}
-          theme={this.props.theme}
-        >
-          {this.props.children}
-        </this.C>
-      </Session>
-    )
-  }
-}
-
-const WrappedComponent = withTheme(_WrappedComponent)
-
-class Session extends React.Component {
-  render() {
-    return (
-      <React.Fragment>
-        {this.props.children}
-      </React.Fragment>
-    )
   }
 }
 

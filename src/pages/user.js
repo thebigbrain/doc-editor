@@ -3,9 +3,9 @@ import User from 'components/User/User'
 import {LoginStatus} from 'utils/const'
 
 const PageConfig = {
-  name: 'user',
   path: '/user',
   component: User,
+  authorization: false,
   callbacks: {
     onLogin: 'login',
     onMobileLogin: 'mobile',

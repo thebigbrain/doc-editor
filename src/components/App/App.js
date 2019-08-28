@@ -21,6 +21,13 @@ const styles = {
   },
   listItemIcon: {
     minWidth: 0
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    flexGrow: 1,
+
   }
 }
 
@@ -30,8 +37,6 @@ class App extends React.Component {
 
   renderIcons() {
     const {classes, icons} = this.props
-
-    console.log(icons)
 
     return icons.map(ic => (
       <Link to={ic.to} component={RouterLink} key={ic.key}>
@@ -55,7 +60,7 @@ class App extends React.Component {
         >
           {this.renderIcons()}
         </List>
-        <div>{this.props.children}</div>
+        <div className={classes.content}>{this.props.children}</div>
       </div>
     )
   }

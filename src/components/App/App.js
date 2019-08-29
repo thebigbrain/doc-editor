@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link as RouterLink} from '@doce/core'
+import {Link as RouterLink, Redirect} from '@doce/core'
 
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItem from "@material-ui/core/ListItem"
@@ -50,7 +50,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, icons, match, location} = this.props
 
     return (
       <div className={classes.root}>
@@ -60,6 +60,7 @@ class App extends React.Component {
         >
           {this.renderIcons()}
         </List>
+        {location.pathname === match.url && <Redirect exact={true} from={match.url} to={icons[0].to}/>}
         <div className={classes.content}>{this.props.children}</div>
       </div>
     )

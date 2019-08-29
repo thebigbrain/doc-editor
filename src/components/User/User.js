@@ -13,12 +13,10 @@ export default class User extends React.Component {
   render() {
     const {routePath} = this.props
 
-    console.log('user')
-
     return (
       <div style={style}>
-        <Route path={routePath.login} render={() => <Login {...this.props}/>}/>
-        <Route path={routePath.register} render={() => <Register {...this.props}/>}/>
+        <Route path={routePath.login} render={(props) => <Login {...this.props} {...props} />}/>
+        <Route path={routePath.register} render={(props) => <Register {...this.props} {...props}/>}/>
       </div>
     )
   }

@@ -1,12 +1,10 @@
 import React from 'react'
-import {Router} from "react-router"
+import {Redirect, Router} from "react-router"
 import {ThemeProvider} from "@material-ui/styles"
 import {createMuiTheme} from '@material-ui/core/styles'
-import {createBrowserHistory} from "history"
 
 import {getCurrentSession} from "../session"
-
-const history = createBrowserHistory()
+import history from '../router'
 
 export default class Root extends React.Component {
   static theme = createMuiTheme()
@@ -17,7 +15,7 @@ export default class Root extends React.Component {
 
   static withLanding(Landing) {
     this.Landing = ({landing, children}) => {
-      return landing ? <Landing/> : <React.Fragment>{children}</React.Fragment>
+      return landing ? <Landing/> : children
     }
   }
 
@@ -26,6 +24,7 @@ export default class Root extends React.Component {
       this.setState({landing: false})
     }).catch((err) => {
       console.error(err)
+      history.push('/user/login')
     }).finally(() => {
       this.setState({landing: false})
     })
@@ -37,6 +36,7 @@ export default class Root extends React.Component {
         <Root.Landing landing={this.state.landing}>
           <Router history={history}>
             {this.props.children}
+            <Redirect exact from='/' to='/app'/>
           </Router>
         </Root.Landing>
       </ThemeProvider>

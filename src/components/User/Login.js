@@ -1,14 +1,30 @@
 import React from 'react'
 import {Button, Checkbox, Form, Icon, Input, message, Radio} from 'antd'
-
-import './Login.css'
-import {LoginStatus} from 'utils/const'
 import {Link} from '@doce/core'
+import {withStyles} from "@material-ui/styles"
+
+import {LoginStatus} from 'utils/const'
+import {login, mobileLogin} from 'services/user'
+
 
 class LoginType {
   static MOBILE = '2'
   static USER = '1'
 }
+
+const styles = theme => ({
+  login: {
+    width: 300,
+    padding: 10,
+    margin: 'auto',
+  },
+  submit: {
+    width: '100%'
+  },
+  forget: {
+    float: 'right'
+  }
+})
 
 class NormalLoginForm extends React.Component {
   state = {
@@ -21,8 +37,17 @@ class NormalLoginForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values)
 
-        if (this.state.currentTab === LoginType.USER && this.props.onLogin) await this.props.onLogin(values)
-        if (this.state.currentTab === LoginType.MOBILE && this.props.onMobileLogin) await this.props.onMobileLogin(values)
+        if (this.state.currentTab === LoginType.USER) {
+          await login(values.username, values.password)
+        }
+
+        if (this.state.currentTab === LoginType.MOBILE) {
+          await mobileLogin(values)
+        }
+
+        console.log(this.props)
+
+        this.props.history.replace(this.props.routePath.app)
       }
     })
   }
@@ -102,7 +127,7 @@ class NormalLoginForm extends React.Component {
 
   render() {
     const {getFieldDecorator} = this.props.form
-    const {status, i18n, routePath, history} = this.props
+    const {status, i18n, routePath, history, classes} = this.props
 
     switch (status) {
       case LoginStatus.FAILED:
@@ -117,7 +142,7 @@ class NormalLoginForm extends React.Component {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form onSubmit={this.handleSubmit} className={classes.login}>
         <Radio.Group value={this.state.currentTab} onChange={this.onTabChange}>
           <Radio.Button value={LoginType.USER}>{i18n.userTab}</Radio.Button>
           <Radio.Button value={LoginType.MOBILE}>{i18n.phoneTab}</Radio.Button>
@@ -129,10 +154,10 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>{i18n.remember}</Checkbox>)}
-          <Link className="login-form-forgot" to={routePath.forget}>
+          <Link className={classes.forget} to={routePath.forget}>
             {i18n.forget}
           </Link>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className={classes.submit}>
             {i18n.login}
           </Button>
           <Link to={routePath.register}>{i18n.register}</Link>
@@ -144,4 +169,4 @@ class NormalLoginForm extends React.Component {
 
 const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(NormalLoginForm)
 
-export default WrappedNormalLoginForm
+export default withStyles(styles)(WrappedNormalLoginForm)

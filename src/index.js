@@ -5,7 +5,6 @@ import './index.css'
 import * as serviceWorker from './serviceWorker'
 
 import './pages'
-import './handlers'
 
 import Landing from 'components/Landing/Landing'
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const style = {
   width: '100vw',
@@ -14,7 +14,7 @@ const style = {
 
 export default function Landing() {
   return (
-    <div className='landing' style={style}>
+    <div style={style}>
       LANDING ...
     </div>
   );

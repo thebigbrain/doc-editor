@@ -1,10 +1,11 @@
 import React from 'react'
 import {combineReducers, createStore} from 'redux'
-import {Route} from "react-router"
+import {Redirect, Route} from "react-router"
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
 import Session from "@doce/core/src/components/Session"
 
+export {Redirect} from 'react-router'
 export * from 'react-router-dom'
 
 const RouteMap = new Map()
@@ -17,6 +18,8 @@ export class Page {
   static updater = {}
   static handlers = {}
 
+  static Landing = null
+
   constructor(option) {
     this.option = option
   }
@@ -28,16 +31,21 @@ export class Page {
       exact = false,
       props = {},
       i18n,
-      callbacks,
-      authorization = true
+      // callbacks,
+      authorization = true,
+      redirect
     } = options
+
+    if (RouteMap.has(path)) {
+      throw `Conflict: route with path ${path} found`
+    }
 
     const name = options.name = path.replace('/', '_')
 
-    for (let cb in callbacks) {
-      let eventName = callbacks[cb]
-      callbacks[cb] = (...args) => this.get(name).emit(eventName, ...args)
-    }
+    // for (let cb in callbacks) {
+    //   let eventName = callbacks[cb]
+    //   callbacks[cb] = (...args) => this.get(name).emit(eventName, ...args)
+    // }
 
     const page = new Page(options)
     this.pages.set(name, page)
@@ -47,17 +55,21 @@ export class Page {
       options,
       state: Object.assign(props, {i18n}),
       page,
-      callbacks,
+      // callbacks,
       setUpdater: updater => this.updater[this.getReducerKey(name)] = updater
     }
 
     exact = exact === true || path === '/'
-    if (RouteMap.has(path)) {
-      throw `Conflict: route with path ${path} found`
-    }
 
     const parentRoute = this.findDeepestParentRoute(this.routes, path)
-    const route = {exact, path, wrapProps, children: new Map(), auth: authorization}
+    const route = {
+      exact,
+      path,
+      wrapProps,
+      children: new Map(),
+      auth: authorization,
+      redirect
+    }
     if (parentRoute != null) {
       parentRoute.children.set(path, route)
     } else {
@@ -89,8 +101,10 @@ export class Page {
   }
 
   static renderRoutes(routes) {
-    return Array.from(routes.values()).map(({exact, path, wrapProps, children, auth}) => {
-      const key = `__route_key_${String(path).replace('/', '_')}`
+    return Array.from(routes.values()).map((
+      {exact, path, wrapProps, children, auth, redirect}
+    ) => {
+      const key = `__route_key_${String(path).replace(/\//g, '_')}`
 
       const subRoutes = Page.renderRoutes(children)
       const C = (props) => (
@@ -110,7 +124,11 @@ export class Page {
     const reducer = combineReducers(this.reducers)
     this.store = createStore(reducer)
 
-    return (<Root>{this.renderRoutes(this.routes)}</Root>)
+    return (
+      <Root land={this.Landing}>
+        {this.renderRoutes(this.routes)}
+      </Root>
+    )
   }
 
   static updateState(key, state) {
@@ -139,14 +157,14 @@ export class Page {
     return this.pages.get(String(path).replace('/', '_'))
   }
 
-  static register(handlers) {
-    for (let k in handlers) {
-      if (handlers.hasOwnProperty(k) && typeof handlers[k] === 'function') {
-
-        this.handlers[k] = handlers[k]
-      }
-    }
-  }
+  // static register(services) {
+  //   for (let k in services) {
+  //     if (services.hasOwnProperty(k) && typeof services[k] === 'function') {
+  //
+  //       this.services[k] = services[k]
+  //     }
+  //   }
+  // }
 
   static setLanding(Landing) {
     Root.withLanding(Landing)
@@ -159,15 +177,15 @@ export class Page {
     })
   }
 
-  emit(eventName, ...args) {
-    const fn = `${this.option.name}.${eventName}`
-
-    if (Page.handlers[fn] != null) {
-      (async () => {
-        await Page.handlers[fn](...args)
-      })()
-    }
-  }
+  // emit(eventName, ...args) {
+  //   const fn = `${this.option.name}.${eventName}`
+  //
+  //   if (Page.services[fn] != null) {
+  //     (async () => {
+  //       await Page.services[fn](...args)
+  //     })()
+  //   }
+  // }
 }
 
 export default Page

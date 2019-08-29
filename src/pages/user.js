@@ -6,11 +6,6 @@ const PageConfig = {
   path: '/user',
   component: User,
   authorization: false,
-  callbacks: {
-    onLogin: 'login',
-    onMobileLogin: 'mobile',
-    onRegister: 'register'
-  },
   props: {
     status: LoginStatus.NONE,
     error: null,

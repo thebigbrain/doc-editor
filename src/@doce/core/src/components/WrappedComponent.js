@@ -13,8 +13,7 @@ class WrappedComponent extends React.Component {
     this.routeProps = props.routeProps
     this.state = props.state
     this.page = props.page
-    this.callbacks = props.callbacks
-    const options = props.options
+    // const options = props.options
 
     props.setUpdater((state) => this.setState(state))
   }
@@ -24,9 +23,11 @@ class WrappedComponent extends React.Component {
       <this.C
         {...this.routeProps}
         {...this.state}
-        {...this.callbacks}
         page={this.page}
         theme={this.props.theme}
+        history={this.props.history}
+        location={this.props.location}
+        match={this.props.match}
       >
         {this.props.children}
       </this.C>

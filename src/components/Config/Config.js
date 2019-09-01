@@ -158,7 +158,7 @@ class Config extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, service} = this.props
 
     return (
       <React.Fragment>

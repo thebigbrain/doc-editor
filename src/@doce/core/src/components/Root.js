@@ -9,9 +9,12 @@ import history from '../router'
 export default class Root extends React.Component {
   static theme = createMuiTheme()
   static Landing = null
+
   state = {
     landing: true
   }
+
+  unmounted = false
 
   static withLanding(Landing) {
     this.Landing = ({landing, children}) => {
@@ -21,6 +24,7 @@ export default class Root extends React.Component {
 
   componentDidMount() {
     getCurrentSession().then(() => {
+      if (this.unmounted) return
       this.setState({landing: false})
     }).catch((err) => {
       console.error(err)
@@ -28,6 +32,10 @@ export default class Root extends React.Component {
     }).finally(() => {
       this.setState({landing: false})
     })
+  }
+
+  componentWillUnmount() {
+    this.unmounted = true
   }
 
   render() {

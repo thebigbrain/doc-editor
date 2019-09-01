@@ -1,5 +1,4 @@
 import React from 'react'
-import {combineReducers, createStore} from 'redux'
 import {Redirect, Route} from "react-router"
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
@@ -13,10 +12,10 @@ const RouteMap = new Map()
 export class Page {
   static pages = new Map()
   static routes = new Map()
-  static store = null
-  static reducers = {}
-  static updater = {}
-  static handlers = {}
+  // static store = null
+  // static reducers = {}
+  // static updater = {}
+  // static handlers = {}
 
   static Landing = null
 
@@ -56,7 +55,7 @@ export class Page {
       state: Object.assign(props, {i18n}),
       page,
       // callbacks,
-      setUpdater: updater => this.updater[this.getReducerKey(name)] = updater
+      // setUpdater: updater => this.updater[this.getReducerKey(name)] = updater
     }
 
     exact = exact === true || path === '/'
@@ -78,14 +77,14 @@ export class Page {
 
     RouteMap.set(path, route)
 
-    const reducerKey = Page.getReducerKey(name)
-    Page.reducers[reducerKey] = (state = null, action = {}) => {
-      if (action.type === reducerKey) {
-        this.updateState(reducerKey, action.payload)
-        return Object.assign({}, state, action.payload)
-      }
-      return state
-    }
+    // const reducerKey = Page.getReducerKey(name)
+    // Page.reducers[reducerKey] = (state = null, action = {}) => {
+    //   if (action.type === reducerKey) {
+    //     this.updateState(reducerKey, action.payload)
+    //     return Object.assign({}, state, action.payload)
+    //   }
+    //   return state
+    // }
 
     return page
   }
@@ -121,8 +120,8 @@ export class Page {
   }
 
   static getRoot() {
-    const reducer = combineReducers(this.reducers)
-    this.store = createStore(reducer)
+    // const reducer = combineReducers(this.reducers)
+    // this.store = createStore(reducer)
 
     return (
       <Root land={this.Landing}>
@@ -131,27 +130,27 @@ export class Page {
     )
   }
 
-  static updateState(key, state) {
-    if (typeof this.updater[key] === 'function') {
-      this.updater[key](state)
-    }
-  }
+  // static updateState(key, state) {
+  //   if (typeof this.updater[key] === 'function') {
+  //     this.updater[key](state)
+  //   }
+  // }
 
   static getRouteKey(name) {
     return `__page_route_${name}`
   }
 
-  static getReducerKey(name) {
-    return '__reducer_' + String(name)
-  }
+  // static getReducerKey(name) {
+  //   return '__reducer_' + String(name)
+  // }
 
-  static setState(name, state) {
-    this.updateState(this.getReducerKey(name), state)
-  }
+  // static setState(name, state) {
+  //   this.updateState(this.getReducerKey(name), state)
+  // }
 
-  static getState() {
-    return this.store.getState()
-  }
+  // static getState() {
+  //   return this.store.getState()
+  // }
 
   static get(path) {
     return this.pages.get(String(path).replace('/', '_'))
@@ -170,12 +169,12 @@ export class Page {
     Root.withLanding(Landing)
   }
 
-  setState(state) {
-    Page.store.dispatch({
-      type: Page.getReducerKey(this.option.name),
-      payload: state
-    })
-  }
+  // setState(state) {
+  //   Page.store.dispatch({
+  //     type: Page.getReducerKey(this.option.name),
+  //     payload: state
+  //   })
+  // }
 
   // emit(eventName, ...args) {
   //   const fn = `${this.option.name}.${eventName}`

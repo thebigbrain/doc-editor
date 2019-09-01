@@ -4,7 +4,6 @@ import {withTheme} from "@material-ui/styles"
 
 class WrappedComponent extends React.Component {
   state = {}
-  C = null
 
   constructor(props) {
     super(props)
@@ -15,7 +14,7 @@ class WrappedComponent extends React.Component {
     this.page = props.page
     // const options = props.options
 
-    props.setUpdater((state) => this.setState(state))
+    // props.setUpdater((state) => this.setState(state))
   }
 
   render() {

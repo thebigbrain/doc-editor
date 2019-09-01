@@ -16,3 +16,4 @@ _Parse.serverURL = 'http://localhost:1337/parse';
 
 export const Parse = _Parse;
 // export const LiveClient = client;
+export default Parse

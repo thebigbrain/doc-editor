@@ -2,7 +2,8 @@ import {connect, Page} from '@doce/core'
 import Config from "components/Config/Config"
 
 const component = connect({
-  service: 'Component'
+  service: 'Component',
+  optimization: {}
 })(Config)
 
 const PageConfig = {

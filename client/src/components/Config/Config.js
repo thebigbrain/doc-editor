@@ -1,7 +1,4 @@
 import React from 'react'
-import CodeMirror from "components/CodeMirror/CodeMirror"
-import Resizable from 'components/Resizable/Resizable'
-import {VertBar} from 'components/Resizable/DragBar'
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from '@material-ui/core/ListItemText'
@@ -10,6 +7,11 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
+import uuid from 'uuid/v4'
+
+import CodeMirror from "components/CodeMirror/CodeMirror"
+import Resizable from 'components/Resizable/Resizable'
+import {VertBar} from 'components/Resizable/DragBar'
 import FabContainer from "components/FabContainer/FabContainer"
 import FormDialog from "./FormDialog"
 
@@ -77,15 +79,16 @@ const styles = theme => ({
   },
 })
 
+const exampleComponent = {
+  id: uuid(),
+  title: 'DragBar',
+  content: exampleCode
+}
+
 class Config extends React.Component {
   state = {
-    components: {
-      'drag-bar': {
-        title: 'DragBar',
-        content: exampleCode
-      }
-    },
-    selectedComponent: 'drag-bar',
+    components: [exampleComponent],
+    selectedComponent: exampleComponent,
     open: false
   }
 
@@ -96,15 +99,16 @@ class Config extends React.Component {
   handleOk = (title) => {
     if (title == null) return
     const components = this.state.components
-    components[title] = {title}
+    const c = {id: uuid(), title}
+    components.push(c)
     this.setState({
-      selectedComponent: title,
+      selectedComponent: c,
       components
     })
   }
 
-  handleListItemClick = (key) => {
-    this.setState({selectedComponent: key})
+  handleListItemClick = (c) => {
+    this.setState({selectedComponent: c})
   }
 
   handleAdd = () => {
@@ -112,12 +116,11 @@ class Config extends React.Component {
   }
 
   handleCmChange = (inst, co) => {
-    const c = this.getComponent()
-    c.content = inst.getValue()
+    this.state.selectedComponent.content = inst.getValue()
   }
 
   renderCodeMirror() {
-    const c = this.getComponent()
+    const c = this.state.selectedComponent
 
     return (
       <CodeMirror
@@ -133,21 +136,16 @@ class Config extends React.Component {
     )
   }
 
-  getComponent(key = null) {
-    return this.state.components[key || this.state.selectedComponent]
-  }
-
   getComponentList() {
     const {classes} = this.props
 
-    return Object.keys(this.state.components).map(key => {
-      const c = this.getComponent(key)
+    return this.state.components.map(c => {
       return (
         <ListItem
-          selected={this.state.selectedComponent === key}
+          selected={this.state.selectedComponent === c}
           button
-          key={key}
-          onClick={this.handleListItemClick.bind(this, key)}
+          key={c.id}
+          onClick={this.handleListItemClick.bind(this, c)}
         >
           <ListItemText classes={{root: classes.listItemText}}>
             {c.title}
@@ -157,8 +155,19 @@ class Config extends React.Component {
     })
   }
 
+  componentDidMount() {
+    const {livequery: lq} = this.props
+    lq.find({
+      $limit: 5,
+      $skip: 0,
+      $sort: {createdAt: -1}
+    }).then(components => {
+      this.setState({components})
+    })
+  }
+
   render() {
-    const {classes, service} = this.props
+    const {classes} = this.props
 
     return (
       <React.Fragment>

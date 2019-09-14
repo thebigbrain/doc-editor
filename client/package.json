@@ -9,6 +9,7 @@
     "@material-ui/styles": "^4.3.0",
     "antd": "^3.20.7",
     "codemirror": "^5.48.2",
+    "collections": "^5.1.9",
     "express": "latest",
     "graphql": "^14.4.2",
     "history": "^4.9.0",
@@ -20,7 +21,9 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "sorted-btree": "^1.2.1",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,0 +1,14 @@
+{
+  "name": "@doce/page",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "collections": "^5.1.9",
+    "history": "latest",
+    "react-router-dom": "latest",
+    "react-router": "latest"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

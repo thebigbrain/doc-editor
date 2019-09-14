@@ -3,7 +3,6 @@ import React from "react"
 class Session extends React.Component {
   check() {
     if (this.props.skip) return true
-    console.log('session')
     return true
   }
 

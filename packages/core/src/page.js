@@ -2,7 +2,7 @@ import React from 'react'
 import {Redirect, Route} from "react-router"
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
-import Session from "@doce/core/src/components/Session"
+import Session from "./components/Session"
 
 export {Redirect} from 'react-router'
 export * from 'react-router-dom'

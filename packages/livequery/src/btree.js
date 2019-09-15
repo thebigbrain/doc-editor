@@ -1,7 +1,7 @@
 const SortedSet = require("collections/sorted-set")
 
 const defaultOption = {
-  order: 7    // b+tree order == order + 1
+  order: 7    // b+tree order
 }
 
 const NodeType = {
@@ -11,26 +11,26 @@ const NodeType = {
 }
 
 class KeyValue {
-  constructor(key, pointer =  null) {
+  constructor(key = null, pointer =  null) {
     this.key = key
-    this.dataPointer = pointer
-  }
-}
-
-class SearchKeyValue {
-  constructor() {
-    this.key = null
-    this.nodePointer = null
+    this.pointer = pointer
   }
 }
 
 class TreeNode {
-  constructor() {
+  constructor(values = null) {
     this.keyValues = new SortedSet(
-      null,
+      values,
       (a, b) => a.key === b.key,
       (a, b) => a.key - b.key
     )
+
+    this.parent = null
+    this.parentPointer = null
+  }
+
+  get type() {
+    return NodeType.UNKNOWN
   }
 
   add(...values) {
@@ -48,12 +48,27 @@ class TreeNode {
   findLeastGreaterThanOrEqual(v) {
     return this.keyValues.findLeastGreaterThanOrEqual(v)
   }
+
+  forEach(cb, thisArg = null) {
+    this.keyValues.forEach(cb, thisArg)
+  }
+
+  shift() {
+    return this.keyValues.shift()
+  }
+
+  split() {
+    const start = Math.floor(this.keyValues.length / 2)
+    const len = this.keyValues.length - start
+    const newArray = this.keyValues.splice(start, len)
+    return this.type === NodeType.LEAF ? new LeafNode(newArray) : new InternalNode(newArray)
+  }
 }
 
 class InternalNode extends TreeNode {
-  constructor() {
-    super()
-    this.infinityPointer = null
+  constructor(values = null) {
+    super(values)
+    this.infinityPointer = new KeyValue()
   }
 
   get type() {
@@ -62,8 +77,8 @@ class InternalNode extends TreeNode {
 }
 
 class LeafNode extends TreeNode {
-  constructor() {
-    super()
+  constructor(values = null) {
+    super(values)
     this.sibling = null
   }
 
@@ -72,7 +87,7 @@ class LeafNode extends TreeNode {
   }
 
   atLeastHalfFull(order = defaultOption.order) {
-    return this.keyValues.length >= Math.floor(order / 2)
+    return this.keyValues.length >= Math.floor((order - 1) / 2)
   }
 
   isFull(order = defaultOption.order) {
@@ -101,8 +116,8 @@ class BPlusTree {
       if (node == null) {
         internalOrLeafNode = internalOrLeafNode.infinityPointer
       } else {
-        if (node.nodePointer == null) break
-        internalOrLeafNode = node.nodePointer
+        if (node.pointer == null) break
+        internalOrLeafNode = node.pointer
       }
     }
 
@@ -118,18 +133,50 @@ class BPlusTree {
       return kv
     }
 
-    const bucket = this.findBucket(k)
-    if (!bucket.isFull()) {
-      bucket.add(kv)
-    } else {
-
+    let bucket = this.findBucket(k)
+    bucket.add(kv)
+    while(bucket && bucket.isFull()) {
+      bucket = this.grow(bucket)
     }
-
-    this.grow()
   }
 
-  grow() {
+  grow(bucket) {
+    let newLeaf = bucket.split()
+    let p = newLeaf.shift()
+    let parent = bucket.parent
 
+    if (parent == null) {
+      parent = this.root = new InternalNode()
+      parent.add(p)
+      bucket.parent = parent
+    }
+    newLeaf.parent = parent
+
+    let parentPointer = bucket.parentPointer
+    if (parentPointer == null) {
+      parentPointer = parent.infinityPointer
+    }
+
+    newLeaf.parentPointer = parentPointer
+    bucket.parentPointer = p
+
+    p.pointer = bucket
+    parentPointer.pointer = newLeaf
+
+    newLeaf.sibling = bucket.sibling
+    bucket.sibling = newLeaf
+
+    if (newLeaf.type === NodeType.INTERNAL) {
+      newLeaf.forEach((v) => {
+        if (v && v.pointer) v.pointer.parent = newLeaf
+      })
+    }
+
+    return parent
+  }
+
+  remove(k) {
+    let bucket = this.findBucket(k)
   }
 }
 

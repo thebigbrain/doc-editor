@@ -1,6 +1,6 @@
-import {BPlusTree} from './btree'
+const {BPlusTree} = require('./btree')
 
-export default class VirtualTable {
+class VirtualTable {
   constructor(pageSize = 10) {
     this.pageSize = pageSize
 
@@ -9,6 +9,16 @@ export default class VirtualTable {
 
   get size() {
     return this.records.size
+  }
+
+  async get(id) {
+    let r = this.records.get(id)
+    if (r != null) return r
+
+  }
+
+  query(q = {}) {
+
   }
 
   insert() {
@@ -23,3 +33,5 @@ export default class VirtualTable {
 
   }
 }
+
+module.exports = VirtualTable

@@ -1,6 +1,5 @@
-import React from 'react'
-import Parse from '../parse-client'
-import VirtualTable from './virtual-table'
+const React = require('react')
+const VirtualTable = require('./virtual-table')
 
 const SORT = {
   ASC: 1,
@@ -15,7 +14,7 @@ class LiveQueryService {
 
     this.virtTable = new VirtualTable()
 
-    this.query = new Parse.Query(option.service)
+    // this.query = new Parse.Query(option.service)
     this.subscription = null
 
     this._listIndex = new Map()
@@ -42,7 +41,7 @@ class LiveQueryService {
     const found = []
     if (option.$sort) {
       const sorts = Object.keys(option.$sort).map(k => ([k, option.$sort[k]]))
-      while(found.length < option.$limit) {
+      while (found.length < option.$limit) {
         const list = await this.sort(...sorts[0], option.$limit)
         if (list == null) break
         found.splice(found.length, 0, ...this.filter(list, option))
@@ -115,7 +114,10 @@ export function connect(option = {query: {}}) {
 
       service.event = service.bindHook(subscription)
 
-      return <C {...props} livequery={service}/>
+      return React.createElement(
+        C,
+        Object.assign(props, {livequery: service})
+      )
     }
   }
 }

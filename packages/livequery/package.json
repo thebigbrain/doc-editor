@@ -13,5 +13,8 @@
   },
   "dependencies": {
     "collections": "^5.1.9"
+  },
+  "optionalDependencies": {
+    "react": "^16.9.0"
   }
 }

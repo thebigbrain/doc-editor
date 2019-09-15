@@ -1,4 +1,4 @@
-const {LeafNode, KeyValue} =  require('./btree')
+const {LeafNode, KeyValue} =  require('../src/btree')
 
 test('test leaf node sorted', () => {
   let leaf = new LeafNode()

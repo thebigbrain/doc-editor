@@ -25,7 +25,7 @@ class LiveQueryService {
   }
 
   async initialize() {
-    this.subscription = await this.query.subscribe()
+    // this.subscription = await this.query.subscribe()
   }
 
   async sort(key, order, limit) {
@@ -112,12 +112,9 @@ export function connect(option = {query: {}}) {
         }
       }, [])
 
-      service.event = service.bindHook(subscription)
+      // service.event = service.bindHook(subscription)
 
-      return React.createElement(
-        C,
-        Object.assign(props, {livequery: service})
-      )
+      return <C {...props} livequery={service}/>
     }
   }
 }

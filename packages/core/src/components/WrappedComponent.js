@@ -1,5 +1,5 @@
-import React from "react"
-import {withTheme} from "@material-ui/styles"
+import React from 'react'
+import { withTheme } from '@material-ui/styles'
 
 
 class WrappedComponent extends React.Component {
@@ -12,9 +12,6 @@ class WrappedComponent extends React.Component {
     this.routeProps = props.routeProps
     this.state = props.state
     this.page = props.page
-    // const options = props.options
-
-    // props.setUpdater((state) => this.setState(state))
   }
 
   render() {

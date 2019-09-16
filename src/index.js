@@ -1,4 +1,4 @@
-import { Page } from '@doce/core'
+import {Page} from '@doce/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
@@ -11,7 +11,7 @@ import Landing from 'components/Landing/Landing'
 Page.setLanding(Landing)
 
 ReactDOM.render(
-  Page.getRoot(),
+  Page.renderRoot(),
   document.getElementById('root'),
 )
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, Route } from 'react-router'
+import {Redirect, Route} from 'react-router'
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
 import Session from './components/Session'
@@ -9,8 +9,20 @@ export * from 'react-router-dom'
 
 const RouteMap = new Map()
 
+function getDefaultRoute(path = '/') {
+  return {
+    exact: false,
+    path,
+    wrapProps: {},
+    children: new Map(),
+    auth: true
+  }
+}
+
+
 export class Page {
   static pages = new Map()
+  static routes = getDefaultRoute()
   static Landing = null
 
   constructor(option) {
@@ -50,15 +62,37 @@ export class Page {
       path,
       wrapProps,
       auth: authorization,
+      children: new Map(),
       redirect
     }
     RouteMap.set(path, route)
 
+    this.insertTree(path, route)
+
     return page
   }
 
-  static renderRoutes(routes = []) {
-    return Array.from(routes).map((
+  static insertTree(path, route) {
+    let keys = path.replace(/^\//, '').replace(/\/$/, '').split('/')
+    let root = this.routes
+    let i = 0
+    let key = keys[i]
+    for (; i < keys.length - 1; i++) {
+      let node = root.children.get(key)
+      if (node == null) {
+        node = getDefaultRoute(keys.slice(0, i + 1).join('/'))
+        root.children.set(key, node)
+      }
+
+      root = node
+      key = keys[i + 1]
+    }
+
+    root.children.set(key, route)
+  }
+
+  static renderRoutes(routes) {
+    return Array.from(routes.values()).map((
       {exact, path, wrapProps, children, auth, redirect}
     ) => {
       const key = `__route_key_${String(path).replace(/\//g, '_')}`
@@ -78,15 +112,10 @@ export class Page {
     })
   }
 
-  static prepareRoutes() {
-    return []
-  }
-
-  static getRoot() {
-    const routes = this.prepareRoutes()
+  static renderRoot() {
     return (
       <Root land={this.Landing}>
-        {this.renderRoutes(routes)}
+        {this.renderRoutes(this.routes.children)}
       </Root>
     )
   }

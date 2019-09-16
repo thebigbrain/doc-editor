@@ -1,20 +1,6 @@
 {
   "name": "@doce/livequery",
   "version": "1.0.0",
-  "description": "",
-  "main": "./src/livequery.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "jest": "^24.9.0"
-  },
   "dependencies": {
-    "collections": "^5.1.9"
-  },
-  "optionalDependencies": {
-    "react": "^16.9.0"
   }
 }

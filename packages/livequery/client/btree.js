@@ -1,4 +1,4 @@
-const SortedSet = require("collections/sorted-set")
+import SortedSet from 'collections/sorted-set'
 
 const defaultOption = {
   order: 7    // b+tree order
@@ -10,7 +10,7 @@ const NodeType = {
   LEAF: 2,
 }
 
-class KeyValue {
+export class KeyValue {
   constructor(key = null, pointer =  null) {
     this.key = key
     this.pointer = pointer
@@ -76,7 +76,7 @@ class InternalNode extends TreeNode {
   }
 }
 
-class LeafNode extends TreeNode {
+export class LeafNode extends TreeNode {
   constructor(values = null) {
     super(values)
     this.sibling = null
@@ -95,7 +95,7 @@ class LeafNode extends TreeNode {
   }
 }
 
-class BPlusTree {
+export class BPlusTree {
   constructor() {
     this.root = null
   }
@@ -179,11 +179,3 @@ class BPlusTree {
     let bucket = this.findBucket(k)
   }
 }
-
-
-module.exports = {
-  BPlusTree,
-  LeafNode,
-  KeyValue
-}
-

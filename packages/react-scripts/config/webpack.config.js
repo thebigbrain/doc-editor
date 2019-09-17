@@ -11,7 +11,7 @@
 const fs = require('fs')
 const isWsl = require('is-wsl')
 const path = require('path')
-const webpack = require('webpack')
+const webpack = require('webpack.config')
 const resolve = require('resolve')
 const PnpWebpackPlugin = require('pnp-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -389,16 +389,20 @@ module.exports = function(webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: paths.appSrc,
+              // include: paths.appSrc,
               loader: require.resolve('babel-loader'),
               options: {
-                customize: require.resolve(
-                  'babel-preset-react-app/webpack-overrides',
-                ),
+                // customize: require.resolve(
+                //   'babel-preset-react-app/webpack-overrides',
+                // ),
                 // @remove-on-eject-begin
                 babelrc: false,
                 configFile: false,
-                presets: [require.resolve('babel-preset-react-app')],
+                // presets: [require.resolve('babel-preset-react-app')],
+                presets: [
+                  '@babel/preset-env',
+                  '@babel/preset-react',
+                ],
                 // Make sure we have a unique cache identifier, erring on the
                 // side of caution.
                 // We remove this when the user ejects because the default
@@ -410,24 +414,25 @@ module.exports = function(webpackEnv) {
                     : isEnvDevelopment && 'development',
                   [
                     'babel-plugin-named-asset-import',
-                    'babel-preset-react-app',
-                    'react-dev-utils',
-                    'react-scripts',
+                    // 'babel-preset-react-app',
+                    // 'react-dev-utils',
+                    // 'react-scripts',
                   ],
                 ),
                 // @remove-on-eject-end
                 plugins: [
-                  [
-                    require.resolve('babel-plugin-named-asset-import'),
-                    {
-                      loaderMap: {
-                        svg: {
-                          ReactComponent:
-                            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
-                        },
-                      },
-                    },
-                  ],
+                  '@babel/plugin-proposal-class-properties',
+                  // [
+                  //   require.resolve('babel-plugin-named-asset-import'),
+                  //   {
+                  //     loaderMap: {
+                  //       svg: {
+                  //         ReactComponent:
+                  //           '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+                  //       },
+                  //     },
+                  //   },
+                  // ],
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -449,16 +454,10 @@ module.exports = function(webpackEnv) {
                 configFile: false,
                 compact: false,
                 presets: [
-                  '@babel/preset-env',
-                  '@babel/preset-react',
                   [
                     require.resolve('babel-preset-react-app/dependencies'),
                     { helpers: true },
                   ],
-                ],
-                plugins: [
-                  '@babel/plugin-proposal-object-rest-spread',
-                  '@babel/plugin-proposal-class-properties',
                 ],
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled

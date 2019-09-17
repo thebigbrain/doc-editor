@@ -1,5 +1,5 @@
-const React = require('react')
-const VirtualTable = require('./virtual-table')
+import React from 'react'
+import VirtualTable from './virtual-table'
 
 const SORT = {
   ASC: 1,

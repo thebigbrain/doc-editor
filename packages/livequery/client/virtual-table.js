@@ -1,6 +1,4 @@
-const {BPlusTree} = require('./btree')
-
-class VirtualTable {
+export default class VirtualTable {
   constructor(pageSize = 10) {
     this.pageSize = pageSize
 
@@ -33,5 +31,3 @@ class VirtualTable {
 
   }
 }
-
-module.exports = VirtualTable

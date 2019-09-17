@@ -85,43 +85,36 @@ const exampleComponent = {
   content: exampleCode,
 }
 
-class Config extends React.Component {
-  state = {
-    components: [exampleComponent],
-    selectedComponent: exampleComponent,
-    open: false,
+function Config(props) {
+  const [components, setComponents] = React.useState([exampleComponent])
+  const [selected, setSelected] = React.useState(exampleComponent)
+  const [open, setOpen] = React.useState(false)
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
-  handleClose = () => {
-    this.setState({ open: false })
-  }
-
-  handleOk = (title) => {
+  const handleOk = (title) => {
     if (title == null) return
-    const components = this.state.components
+
     const c = { id: uuid(), title }
-    components.push(c)
-    this.setState({
-      selectedComponent: c,
-      components,
-    })
+    setComponents(components.concat(c))
+    setSelected(c)
   }
 
-  handleListItemClick = (c) => {
-    this.setState({ selectedComponent: c })
+  const handleListItemClick = (c) => {
+    setSelected(c)
   }
 
-  handleAdd = () => {
-    this.setState({ open: true })
+  const handleAdd = () => {
+    setOpen(true)
   }
 
-  handleCmChange = (inst, co) => {
-    this.state.selectedComponent.content = inst.getValue()
+  const handleCmChange = (inst, co) => {
+    selected.content = inst.getValue()
   }
 
-  renderCodeMirror() {
-    const c = this.state.selectedComponent
-
+  const renderCodeMirror = () => {
     return (
       <CodeMirror
         mode={{ name: 'jsx', json: true }}
@@ -130,22 +123,22 @@ class Config extends React.Component {
         matchBrackets={true}
         // readOnly={c.content}
         // cursorBlinkRate={c.content ? -1 : 530}
-        value={c.content}
-        onChange={this.handleCmChange}
+        value={selected.content}
+        onChange={handleCmChange}
       />
     )
   }
 
-  getComponentList() {
-    const { classes } = this.props
+  const getComponentList = () => {
+    const { classes } = props
 
-    return this.state.components.map(c => {
+    return components.map(c => {
       return (
         <ListItem
-          selected={this.state.selectedComponent === c}
+          selected={selected === c}
           button
           key={c.id}
-          onClick={this.handleListItemClick.bind(this, c)}
+          onClick={() => handleListItemClick(c)}
         >
           <ListItemText classes={{ root: classes.listItemText }}>
             {c.title}
@@ -155,49 +148,55 @@ class Config extends React.Component {
     })
   }
 
-  componentDidMount() {
-    const { livequery: lq } = this.props
+  React.useEffect(() => {
+    let aborted = false
+    const { livequery: lq } = props
     lq.find({
       $limit: 5,
       $skip: 0,
       $sort: { createdAt: -1 },
-    }).then(components => {
-      this.setState({ components })
+    }).then(data => {
+      if (aborted) return
+
+      setComponents(components.concat(data))
     })
-  }
 
-  render() {
-    const { classes } = this.props
+    return () => {
+      aborted = true
+    }
+  }, [])
 
-    return (
-      <React.Fragment>
-        <VertBar style={{ width: '3px' }}/>
-        <Resizable className={classes.root}>
-          <List
-            classes={{ root: classes.list }}
-            component="nav"
-          >
-            {this.getComponentList()}
-          </List>
-          <VertBar/>
-          {this.renderCodeMirror()}
-        </Resizable>
-        <FabContainer>
-          <Fab color="primary" aria-label="add" className={classes.fab} onClick={this.handleAdd}>
-            <AddIcon/>
-          </Fab>
-          <Fab color="secondary" aria-label="edit" className={classes.fab}>
-            {/*<Icon>edit_icon</Icon>*/}
-            <EditIcon/>
-          </Fab>
-          <Fab disabled aria-label="delete" className={classes.fab}>
-            <DeleteIcon/>
-          </Fab>
-        </FabContainer>
-        <FormDialog open={this.state.open} close={this.handleClose} ok={this.handleOk}/>
-      </React.Fragment>
-    )
-  }
+  const { classes } = props
+
+  return (
+    <React.Fragment>
+      <VertBar style={{ width: '3px' }}/>
+      <Resizable className={classes.root}>
+        <List
+          classes={{ root: classes.list }}
+          component="nav"
+        >
+          {getComponentList()}
+        </List>
+        <VertBar/>
+        {renderCodeMirror()}
+      </Resizable>
+      <FabContainer>
+        <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleAdd}>
+          <AddIcon/>
+        </Fab>
+        <Fab color="secondary" aria-label="edit" className={classes.fab}>
+          {/*<Icon>edit_icon</Icon>*/}
+          <EditIcon/>
+        </Fab>
+        <Fab disabled aria-label="delete" className={classes.fab}>
+          <DeleteIcon/>
+        </Fab>
+      </FabContainer>
+      <FormDialog open={open} close={handleClose} ok={handleOk}/>
+    </React.Fragment>
+  )
+
 }
 
 export default withStyles(styles)(Config)

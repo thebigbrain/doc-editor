@@ -90,6 +90,8 @@ function Config(props) {
   const [selected, setSelected] = React.useState(exampleComponent)
   const [open, setOpen] = React.useState(false)
 
+  let current = selected
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -98,12 +100,13 @@ function Config(props) {
     if (title == null) return
 
     const c = { id: uuid(), title }
+    current = c
     setSelected(c)
     setComponents(components.concat(c))
   }
 
   const handleListItemClick = (c) => {
-    console.log(c.title, selected.title)
+    current = c
     setSelected(c)
   }
 
@@ -112,8 +115,7 @@ function Config(props) {
   }
 
   const handleCmChange = (inst, co) => {
-    console.log(selected.title)
-    // selected.content = inst.getValue()
+    current.content = inst.getValue()
   }
 
   const renderCodeMirror = () => {
@@ -137,7 +139,7 @@ function Config(props) {
     return components.map(c => {
       return (
         <ListItem
-          selected={selected === c}
+          selected={current === c}
           button
           key={c.id}
           onClick={() => handleListItemClick(c)}

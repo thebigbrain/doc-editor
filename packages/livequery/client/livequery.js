@@ -6,6 +6,22 @@ const SORT = {
   DES: -1
 }
 
+async function invokeMongoRemote(name, method, params = {}) {
+  let res = await fetch('http://localhost:3080/mongo', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name,
+      method,
+      params
+    })
+  })
+
+  return await res.json()
+}
+
 class LiveQueryService {
   constructor(option = {}) {
     this.option = option
@@ -37,17 +53,8 @@ class LiveQueryService {
     return []
   }
 
-  async find(option = {}) {
-    const found = []
-    if (option.$sort) {
-      const sorts = Object.keys(option.$sort).map(k => ([k, option.$sort[k]]))
-      while (found.length < option.$limit) {
-        const list = await this.sort(...sorts[0], option.$limit)
-        if (list == null) break
-        found.splice(found.length, 0, ...this.filter(list, option))
-      }
-    }
-    return found.slice(0, option.$limit)
+  async find(query = null, options = null) {
+    return await invokeMongoRemote(this.option.service, 'find', {query, options})
   }
 
   get() {
@@ -91,7 +98,7 @@ class LiveQueryService {
   }
 }
 
-export function connect(option = {query: {}}) {
+export function connect(option = {}) {
   if (option.service == null) throw new Error(`service is required`)
 
   const service = new LiveQueryService(option)
@@ -114,7 +121,7 @@ export function connect(option = {query: {}}) {
 
       // service.event = service.bindHook(subscription)
 
-      return <C {...props} livequery={service}/>
+      return <C {...props} collection={service}/>
     }
   }
 }

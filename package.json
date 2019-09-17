@@ -12,7 +12,7 @@
     "@material-ui/styles": "^4.3.0",
     "codemirror": "^5.48.2",
     "collections": "^5.1.9",
-    "express": "latest",
+    "express": "^4.17.1",
     "graphql": "^14.4.2",
     "history": "^4.9.0",
     "mui-datatables": "^2.11.1",
@@ -30,7 +30,7 @@
     "build": "webpack",
     "test": "jest",
     "storybook": "start-storybook",
-    "server": "node %NODE_DEBUG_OPTION% ./server"
+    "server": "node %NODE_DEBUG_OPTION% ./server/main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,8 +52,13 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.0",
     "@storybook/react": "^5.1.10",
+    "babel-loader": "^8.0.6",
     "babel-plugin-relay": "^2.0.0-rc.2",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "merge-deep": "^3.0.2",
+    "mongodb": "^3.3.2",
     "typescript": "^3.5.3",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.8"

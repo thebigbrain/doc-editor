@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const merge = require('merge-deep')
 
 const baseConfig = {
+  mode: process.env.mode || 'development',
   devServer: {
     hot: true,
   },
   externals: [],
   resolve: {
     modules: [
-      path.resolve(__dirname, 'client'),
       path.resolve(__dirname, 'node_modules'),
     ],
     alias: {
@@ -21,7 +21,6 @@ const baseConfig = {
 
 const clientConfig = {
   entry: './client/index.js',
-  mode: process.env.mode || 'development',
   output: {
     publicPath: '/',
   },
@@ -89,10 +88,16 @@ const clientConfig = {
   ],
   resolve: {
     extensions: ['*', '.js', '.jsx'],
+    modules: [
+      path.resolve(__dirname, 'client'),
+    ]
   },
   devServer: {
     contentBase: './dist',
     historyApiFallback: true,
+    proxy: {
+      '/mongo': 'http://localhost:3080'
+    }
   },
 }
 
@@ -101,6 +106,14 @@ const serverConfig = {
     './server/main.js',
   ],
   target: 'node',
+  resolve: {
+    modules: [
+      path.resolve(__dirname, 'server'),
+    ]
+  },
 }
 
-module.exports = [merge(baseConfig, clientConfig) /*merge(baseConfig, serverConfig)*/]
+module.exports = [
+  merge(baseConfig, clientConfig),
+  // merge(baseConfig, serverConfig)
+]

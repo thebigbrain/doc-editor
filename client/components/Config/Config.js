@@ -86,8 +86,8 @@ const exampleComponent = {
 }
 
 function Config(props) {
-  const [components, setComponents] = React.useState([exampleComponent])
-  const [selected, setSelected] = React.useState(exampleComponent)
+  const [components, setComponents] = React.useState([])
+  const [selected, setSelected] = React.useState({})
   const [open, setOpen] = React.useState(false)
 
   let current = selected
@@ -115,10 +115,12 @@ function Config(props) {
   }
 
   const handleCmChange = (inst, co) => {
-    current.content = inst.getValue()
+    if (current) current.content = inst.getValue()
   }
 
   const renderCodeMirror = () => {
+    if (!selected || !selected.content) return null
+
     return (
       <CodeMirror
         mode={{ name: 'jsx', json: true }}
@@ -154,8 +156,8 @@ function Config(props) {
 
   React.useEffect(() => {
     let aborted = false
-    const { livequery: lq } = props
-    lq.find({
+    const { collection } = props
+    collection.find({
       $limit: 5,
       $skip: 0,
       $sort: { createdAt: -1 },
@@ -200,7 +202,6 @@ function Config(props) {
       <FormDialog open={open} close={handleClose} ok={handleOk}/>
     </React.Fragment>
   )
-
 }
 
 export default withStyles(styles)(Config)

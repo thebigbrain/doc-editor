@@ -60,7 +60,12 @@ export default class _ extends React.Component {
     const container = this.ref.current
     this.doc = CodeMirror(
       container,
-      Object.assign({}, defaultOption, this.props),
+      Object.assign(
+        {},
+        defaultOption,
+        this.props,
+        {value: this.props.value || ''}
+      ),
     )
 
     this.registerEvents()

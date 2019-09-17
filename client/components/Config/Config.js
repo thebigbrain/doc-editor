@@ -98,11 +98,12 @@ function Config(props) {
     if (title == null) return
 
     const c = { id: uuid(), title }
-    setComponents(components.concat(c))
     setSelected(c)
+    setComponents(components.concat(c))
   }
 
   const handleListItemClick = (c) => {
+    console.log(c.title, selected.title)
     setSelected(c)
   }
 
@@ -111,7 +112,8 @@ function Config(props) {
   }
 
   const handleCmChange = (inst, co) => {
-    selected.content = inst.getValue()
+    console.log(selected.title)
+    // selected.content = inst.getValue()
   }
 
   const renderCodeMirror = () => {

@@ -19,23 +19,28 @@ const defaultOption = {
   cursorHeight: .85,
 }
 
+const noop = () => {
+}
+
 export default class _ extends React.Component {
   ref = React.createRef()
   doc = null
-  events = {}
 
-  defaultValue = null
+  handler = {}
 
-  registerEvents() {
-    for (let evt in this.events) {
-      this.doc.on(evt, this.events[evt])
-    }
+  bindEvent(evt) {
+    this.doc.on(evt, (...args) => {
+      const name = 'on' + evt[0].toUpperCase() + evt.substring(1)
+      if (typeof this.handler[name] === 'function') this.handler[name](...args)
+    })
   }
 
-  deregisterEvents() {
-    for (let evt in this.events) {
-      this.doc.off(evt)
-    }
+  registerEvents() {
+    this.bindEvent('change')
+  }
+
+  unregisterEvents() {
+    this.doc.off('change')
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -45,6 +50,9 @@ export default class _ extends React.Component {
         this.doc.setOption(k, nextProps[k])
       }
     }
+
+    Object.assign(this.handler, nextProps)
+
     return false
   }
 
@@ -55,21 +63,11 @@ export default class _ extends React.Component {
       Object.assign({}, defaultOption, this.props),
     )
 
-    Object.keys(this.props).forEach(key => {
-      if (key.startsWith('on')) {
-        let k = key.substring(2).split('')
-        k[0] = k[0].toLowerCase()
-        if (typeof this.props[key] === 'function') {
-          this.events[k.join('')] = this.props[key]
-        }
-      }
-
-      this.registerEvents()
-    })
+    this.registerEvents()
   }
 
   componentWillUnmount() {
-    this.deregisterEvents()
+    this.unregisterEvents()
   }
 
   render() {

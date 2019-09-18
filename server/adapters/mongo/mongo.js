@@ -46,10 +46,31 @@ async function invokeHandler(collection, method, params) {
   switch(method) {
     case 'find':
       return await invokeFind(collection, params)
+    case 'create':
+      return await invokeCreate(collection, params)
+    case 'update':
+      return await invokeUpdate(collection, params)
   }
 }
 
-async function invokeFind(collection, {query = {}, options = {}}) {
-  const r = collection.find(query, options)
-  return await r.toArray()
+async function invokeFind(collection, {options = {}}) {
+  const cursor = collection.find({})
+  const {$skip, $limit, $sort, $filter} = options
+  if ($skip) cursor.skip($skip)
+  if ($limit) cursor.limit($limit)
+  if ($sort) cursor.sort($sort)
+  if ($filter) cursor.filter($filter)
+  return await cursor.toArray()
+}
+
+async function invokeCreate(collection, {doc}) {
+  if (Array.isArray(doc)) {
+    return await collection.insertMany(doc)
+  } else {
+    return await collection.insertOne(doc)
+  }
+}
+
+async function invokeUpdate(collection, {filter, update}) {
+  return await collection.updateMany(filter, {$set: update})
 }

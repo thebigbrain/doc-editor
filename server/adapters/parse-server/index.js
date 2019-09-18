@@ -1,5 +1,5 @@
 const express = require('express');
-const {default: ParseServer, ParseGraphQLServer} = require('parse-server');
+const {default: ParseServer, ParseGraphQLServer} = require('server/adapters/parse-server/parse-server')
 const ParseDashboard = require('parse-dashboard');
 
 const app = express()
@@ -19,7 +19,7 @@ const parseServer = new ParseServer({
   },
   auth: {
     'phone': {
-      module: require('./cloud/phone-auth.js')
+      module: require('../../cloud/phone-auth.js')
     }
   }
 })

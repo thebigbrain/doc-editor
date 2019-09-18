@@ -2,63 +2,17 @@ import React from 'react'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { withStyles } from '@material-ui/styles'
+import {withStyles} from '@material-ui/styles'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import uuid from 'uuid/v4'
-
 import CodeMirror from 'components/CodeMirror/CodeMirror'
 import Resizable from 'components/Resizable/Resizable'
-import { VertBar } from 'components/Resizable/DragBar'
+import {VertBar} from 'components/Resizable/DragBar'
 import FabContainer from 'components/FabContainer/FabContainer'
 import FormDialog from './FormDialog'
-
-const exampleCode = `import React from 'react'
-
-const style = {
-  width: '100%',
-  height: '100%',
-  backgroundColor: 'transparent',
-}
-
-const defaultSize = '7px'
-
-class DragBar extends React.Component {
-  onMouseDown = (evt) => {
-    console.log('mouse down')
-    if (this.props.onMouseDown) this.props.onMouseDown(evt)
-  }
-
-  onMouseUp = (evt) => {
-    console.log('mouse up')
-    if (this.props.onMouseUp) this.props.onMouseUp(evt)
-  }
-
-  render(s) {
-    return (
-      <div
-        style={Object.assign({}, style, s, this.props.style)}
-        onMouseDown={this.onMouseDown}
-        onMouseUp={this.onMouseUp}
-      />
-    )
-  }
-}
-
-export class VertBar extends DragBar {
-  render() {
-    return super.render({width: defaultSize, cursor: 'ew-resize'})
-  }
-}
-
-export class HorizBar extends DragBar {
-  render() {
-    return super.render({height: defaultSize, cursor: 'ns-resize'})
-  }
-}
-`
+// import uuid from 'uuid/v4'
 
 const styles = theme => ({
   root: {
@@ -79,17 +33,12 @@ const styles = theme => ({
   },
 })
 
-const exampleComponent = {
-  id: uuid(),
-  title: 'DragBar',
-  content: exampleCode,
-}
-
 function Config(props) {
   const [components, setComponents] = React.useState([])
   const [selected, setSelected] = React.useState({})
   const [open, setOpen] = React.useState(false)
 
+  const {service} = props
   let current = selected
 
   const handleClose = () => {
@@ -99,10 +48,13 @@ function Config(props) {
   const handleOk = (title) => {
     if (title == null) return
 
-    const c = { id: uuid(), title }
+    const c = {title}
     current = c
-    setSelected(c)
-    setComponents(components.concat(c))
+
+    service.create(c).then(docs => {
+      setSelected(docs[0])
+      setComponents(components.concat(docs))
+    })
   }
 
   const handleListItemClick = (c) => {
@@ -114,12 +66,16 @@ function Config(props) {
     setOpen(true)
   }
 
-  const handleCmChange = (inst, co) => {
-    if (current) current.content = inst.getValue()
-  }
-
   const renderCodeMirror = () => {
-    if (!selected || !selected.content) return null
+    if (!selected) return null
+
+    const handleCmChange = (inst, co) => {
+      if (current) {
+        current.content = inst.getValue()
+        // service.update(current)
+        console.log(current.title, current.content)
+      }
+    }
 
     return (
       <CodeMirror
@@ -129,7 +85,7 @@ function Config(props) {
         matchBrackets={true}
         // readOnly={c.content}
         // cursorBlinkRate={c.content ? -1 : 530}
-        value={selected.content}
+        value={current.content}
         onChange={handleCmChange}
       />
     )
@@ -156,8 +112,7 @@ function Config(props) {
 
   React.useEffect(() => {
     let aborted = false
-    const { collection } = props
-    collection.find({
+    service.find({
       $limit: 5,
       $skip: 0,
       $sort: { createdAt: -1 },

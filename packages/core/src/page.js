@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, Route } from 'react-router'
+import {Redirect, Route} from 'react-router'
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
 import Session from './components/Session'
@@ -81,7 +81,6 @@ export class Page {
       let node = root.children.get(key)
       if (node == null) {
         node = getDefaultRoute(`/${keys.slice(0, i + 1).join('/')}`)
-        console.log(node)
         root.children.set(key, node)
       }
 

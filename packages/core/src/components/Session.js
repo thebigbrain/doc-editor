@@ -1,9 +1,10 @@
 import React from "react"
+import {getToken} from "../session"
 
 class Session extends React.Component {
   check() {
     if (this.props.skip) return true
-    return true
+    return getToken() != null
   }
 
   render() {

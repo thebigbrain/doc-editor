@@ -936,6 +936,15 @@
     "@feathersjs/errors" "^4.3.2"
     "@feathersjs/feathers" "^4.3.2"
 
+"@feathersjs/authentication-client@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.npm.taobao.org/@feathersjs/authentication-client/download/@feathersjs/authentication-client-4.3.2.tgz#56d5b7a70e23daef5043664980895e21d503f120"
+  integrity sha1-VtW3pw4j2u9QQ2ZJgIleIdUD8SA=
+  dependencies:
+    "@feathersjs/commons" "^4.3.0"
+    "@feathersjs/errors" "^4.3.2"
+    debug "^4.1.1"
+
 "@feathersjs/authentication-local@^4.3.0":
   version "4.3.2"
   resolved "https://registry.npm.taobao.org/@feathersjs/authentication-local/download/@feathersjs/authentication-local-4.3.2.tgz#b578afd46c76862bada22a960a444d56da176b65"

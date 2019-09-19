@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/styles'
+import {withStyles} from '@material-ui/styles'
 
 
 class LoginType {
@@ -25,7 +25,7 @@ const styles = theme => ({
 function NormalLoginForm(props) {
   return (
     <form>
-
+      login ...
     </form>
   )
 }

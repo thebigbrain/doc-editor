@@ -1,18 +1,13 @@
-const io = require('socket.io-client')
-const feathers = require('@feathersjs/feathers')
-const socketio = require('@feathersjs/socketio-client')
+import {getService} from "@doce/core"
 
-const socket = io('http://api.my-feathers-server.com')
-const client = feathers()
-
-client.configure(socketio(socket))
 
 export default class LiveQueryService {
   constructor(option) {
     this.option = option
+    this.service = getService(this.option.service)
   }
 
-  async initialize() {
+  static async initialize() {
 
   }
 }

@@ -23,12 +23,16 @@ export default class Root extends React.Component {
   }
 
   componentDidMount() {
-    getCurrentSession().then(() => {
+    getCurrentSession().then((token) => {
       if (this.unmounted) return
-      this.setState({landing: false})
+
+      console.log(token)
+
+      if (token == null) {
+        history.push('/user/login')
+      }
     }).catch((err) => {
       console.error(err)
-      history.push('/user/login')
     }).finally(() => {
       this.setState({landing: false})
     })

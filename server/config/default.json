@@ -57,5 +57,5 @@
       }
     }
   },
-  "mongodb": "mongodb://localhost:27017/docE"
+  "mongodb": "mongodb://localhost:27017/doc-editor"
 }

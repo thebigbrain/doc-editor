@@ -1,9 +1,9 @@
-import { Page } from '@doce/core'
-import { connect } from '@doce/livequery/client'
+import {Page} from '@doce/core'
+import {connect} from '@doce/livequery/client'
 import Config from 'components/Config/Config'
 
 const component = connect({
-  service: 'Component',
+  service: 'component',
   optimization: {},
 })(Config)
 

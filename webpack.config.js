@@ -99,6 +99,7 @@ const clientConfig = {
       '/mongo': 'http://localhost:3080'
     }
   },
+  devtool: 'eval-source-map'
 }
 
 const serverConfig = {

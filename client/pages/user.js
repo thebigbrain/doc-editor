@@ -11,9 +11,9 @@ const PageConfig = {
     error: null,
     routePath: {
       app: '/app',
-      login: '/user/login',
-      register: '/user/register',
-      forget: '/user/forget',
+      // login: '/user/login',
+      // register: '/user/register',
+      // forget: '/user/forget',
     },
   },
   i18n: {

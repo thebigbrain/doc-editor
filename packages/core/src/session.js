@@ -1,3 +1,6 @@
+import config from "./config"
+import history from "./router"
+
 const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client')
@@ -13,6 +16,13 @@ app.configure(socketio(socket))
 app.configure(auth())
 
 let token = null
+let reloadPathname = window.location.pathname
+
+async function wait(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+}
 
 export function getToken() {
   return token
@@ -26,25 +36,69 @@ export async function getAuthentication() {
   return await app.get('authentication')
 }
 
-export async function getCurrentSession() {
+export async function reAuth() {
+  return await app.reAuthenticate()
+}
+
+export async function getCurrentToken() {
+  // if (skipAuth()) return token
+
   if (token == null) {
-    token = await app.authentication.getAccessToken()
+    try {
+      token = await app.authentication.getAccessToken()
+    } catch (e) {
+      console.log(e.message)
+    }
   }
   return token
 }
 
-export async function loginWithEmailPassword(email, password) {
+export async function loginWithEmailPassword(credential) {
   try {
     await app.authenticate({
       strategy: 'local',
-      email: email,
-      password: password
+      ...credential
     })
+    history.goBack()
   } catch (e) {
-    console.error('Authentication error', e)
+    console.error(e)
   }
+}
+
+export async function signUp(credentials) {
+  await app.service('users').create(credentials)
 }
 
 export function logOut() {
   return app.logout()
+}
+
+export function skipAuth() {
+  return config.disableAuth || config.skipAuth.includes(history.location.pathname)
+}
+
+export function toLogin() {
+  history.push(config.routePath.login)
+}
+
+export function goBack() {
+  if (reloadPathname == null) {
+    history.goBack()
+  } else {
+    const p = reloadPathname
+    reloadPathname = null
+    const appPath = [
+      '/',
+      config.routePath.login,
+      config.routePath.register,
+      config.routePath.app
+    ]
+    if (appPath.includes(p)) {
+      console.log('go to app')
+      history.replace(config.routePath.app)
+    } else {
+      console.log(`go to ${p}`)
+      history.replace(p)
+    }
+  }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link as RouterLink, Redirect } from '@doce/core'
+import {Link as RouterLink, Redirect, Switch} from '@doce/core'
 
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
 import Link from '@material-ui/core/Link'
-import { withStyles } from '@material-ui/styles'
+import {withStyles} from '@material-ui/styles'
 
 const styles = {
   root: {
@@ -25,7 +25,6 @@ const styles = {
   content: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
     flexGrow: 1,
 
   },
@@ -60,7 +59,12 @@ class App extends React.Component {
           {this.renderIcons()}
         </List>
         {location.pathname === match.url && <Redirect exact={true} from={match.url} to={icons[0].to}/>}
-        <div className={classes.content}>{this.props.children}</div>
+        <div className={classes.content}>
+          <Switch>
+            {this.props.children}
+            {/*<NotFound/>*/}
+          </Switch>
+        </div>
       </div>
     )
   }

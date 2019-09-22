@@ -3,6 +3,9 @@ import {Redirect, Route} from 'react-router'
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
 import Session from './components/Session'
+// import Login from './components/Login'
+// import Register from './components/Register'
+// import config from './config'
 
 export {Redirect} from 'react-router'
 export * from 'react-router-dom'
@@ -23,7 +26,6 @@ function getDefaultRoute(path = '/') {
 export class Page {
   static pages = new Map()
   static routes = getDefaultRoute()
-  static Landing = null
 
   constructor(option) {
     this.option = option
@@ -98,9 +100,10 @@ export class Page {
 
       const subRoutes = Page.renderRoutes(children)
       const C = (props) => (
-        <Session skip={auth === false}>
+        <Session>
           <WrappedComponent {...props} {...wrapProps}>
             {subRoutes}
+            {/*<Route component={config.NotFound}/>*/}
           </WrappedComponent>
         </Session>
       )
@@ -112,8 +115,11 @@ export class Page {
   }
 
   static renderRoot() {
+    // this.newInstance({path: config.routePath.login, component: Login})
+    // this.newInstance({path: config.routePath.register, component: Register})
+
     return (
-      <Root land={this.Landing}>
+      <Root>
         {this.renderRoutes(this.routes.children)}
       </Root>
     )
@@ -125,10 +131,6 @@ export class Page {
 
   static get(path) {
     return this.pages.get(String(path).replace('/', '_'))
-  }
-
-  static setLanding(Landing) {
-    Root.withLanding(Landing)
   }
 }
 

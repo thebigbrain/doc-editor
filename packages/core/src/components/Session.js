@@ -1,21 +1,28 @@
 import React from "react"
-import {getToken} from "../session"
+import {reAuth, skipAuth} from "../session"
 
-class Session extends React.Component {
-  check() {
-    if (this.props.skip) return true
-    return getToken() != null
-  }
 
-  render() {
-    if (!this.check()) return null
+function Session(props) {
+  const [hasAuth, setHasAuth] = React.useState(skipAuth())
 
-    return (
-      <React.Fragment>
-        {this.props.children}
-      </React.Fragment>
-    )
-  }
+  React.useEffect(() => {
+    let aborted = false
+
+    reAuth().then(() => {
+      if (aborted) return
+      setHasAuth(true)
+    }).catch(() => {
+      // toLogin()
+      console.log('session check false: no auth')
+    })
+
+    return () => {
+      aborted = true
+    }
+  })
+
+  if (!hasAuth) return null
+  return props.children
 }
 
 export default Session

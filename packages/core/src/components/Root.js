@@ -1,57 +1,53 @@
 import React from 'react'
-import {Redirect, Router} from "react-router"
+import {Route, Router, Switch} from "react-router"
 import {ThemeProvider} from "@material-ui/styles"
 import {createMuiTheme} from '@material-ui/core/styles'
 
-import {getCurrentSession} from "../session"
 import history from '../router'
+import Landing from './Landing'
+import AuthDialog from './AuthDialog'
+import {goBack, reAuth} from "../session"
+import config from '../config'
 
-export default class Root extends React.Component {
-  static theme = createMuiTheme()
-  static Landing = null
+const theme = createMuiTheme()
 
-  state = {
-    landing: true
-  }
+export default function Root(props) {
+  const [open, setOpen] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
 
-  unmounted = false
-
-  static withLanding(Landing) {
-    this.Landing = ({landing, children}) => {
-      return landing ? <Landing/> : children
-    }
-  }
-
-  componentDidMount() {
-    getCurrentSession().then((token) => {
-      if (this.unmounted) return
-
-      console.log(token)
-
-      if (token == null) {
-        history.push('/user/login')
-      }
-    }).catch((err) => {
-      console.error(err)
-    }).finally(() => {
-      this.setState({landing: false})
+  React.useEffect(() => {
+    let aborted = false
+    reAuth().then(() => {
+      if (aborted) return
+      setLoading(false)
+      console.log('reAuth success')
+      goBack()
+    }).catch((e) => {
+      if (aborted) return
+      // setLoading(false)
+      console.error(e)
+      // toLogin()
+      setOpen(true)
     })
+
+    return () => {
+      aborted = true
+    }
+  }, [])
+
+  function onClose() {
+    setLoading(false)
   }
 
-  componentWillUnmount() {
-    this.unmounted = true
-  }
-
-  render() {
-    return (
-      <ThemeProvider theme={Root.theme}>
-        <Root.Landing landing={this.state.landing}>
-          <Router history={history}>
-            {this.props.children}
-            <Redirect exact from='/' to='/app'/>
-          </Router>
-        </Root.Landing>
-      </ThemeProvider>
-    )
-  }
+  return (
+    <ThemeProvider theme={theme}>
+      <Router history={history}>
+        <Switch>
+          {loading ? <Route path='/' component={Landing}/> : props.children}
+          <Route component={config.NotFound}/>
+        </Switch>
+      </Router>
+      <AuthDialog defaultValue='login' open={open} onClose={onClose}/>
+    </ThemeProvider>
+  )
 }

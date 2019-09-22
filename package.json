@@ -32,6 +32,7 @@
     "mongodb": "^3.3.1",
     "mongodb-core": "^3.2.7",
     "mui-datatables": "^2.11.1",
+    "notistack": "^0.9.0",
     "parse": "^2.7.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -49,7 +50,7 @@
     "build": "webpack",
     "test": "jest",
     "storybook": "start-storybook",
-    "server": "node %NODE_DEBUG_OPTION% ./server/index.js"
+    "server": "nodemon ./server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"

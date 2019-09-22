@@ -69,13 +69,13 @@ function Config(props) {
   const renderCodeMirror = () => {
     if (!selected) return null
 
-    const handleCmChange = (inst, co) => {
-      if (current) {
-        current.content = inst.getValue()
-        // service.update(current)
-        console.log(current.title, current.content)
-      }
-    }
+    // const handleCmChange = (inst, co) => {
+    //   if (current) {
+    //     current.content = inst.getValue()
+    //     // service.update(current)
+    //     console.log(current.title, current.content)
+    //   }
+    // }
 
     return (
       <CodeMirror
@@ -83,10 +83,10 @@ function Config(props) {
         lineNumbers={true}
         styleActiveLine={true}
         matchBrackets={true}
-        // readOnly={c.content}
+        readOnly
         // cursorBlinkRate={c.content ? -1 : 530}
         value={current.content}
-        onChange={handleCmChange}
+        // onChange={handleCmChange}
       />
     )
   }
@@ -116,10 +116,12 @@ function Config(props) {
       $limit: 5,
       $skip: 0,
       $sort: { createdAt: -1 },
-    }).then(data => {
+    }).then(res => {
       if (aborted) return
 
-      setComponents(components.concat(data))
+      console.log(res)
+
+      setComponents(components.concat(res.data))
     })
 
     return () => {

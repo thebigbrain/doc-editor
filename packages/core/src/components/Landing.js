@@ -15,7 +15,9 @@ const style = {
   userSelect: 'none',
 }
 
-export default function Landing() {
+export default function Landing(props) {
+  if (!props.landing) return props.children
+
   return (
     <div style={style}>
       LANDING ...

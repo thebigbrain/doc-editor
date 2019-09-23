@@ -74,6 +74,7 @@ function SignUp(props) {
     try {
       await signUp({email, password})
       history.replace(config.routePath.login)
+      props.done()
     } catch (e) {
       enqueueSnackbar(e.message)
     }
@@ -157,7 +158,7 @@ function SignUp(props) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link onClick={props.toSignIn}>
+              <Link onClick={() => props.setSelected('login')}>
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -171,10 +172,10 @@ function SignUp(props) {
   )
 }
 
-export default function IntegrationNotistack() {
+export default function IntegrationNotistack(props) {
   return (
     <SnackbarProvider maxSnack={3} autoHideDuration={2300} variant="error">
-      <SignUp/>
+      <SignUp {...props}/>
     </SnackbarProvider>
   )
 }

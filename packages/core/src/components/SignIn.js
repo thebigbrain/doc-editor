@@ -73,6 +73,7 @@ export default function (props) {
   const submit = async (e) => {
     e.preventDefault()
     await loginWithEmailPassword({email, password, remember: checked})
+    props.done()
   }
 
   return (
@@ -125,12 +126,12 @@ export default function (props) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link onClick={props.toForgot}>
+              <Link onClick={() => props.setSelected('forget')}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link onClick={props.toSignUp}>
+              <Link onClick={() => props.setSelected('register')}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

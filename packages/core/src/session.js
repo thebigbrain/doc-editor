@@ -82,23 +82,13 @@ export function toLogin() {
 }
 
 export function goBack() {
-  if (reloadPathname == null) {
-    history.goBack()
+  const appPath = [
+    '/',
+  ]
+  console.log(location.pathname)
+  if (appPath.includes(location.pathname)) {
+    // history.push(config.routePath.app)
   } else {
-    const p = reloadPathname
-    reloadPathname = null
-    const appPath = [
-      '/',
-      config.routePath.login,
-      config.routePath.register,
-      config.routePath.app
-    ]
-    if (appPath.includes(p)) {
-      console.log('go to app')
-      history.replace(config.routePath.app)
-    } else {
-      console.log(`go to ${p}`)
-      history.replace(p)
-    }
+    // history.push(location.pathname)
   }
 }

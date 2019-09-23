@@ -6,7 +6,7 @@ import {createMuiTheme} from '@material-ui/core/styles'
 import history from '../router'
 import Landing from './Landing'
 import AuthDialog from './AuthDialog'
-import {goBack, reAuth} from "../session"
+import {reAuth} from "../session"
 import config from '../config'
 
 const theme = createMuiTheme()
@@ -17,11 +17,11 @@ export default function Root(props) {
 
   React.useEffect(() => {
     let aborted = false
+
     reAuth().then(() => {
       if (aborted) return
       setLoading(false)
       console.log('reAuth success')
-      goBack()
     }).catch((e) => {
       if (aborted) return
       // setLoading(false)
@@ -37,16 +37,19 @@ export default function Root(props) {
 
   function onClose() {
     setLoading(false)
+    setOpen(false)
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <Router history={history}>
-        <Switch>
-          {loading ? <Route path='/' component={Landing}/> : props.children}
-          <Route component={config.NotFound}/>
-        </Switch>
-      </Router>
+      <Landing landing={loading}>
+        <Router history={history}>
+          <Switch>
+            {props.children}
+            <Route component={config.NotFound}/>
+          </Switch>
+        </Router>
+      </Landing>
       <AuthDialog defaultValue='login' open={open} onClose={onClose}/>
     </ThemeProvider>
   )

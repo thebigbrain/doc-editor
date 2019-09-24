@@ -15,12 +15,14 @@ const baseConfig = {
     ],
     alias: {
       // ... and any other directories you might have
+      client: path.resolve(__dirname, 'client'),
+      server: path.resolve(__dirname, 'server')
     },
   },
 }
 
 const clientConfig = {
-  entry: './client/index.js',
+  entry: './src/index.js',
   output: {
     publicPath: '/',
   },
@@ -82,7 +84,7 @@ const clientConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/public/index.html',
+      template: './src/public/index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],

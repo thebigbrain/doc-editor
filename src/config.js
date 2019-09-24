@@ -1,4 +1,4 @@
-import NotFound from './components/NotFound'
+import NotFound from 'components/NotFound'
 
 const config = {
   disableAuth: true,
@@ -6,7 +6,8 @@ const config = {
   routePath: {
     app: '/app',
     login: '/login',
-    register: '/register'
+    register: '/register',
+    forgot: '/forgot'
   },
   skipAuth: []
 }

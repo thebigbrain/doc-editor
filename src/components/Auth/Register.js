@@ -13,9 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import {SnackbarProvider, useSnackbar} from 'notistack'
-
-import {signUp} from '../session'
-import config from '../config'
+import {signUp} from '../../../packages/core/src/session'
 
 function Copyright() {
   return (
@@ -73,8 +71,8 @@ function SignUp(props) {
     e.preventDefault()
     try {
       await signUp({email, password})
-      history.replace(config.routePath.login)
-      props.done()
+      // history.replace(config.routePath.login)
+      if (props.onSubmit) props.onSubmit()
     } catch (e) {
       enqueueSnackbar(e.message)
     }
@@ -157,11 +155,7 @@ function SignUp(props) {
             Sign Up
           </Button>
           <Grid container justify="flex-end">
-            <Grid item>
-              <Link onClick={() => props.setSelected('login')}>
-                Already have an account? Sign in
-              </Link>
-            </Grid>
+            {props.children}
           </Grid>
         </form>
       </div>

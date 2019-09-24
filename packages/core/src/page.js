@@ -3,6 +3,7 @@ import {Redirect, Route} from 'react-router'
 import WrappedComponent from './components/WrappedComponent'
 import Root from './components/Root'
 import Session from './components/Session'
+import {reAuthenticate} from './session'
 // import Login from './components/Login'
 // import Register from './components/Register'
 // import config from './config'
@@ -21,7 +22,6 @@ function getDefaultRoute(path = '/') {
     auth: true
   }
 }
-
 
 export class Page {
   static pages = new Map()
@@ -131,6 +131,14 @@ export class Page {
 
   static get(path) {
     return this.pages.get(String(path).replace('/', '_'))
+  }
+
+  static async reAuthenticate() {
+    try {
+      await reAuthenticate()
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 

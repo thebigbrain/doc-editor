@@ -1,4 +1,4 @@
-import config from "./config"
+import config from "../../../src/config"
 import history from "./router"
 
 const feathers = require('@feathersjs/feathers')
@@ -16,7 +16,6 @@ app.configure(socketio(socket))
 app.configure(auth())
 
 let token = null
-let reloadPathname = window.location.pathname
 
 async function wait(ms) {
   return new Promise(resolve => {
@@ -36,7 +35,7 @@ export async function getAuthentication() {
   return await app.get('authentication')
 }
 
-export async function reAuth() {
+export async function reAuthenticate() {
   return await app.reAuthenticate()
 }
 
@@ -84,11 +83,15 @@ export function toLogin() {
 export function goBack() {
   const appPath = [
     '/',
+    config.routePath.login,
+    config.routePath.register,
+    config.routePath.forgot
   ]
-  console.log(location.pathname)
+  history.goBack()
+  console.log(appPath.includes(location.pathname), location.pathname)
   if (appPath.includes(location.pathname)) {
-    // history.push(config.routePath.app)
+    history.replace(config.routePath.app)
   } else {
-    // history.push(location.pathname)
+    history.push(location.pathname)
   }
 }

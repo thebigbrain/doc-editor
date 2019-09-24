@@ -1,10 +1,17 @@
-import {Page} from '@doce/core'
+import {history, Page} from '@doce/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import * as serviceWorker from './serviceWorker'
 
-import './pages'
+import 'client/pages'
+
+Page.reAuthenticate().then(() => {
+
+}).catch(e => {
+  history.push('/login')
+  console.log(location.pathname)
+})
 
 ReactDOM.render(
   Page.renderRoot(),

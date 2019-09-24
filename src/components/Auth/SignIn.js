@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {loginWithEmailPassword} from "../session"
+import {loginWithEmailPassword} from "../../../packages/core/src/session"
 
 function Copyright() {
   return (
@@ -73,7 +73,7 @@ export default function (props) {
   const submit = async (e) => {
     e.preventDefault()
     await loginWithEmailPassword({email, password, remember: checked})
-    props.done()
+    if (props.onSubmit) props.onSubmit()
   }
 
   return (
@@ -125,16 +125,7 @@ export default function (props) {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link onClick={() => props.setSelected('forget')}>
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link onClick={() => props.setSelected('register')}>
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+            {props.children}
           </Grid>
         </form>
       </div>

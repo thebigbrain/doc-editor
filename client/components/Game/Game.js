@@ -1,6 +1,5 @@
 import React from 'react'
 import MUIDataTable from 'mui-datatables'
-import { Parse } from '@doce/core'
 
 const columns = [
   {
@@ -50,26 +49,12 @@ const options = {
 }
 
 export default function Game(props) {
-  const [subscription, setSubscription] = React.useState(null)
 
   React.useEffect(() => {
     let aborted = false
 
-    let query = new Parse.Query('Game')
-    query.subscribe().then((s) => {
-      if (aborted) return
-
-      setSubscription(s)
-      s.on('create', (people) => {
-        const dataSource = this.state.dataSource
-        dataSource.push(people.toJSON())
-        this.setState({ dataSource })
-      })
-    })
-
     return () => {
       aborted = true
-      if (subscription) subscription.unsubscribe()
     }
   }, [])
 

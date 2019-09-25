@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import {SnackbarProvider, useSnackbar} from 'notistack'
-import {signUp} from '../../../packages/core/src/session'
+import {signUp} from '../../../packages/core/session'
 
 function Copyright() {
   return (

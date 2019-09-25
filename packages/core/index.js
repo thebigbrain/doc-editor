@@ -1,6 +1,6 @@
-import router from './src/router'
+import router from './router'
 
-export * from './src/session'
-export * from './src/page'
+export * from './session'
+export * from './page'
 export const history = router
 // export * from './src/livequery/livequery'

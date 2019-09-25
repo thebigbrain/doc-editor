@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {loginWithEmailPassword} from "../../../packages/core/src/session"
+import {loginWithEmailPassword} from "../../../packages/core/session"
 
 function Copyright() {
   return (
@@ -70,10 +70,15 @@ export default function (props) {
     setChecked(e.target.checked)
   }
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault()
-    await loginWithEmailPassword({email, password, remember: checked})
-    if (props.onSubmit) props.onSubmit()
+    loginWithEmailPassword({email, password, remember: checked})
+      .then(() => {
+        if (props.onSubmit) props.onSubmit()
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   return (

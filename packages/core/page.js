@@ -1,12 +1,8 @@
 import React from 'react'
 import {Redirect, Route} from 'react-router'
 import WrappedComponent from './components/WrappedComponent'
-import Root from './components/Root'
 import Session from './components/Session'
 import {reAuthenticate} from './session'
-// import Login from './components/Login'
-// import Register from './components/Register'
-// import config from './config'
 
 export {Redirect} from 'react-router'
 export * from 'react-router-dom'
@@ -114,15 +110,8 @@ export class Page {
     })
   }
 
-  static renderRoot() {
-    // this.newInstance({path: config.routePath.login, component: Login})
-    // this.newInstance({path: config.routePath.register, component: Register})
-
-    return (
-      <Root>
-        {this.renderRoutes(this.routes.children)}
-      </Root>
-    )
+  static render() {
+    return this.renderRoutes(this.routes.children)
   }
 
   static getRouteKey(name) {
@@ -134,11 +123,7 @@ export class Page {
   }
 
   static async reAuthenticate() {
-    try {
-      await reAuthenticate()
-    } catch (e) {
-      console.error(e)
-    }
+    await reAuthenticate()
   }
 }
 

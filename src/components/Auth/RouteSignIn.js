@@ -3,11 +3,12 @@ import SignIn from './SignIn'
 import Grid from '@material-ui/core/Grid'
 import {Link} from 'react-router-dom'
 import config from '../../config'
-import {goBack} from "../../../packages/core/src/session"
+import history from '@doce/core/router'
+
 
 export default function (props) {
   function handleSubmit() {
-    goBack()
+    history.goBack()
   }
 
   return (

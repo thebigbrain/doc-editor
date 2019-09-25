@@ -1,4 +1,4 @@
-import config from "../../../src/config"
+import config from "../../src/config"
 import history from "./router"
 
 const feathers = require('@feathersjs/feathers')

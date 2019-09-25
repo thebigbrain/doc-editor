@@ -16,7 +16,9 @@ const baseConfig = {
     alias: {
       // ... and any other directories you might have
       client: path.resolve(__dirname, 'client'),
-      server: path.resolve(__dirname, 'server')
+      server: path.resolve(__dirname, 'server'),
+      components: path.resolve(__dirname, 'client/components'),
+      pages: path.resolve(__dirname, 'client/pages'),
     },
   },
 }

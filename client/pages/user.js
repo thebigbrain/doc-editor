@@ -1,13 +1,11 @@
-import { Page } from '@doce/core'
+import {Page} from '@doce/core'
 import User from 'components/User/User'
-import { LoginStatus } from 'utils/const'
 
 const PageConfig = {
   path: '/user',
   component: User,
   authorization: false,
   props: {
-    status: LoginStatus.NONE,
     error: null,
     routePath: {
       app: '/app',

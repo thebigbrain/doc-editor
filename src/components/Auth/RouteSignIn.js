@@ -1,14 +1,15 @@
 import React from 'react'
-import SignIn from './SignIn'
 import Grid from '@material-ui/core/Grid'
-import {Link} from 'react-router-dom'
+import { Link } from '@doce/core'
+import history from '@doce/core/history'
+
+import SignIn from './SignIn'
 import config from '../../config'
-import history from '@doce/core/router'
 
 
 export default function (props) {
   function handleSubmit() {
-    history.goBack()
+    history.back()
   }
 
   return (

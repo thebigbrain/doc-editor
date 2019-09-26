@@ -1,11 +1,10 @@
 import React from 'react'
-import {Link as RouterLink, Redirect, Switch} from '@doce/core'
+import { Link as RouterLink, Redirect, Switch } from '@doce/core'
 
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
-import Link from '@material-ui/core/Link'
-import {withStyles} from '@material-ui/styles'
+import { withStyles } from '@material-ui/styles'
 
 const styles = {
   root: {
@@ -37,13 +36,13 @@ class App extends React.Component {
     const { classes, icons } = this.props
 
     return icons.map(ic => (
-      <Link to={ic.to} component={RouterLink} key={ic.key}>
+      <RouterLink to={ic.to} key={ic.key}>
         <ListItem button>
           <ListItemIcon classes={{ root: classes.listItemIcon }}>
             <ic.component/>
           </ListItemIcon>
         </ListItem>
-      </Link>
+      </RouterLink>
     ))
   }
 

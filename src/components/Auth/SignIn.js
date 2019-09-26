@@ -10,9 +10,10 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {loginWithEmailPassword} from "../../../packages/core/session"
+import { SnackbarProvider, useSnackbar } from 'notistack'
+import { loginWithEmailPassword } from '@doce/core'
 
 function Copyright() {
   return (
@@ -54,9 +55,11 @@ const useStyles = makeStyles(theme => ({
 
 let email = '', password = null
 
-export default function (props) {
+function SignIn(props) {
   const classes = useStyles()
   const [checked, setChecked] = React.useState(true)
+
+  const { enqueueSnackbar } = useSnackbar()
 
   const onEmail = (e) => {
     email = e.target.value
@@ -72,12 +75,12 @@ export default function (props) {
 
   const submit = (e) => {
     e.preventDefault()
-    loginWithEmailPassword({email, password, remember: checked})
-      .then(() => {
+    return loginWithEmailPassword({ email, password, remember: checked })
+      .then((res) => {
         if (props.onSubmit) props.onSubmit()
       })
       .catch(e => {
-        console.log(e)
+        enqueueSnackbar(e.message)
       })
   }
 
@@ -138,5 +141,14 @@ export default function (props) {
         <Copyright/>
       </Box>
     </Container>
+  )
+}
+
+export default function(props) {
+  return (
+    <SnackbarProvider maxSnack={3} autoHideDuration={1800} variant="error"
+                      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <SignIn {...props}/>
+    </SnackbarProvider>
   )
 }

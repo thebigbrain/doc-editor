@@ -1,7 +1,7 @@
 import React from 'react'
-import {Redirect, Route, Router, Switch} from "react-router"
-import {ThemeProvider} from "@material-ui/styles"
-import {createMuiTheme} from '@material-ui/core/styles'
+import { Redirect, Route, Router, Switch as RouteSwitch } from '@doce/core/router'
+import { ThemeProvider } from '@material-ui/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 
 const theme = createMuiTheme()
 
@@ -14,13 +14,13 @@ export default function Root(props) {
   return (
     <ThemeProvider theme={theme}>
       <Router history={history}>
-        <Switch>
+        <RouteSwitch>
           {props.children}
           <Route path={config.routePath.login} component={config.SignIn}/>
           <Route path={config.routePath.register} component={config.SignUp}/>
-          <Redirect exact from='/' to={config.routePath.app}/>
-          <Route component={config.NotFound}/>
-        </Switch>
+          <Redirect to={config.routePath.app}/>
+          {/*<Route component={config.NotFound}/>*/}
+        </RouteSwitch>
       </Router>
     </ThemeProvider>
   )

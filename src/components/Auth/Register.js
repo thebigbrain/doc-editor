@@ -10,10 +10,10 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {SnackbarProvider, useSnackbar} from 'notistack'
-import {signUp} from '../../../packages/core/session'
+import { SnackbarProvider, useSnackbar } from 'notistack'
+import { signUp } from '@doce/core'
 
 function Copyright() {
   return (
@@ -168,7 +168,8 @@ function SignUp(props) {
 
 export default function IntegrationNotistack(props) {
   return (
-    <SnackbarProvider maxSnack={3} autoHideDuration={2300} variant="error">
+    <SnackbarProvider maxSnack={3} autoHideDuration={1800} variant="error"
+                      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
       <SignUp {...props}/>
     </SnackbarProvider>
   )

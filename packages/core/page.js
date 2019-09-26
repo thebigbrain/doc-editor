@@ -1,11 +1,8 @@
 import React from 'react'
-import {Redirect, Route} from 'react-router'
+import { Route } from './router'
 import WrappedComponent from './components/WrappedComponent'
 import Session from './components/Session'
-import {reAuthenticate} from './session'
-
-export {Redirect} from 'react-router'
-export * from 'react-router-dom'
+import { reAuthenticate } from './session'
 
 const RouteMap = new Map()
 

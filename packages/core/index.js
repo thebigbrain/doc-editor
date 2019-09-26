@@ -1,6 +1,5 @@
-import router from './router'
-
 export * from './session'
 export * from './page'
-export const history = router
-// export * from './src/livequery/livequery'
+export * from './router'
+export { default as Link } from './components/Link'
+export { default as history } from './history'

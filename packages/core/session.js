@@ -1,6 +1,3 @@
-import config from "../../src/config"
-import history from "./router"
-
 const feathers = require('@feathersjs/feathers')
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client')
@@ -53,15 +50,10 @@ export async function getCurrentToken() {
 }
 
 export async function loginWithEmailPassword(credential) {
-  try {
-    await app.authenticate({
-      strategy: 'local',
-      ...credential
-    })
-    history.goBack()
-  } catch (e) {
-    console.error(e)
-  }
+  return await app.authenticate({
+    strategy: 'local',
+    ...credential,
+  })
 }
 
 export async function signUp(credentials) {
@@ -70,28 +62,4 @@ export async function signUp(credentials) {
 
 export function logOut() {
   return app.logout()
-}
-
-export function skipAuth() {
-  return config.disableAuth || config.skipAuth.includes(history.location.pathname)
-}
-
-export function toLogin() {
-  history.push(config.routePath.login)
-}
-
-export function goBack() {
-  const appPath = [
-    '/',
-    config.routePath.login,
-    config.routePath.register,
-    config.routePath.forgot
-  ]
-  history.goBack()
-  console.log(appPath.includes(location.pathname), location.pathname)
-  if (appPath.includes(location.pathname)) {
-    history.replace(config.routePath.app)
-  } else {
-    history.push(location.pathname)
-  }
 }

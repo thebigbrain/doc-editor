@@ -3,22 +3,23 @@ const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client')
 const auth = require('@feathersjs/authentication-client')
 
-const socket = io('http://localhost:3030')
-const app = feathers()
+const debug_url = 'http://localhost:3030'
+let app = null
+
+export function initialize(url = debug_url) {
+  const socket = io(url)
+  app = feathers()
 
 // Setup the transport (Rest, Socket, etc.) here
-app.configure(socketio(socket))
+  app.configure(socketio(socket))
 
 // Available options are listed in the "Options" section
-app.configure(auth())
+  app.configure(auth())
+}
+
+initialize()  // debug only
 
 let token = null
-
-async function wait(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms)
-  })
-}
 
 export function getToken() {
   return token

@@ -1,0 +1,9 @@
+{
+  "name": "@doce/stories",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@storybook/react": "^5.2.1"
+  }
+}

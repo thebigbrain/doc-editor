@@ -1,63 +1,66 @@
 const fs = require('fs')
 const Path = require('path')
-const autoprefixer = require('autoprefixer')
-const postcss = require('postcss')
-const precss = require('precss')
 const babel = require("@babel/core")
 const traverse = require('@babel/traverse').default
 const generate = require('@babel/generator').default
 
 const filename = process.argv[2]
-const out = filename.replace('src', 'dist')
+const out = Path.resolve('./dist', filename)
+const root = Path.resolve('.')
+let currentPathStack = [Path.resolve(filename)]
+let localModules = {}
 
-const sourceBuffer = fs.readFileSync(filename)
-let code = sourceBuffer.toString()
+let code = readJsFile(filename)
+let result = transformJs(code)
 
-let result = babel.transform(code, {ast: true, code: false})
+writeOut(result)
 
-let currentPath = filename
-traverse(result.ast, {
-  enter(path) {
-    // console.log(path.node.type)
-  },
-  CallExpression(path) {
-    if (path.node.callee.name === 'require') {
-      const args = path.node.arguments
-      const file = args[0].value
-      currentPath = Path.resolve(currentPath, '..', file)
+function transformJs(code) {
+  let result = babel.transform(code.toString(), {ast: true, code: false, root: Path.resolve(__dirname)})
+  traverse(result.ast, {
+    enter(path) {
+      // console.log(path.node.type)
+    },
+    CallExpression(path) {
+      if (path.node.callee.name === 'require') {
+        const args = path.node.arguments
+        const file = args[0].value
 
-      if (/.js$/i.test(file)) {
-        processJs(currentPath)
+        if (/^\./i.test(file)) {
+          const prev = currentPathStack[currentPathStack.length - 1]
+          currentPathStack.push(Path.resolve(prev, '..', file))
+          console.log(file)
+          args[0].value = processJs()
+        }
       }
-
-      // if (/.css$/i.test(file)) {
-      //   if (/^\./i.test(file)) {
-      //     processCss(currentPath)
-      //   } else {
-      //     console.log(require.resolve(file))
-      //   }
-      // }
     }
-  }
-});
+  })
 
-result = generate(result.ast)
-
-fs.writeFileSync(out, result.code, 'utf-8')
-
-function processCss(source) {
-  const css = fs.readFileSync(source)
-  const to = source.replace('src', 'dist')
-  postcss([precss, autoprefixer])
-    .process(css, { from: source, to })
-    .then(result => {
-      fs.writeFile(to, result.css, () => true)
-      if ( result.map ) {
-        fs.writeFile(`${to}.map`, result.map, () => true)
-      }
-    })
+  return generate(result.ast)
 }
 
-function processJs(source) {
-  console.log(require.resolve(resource))
+function processJs() {
+  let resource = currentPathStack.pop()
+  resource = require.resolve(resource)
+  let id = `local:${Path.relative(root, resource)}`
+  let code = readJsFile(resource)
+  if (localModules[id] == null) {
+    let result = transformJs(code)
+    localModules[id] = result.code
+  }
+  return id
+}
+
+function readJsFile(filename) {
+  return fs.readFileSync(filename)
+}
+
+function writeOut(result) {
+  let code = `// load local modules early
+  window.__localModules=window.__localModules || {};
+Object.assign(window.__localModules, ${JSON.stringify(localModules)})
+
+${result.code}
+`
+  fs.writeFileSync(out, code, 'utf-8')
 }

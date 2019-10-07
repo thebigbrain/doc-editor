@@ -105,20 +105,6 @@ const clientConfig = {
   },
   devtool: 'eval-source-map'
 }
-
-const serverConfig = {
-  entry: [
-    './server/main.js',
-  ],
-  target: 'node',
-  resolve: {
-    modules: [
-      path.resolve(__dirname, 'server'),
-    ]
-  },
-}
-
 module.exports = [
   merge(baseConfig, clientConfig),
-  // merge(baseConfig, serverConfig)
 ]

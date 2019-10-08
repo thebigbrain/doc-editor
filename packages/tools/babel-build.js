@@ -62,5 +62,6 @@ Object.assign(window.__localModules, ${JSON.stringify(localModules)})
 
 ${result.code}
 `
+  mkdirp.sync(Path.dirname(out))
   fs.writeFileSync(out, code, 'utf-8')
 }

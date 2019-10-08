@@ -1,6 +1,6 @@
-import NotFound from '../components/NotFound'
-import SignIn from '../components/Auth/RouteSignIn'
-import SignUp from '../components/Auth/RouteSignUp'
+import NotFound from '../pages/NotFound'
+import SignIn from '../pages/Auth/RouteSignIn'
+import SignUp from '../pages/Auth/RouteSignUp'
 
 const config = {
   disableAuth: true,

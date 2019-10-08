@@ -5,7 +5,7 @@ import 'antd/dist/antd.css'
 import { Button } from '@storybook/react/demo'
 
 import Login from 'components/User/Login'
-import { LoginStatus } from '../client/utils/const'
+import { LoginStatus } from '../codesandbox-app/utils/const'
 
 (async () => {
   storiesOf('Button', module)

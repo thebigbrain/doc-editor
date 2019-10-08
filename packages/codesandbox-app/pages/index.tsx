@@ -1,0 +1,125 @@
+import React, { useEffect } from 'react';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { DragDropContext } from 'react-dnd';
+import _debug from '@codesandbox/common/lib/utils/debug';
+import { NotificationStatus, Toasts } from '@codesandbox/notifications';
+import { notificationState } from '@codesandbox/common/lib/utils/notifications';
+import send, { DNT } from '@codesandbox/common/lib/utils/analytics';
+import theme from '@codesandbox/common/lib/theme';
+import { Button } from '@codesandbox/common/lib/components/Button';
+import Loadable from 'app/utils/Loadable';
+import { hooksObserver, inject } from 'app/componentConnectors';
+import { ErrorBoundary } from './common/ErrorBoundary/index';
+import HTML5Backend from './common/HTML5BackendWithFolderSupport/index';
+import Modals from './common/Modals/index';
+import Sandbox from './Sandbox/index';
+import NewSandbox from './NewSandbox/index';
+import Dashboard from './Dashboard/index';
+import { Container, Content } from './elements';
+
+const routeDebugger = _debug('cs:app:router');
+
+const SignIn = Loadable(() =>
+  import(/* webpackChunkName: 'page-sign-in' */ './common/SignIn/index'),
+);
+const Live = Loadable(() =>
+  import(/* webpackChunkName: 'page-sign-in' */ './Live/index'),
+);
+const ZeitSignIn = Loadable(() =>
+  import(/* webpackChunkName: 'page-zeit' */ './common/ZeitAuth/index'),
+);
+const NotFound = Loadable(() =>
+  import(/* webpackChunkName: 'page-not-found' */ './common/NotFound/index'),
+);
+const Profile = Loadable(() =>
+  import(/* webpackChunkName: 'page-profile' */ './Profile/index'),
+);
+const Search = Loadable(() =>
+  import(/* webpackChunkName: 'page-search' */ './Search/index'),
+);
+const CLI = Loadable(() => import(/* webpackChunkName: 'page-cli' */ './CLI/index'));
+
+const GitHub = Loadable(() =>
+  import(/* webpackChunkName: 'page-github' */ './GitHub/index'),
+);
+const CliInstructions = Loadable(() =>
+  import(/* webpackChunkName: 'page-cli-instructions' */ './CliInstructions/index'),
+);
+const Patron = Loadable(() =>
+  import(/* webpackChunkName: 'page-patron' */ './Patron/index'),
+);
+const Curator = Loadable(() =>
+  import(/* webpackChunkName: 'page-curator' */ './Curator/index'),
+);
+const CodeSadbox = () => this[`💥`].kaboom();
+
+const Boundary = withRouter(ErrorBoundary);
+
+const RoutesComponent = ({ signals: { appUnmounted } }) => {
+  useEffect(() => () => appUnmounted(), [appUnmounted]);
+
+  return (
+    <Container>
+      <Route
+        path="/"
+        render={({ location }) => {
+          if (process.env.NODE_ENV === 'production') {
+            routeDebugger(
+              `Sending '${location.pathname + location.search}' to ga.`,
+            );
+            if (typeof (window as any).ga === 'function' && !DNT) {
+              (window as any).ga(
+                'set',
+                'page',
+                location.pathname + location.search,
+              );
+
+              send('pageview', { path: location.pathname + location.search });
+            }
+          }
+          return null;
+        }}
+      />
+      <Toasts
+        colors={{
+          [NotificationStatus.ERROR]: theme.dangerBackground(),
+          [NotificationStatus.SUCCESS]: theme.green(),
+          [NotificationStatus.NOTICE]: theme.secondary(),
+          [NotificationStatus.WARNING]: theme.primary(),
+        }}
+        state={notificationState}
+        Button={Button}
+      />
+      <Boundary>
+        <Content>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/s"/>}/>
+            <Route exact path="/s/github" component={GitHub}/>
+            <Route exact path="/s/cli" component={CliInstructions}/>
+            <Route exact path="/s" component={NewSandbox}/>
+            <Route path="/dashboard" component={Dashboard}/>
+            <Route path="/curator" component={Curator}/>
+            <Route path="/s/:id*" component={Sandbox}/>
+            <Route path="/live/:id" component={Live}/>
+            <Route path="/signin" exact component={Dashboard}/>
+            <Route path="/signin/:jwt?" component={SignIn}/>
+            <Route path="/u/:username" component={Profile}/>
+            <Route path="/search" component={Search}/>
+            <Route path="/patron" component={Patron}/>
+            <Route path="/cli/login" component={CLI}/>
+            <Route path="/auth/zeit" component={ZeitSignIn}/>
+            {process.env.NODE_ENV === `development` && (
+              <Route path="/codesadbox" component={CodeSadbox}/>
+            )}
+            <Route component={NotFound}/>
+          </Switch>
+        </Content>
+      </Boundary>
+      <Modals/>
+    </Container>
+  );
+};
+
+export const Routes = inject('signals')(
+  DragDropContext(HTML5Backend)(withRouter(hooksObserver(RoutesComponent))),
+);

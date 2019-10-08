@@ -1,6 +1,6 @@
-import NotFound from '../pages/NotFound'
-import SignIn from '../pages/Auth/RouteSignIn'
-import SignUp from '../pages/Auth/RouteSignUp'
+import NotFound from '../../codesandbox-app/pages/NotFound'
+import SignIn from '../../codesandbox-app/pages/Auth/RouteSignIn'
+import SignUp from '../../codesandbox-app/pages/Auth/RouteSignUp'
 
 const config = {
   disableAuth: true,

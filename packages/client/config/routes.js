@@ -1,4 +1,4 @@
-import App from '../pages/App'
+import App from '../../codesandbox-app/pages/App'
 // import NotFound from './components/NotFound'
 
 const config = [

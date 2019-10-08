@@ -42,4 +42,4 @@ export const config = merge(
     server,
     modals: createModals(modals),
   }),
-)
+);

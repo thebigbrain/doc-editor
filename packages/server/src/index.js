@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
-const path = require('path')
-
-process.env['NODE_CONFIG_DIR'] = path.join(__dirname, 'config/')
+// const path = require('path')
+// process.env['NODE_CONFIG_DIR'] = path.join(__dirname, 'config/')
 
 const logger = require('./logger')
 const app = require('./app')

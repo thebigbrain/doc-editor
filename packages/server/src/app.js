@@ -10,8 +10,8 @@ const configuration = require('@feathersjs/configuration')
 const express = require('@feathersjs/express')
 const socketio = require('@feathersjs/socketio')
 
-const middleware = require('./middleware')
-const services = require('./services')
+const middleware = require('./middleware/index')
+const services = require('./services/index')
 const appHooks = require('./app.hooks')
 const channels = require('./channels')
 

@@ -1,4 +1,4 @@
-const app = require('../.././app')
+const app = require('../../src/app')
 
 describe('\'Component\' service', () => {
   it('registered the service', () => {

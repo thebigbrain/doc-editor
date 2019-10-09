@@ -57,39 +57,39 @@ class ShareView extends React.Component {
   setMixedView = () => this.setState({ showEditor: true, showPreview: true })
   setDefaultModule = id => this.setState({ defaultModule: id })
   clearDefaultModule = () => this.setState({ defaultModule: null })
-  setAutoResize = (autoResize: boolean) => {
+  setAutoResize = (autoResize) => {
     this.setState({ autoResize })
   }
-  setHideNavigation = (hideNavigation: boolean) => {
+  setHideNavigation = (hideNavigation) => {
     this.setState({ hideNavigation })
   }
-  setUseCodeMirror = (useCodeMirror: boolean) => {
+  setUseCodeMirror = (useCodeMirror) => {
     this.setState({ useCodeMirror })
   }
-  setEnableEslint = (enableEslint: boolean) => {
+  setEnableEslint = (enableEslint) => {
     this.setState({ enableEslint })
   }
-  setIsCurrentModuleView = (isCurrentModuleView: boolean) => {
+  setIsCurrentModuleView = (isCurrentModuleView) => {
     this.setState({ isCurrentModuleView })
   }
-  setExpandDevTools = (expandDevTools: boolean) => {
+  setExpandDevTools = (expandDevTools) => {
     this.setState({ expandDevTools })
   }
-  setFontSize = (fontSize: number) => [this.setState({ fontSize })]
-  setTestsView = (testsView: boolean) => {
+  setFontSize = (fontSize) => [this.setState({ fontSize })]
+  setTestsView = (testsView) => {
     this.setState({ testsView })
   }
   setInitialPath = ({ target }) => {
     const initialPath = target.value
     this.setState({ initialPath })
   }
-  setView = (view: string) => {
+  setView = (view) => {
     this.setState({ view })
   }
   select = function select(event) {
     event.target.select()
   }
-  toggle = (key: string) => {
+  toggle = (key) => {
     this.setState(state => ({ [key]: !state[key] }))
   }
 

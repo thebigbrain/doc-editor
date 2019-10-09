@@ -1,4 +1,5 @@
 import { merge, namespaced } from 'overmind/config'
+import { createConnect } from 'overmind-react'
 import * as effects from './effects'
 import { state } from './state'
 import { onInitialize } from './onInitialize'
@@ -43,3 +44,5 @@ export const config = merge(
     modals: createModals(modals),
   }),
 );
+
+export const connect = createConnect()

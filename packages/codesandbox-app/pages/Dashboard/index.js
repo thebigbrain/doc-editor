@@ -1,12 +1,8 @@
 // @ts-check
-import * as React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-import RightIcon from 'react-icons/lib/md/keyboard-arrow-right'
-import LeftIcon from 'react-icons/lib/md/keyboard-arrow-left'
-import { withRouter } from 'react-router-dom'
-import { Navigation } from 'app/pages/common/Navigation'
-import { SignInButton } from 'app/pages/common/SignInButton'
-import { client } from 'app/graphql/client'
+import React from 'react'
+import { MdKeyboardArrowRight as RightIcon, MdKeyboardArrowLeft as LeftIcon } from 'react-icons/md'
+import { Navigation } from '~/pages/common/Navigation'
+import { SignInButton } from '~/pages/common/SignInButton'
 
 import SidebarContents from './Sidebar/index'
 import Content from './Content/index'
@@ -21,88 +17,76 @@ import {
   ShowSidebarButton,
   Sidebar,
 } from './elements'
+import { useOvermind } from '~/hooks'
 
-class Dashboard extends React.Component {
-  state = {
-    showSidebar: false,
-  }
-  onRouteChange = () => {
-    this.setState({ showSidebar: false })
-  }
-  toggleSidebar = () => {
-    this.setState(({ showSidebar }) => ({ showSidebar: !showSidebar }))
-  }
+export default function(props) {
+  const { history } = props
+  const { state, actions } = useOvermind()
+  const [showSidebar, setShowSidebar] = React.useState(false)
 
-  componentDidMount() {
-    this.props.signals.dashboard.dashboardMounted()
+  const onRouteChange = () => {
+    setShowSidebar(false)
+  }
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar)
   }
 
-  componentWillUnmount() {
-    // Reset store so new visits get fresh data
-    client.resetStore()
-  }
+  React.useEffect(() => {
+    actions.dashboard.dashboardMounted()
+  }, [])
 
-  render() {
-    const {
-      store: { hasLogIn },
-      history,
-    } = this.props
-    const { showSidebar } = this.state
-
-    history.listen(({ state }) => {
-      if (!!state && state.from === 'sandboxSearchFocused') {
-        return
-      }
-
-      this.onRouteChange()
-    })
-
-    let DashboardContent = (
-      <>
-        <Sidebar active={showSidebar}>
-          <SidebarContents/>
-          <ShowSidebarButton onClick={this.toggleSidebar}>
-            {showSidebar ? (
-              <LeftIcon style={{ color: 'white' }}/>
-            ) : (
-              <RightIcon style={{ color: 'white' }}/>
-            )}
-          </ShowSidebarButton>
-        </Sidebar>
-
-        <ContentContainer>
-          <Content/>
-        </ContentContainer>
-      </>
-    )
-
-    if (!hasLogIn) {
-      DashboardContent = (
-        <Container>
-          <Centered>
-            <LoggedInContainer>
-              <OffsettedLogo/>
-              <LoggedInTitle>Sign in to CodeSandbox</LoggedInTitle>
-
-              <SignInButton big style={{ fontSize: '1rem' }}/>
-            </LoggedInContainer>
-          </Centered>
-        </Container>
-      )
+  history.listen(({ state }) => {
+    if (!!state && state.from === 'sandboxSearchFocused') {
+      return
     }
 
-    return (
-      <Container>
-        <NavigationContainer>
-          <Navigation searchNoInput title="Dashboard"/>
-        </NavigationContainer>
+    onRouteChange()
+  })
 
-        <div style={{ display: 'flex', overflow: 'hidden' }}>
-          {DashboardContent}
-        </div>
+  let DashboardContent = (
+    <>
+      <Sidebar active={showSidebar}>
+        <SidebarContents/>
+        <ShowSidebarButton onClick={this.toggleSidebar}>
+          {showSidebar ? (
+            <LeftIcon style={{ color: 'white' }}/>
+          ) : (
+            <RightIcon style={{ color: 'white' }}/>
+          )}
+        </ShowSidebarButton>
+      </Sidebar>
+
+      <ContentContainer>
+        <Content/>
+      </ContentContainer>
+    </>
+  )
+
+  if (!state.hasLogIn) {
+    DashboardContent = (
+      <Container>
+        <Centered>
+          <LoggedInContainer>
+            <OffsettedLogo/>
+            <LoggedInTitle>Sign in to CodeSandbox</LoggedInTitle>
+
+            <SignInButton big style={{ fontSize: '1rem' }}/>
+          </LoggedInContainer>
+        </Centered>
       </Container>
     )
   }
-}
 
-export default inject('store', 'signals')(withRouter(observer(Dashboard)))
+  return (
+    <Container>
+      <NavigationContainer>
+        <Navigation searchNoInput title="Dashboard"/>
+      </NavigationContainer>
+
+      <div style={{ display: 'flex', overflow: 'hidden' }}>
+        {DashboardContent}
+      </div>
+    </Container>
+  )
+
+}

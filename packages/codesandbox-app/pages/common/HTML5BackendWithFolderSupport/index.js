@@ -1,7 +1,7 @@
 import HTML5Backend from 'react-dnd-html5-backend'
 import { getFilesFromDragEvent } from './html-dir-content/index'
 
-export default (manager: Object) => {
+export default (manager) => {
   const backend = HTML5Backend(manager)
   const orgTopDropCapture = backend.handleTopDropCapture
 

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import { ThemeProvider } from 'styled-components'
-import Modal from 'app/components/Modal'
-import Loadable from 'app/utils/Loadable'
-import { templateColor } from 'app/utils/template-color'
+import Modal from '~/components/Modal'
+import Loadable from '~/utils/Loadable'
+import { templateColor } from '~/utils/template-color'
 import getTemplateDefinition from '@codesandbox/common/lib/templates'
 import codesandbox from '@codesandbox/common/lib/themes/codesandbox.json'
-import getVSCodeTheme from 'app/src/app/pages/Sandbox/Editor/utils/get-vscode-theme'
+import getVSCodeTheme from '~/pages/Sandbox/Editor/utils/get-vscode-theme'
 
 import NewSandbox from './NewSandbox/index'
 import PreferencesModal from './PreferencesModal/index'
@@ -33,6 +32,7 @@ import NetlifyLogs from './NetlifyLogs/index'
 // eslint-disable-next-line
 import SignInForTemplates from './SignInForTemplates/index.ts'
 import { SurveyModal } from './SurveyModal/index'
+import {useOvermind} from '~/hooks'
 
 const MoveSandboxFolderModal = Loadable(() =>
   import('./MoveSandboxFolderModal/index'),
@@ -141,67 +141,48 @@ const modals = {
   },
 }
 
-class Modals extends Component {
-  state = {
-    theme: {
-      colors: {},
-      vscodeTheme: codesandbox,
-    },
-    customVSCodeTheme: this.props.store.preferences.settings.customVSCodeTheme,
-  }
-  loadTheme = async () => {
-    const { customVSCodeTheme } = this.props.store.preferences.settings
+export default function() {
+  const {state, actions} = useOvermind()
+  const [theme, setTheme] = React.useState({colors: {}, vscodeTheme: codesandbox})
 
-    try {
-      const theme = await getVSCodeTheme('', customVSCodeTheme)
-      this.setState({ theme, customVSCodeTheme })
-    } catch (e) {
-      console.error(e)
+  const customVSCodeTheme = state.preferences.settings.customVSCodeTheme
+  const sandbox = state.editor.currentSandbox
+  const templateDef = sandbox && getTemplateDefinition(sandbox.template)
+  const modal = state.currentModal && modals[state.currentModal]
+
+  React.useEffect(() => {
+    let aborted = false
+    getVSCodeTheme('', customVSCodeTheme)
+      .then(theme => {
+        if (aborted) return null
+        setTheme(theme)
+      })
+      .catch(console.error)
+
+    return () => {
+      aborted = true
     }
-  }
+  }, [customVSCodeTheme])
 
-  componentDidMount() {
-    this.loadTheme()
-  }
-
-  componentDidUpdate() {
-    if (
-      this.props.store.preferences.settings.customVSCodeTheme !==
-      this.state.customVSCodeTheme
-    ) {
-      this.loadTheme()
-    }
-  }
-
-  render() {
-    const { signals, store } = this.props
-    const sandbox = store.editor.currentSandbox
-    const templateDef = sandbox && getTemplateDefinition(sandbox.template)
-
-    const modal = store.currentModal && modals[store.currentModal]
-
-    return (
-      <ThemeProvider
-        theme={{
-          templateColor: templateColor(sandbox, templateDef),
-          templateBackgroundColor: templateDef && templateDef.backgroundColor,
-          ...this.state.theme,
-        }}
+  return (
+    <ThemeProvider
+      theme={{
+        templateColor: templateColor(sandbox, templateDef),
+        templateBackgroundColor: templateDef && templateDef.backgroundColor,
+        ...theme,
+      }}
+    >
+      <Modal
+        isOpen={Boolean(modal)}
+        width={modal && modal.width}
+        onClose={isKeyDown => actions.modalClosed({ isKeyDown })}
       >
-        <Modal
-          isOpen={Boolean(modal)}
-          width={modal && modal.width}
-          onClose={isKeyDown => signals.modalClosed({ isKeyDown })}
-        >
-          {modal
-            ? React.createElement(modal.Component, {
-              closeModal: () => signals.modalClosed({ isKeyDown: false }),
-            })
-            : null}
-        </Modal>
-      </ThemeProvider>
-    )
-  }
+        {modal
+          ? React.createElement(modal.Component, {
+            closeModal: () => actions.modalClosed({ isKeyDown: false }),
+          })
+          : null}
+      </Modal>
+    </ThemeProvider>
+  )
 }
-
-export default inject('store', 'signals')(observer(Modals))

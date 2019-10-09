@@ -1,4 +1,4 @@
-import NotFound from '../../codesandbox-app/pages/NotFound'
+import NotFound from '../components/NotFound'
 import SignIn from '../../codesandbox-app/pages/Auth/RouteSignIn'
 import SignUp from '../../codesandbox-app/pages/Auth/RouteSignUp'
 

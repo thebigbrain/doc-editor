@@ -1,23 +1,24 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import Downshift from 'downshift'
 import genie from 'geniejs'
 
-import { ESC } from '@codesandbox/common/lib/utils/keycodes'
+import {ESC} from '@codesandbox/common/lib/utils/keycodes'
 
 import Input from '@codesandbox/common/lib/components/Input'
 import Keys from './Keys'
+import {userOvermind} from '~/hooks'
 
-import { Container, Entry, InputContainer, Items, Keybindings, Title } from './elements'
+import {Container, Entry, InputContainer, Items, Keybindings, Title} from './elements'
 
-class QuickActionsComponent extends React.Component {
+
+function QuickActionsComponent() {
+  const {state, actions} = userOvermind()
   // we'll just keep track of what the user changes the inputValue to be
   // so when the user makes a wish we can provide that info to genie
-  inputValue = ''
+  let inputValue = ''
 
-  updateGenie = () => {
-    const { keybindings } = this.props.store.preferences
-    const { signals } = this.props
+  const updateGenie = () => {
+    const {keybindings} = state.preferences
 
     Object.keys(keybindings).forEach(bindingKey => {
       const quickAction = keybindings[bindingKey]
@@ -29,142 +30,139 @@ class QuickActionsComponent extends React.Component {
           const signalPath = quickAction.signal.split('.')
           const signal = signalPath.reduce(
             (currentSignal, key) => currentSignal[key],
-            signals,
+            actions,
           )
           const payload =
             typeof quickAction.payload === 'function'
-              ? quickAction.payload(this.props.store)
+              ? quickAction.payload(state)
               : quickAction.payload || {}
           signal(payload)
         },
       })
     })
   }
-  getItems = value => genie.getMatchingWishes(value)
-  handleKeyUp = e => {
+  const getItems = value => genie.getMatchingWishes(value)
+  const handleKeyUp = e => {
     if (e.keyCode === ESC) {
-      this.closeQuickActions()
+      closeQuickActions()
     }
   }
-  closeQuickActions = () => {
-    this.props.signals.editor.quickActionsClosed()
+  const closeQuickActions = () => {
+    actions.editor.quickActionsClosed()
   }
-  onChange = item => {
-    genie.makeWish(item, this.inputValue)
-    this.persistGenie()
-    this.closeQuickActions()
+  const onChange = item => {
+    genie.makeWish(item, inputValue)
+    persistGenie()
+    closeQuickActions()
   }
-  itemToString = item => item && item.magicWords.join(', ')
+  const itemToString = item => item && item.magicWords.join(', ')
 
-  componentDidMount() {
-    this.updateGenie()
-    this.loadGenie()
-  }
-
-  componentDidUpdate() {
-    this.updateGenie()
+  function persistGenie() {
+    const {enteredMagicWords} = genie.options()
+    window.localStorage.setItem('genie', JSON.stringify({enteredMagicWords}))
   }
 
-  persistGenie() {
-    const { enteredMagicWords } = genie.options()
-    window.localStorage.setItem('genie', JSON.stringify({ enteredMagicWords }))
-  }
-
-  loadGenie() {
+  function loadGenie() {
     try {
-      const { enteredMagicWords } = JSON.parse(
+      const {enteredMagicWords} = JSON.parse(
         window.localStorage.getItem('genie'),
       )
-      genie.options({ enteredMagicWords })
+      genie.options({enteredMagicWords})
     } catch (error) {
       // it may not exist in localStorage yet, or the JSON was malformed somehow
       // so we'll persist it to update localStorage so it doesn't throw an error
       // next time the page is loaded.
-      this.persistGenie()
+      persistGenie()
     }
   }
 
-  render() {
-    if (!this.props.store.editor.quickActionsOpen) {
-      return null
-    }
+  React.useEffect(() => {
+    updateGenie()
+    loadGenie()
+  }, [])
 
-    const { keybindings } = this.props.store.preferences
+  React.useEffect(() => {
+    updateGenie()
+  })
 
-    return (
-      <Container>
-        <Downshift
-          defaultHighlightedIndex={0}
-          defaultIsOpen
-          onChange={this.onChange}
-          itemToString={this.itemToString}
-        >
-          {({
-              getInputProps,
-              getItemProps,
-              selectedItem,
-              inputValue,
-              highlightedIndex,
-            }) => {
-            const inputProps = getInputProps({
-              onChange: ev => {
-                this.inputValue = ev.target.value
-              },
-              innerRef: el => el && el.focus(),
-              onKeyUp: this.handleKeyUp,
-              // Timeout so the fuzzy handler can still select the module
-              onBlur: () => setTimeout(this.closeQuickActions, 100),
-            })
-            return (
-              <div style={{ width: '100%' }}>
-                <InputContainer>
-                  <Input {...inputProps} value={inputProps.value || ''}/>
-                </InputContainer>
-
-                <Items>
-                  {this.getItems(inputValue).map((item, index) => (
-                    <Entry
-                      {...getItemProps({
-                        item,
-                        index,
-                        isActive: highlightedIndex === index,
-                        isSelected: selectedItem === item,
-                      })}
-                      key={item.id}
-                    >
-                      <Title>
-                        {keybindings[item.id].type}:{' '}
-                        {keybindings[item.id].title}
-                      </Title>
-
-                      {keybindings[item.id].bindings &&
-                      keybindings[item.id].bindings[0] && (
-                        <Keybindings>
-                          <Keys bindings={keybindings[item.id].bindings[0]}/>
-                          {keybindings[item.id].bindings.length === 2 &&
-                          keybindings[item.id].bindings[1] &&
-                          keybindings[item.id].bindings[1].length && (
-                            <>
-                              {' - '}
-                              <Keys
-                                bindings={keybindings[item.id].bindings[1]}
-                              />
-                            </>
-                          )}
-                        </Keybindings>
-                      )}
-                    </Entry>
-                  ))}
-                </Items>
-              </div>
-            )
-          }}
-        </Downshift>
-      </Container>
-    )
+  if (!state.editor.quickActionsOpen) {
+    return null
   }
+
+  const {keybindings} = state.preferences
+
+  return (
+    <Container>
+      <Downshift
+        defaultHighlightedIndex={0}
+        defaultIsOpen
+        onChange={this.onChange}
+        itemToString={this.itemToString}
+      >
+        {({
+            getInputProps,
+            getItemProps,
+            selectedItem,
+            inputValue,
+            highlightedIndex,
+          }) => {
+          const inputProps = getInputProps({
+            onChange: ev => {
+              inputValue = ev.target.value
+            },
+            innerRef: el => el && el.focus(),
+            onKeyUp: this.handleKeyUp,
+            // Timeout so the fuzzy handler can still select the module
+            onBlur: () => setTimeout(closeQuickActions, 100),
+          })
+          return (
+            <div style={{width: '100%'}}>
+              <InputContainer>
+                <Input {...inputProps} value={inputProps.value || ''}/>
+              </InputContainer>
+
+              <Items>
+                {this.getItems(inputValue).map((item, index) => (
+                  <Entry
+                    {...getItemProps({
+                      item,
+                      index,
+                      isActive: highlightedIndex === index,
+                      isSelected: selectedItem === item,
+                    })}
+                    key={item.id}
+                  >
+                    <Title>
+                      {keybindings[item.id].type}:{' '}
+                      {keybindings[item.id].title}
+                    </Title>
+
+                    {keybindings[item.id].bindings &&
+                    keybindings[item.id].bindings[0] && (
+                      <Keybindings>
+                        <Keys bindings={keybindings[item.id].bindings[0]}/>
+                        {keybindings[item.id].bindings.length === 2 &&
+                        keybindings[item.id].bindings[1] &&
+                        keybindings[item.id].bindings[1].length && (
+                          <>
+                            {' - '}
+                            <Keys
+                              bindings={keybindings[item.id].bindings[1]}
+                            />
+                          </>
+                        )}
+                      </Keybindings>
+                    )}
+                  </Entry>
+                ))}
+              </Items>
+            </div>
+          )
+        }}
+      </Downshift>
+    </Container>
+  )
+
 }
 
-export const QuickActions = inject('signals', 'store')(
-  observer(QuickActionsComponent),
-)
+export const QuickActions = QuickActionsComponent

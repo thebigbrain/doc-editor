@@ -1,17 +1,13 @@
-import {
-  Module,
-  WindowOrientation,
-} from '@codesandbox/common/lib/types';
-import { generateFileFromSandbox } from '@codesandbox/common/lib/templates/configuration/package-json';
-import { dirname } from 'path';
-import { getPreviewTabs } from '@codesandbox/common/lib/templates/devtools';
-import immer from 'immer';
-import { getSandboxOptions } from '@codesandbox/common/lib/url';
-import { getDirectoryPath, getModulePath } from '@codesandbox/common/lib/sandbox/modules';
-import getTemplate from '@codesandbox/common/lib/templates';
-import { Derive } from '~/overmind';
-import { parseConfigurations } from '../../utils/parse-configurations';
-import { mainModule as getMainModule } from '../../utils/main-module';
+import {WindowOrientation,} from '@codesandbox/common/lib/types'
+import {generateFileFromSandbox} from '@codesandbox/common/lib/templates/configuration/package-json'
+import {dirname} from 'path'
+import {getPreviewTabs} from '@codesandbox/common/lib/templates/devtools'
+import immer from 'immer'
+import {getSandboxOptions} from '@codesandbox/common/lib/url'
+import {getDirectoryPath, getModulePath} from '@codesandbox/common/lib/sandbox/modules'
+import getTemplate from '@codesandbox/common/lib/templates'
+import {parseConfigurations} from '../../utils/parse-configurations'
+import {mainModule as getMainModule} from '../../utils/main-module'
 
 export const state = {
   sandboxes: {},
@@ -63,7 +59,7 @@ export const state = {
       currentSandbox.modules.find(
         module => module.shortid === currentModuleShortid,
       )) ||
-    ({} as Module),
+    ({}),
   modulesByPath: ({ currentSandbox }) => {
     const modulesObject = {};
 

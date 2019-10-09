@@ -3407,8 +3407,8 @@ gauge@~2.7.3:
 
 geniejs@^0.5.1:
   version "0.5.1"
-  resolved "https://registry.yarnpkg.com/geniejs/-/geniejs-0.5.1.tgz#ed346b5d263d2ce9da94b30d476fbc72b2206dbc"
-  integrity sha512-YD7InH2ot1G69HTKfLi/uY4kuxmKE2sg74lvcJc8otcqgQ4oPuOr3LCm5RxqwzcLBEqAe2t6vkO+IXPY262erg==
+  resolved "https://registry.npm.taobao.org/geniejs/download/geniejs-0.5.1.tgz#ed346b5d263d2ce9da94b30d476fbc72b2206dbc"
+  integrity sha1-7TRrXSY9LOnalLMNR2+8crIgbbw=
 
 get-port@^3.2.0:
   version "3.2.0"
@@ -3775,6 +3775,11 @@ immer@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-3.3.0.tgz#ee7cf3a248d5dd2d4eedfbe7dfc1e9be8c72041d"
   integrity sha512-vlWRjnZqoTHuEjadquVHK3GxsXe1gNoATffLEA8Qbrdd++Xb+wHEFiWtwAKTscMBoi1AsvEMXhYRzAXA8Ex9FQ==
+
+immer@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/immer/download/immer-4.0.1.tgz#9108c1ece7fdd7efb91d21e5eb4bac26f7c3a8ba"
+  integrity sha1-kQjB7Of91++5HSHl60usJvfDqLo=
 
 immutability-helper@^2.7.1:
   version "2.9.1"

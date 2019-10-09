@@ -1,14 +1,14 @@
-import { sortObjectByKeys } from 'codesandbox-app/overmind/utils/common';
-import { withLoadApp, withOwnedSandbox } from 'codesandbox-app/overmind/factories';
-import { json } from 'overmind';
-import { clearCorrectionsFromAction } from 'codesandbox-app/utils/corrections';
-import { EnvironmentVariable, ModuleTab, WindowOrientation } from '@codesandbox/common/lib/types';
+import {sortObjectByKeys} from 'codesandbox-app/overmind/utils/common'
+import {withLoadApp, withOwnedSandbox} from 'codesandbox-app/overmind/factories'
+import {json} from 'overmind'
+import {clearCorrectionsFromAction} from 'codesandbox-app/utils/corrections'
+import {WindowOrientation} from '@codesandbox/common/lib/types'
 import {
   addDevToolsTab as addDevToolsTabUtil,
   closeDevToolsTab as closeDevToolsTabUtil,
   moveDevToolsTab as moveDevToolsTabUtil,
-} from 'codesandbox-app/pages/Sandbox/Editor/Content/utils';
-import * as internalActions from './internalActions';
+} from 'codesandbox-app/pages/Sandbox/Editor/Content/utils'
+import * as internalActions from './internalActions'
 
 export const internal = internalActions;
 
@@ -287,7 +287,7 @@ export const moduleDoubleClicked = ({ state, effects }) => {
   }
 
   const { currentModule } = state.editor;
-  const tabs = state.editor.tabs as ModuleTab[];
+  const tabs = state.editor.tabs
   const tab = tabs.find(
     tabItem => tabItem.moduleShortid === currentModule.shortid,
   );

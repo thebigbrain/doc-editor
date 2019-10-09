@@ -1,21 +1,20 @@
 import React from 'react'
-import history from 'app/utils/history'
-import { inject, observer, Observer } from 'app/componentConnectors'
-import { Route, withRouter } from 'react-router-dom'
-import { Query } from 'react-apollo'
+import history from '~/utils/history'
+import {Route, withRouter} from 'react-router-dom'
+import {Query} from 'react-apollo'
 import Input from '@codesandbox/common/lib/components/Input'
-import { Button } from '@codesandbox/common/lib/components/Button'
-import PeopleIcon from 'react-icons/lib/md/people'
+import {Button} from '@codesandbox/common/lib/components/Button'
+import {MdPeople as PeopleIcon} from 'react-icons/md'
 // @ts-ignore
-import { teamOverviewUrl } from '@codesandbox/common/lib/utils/url-generator'
-import DashboardIcon from '-!svg-react-loader!@codesandbox/common/lib/icons/dashboard.svg'
+import {teamOverviewUrl} from '@codesandbox/common/lib/utils/url-generator'
+import DashboardIcon from '@codesandbox/common/lib/icons/dashboard.svg'
 
-import { Item } from './Item/index'
-import { SandboxesItem } from './SandboxesItem/index'
-import { TrashItem } from './TrashItem/index'
-import { CategoryHeader, InputWrapper, Items, SidebarStyled } from './elements'
-import { TEAMS_QUERY } from '../queries'
-import { TemplateItem } from './TemplateItem/index'
+import {Item} from './Item/index'
+import {SandboxesItem} from './SandboxesItem/index'
+import {TrashItem} from './TrashItem/index'
+import {CategoryHeader, InputWrapper, Items, SidebarStyled} from './elements'
+import {TEAMS_QUERY} from '../queries'
+import {TemplateItem} from './TemplateItem/index'
 
 class Sidebar extends React.Component {
   handleSearchFocus = () => {
@@ -148,4 +147,4 @@ class Sidebar extends React.Component {
   }
 }
 
-export default inject('signals', 'store')(withRouter(observer(Sidebar)))
+export default withRouter(Sidebar)

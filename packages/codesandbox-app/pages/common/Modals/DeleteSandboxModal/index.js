@@ -1,16 +1,18 @@
 import React from 'react'
-import { Alert } from 'app/components/Alert'
-import { hooksObserver, inject } from 'app/componentConnectors'
+import {Alert} from '~/components/Alert'
+import {useOvermind} from '~/hooks'
 
 function DeleteSandboxModal({ signals }) {
+  const {actions} = useOvermind()
+
   return (
     <Alert
       title="Delete Sandbox"
       body={<span>Are you sure you want to delete this sandbox?</span>}
-      onCancel={() => signals.modalClosed()}
-      onConfirm={() => signals.workspace.sandboxDeleted()}
+      onCancel={() => actions.modalClosed()}
+      onConfirm={() => actions.workspace.sandboxDeleted()}
     />
   )
 }
 
-export default inject('signals')(hooksObserver(DeleteSandboxModal))
+export default DeleteSandboxModal

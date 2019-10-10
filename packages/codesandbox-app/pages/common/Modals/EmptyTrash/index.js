@@ -1,9 +1,12 @@
 import React from 'react'
-import { Alert } from 'app/components/Alert'
-import { hooksObserver, inject } from 'app/componentConnectors'
+import { Alert } from '~/components/Alert'
 import { permanentlyDeleteSandboxes } from '../../../Dashboard/queries'
+import {useOvermind} from '~/hooks'
 
-function EmptyTrash({ signals, store }) {
+
+function EmptyTrash() {
+  const {state: store, actions: signals} = useOvermind()
+
   return (
     <Alert
       title="Empty Trash"
@@ -22,4 +25,4 @@ function EmptyTrash({ signals, store }) {
   )
 }
 
-export default inject('signals', 'store')(hooksObserver(EmptyTrash))
+export default EmptyTrash

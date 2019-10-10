@@ -1,6 +1,4 @@
-import { OnInitialize } from '.';
-
-export const onInitialize: OnInitialize = (
+export const onInitialize = (
   { state, effects, actions },
   overmindInstance,
 ) => {

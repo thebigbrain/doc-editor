@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { hooksObserver, inject } from 'app/componentConnectors'
 import Loadable from 'app/utils/Loadable'
+import {useOvermind} from '~/hooks'
 
 import { Container, Heading } from '../elements'
 
@@ -9,12 +9,14 @@ const Feedback = Loadable(() =>
   import(/* webpackChunkName: 'feedback' */ './Feedback'),
 )
 
-const FeedbackModal = ({ store }) => (
-  <Container>
-    <Heading>Submit Feedback</Heading>
+function FeedbackModal() {
+  const {state} = useOvermind()
 
-    <Feedback user={store.user} id={store.editor.currentId}/>
-  </Container>
-)
+  return (
+    <Container>
+      <Heading>Submit Feedback</Heading>
 
-export default inject('store')(hooksObserver(FeedbackModal))
+      <Feedback user={state.user} id={state.editor.currentId}/>
+    </Container>
+  )
+}

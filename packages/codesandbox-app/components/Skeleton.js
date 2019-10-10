@@ -1,17 +1,10 @@
 import React from 'react';
 import Fullscreen from '@codesandbox/common/lib/components/flex/Fullscreen';
 import Centered from '@codesandbox/common/lib/components/flex/Centered';
-import { Title } from 'codesandbox-app/components/Title';
-import { SubTitle } from 'codesandbox-app/components/SubTitle';
+import { Title } from '~/components/Title';
+import { SubTitle } from '~/components/SubTitle';
 
-interface ISkeletonProps {
-  titles: {
-    delay: number;
-    content: React.ReactNode;
-  }[];
-}
-
-export const Skeleton: React.FC<ISkeletonProps> = ({ titles }) => (
+export const Skeleton = ({ titles }) => (
   <Fullscreen style={{ height: '100vh' }}>
     <Centered horizontal vertical>
       <Title delay={titles[0].delay}>{titles[0].content}</Title>

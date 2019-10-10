@@ -2,9 +2,9 @@ import { Contributor } from '@codesandbox/common/lib/types';
 import { IDerive, IState, json } from 'overmind';
 import { AsyncAction } from '.';
 
-export const withLoadApp = <T>(
-  continueAction?: AsyncAction<T>,
-): AsyncAction<T> => async (context, value) => {
+export const withLoadApp = (
+  continueAction,
+) => async (context, value) => {
   const { effects, state, actions } = context;
 
   if (state.hasLoadedApp && continueAction) {
@@ -51,9 +51,7 @@ export const withLoadApp = <T>(
   state.isAuthenticating = false;
 
   try {
-    const response = await effects.http.get<{
-      contributors: Contributor[];
-    }>(
+    const response = await effects.http.get(
       'https://raw.githubusercontent.com/codesandbox/codesandbox-client/master/.all-contributorsrc',
     );
 
@@ -65,9 +63,9 @@ export const withLoadApp = <T>(
   }
 };
 
-export const withOwnedSandbox = <T>(
-  continueAction: AsyncAction<T>,
-): AsyncAction<T> => async (context, payload) => {
+export const withOwnedSandbox = (
+  continueAction,
+) => async (context, payload) => {
   const { state, actions } = context;
 
   if (!state.editor.currentSandbox.owned) {
@@ -95,31 +93,13 @@ export const withOwnedSandbox = <T>(
   return continueAction(context, payload);
 };
 
-export const createModals = <T extends {
-  [name: string]: {
-    state?: IState;
-    result?: unknown;
-  };
-}>(
-  modals: T,
-): {
-  state?: {
-    current: keyof T;
-  } & {
-    [K in keyof T]: T[K]['state'] & { isCurrent: IDerive<any, any, boolean> }
-  };
-  actions?: {
-    [K in keyof T]: {
-      open: AsyncAction<T[K]['state'] extends IState ? T[K]['state'] : void,
-        T[K]['result']>;
-      close: AsyncAction<T[K]['result']>;
-    }
-  };
-} => {
+export const createModals = (
+  modals
+) => {
   function createModal(name, modal) {
     let resolver;
 
-    const open: AsyncAction<any, any> = async ({ state }, newState = {}) => {
+    const open = async ({ state }, newState = {}) => {
       state.modals.current = name;
 
       Object.assign(state.modals[name], newState);
@@ -129,7 +109,7 @@ export const createModals = <T extends {
       });
     };
 
-    const close: AsyncAction<T> = async ({ state }, payload) => {
+    const close = async ({ state }, payload) => {
       state.modals.current = null;
       resolver(payload || modal.result);
     };
@@ -163,5 +143,5 @@ export const createModals = <T extends {
       },
       actions: {},
     },
-  ) as any;
+  );
 };

@@ -10,7 +10,7 @@ import { Button } from '@codesandbox/common/lib/components/Button'
 import Loadable from '~/utils/Loadable'
 import { ErrorBoundary } from './common/ErrorBoundary/index'
 import HTML5Backend from './common/HTML5BackendWithFolderSupport/index'
-import Modals from './common/Modals/index'
+// import Modals from './common/Modals/index'
 import Sandbox from './Sandbox/index'
 import NewSandbox from './NewSandbox/index'
 import Dashboard from './Dashboard/index'
@@ -98,7 +98,7 @@ const Routes = () => {
           </Switch>
         </Content>
       </Boundary>
-      <Modals/>
+      {/*<Modals/>*/}
     </Container>
     </DndProvider>
   )

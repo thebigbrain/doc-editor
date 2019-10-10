@@ -1,20 +1,16 @@
 import { identify, setUserId } from '@codesandbox/common/lib/utils/analytics';
 import {
-  ModuleTab,
-  NotificationButton,
-  Sandbox,
   ServerContainerStatus,
   ServerStatus,
   TabType,
 } from '@codesandbox/common/lib/types';
 import { generateFileFromSandbox as generatePackageJsonFromSandbox } from '@codesandbox/common/lib/templates/configuration/package-json';
-import { Action, AsyncAction } from '.';
 import { parseConfigurations } from './utils/parse-configurations';
 import { defaultOpenedModule, mainModule } from './utils/main-module';
 import getItems from './utils/items';
 import { createOptimisticModule } from './utils/common';
 
-export const signIn: AsyncAction<{ useExtraScopes: boolean }> = async (
+export const signIn = async (
   { state, effects, actions },
   options,
 ) => {
@@ -38,7 +34,7 @@ export const signIn: AsyncAction<{ useExtraScopes: boolean }> = async (
   }
 };
 
-export const setStoredSettings: Action = ({ state, effects }) => {
+export const setStoredSettings = ({ state, effects }) => {
   const settings = effects.settingsStore.getAll();
 
   if (settings.keybindings) {
@@ -55,24 +51,19 @@ export const setStoredSettings: Action = ({ state, effects }) => {
   Object.assign(state.preferences.settings, settings);
 };
 
-export const setPatronPrice: Action = ({ state }) => {
+export const setPatronPrice = ({ state }) => {
   state.patron.price = state.user.subscription
     ? Number(state.user.subscription.amount)
     : 10;
 };
 
-export const setSignedInCookie: Action = ({ state }) => {
+export const setSignedInCookie = ({ state }) => {
   document.cookie = 'signedIn=true; Path=/;';
   identify('signed_in', 'true');
   setUserId(state.user.id);
 };
 
-export const addNotification: Action<{
-  title: string;
-  type: 'notice' | 'success' | 'warning' | 'error';
-  timeAlive?: number;
-  buttons?: Array<NotificationButton>;
-}> = ({ state }, { title, type, timeAlive, buttons }) => {
+export const addNotification = ({ state }, { title, type, timeAlive, buttons }) => {
   const now = Date.now();
   const timeAliveDefault = type === 'error' ? 6 : 3;
 
@@ -85,7 +76,7 @@ export const addNotification: Action<{
   });
 };
 
-export const authorize: AsyncAction = async ({ state, effects }) => {
+export const authorize = async ({ state, effects }) => {
   try {
     state.authToken = await effects.api.getAuthToken();
   } catch (error) {
@@ -93,8 +84,7 @@ export const authorize: AsyncAction = async ({ state, effects }) => {
   }
 };
 
-export const signInGithub: Action<{ useExtraScopes: boolean },
-  Promise<string>> = ({ effects }, options) => {
+export const signInGithub = ({ effects }, options) => {
   const popup = effects.browser.openPopup(
     `/auth/github${options.useExtraScopes ? '?scope=user:email,repo' : ''}`,
     'sign in',
@@ -115,12 +105,12 @@ export const signInGithub: Action<{ useExtraScopes: boolean },
     });
 };
 
-export const setJwt: Action<string> = ({ state, effects }, jwt) => {
+export const setJwt = ({ state, effects }, jwt) => {
   effects.jwt.set(jwt);
   state.jwt = jwt;
 };
 
-export const closeModals: Action<boolean> = ({ state, effects }, isKeyDown) => {
+export const closeModals = ({ state, effects }, isKeyDown) => {
   if (
     state.currentModal === 'preferences' &&
     state.preferences.itemId === 'keybindings' &&
@@ -133,7 +123,7 @@ export const closeModals: Action<boolean> = ({ state, effects }, isKeyDown) => {
   effects.keybindingManager.start();
 };
 
-export const setCurrentSandbox: AsyncAction<Sandbox> = async (
+export const setCurrentSandbox = async (
   { state, effects, actions },
   sandbox,
 ) => {
@@ -190,7 +180,7 @@ export const setCurrentSandbox: AsyncAction<Sandbox> = async (
   state.server.hasUnrecoverableError = false;
   state.server.ports = [];
 
-  const newTab: ModuleTab = {
+  const newTab = {
     type: TabType.MODULE,
     moduleShortid: currentModuleShortid,
     dirty: true,
@@ -265,7 +255,7 @@ export const setCurrentSandbox: AsyncAction<Sandbox> = async (
   }
 };
 
-export const updateCurrentSandbox: AsyncAction<Sandbox> = async (
+export const updateCurrentSandbox = async (
   { state },
   sandbox,
 ) => {
@@ -276,7 +266,7 @@ export const updateCurrentSandbox: AsyncAction<Sandbox> = async (
   state.editor.currentSandbox.title = sandbox.title;
 };
 
-export const ensurePackageJSON: AsyncAction = async ({
+export const ensurePackageJSON = async ({
                                                        state,
                                                        effects,
                                                        actions,
@@ -308,9 +298,9 @@ export const ensurePackageJSON: AsyncAction = async ({
   }
 };
 
-export const closeTabByIndex: Action<number> = ({ state }, tabIndex) => {
+export const closeTabByIndex = ({ state }, tabIndex) => {
   const { currentModule } = state.editor;
-  const tabs = state.editor.tabs as ModuleTab[];
+  const tabs = state.editor.tabs;
   const isActiveTab = currentModule.shortid === tabs[tabIndex].moduleShortid;
 
   if (isActiveTab) {

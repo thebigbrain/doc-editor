@@ -1,12 +1,13 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-import { GitProgress } from 'app/components/GitProgress'
+import { GitProgress } from '~/components/GitProgress'
+import {useOvermind} from '~/hooks'
 
-function PRModal({ store }) {
+export default function PRModal() {
   let result = null
+  const {state} = useOvermind()
 
-  if (!store.git.isCreatingPr) {
-    const newUrl = store.git.pr.prURL
+  if (!state.git.isCreatingPr) {
+    const newUrl = state.git.pr.prURL
 
     result = (
       <div>
@@ -28,5 +29,3 @@ function PRModal({ store }) {
     />
   )
 }
-
-export default inject('store')(observer(PRModal))

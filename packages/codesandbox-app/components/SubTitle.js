@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import delayEffect from '@codesandbox/common/lib/utils/animation/delay-effect';
 
-export const SubTitle = styled.h2<{ delay?: number | null }>`
+export const SubTitle = styled.h2`
   ${({ delay = 0, theme }) => css`
     width: 100%;
     margin-top: 0;

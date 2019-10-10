@@ -1,15 +1,6 @@
-import { Derive } from 'app/overmind';
 import { PatronBadge, PatronTier } from '@codesandbox/common/lib/types';
 
-type State = {
-  price: number;
-  isUpdatingSubscription: boolean;
-  tier: Derive<State, PatronTier>;
-  error: string;
-  badge: Derive<State, PatronBadge>;
-};
-
-export const state: State = {
+export const state = {
   price: 10,
   error: null,
   isUpdatingSubscription: false,
@@ -31,7 +22,7 @@ export const state: State = {
       case 4:
         return PatronBadge.FOURTH;
       default: {
-        const neverTier: never = tier;
+        const neverTier = tier;
 
         return neverTier;
       }

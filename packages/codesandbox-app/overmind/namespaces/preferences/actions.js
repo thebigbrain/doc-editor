@@ -1,5 +1,4 @@
-import { Action, AsyncAction } from 'app/overmind';
-import { setVimExtensionEnabled } from 'codesandbox-app/vscode/initializers';
+import { setVimExtensionEnabled } from '~/vscode/initializers';
 import { json } from 'overmind';
 
 export const viewModeChanged = ({ state }, { showEditor, showPreview }) => {

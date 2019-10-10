@@ -1,9 +1,10 @@
 import React from 'react'
-import { Observer } from 'app/componentConnectors'
 import Helmet from 'react-helmet'
 import { uniq } from 'lodash-es'
 import { Query } from 'react-apollo'
-import RemoveIcon from 'react-icons/lib/md/highlight-remove'
+import {
+  MdRemove as RemoveIcon,
+} from 'react-icons/md'
 
 import { Content as Sandboxes } from '../../Sandboxes/index'
 

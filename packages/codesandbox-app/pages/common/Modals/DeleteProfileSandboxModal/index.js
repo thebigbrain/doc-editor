@@ -1,8 +1,11 @@
 import React from 'react'
-import { Alert } from 'app/components/Alert'
-import { hooksObserver, inject } from 'app/componentConnectors'
+import { Alert } from '~/components/Alert'
+import {useOvermind} from '~/hooks'
 
-function DeleteProfileSandboxModal({ signals }) {
+
+function DeleteProfileSandboxModal() {
+  const {actions: signals} = useOvermind()
+
   return (
     <Alert
       title="Delete Sandbox"
@@ -13,4 +16,4 @@ function DeleteProfileSandboxModal({ signals }) {
   )
 }
 
-export default inject('signals')(hooksObserver(DeleteProfileSandboxModal))
+export default DeleteProfileSandboxModal

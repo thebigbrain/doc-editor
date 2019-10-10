@@ -2,10 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { formatKey } from '@codesandbox/common/lib/utils/keybindings'
 
-type
-Props = {
-  bindings: Array < string >,
-}
 
 const Key = styled.div`
   padding: 0.25rem 0.3rem;
@@ -21,5 +17,5 @@ const Key = styled.div`
   props.theme.light ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)'};
 `
 
-export default ({ bindings }: Props) =>
+export default ({ bindings }) =>
   bindings.map(key => <Key key={key}>{formatKey(key)}</Key>);

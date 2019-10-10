@@ -1,32 +1,37 @@
 import * as React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import Margin from '@codesandbox/common/lib/components/spacing/Margin'
 import { Button } from '@codesandbox/common/lib/components/Button'
 
 import AutosizeTextArea from '@codesandbox/common/lib/components/AutosizeTextArea'
 import Input from '@codesandbox/common/lib/components/Input'
-import pushToAirtable from 'app/store/utils/pushToAirtable'
+import pushToAirtable from '~/store/utils/pushToAirtable'
+import { useOvermind } from '~/hooks'
 
 import { EmojiButton } from './elements'
 
-class Feedback extends React.Component {
-  state = {
+export default function(props) {
+  const { actions: signals } = useOvermind()
+  const [state, updateState] = React.useState({
     feedback: '',
-    email: (this.props.user || {}).email,
+    email: (props.user || {}).email,
     emoji: null,
     loading: false,
+  })
+
+  function setState(partial) {
+    return updateState(Object.assign({}, state, partial))
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  const onChange = e => {
+    setState({ [e.target.name]: e.target.value })
   }
 
-  onSubmit = evt => {
-    const { id, user, signals } = this.props
-    const { feedback, emoji, email } = this.state
+  const onSubmit = evt => {
+    const { id, user, signals } = props
+    const { feedback, emoji, email } = state
     evt.preventDefault()
 
-    this.setState({ loading: true }, () => {
+    setState({ loading: true }, () => {
       pushToAirtable({
         sandboxId: id,
         feedback,
@@ -35,7 +40,7 @@ class Feedback extends React.Component {
         email,
       })
         .then(() => {
-          this.setState(
+          setState(
             {
               feedback: '',
               emoji: null,
@@ -59,95 +64,91 @@ class Feedback extends React.Component {
             type: 'error',
           })
 
-          this.setState({ loading: false })
+          setState({ loading: false })
         })
     })
   }
 
-  setHappy = () => {
-    this.setState({ emoji: 'happy' })
+  const setHappy = () => {
+    setState({ emoji: 'happy' })
   }
 
-  setSad = () => {
-    this.setState({ emoji: 'sad' })
+  const setSad = () => {
+    setState({ emoji: 'sad' })
   }
 
-  render() {
-    const { feedback, emoji, email } = this.state
-    return (
-      <form onSubmit={this.onSubmit}>
-        <AutosizeTextArea
-          css={`
+  const { feedback, emoji, email } = state
+  return (
+    <form onSubmit={onSubmit}>
+      <AutosizeTextArea
+        css={`
             width: 100%;
           `}
-          name="feedback"
-          value={feedback}
-          onChange={this.onChange}
-          placeholder="What are your thoughts?"
-          minRows={3}
-          required
-        />
-        {!this.props.user && (
-          <Margin top={0.5}>
-            <Input
-              css={`
+        name="feedback"
+        value={feedback}
+        onChange={onChange}
+        placeholder="What are your thoughts?"
+        minRows={3}
+        required
+      />
+      {!props.user && (
+        <Margin top={0.5}>
+          <Input
+            css={`
                 width: 100%;
               `}
-              type="email"
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              placeholder="Email if you wish to be contacted"
-            />
-          </Margin>
-        )}
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            placeholder="Email if you wish to be contacted"
+          />
+        </Margin>
+      )}
 
-        <Margin
-          top={0.5}
-          css={`
+      <Margin
+        top={0.5}
+        css={`
             display: flex;
             align-items: center;
           `}
+      >
+        <EmojiButton
+          type="button"
+          active={emoji === 'happy'}
+          onClick={setHappy}
         >
-          <EmojiButton
-            type="button"
-            active={emoji === 'happy'}
-            onClick={this.setHappy}
-          >
             <span role="img" aria-label="happy">
               😊
             </span>
-          </EmojiButton>
+        </EmojiButton>
 
-          <EmojiButton
-            type="button"
-            active={emoji === 'sad'}
-            onClick={this.setSad}
-          >
+        <EmojiButton
+          type="button"
+          active={emoji === 'sad'}
+          onClick={setSad}
+        >
             <span role="img" aria-label="sad">
               😞
             </span>
-          </EmojiButton>
+        </EmojiButton>
 
-          <div
-            css={`
+        <div
+          css={`
               flex: 1;
             `}
-          >
-            <Button
-              disabled={this.state.loading}
-              small
-              css={`
+        >
+          <Button
+            disabled={state.loading}
+            small
+            css={`
                 float: right;
               `}
-            >
-              {this.state.loading ? 'Sending...' : 'Submit'}
-            </Button>
-          </div>
-        </Margin>
-      </form>
-    )
-  }
+          >
+            {state.loading ? 'Sending...' : 'Submit'}
+          </Button>
+        </div>
+      </Margin>
+    </form>
+  )
 }
-
-export default inject('signals')(observer(Feedback))

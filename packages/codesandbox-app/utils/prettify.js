@@ -3,7 +3,7 @@
 import DEFAULT_PRETTIER_CONFIG from '@codesandbox/common/lib/prettify-default-config'
 import { indexToLineAndColumn, lineAndColumnToIndex } from '../components/CodeEditor/Monaco/monaco-index-converter'
 
-function getMode(title: string) {
+function getMode(title) {
   if (/\.jsx?$/.test(title)) {
     return 'babylon'
   }
@@ -78,7 +78,7 @@ function getEditorInfo(prettierConfig) {
   return newConfig
 }
 
-function getEditorCursorPos(getCode: () => string) {
+function getEditorCursorPos(getCode) {
   try {
     if (window.CSEditor && window.CSEditor.editor) {
       const editorCode = window.CSEditor.editor.getValue(1)
@@ -107,9 +107,9 @@ function getEditorCursorPos(getCode: () => string) {
 }
 
 function applyNewCursorOffset(
-  newIndex: number,
-  newCode: string,
-  getCode: () => string,
+  newIndex,
+  newCode,
+  getCode,
 ) {
   try {
     if (window.CSEditor && window.CSEditor.editor) {
@@ -138,9 +138,10 @@ export default function prettify(
   getCode,
   prettierConfig = DEFAULT_PRETTIER_CONFIG,
   isCurrentModule = () => false,
-  cancellationToken: {
-    isCancellationRequested: boolean,
-    onCancellationRequested: (cb: Function) => {},
+  cancellationToken = {
+    isCancellationRequested: false,
+    onCancellationRequested: () => {
+    },
   },
 ) {
   const mode = getMode(title)

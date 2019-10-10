@@ -29,7 +29,7 @@ export const Actions = styled.div`
   margin: 0 1rem;
 `;
 
-export const Action = styled.div<{ noHover?: boolean }>`
+export const Action = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

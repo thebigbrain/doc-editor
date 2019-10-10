@@ -1,8 +1,11 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-import { GitProgress } from 'app/components/GitProgress'
+import { GitProgress } from '~/components/GitProgress'
+import {useOvermind} from '~/hooks'
 
-function CommitModal({ store }) {
+
+export default function CommitModal() {
+  const {state: store} = useOvermind()
+
   const git = store.editor.currentSandbox.originalGit
   const { commit } = store.git
   let message
@@ -37,5 +40,3 @@ function CommitModal({ store }) {
 
   return <GitProgress result={message} message="Creating Commit..."/>
 }
-
-export default inject('store')(observer(CommitModal))

@@ -1,12 +1,12 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-import Files from 'embed/components/Files'
+// import Files from 'embed/components/Files'
 import QRCode from 'qrcode.react'
 import { getSandboxName } from '@codesandbox/common/lib/utils/get-sandbox-name'
 import track from '@codesandbox/common/lib/utils/analytics'
 import { Button } from '@codesandbox/common/lib/components/Button'
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator'
 import Title from './Title'
+import {withOvermind} from '~/hooks'
 
 import {
   ButtonContainer,
@@ -98,8 +98,8 @@ class ShareView extends React.Component {
   }
 
   render() {
-    const sandbox = this.props.store.editor.currentSandbox
-    const { mainModule } = this.props.store.editor
+    const sandbox = this.props.overmind.state.editor.currentSandbox
+    const { mainModule } = this.props.overmind.state.editor
 
     const {
       view,
@@ -194,13 +194,13 @@ class ShareView extends React.Component {
                   <h4>Default module to show</h4>
 
                   <FilesContainer>
-                    <Files
-                      modules={sandbox.modules}
-                      directoryId={null}
-                      directories={sandbox.directories}
-                      currentModule={defaultModule}
-                      setCurrentModule={this.setDefaultModule}
-                    />
+                    {/*<Files*/}
+                      {/*modules={sandbox.modules}*/}
+                      {/*directoryId={null}*/}
+                      {/*directories={sandbox.directories}*/}
+                      {/*currentModule={defaultModule}*/}
+                      {/*setCurrentModule={this.setDefaultModule}*/}
+                    {/*/>*/}
                   </FilesContainer>
                 </div>
               </Title>
@@ -319,4 +319,4 @@ class ShareView extends React.Component {
   }
 }
 
-export default inject('store', 'signals')(observer(ShareView))
+export default withOvermind(ShareView)

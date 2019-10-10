@@ -1,19 +1,22 @@
 import * as React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import Sandbox from './Sandbox/index'
 
 import { Padding } from './elements'
+import {useOvermind} from '~/hooks'
 
-function SelectSandboxModal({ store, signals }) {
-  if (store.profile.isLoadingSandboxes)
+
+export default function SelectSandboxModal() {
+  const {state, actions} = useOvermind()
+
+  if (state.profile.isLoadingSandboxes)
     return <Padding>Loading sandboxes...</Padding>
 
   const currentShowcasedSandboxId =
-    store.profile.showcasedSandbox && store.profile.showcasedSandbox.id
+    state.profile.showcasedSandbox && state.profile.showcasedSandbox.id
 
   return (
     <div>
-      {store.profile.userSandboxes
+      {state.profile.userSandboxes
         .filter(x => x)
         .map(sandbox => (
           <Sandbox
@@ -21,12 +24,10 @@ function SelectSandboxModal({ store, signals }) {
             key={sandbox.id}
             sandbox={sandbox}
             setShowcasedSandbox={id =>
-              signals.profile.newSandboxShowcaseSelected({ id })
+              actions.profile.newSandboxShowcaseSelected({ id })
             }
           />
         ))}
     </div>
   )
 }
-
-export default inject('signals', 'store')(observer(SelectSandboxModal))

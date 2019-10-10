@@ -4,98 +4,77 @@
   This file is temporary for the transition to Overmind
 */
 
-import { EventType, IConfiguration, Overmind } from 'overmind';
-import { Component, ComponentType, createElement } from 'react';
-import { context } from './Provider';
+import { EventType} from 'overmind'
+import { Component, createElement } from 'react'
+import { context } from './Provider'
 
-export interface IConnect<Config extends IConfiguration> {
-  overmind: {
-    state: Overmind<Config>['state'];
-    actions: Overmind<Config>['actions'];
-    effects: Overmind<Config>['effects'];
-    addMutationListener: Overmind<Config>['addMutationListener'];
-  };
-  store: Overmind<Config>['state'];
-  signals: Overmind<Config>['actions'];
-}
+let nextComponentId = 0
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-let nextComponentId = 0;
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-
-function createReaction(overmind: any) {
-  return (reactionCb: any, updateCb: any) => {
-    const tree = overmind.proxyStateTree.getTrackStateTree();
+function createReaction(overmind) {
+  return (reactionCb, updateCb) => {
+    const tree = overmind.proxyStateTree.getTrackStateTree()
     const updateReaction = () => {
       tree.trackScope(
         () => reactionCb(tree.state),
         () => {
-          updateCb(reactionCb(tree.state));
-          updateReaction();
+          updateCb(reactionCb(tree.state))
+          updateReaction()
         },
-      );
-    };
+      )
+    }
 
-    updateReaction();
+    updateReaction()
 
     return () => {
-      overmind.proxyStateTree.disposeTree(tree);
-    };
-  };
+      overmind.proxyStateTree.disposeTree(tree)
+    }
+  }
 }
 
-export const createConnect = <ThisConfig extends IConfiguration>(
-  overmindInstance?: Overmind<ThisConfig>,
-) => <Props>(
-  component: ComponentType<Props & {
-    overmind: {
-      state: Overmind<ThisConfig>['state'];
-      actions: Overmind<ThisConfig>['actions'];
-      reaction: (
-        reactionCb: (state: Overmind<ThisConfig>['state']) => any,
-        updateCb: () => void,
-      ) => void;
-    };
-  }>,
-): ComponentType<Omit<Props & IConnect<Overmind<ThisConfig>>,
-  keyof IConnect<Overmind<ThisConfig>>>> => {
-  let componentInstanceId = 0;
-  const name = component.name;
-  const populatedComponent = component as any;
+export const createConnect = (
+  overmindInstance,
+) => (
+  component,
+) => {
+  let componentInstanceId = 0
+  const name = component.name
+  const populatedComponent = component as any
   populatedComponent.__componentId =
     typeof populatedComponent.__componentId === 'undefined'
       ? nextComponentId++
-      : populatedComponent.__componentId;
+      : populatedComponent.__componentId
   const isClassComponent =
-    component.prototype && typeof component.prototype.render === 'function';
+    component.prototype && typeof component.prototype.render === 'function'
 
   if (isClassComponent) {
-    const originalRender = component.prototype.render;
+    const originalRender = component.prototype.render
     component.prototype.render = function() {
       if (this.props.overmind) {
         return this.props.overmind.tree.trackScope(
           () => originalRender.call(this),
           this.props.overmind.onUpdate,
-        );
+        )
       }
 
-      return originalRender.call(this);
-    };
+      return originalRender.call(this)
+    }
   }
 
   if (IS_PRODUCTION) {
     class HOC extends Component {
-      static contextType = context;
-      tree: any;
-      overmind: any;
-      state: {
-        overmind: any;
-      };
-      wrappedComponent: any;
-      reaction: any;
-      isUnmounting: boolean;
+      static contextType = context
+      tree
+      overmind
+      state = {
+        overmind: null,
+      }
+      wrappedComponent
+      reaction
+      isUnmounting
       onUpdate = () => {
         if (this.isUnmounting) {
-          return;
+          return
         }
         this.setState({
           overmind: {
@@ -106,14 +85,14 @@ export const createConnect = <ThisConfig extends IConfiguration>(
             onUpdate: this.onUpdate,
             tree: this.tree,
           },
-        });
-      };
+        })
+      }
 
       constructor(props, context) {
-        super(props);
-        this.overmind = overmindInstance || context;
-        this.tree = this.overmind.proxyStateTree.getTrackStateTree();
-        this.isUnmounting = false;
+        super(props)
+        this.overmind = overmindInstance || context
+        this.tree = this.overmind.proxyStateTree.getTrackStateTree()
+        this.isUnmounting = false
         this.state = {
           overmind: {
             state: this.tree.state,
@@ -123,18 +102,18 @@ export const createConnect = <ThisConfig extends IConfiguration>(
             onUpdate: this.onUpdate,
             tree: this.tree,
           },
-        };
+        }
         this.wrappedComponent = (...args) =>
           this.tree.trackScope(
             () => (component as any)(...args),
             this.onUpdate,
-          );
-        this.reaction = createReaction(this.overmind);
+          )
+        this.reaction = createReaction(this.overmind)
       }
 
       componentWillUnmount() {
-        this.isUnmounting = true;
-        this.overmind.proxyStateTree.disposeTree(this.tree);
+        this.isUnmounting = true
+        this.overmind.proxyStateTree.disposeTree(this.tree)
       }
 
       render() {
@@ -145,7 +124,7 @@ export const createConnect = <ThisConfig extends IConfiguration>(
             store: this.state.overmind.state,
             signals: this.state.overmind.actions,
             reaction: this.reaction,
-          } as any);
+          } as any)
         }
 
         return createElement(this.wrappedComponent, {
@@ -154,32 +133,32 @@ export const createConnect = <ThisConfig extends IConfiguration>(
           store: this.state.overmind.state,
           signals: this.state.overmind.actions,
           reaction: this.reaction,
-        } as any);
+        } as any)
       }
     }
 
-    return HOC as any;
+    return HOC as any
   }
 
   class HOC extends Component {
-    static contextType = context;
-    tree: any;
-    overmind: any;
-    componentInstanceId = componentInstanceId++;
-    currentFlushId = 0;
-    state: {
-      overmind: any;
-    };
-    isUpdating: boolean;
-    wrappedComponent: any;
-    isUnmounting: boolean;
-    reaction: any;
+    static contextType = context
+    tree
+    overmind
+    componentInstanceId = componentInstanceId++
+    currentFlushId = 0
+    state = {
+      overmind: null,
+    }
+    isUpdating
+    wrappedComponent
+    isUnmounting
+    reaction
     onUpdate = (mutatons, paths, flushId) => {
       if (this.isUnmounting) {
-        return;
+        return
       }
-      this.currentFlushId = flushId;
-      this.isUpdating = true;
+      this.currentFlushId = flushId
+      this.isUpdating = true
       this.setState({
         overmind: {
           state: this.tree.state,
@@ -189,14 +168,14 @@ export const createConnect = <ThisConfig extends IConfiguration>(
           onUpdate: this.onUpdate,
           tree: this.tree,
         },
-      });
-    };
+      })
+    }
 
     constructor(props, context) {
-      super(props);
-      this.overmind = overmindInstance || context;
-      this.tree = this.overmind.proxyStateTree.getTrackStateTree();
-      this.isUnmounting = false;
+      super(props)
+      this.overmind = overmindInstance || context
+      this.tree = this.overmind.proxyStateTree.getTrackStateTree()
+      this.isUnmounting = false
       this.state = {
         overmind: {
           state: this.tree.state,
@@ -206,10 +185,10 @@ export const createConnect = <ThisConfig extends IConfiguration>(
           onUpdate: this.onUpdate,
           tree: this.tree,
         },
-      };
+      }
       this.wrappedComponent = (...args) =>
-        this.tree.trackScope(() => (component as any)(...args), this.onUpdate);
-      this.reaction = createReaction(this.overmind);
+        this.tree.trackScope(() => (component as any)(...args), this.onUpdate)
+      this.reaction = createReaction(this.overmind)
     }
 
     componentDidMount() {
@@ -218,7 +197,7 @@ export const createConnect = <ThisConfig extends IConfiguration>(
         componentInstanceId: this.componentInstanceId,
         name,
         paths: Array.from(this.tree.pathDependencies) as any,
-      });
+      })
     }
 
     componentDidUpdate() {
@@ -228,20 +207,20 @@ export const createConnect = <ThisConfig extends IConfiguration>(
           componentInstanceId: this.componentInstanceId,
           name,
           flushId: this.currentFlushId,
-          paths: Array.from(this.tree.pathDependencies as Set<string>),
-        });
-        this.isUpdating = false;
+          paths: Array.from(this.tree.pathDependencies),
+        })
+        this.isUpdating = false
       }
     }
 
     componentWillUnmount() {
-      this.isUnmounting = true;
-      this.overmind.proxyStateTree.disposeTree(this.tree);
+      this.isUnmounting = true
+      this.overmind.proxyStateTree.disposeTree(this.tree)
       this.overmind.eventHub.emitAsync(EventType.COMPONENT_REMOVE, {
         componentId: populatedComponent.__componentId,
         componentInstanceId: this.componentInstanceId,
         name,
-      });
+      })
     }
 
     render() {
@@ -252,7 +231,7 @@ export const createConnect = <ThisConfig extends IConfiguration>(
           store: this.state.overmind.state,
           signals: this.state.overmind.actions,
           reaction: this.reaction,
-        } as any);
+        } as any)
       }
 
       return createElement(this.wrappedComponent, {
@@ -261,7 +240,7 @@ export const createConnect = <ThisConfig extends IConfiguration>(
         store: this.state.overmind.state,
         signals: this.state.overmind.actions,
         reaction: this.reaction,
-      } as any);
+      } as any)
     }
   }
 
@@ -269,7 +248,7 @@ export const createConnect = <ThisConfig extends IConfiguration>(
     name: {
       value: 'Connect' + (component.displayName || component.name || ''),
     },
-  });
+  })
 
-  return HOC as any;
-};
+  return HOC as any
+}

@@ -1,13 +1,16 @@
 import React from 'react'
-import { hooksObserver, inject } from 'app/componentConnectors'
 
 import { Button } from '@codesandbox/common/lib/components/Button'
 import Row from '@codesandbox/common/lib/components/flex/Row'
 
 import { Container } from './elements'
 import { Explanation, Heading } from '../elements'
+import {useOvermind} from '~/hooks'
 
-function LiveModeEnded({ signals, store }) {
+
+function LiveModeEnded() {
+  const {state: store, actions: signals} = useOvermind()
+
   const suggestion = store.editor.currentSandbox.owned
     ? 'you can continue working on the current sandbox.'
     : 'you can continue working by forking the sandbox or by creating a new sandbox.'
@@ -49,4 +52,4 @@ function LiveModeEnded({ signals, store }) {
   )
 }
 
-export default inject('signals', 'store')(hooksObserver(LiveModeEnded))
+export default LiveModeEnded

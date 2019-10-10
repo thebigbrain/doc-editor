@@ -1,26 +1,6 @@
-import { Derive } from 'app/overmind';
-import { Sandbox } from '@codesandbox/common/lib/types';
 import { sortBy } from 'lodash-es';
 
-export type OrderBy = {
-  order: 'desc' | 'asc';
-  field: string;
-};
-
-type State = {
-  selectedSandboxes: string[];
-  trashSandboxIds: string[];
-  isDragging: boolean;
-  orderBy: OrderBy;
-  filters: {
-    blacklistedTemplates: string[];
-    search: string;
-  };
-  isTemplateSelected: Derive<State, (templateName: string) => boolean>;
-  getFilteredSandboxes: Derive<State, (sandboxes: Sandbox[]) => Sandbox[]>;
-};
-
-export const state: State = {
+export const state = {
   selectedSandboxes: [],
   trashSandboxIds: [],
   isDragging: false,
@@ -52,7 +32,7 @@ export const state: State = {
       }
 
       return s[orderField];
-    }) as Sandbox[]).filter(
+    })).filter(
       x => blacklistedTemplates.indexOf(x.source.template) === -1,
     );
 

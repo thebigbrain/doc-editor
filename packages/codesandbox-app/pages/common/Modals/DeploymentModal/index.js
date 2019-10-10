@@ -2,9 +2,8 @@ import React from 'react'
 import { Button } from '@codesandbox/common/lib/components/Button'
 import Centered from '@codesandbox/common/lib/components/flex/Centered'
 import Margin from '@codesandbox/common/lib/components/spacing/Margin'
-import { inject, observer } from 'app/componentConnectors'
-import { ZeitIntegration } from 'app/pages/common/ZeitIntegration'
-import { IntegrationModal } from 'app/components/IntegrationModal'
+import { ZeitIntegration } from '~/pages/common/ZeitIntegration'
+import { IntegrationModal } from '~/components/IntegrationModal'
 import track from '@codesandbox/common/lib/utils/analytics'
 import {
   ButtonContainer,
@@ -16,9 +15,11 @@ import {
   StyledLogo,
   StyledNowLogo,
 } from './elements'
+import {useOvermind} from '~/hooks'
 
-function DeploymentModal({ store, signals }) {
-  const { user } = store
+export default function DeploymentModal() {
+  const {state, actions} = useOvermind()
+  const { user } = state
 
   const zeitSignedIn = user.integrations.zeit
 
@@ -43,10 +44,10 @@ function DeploymentModal({ store, signals }) {
       signedIn={zeitSignedIn}
     >
       <Centered horizontal>
-        {store.deployment.deploying && (
+        {state.deployment.deploying && (
           <Margin top={1}>
             <DeployText>Deploying sandbox...</DeployText>
-            <DeployAnimationContainer deploying={store.deployment.deploying}>
+            <DeployAnimationContainer deploying={state.deployment.deploying}>
               <StyledLogo width={70} height={70}/>
               {[0, 1, 2, 3].map(i => (
                 <StyledCube key={i} i={i} size={20}/>
@@ -56,17 +57,17 @@ function DeploymentModal({ store, signals }) {
           </Margin>
         )}
 
-        {store.deployment.url ? (
+        {state.deployment.url ? (
           <Margin top={1} bottom={2}>
             <Centered horizontal>
               <DeployText>Deployed!</DeployText>
 
               <DeployedLink
-                href={store.deployment.url}
+                href={state.deployment.url}
                 rel="nofollow noreferrer"
                 target="_blank"
               >
-                {store.deployment.url}
+                {state.deployment.url}
               </DeployedLink>
 
               <DeploymentManagementNotice>
@@ -83,13 +84,13 @@ function DeploymentModal({ store, signals }) {
             </Centered>
           </Margin>
         ) : (
-          <ButtonContainer deploying={store.deployment.deploying}>
+          <ButtonContainer deploying={state.deployment.deploying}>
             <Button
               onClick={() => {
                 track('Deploy Clicked', { provider: 'zeit' })
-                signals.deployment.deployClicked()
+                actions.deployment.deployClicked()
               }}
-              disabled={!zeitSignedIn || store.deployment.deploying}
+              disabled={!zeitSignedIn || state.deployment.deploying}
             >
               Deploy Now
             </Button>
@@ -99,5 +100,3 @@ function DeploymentModal({ store, signals }) {
     </IntegrationModal>
   )
 }
-
-export default inject('store', 'signals')(observer(DeploymentModal))

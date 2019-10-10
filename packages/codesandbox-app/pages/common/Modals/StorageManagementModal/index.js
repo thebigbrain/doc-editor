@@ -1,6 +1,5 @@
 import React from 'react'
 import filesize from 'filesize'
-import { inject, observer } from 'app/componentConnectors'
 import {
   Container,
   Description,
@@ -12,11 +11,12 @@ import {
   Title,
 } from './elements'
 import FilesList from './FilesList/index'
+import {withOvermind} from '~/hooks'
 
 // eslint-disable-next-line
 class StorageManagementModal extends React.Component {
   render() {
-    const { store, signals } = this.props
+    const { state: store, actions: signals } = this.props.overmind
 
     const isLoading = store.uploadedFiles === null
     const isEmpty = !isLoading && store.uploadedFiles.length === 0
@@ -57,4 +57,4 @@ class StorageManagementModal extends React.Component {
   }
 }
 
-export default inject('store', 'signals')(observer(StorageManagementModal))
+export default withOvermind(StorageManagementModal)

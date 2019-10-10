@@ -1,20 +1,16 @@
-import { Action, AsyncAction } from 'app/overmind';
-import { withLoadApp } from 'codesandbox-app/overmind/factories';
+import { withLoadApp } from '~/overmind/factories';
 import { StripeErrorCode } from '@codesandbox/common/lib/types';
 
-export const patronMounted: AsyncAction = withLoadApp();
+export const patronMounted = withLoadApp();
 
-export const priceChanged: Action<{ price: number }> = (
+export const priceChanged = (
   { state },
   { price },
 ) => {
   state.patron.price = price;
 };
 
-export const createSubscriptionClicked: AsyncAction<{
-  token: string;
-  coupon: string;
-}> = async ({ state, effects }, { token, coupon }) => {
+export const createSubscriptionClicked = async ({ state, effects }, { token, coupon }) => {
   effects.analytics.track('Create Patron Subscription');
   state.patron.error = null;
   state.patron.isUpdatingSubscription = true;
@@ -45,9 +41,7 @@ export const createSubscriptionClicked: AsyncAction<{
   state.patron.isUpdatingSubscription = false;
 };
 
-export const updateSubscriptionClicked: AsyncAction<{
-  coupon: string;
-}> = async ({ state, effects }, { coupon }) => {
+export const updateSubscriptionClicked = async ({ state, effects }, { coupon }) => {
   effects.analytics.track('Update Patron Subscription');
   state.patron.error = null;
   state.patron.isUpdatingSubscription = true;
@@ -65,7 +59,7 @@ export const updateSubscriptionClicked: AsyncAction<{
   state.patron.isUpdatingSubscription = false;
 };
 
-export const cancelSubscriptionClicked: AsyncAction = async ({
+export const cancelSubscriptionClicked = async ({
                                                                state,
                                                                effects,
                                                              }) => {
@@ -91,6 +85,6 @@ export const cancelSubscriptionClicked: AsyncAction = async ({
   }
 };
 
-export const tryAgainClicked: Action = ({ state }) => {
+export const tryAgainClicked = ({ state }) => {
   state.patron.error = null;
 };

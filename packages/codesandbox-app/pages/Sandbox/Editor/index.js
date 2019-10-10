@@ -13,7 +13,7 @@ import Content from './Content/index'
 import {Header} from './Header/index'
 import {Navigation} from './Navigation/index'
 import getVSCodeTheme from './utils/get-vscode-theme'
-import {userOvermind} from '~/hooks'
+import {useOvermind} from '~/hooks'
 
 const STATUS_BAR_SIZE = 22
 
@@ -24,7 +24,7 @@ const StatusBar = styled.div`
 `
 
 function ContentSplit(props) {
-  const {state, actions} = userOvermind()
+  const {state, actions} = useOvermind()
   const customVSCodeTheme = state.preferences.settings.customVSCodeTheme
   const [theme, setTheme] = React.useState({
     colors: {},

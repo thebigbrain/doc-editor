@@ -3,19 +3,13 @@ import React from 'react';
 import { NotificationImage as Image } from '../elements';
 import { Container, W } from './elements';
 
-interface Props {
-  read: boolean;
-  teamName: string;
-  userName: string;
-  userAvatar: string;
-}
 
 export const TeamAccepted = ({
                                read,
                                teamName,
                                userName,
                                userAvatar,
-                             }: Props) => (
+                             }) => (
   <div>
     <Container success read={read}>
       <Image src={userAvatar}/>

@@ -1,23 +1,18 @@
 import getTemplate from '@codesandbox/common/lib/templates';
-import { CustomTemplate } from '@codesandbox/common/lib/types';
 import slugify from '@codesandbox/common/lib/utils/slugify';
-import { Action, AsyncAction } from 'app/overmind';
-import { withOwnedSandbox } from 'codesandbox-app/overmind/factories';
+import { withOwnedSandbox } from '~/overmind/factories';
 
-export const valueChanged: Action<{
-  field: string;
-  value: string;
-}> = ({ state }, { field, value }) => {
+export {getWorkspaceItems, getDisabledItems} from './items'
+
+export const valueChanged = ({ state }, { field, value }) => {
   state.workspace.project[field] = value;
 };
 
-export const tagChanged: Action<{
-  tagName: string;
-}> = ({ state }, { tagName }) => {
+export const tagChanged = ({ state }, { tagName }) => {
   state.workspace.tags.tagName = tagName;
 };
 
-export const tagAdded: AsyncAction = withOwnedSandbox(
+export const tagAdded = withOwnedSandbox(
   async ({ state, effects, actions }) => {
     const { tagName } = state.workspace.tags;
     const sandbox = state.editor.currentSandbox;
@@ -35,9 +30,7 @@ export const tagAdded: AsyncAction = withOwnedSandbox(
   },
 );
 
-export const tagRemoved: AsyncAction<{
-  tag: string;
-}> = withOwnedSandbox(async ({ state, effects, actions }, { tag }) => {
+export const tagRemoved = withOwnedSandbox(async ({ state, effects, actions }, { tag }) => {
   const sandbox = state.editor.currentSandbox;
   const tagIndex = sandbox.tags.indexOf(tag);
 
@@ -66,7 +59,7 @@ export const tagRemoved: AsyncAction<{
   }
 });
 
-export const sandboxInfoUpdated: AsyncAction = withOwnedSandbox(
+export const sandboxInfoUpdated = withOwnedSandbox(
   async ({ state, effects, actions }) => {
     const sandbox = state.editor.currentSandbox;
     const { project } = state.workspace;
@@ -106,9 +99,7 @@ export const sandboxInfoUpdated: AsyncAction = withOwnedSandbox(
   },
 );
 
-export const externalResourceAdded: AsyncAction<{
-  resource: string;
-}> = withOwnedSandbox(async ({ state, effects, actions }, { resource }) => {
+export const externalResourceAdded = withOwnedSandbox(async ({ state, effects, actions }, { resource }) => {
   const { externalResources } = state.editor.currentSandbox;
 
   externalResources.push(resource);
@@ -121,9 +112,7 @@ export const externalResourceAdded: AsyncAction<{
   }
 });
 
-export const externalResourceRemoved: AsyncAction<{
-  resource: string;
-}> = withOwnedSandbox(async ({ state, effects, actions }, { resource }) => {
+export const externalResourceRemoved = withOwnedSandbox(async ({ state, effects, actions }, { resource }) => {
   const { externalResources } = state.editor.currentSandbox;
   const resourceIndex = externalResources.indexOf(resource);
 
@@ -139,13 +128,13 @@ export const externalResourceRemoved: AsyncAction<{
   }
 });
 
-export const integrationsOpened: Action = ({ state }) => {
+export const integrationsOpened = ({ state }) => {
   state.preferences.itemId = 'integrations';
   // I do not think this showModal is used?
   state.preferences.showModal = true;
 };
 
-export const sandboxDeleted: AsyncAction = async ({
+export const sandboxDeleted = async ({
                                                     state,
                                                     effects,
                                                     actions,
@@ -161,9 +150,7 @@ export const sandboxDeleted: AsyncAction = async ({
   effects.router.redirectToSandboxWizard();
 };
 
-export const sandboxPrivacyChanged: AsyncAction<{
-  privacy: 0 | 1 | 2;
-}> = async ({ state, effects, actions }, { privacy }) => {
+export const sandboxPrivacyChanged = async ({ state, effects, actions }, { privacy }) => {
   if (
     getTemplate(state.editor.currentSandbox.template).isServer &&
     privacy === 2
@@ -179,24 +166,22 @@ export const sandboxPrivacyChanged: AsyncAction<{
   state.editor.currentSandbox.privacy = privacy;
 };
 
-export const setWorkspaceItem: Action<{
-  item: string;
-}> = ({ state }, { item }) => {
+export const setWorkspaceItem = ({ state }, { item }) => {
   state.workspace.openedWorkspaceItem = item;
 };
 
-export const toggleCurrentWorkspaceItem: Action = ({ state }) => {
+export const toggleCurrentWorkspaceItem = ({ state }) => {
   state.workspace.workspaceHidden = !state.workspace.workspaceHidden;
 };
 
-export const setWorkspaceHidden: Action<{ hidden: boolean }> = (
+export const setWorkspaceHidden = (
   { state },
   { hidden },
 ) => {
   state.workspace.workspaceHidden = hidden;
 };
 
-export const deleteTemplate: AsyncAction = async ({
+export const deleteTemplate = async ({
                                                     state,
                                                     actions,
                                                     effects,
@@ -218,7 +203,7 @@ export const deleteTemplate: AsyncAction = async ({
   }
 };
 
-export const editTemplate: AsyncAction<{ template: CustomTemplate }> = async (
+export const editTemplate = async (
   { state, actions, effects },
   { template },
 ) => {
@@ -240,9 +225,7 @@ export const editTemplate: AsyncAction<{ template: CustomTemplate }> = async (
   }
 };
 
-export const addedTemplate: AsyncAction<{
-  template: CustomTemplate;
-}> = async ({ state, actions, effects }, { template }) => {
+export const addedTemplate = async ({ state, actions, effects }, { template }) => {
   effects.analytics.track('Template - Created', { source: 'editor' });
 
   const sandboxId = state.editor.currentId;

@@ -1,9 +1,7 @@
 import React from 'react';
 //  Fix css prop types in styled-components (see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31245#issuecomment-463640878)
 import VERSION from '@codesandbox/common/lib/version';
-import { hooksObserver, inject } from 'app/componentConnectors';
-import { SocialInfo } from 'app/components/SocialInfo';
-import getWorkspaceItems, { getDisabledItems } from 'app/store/modules/workspace/items';
+import { SocialInfo } from '~/components/SocialInfo';
 import ConfigurationFiles from './items/ConfigurationFiles/index';
 import { Deployment } from './items/Deployment/index';
 import Files from './items/Files/index';
@@ -19,6 +17,7 @@ import { ConnectionNotice } from './ConnectionNotice/index';
 import { SSEDownNotice } from './SSEDownNotice/index';
 import { WorkspaceItem } from './WorkspaceItem/index';
 import { ContactContainer, Container, ItemTitle, VersionContainer } from './elements';
+import {useOvermind} from "~/hooks"
 
 const workspaceTabs = {
   project: ProjectInfo,
@@ -32,7 +31,9 @@ const workspaceTabs = {
   more: More,
 };
 
-const WorkspaceComponent = ({ store }) => {
+const WorkspaceComponent = () => {
+  const {state, actions} = useOvermind()
+
   const {
     editor: {
       currentSandbox: { owned },
@@ -43,7 +44,7 @@ const WorkspaceComponent = ({ store }) => {
       settings: { zenMode },
     },
     workspace: { openedWorkspaceItem: activeTab },
-  } = store;
+  } = state;
 
   if (!activeTab) {
     return null;
@@ -51,8 +52,8 @@ const WorkspaceComponent = ({ store }) => {
 
   const Component = workspaceTabs[activeTab];
   const item =
-    getWorkspaceItems(store).find(({ id }) => id === activeTab) ||
-    getDisabledItems(store).find(({ id }) => id === activeTab);
+    actions.workspace.getWorkspaceItems().find(({ id }) => id === activeTab) ||
+    actions.workspace.getDisabledItems().find(({ id }) => id === activeTab);
 
   return (
     <Container>
@@ -88,4 +89,4 @@ const WorkspaceComponent = ({ store }) => {
   );
 };
 
-export const Workspace = inject('store')(hooksObserver(WorkspaceComponent));
+export const Workspace = WorkspaceComponent

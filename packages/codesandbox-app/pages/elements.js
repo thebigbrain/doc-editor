@@ -1,15 +1,16 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
   display: flex;
-  flex-direction: row;
-  backgroundColor: #e0e3eb;
-`
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+`;
 
 export const Content = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-`
+  ${({ theme }) => css`
+    display: flex;
+    flex: auto;
+    background-color: ${theme.background2};
+  `}
+`;

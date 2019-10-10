@@ -11,6 +11,6 @@ export const Title = styled.h1`
     font-weight: 300;
     text-align: center;
     outline: none;
-    ${delay !== null && delayEffect(delay)};
+    ${delayEffect(delay)};
   `}
 `;

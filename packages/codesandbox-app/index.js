@@ -4,9 +4,9 @@ import { ThemeProvider } from 'styled-components'
 import { Router } from 'react-router-dom'
 import _debug from '@codesandbox/common/lib/utils/debug'
 import { createOvermind } from 'overmind'
-import { initializeSentry, logError } from '@codesandbox/common/lib/utils/analytics'
+import { logError } from '@codesandbox/common/lib/utils/analytics'
 import '@codesandbox/common/lib/global.css'
-import history from 'app/utils/history'
+import history from '~/utils/history'
 // import { client } from 'app/graphql/client'
 import requirePolyfills from '@codesandbox/common/lib/load-dynamic-polyfills'
 import { convertTypeToStatus, notificationState } from '@codesandbox/common/lib/utils/notifications'
@@ -16,8 +16,7 @@ import { isSafari } from '@codesandbox/common/lib/utils/platform'
 // eslint-disable-next-line
 import { Provider as OvermindProvider } from 'overmind-react'
 import { Routes as App } from './pages/index'
-// import { Provider as OvermindProvider } from './overmind/Provider'
-import { config } from './overmind/index'
+// import { config } from './overmind/index'
 import './split-pane.css'
 
 
@@ -32,21 +31,6 @@ window.addEventListener('unhandledrejection', e => {
     e.preventDefault()
   }
 })
-
-if (process.env.NODE_ENV === 'production') {
-  try {
-    initializeSentry(
-      'https://3943f94c73b44cf5bb2302a72d52e7b8@sentry.io/155188',
-    )
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-window.__isTouch = !matchMedia('(pointer:fine)').matches
-
-let getState
-let getSignal
 
 async function boot(overmind) {
   requirePolyfills().then(() => {
@@ -87,7 +71,7 @@ async function initialize() {
     Configure Cerebral and Overmind
   */
 
-  const overmind = createOvermind(config, {
+  const overmind = createOvermind({}, {
     devtools:
       (window.opener && window.opener !== window) || !window.chrome
         ? false

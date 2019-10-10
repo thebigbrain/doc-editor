@@ -1,35 +1,27 @@
 import React from 'react'
 import getDefinition from '@codesandbox/common/lib/templates'
 import getUI from '@codesandbox/common/lib/templates/configuration/ui'
-import { Configuration, Module } from '@codesandbox/common/lib/types'
 import { resolveModule } from '@codesandbox/common/lib/sandbox/modules'
 
-import { inject, observer } from 'app/componentConnectors'
 
-import BookIcon from 'react-icons/lib/md/library-books'
-import UIIcon from 'react-icons/lib/md/dvr'
+import {
+  MdLibraryBooks as BookIcon,
+  MdDvr as UIIcon
+} from 'react-icons/md'
 
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 
 import { Description, WorkspaceSubtitle } from '../../elements'
 import { CreateButton, File, FileDescription, FilesContainer, FileTitle } from './elements'
+import { useOvermind } from '~/hooks'
 
-type
-FileConfigProps = {
-  path: string,
-  info: {
-    module? : Module,
-    config: Configuration,
-  },
-  createModule: (title: string) => void,
-}
 
 const FileConfig = ({
                       info,
                       path,
                       createModule,
                       openModule,
-                    }: FileConfigProps) => {
+                    }) => {
   const { module, config } = info
   return (
     <File
@@ -77,7 +69,9 @@ const FileConfig = ({
   )
 }
 
-const ConfigurationFiles = ({ store, signals }) => {
+const ConfigurationFiles = () => {
+  const {state: store, actions: signals} = useOvermind()
+
   const sandbox = store.editor.currentSandbox
   const { configurationFiles } = getDefinition(sandbox.template)
 
@@ -147,4 +141,4 @@ const ConfigurationFiles = ({ store, signals }) => {
   )
 }
 
-export default inject('signals', 'store')(observer(ConfigurationFiles))
+export default ConfigurationFiles

@@ -7,15 +7,16 @@ import { notificationState } from '@codesandbox/common/lib/utils/notifications'
 import send, { DNT } from '@codesandbox/common/lib/utils/analytics'
 import theme from '@codesandbox/common/lib/theme'
 import { Button } from '@codesandbox/common/lib/components/Button'
+
 import Loadable from '~/utils/Loadable'
-import { ErrorBoundary } from './common/ErrorBoundary/index'
+// import { ErrorBoundary } from './common/ErrorBoundary/index'
 import HTML5Backend from './common/HTML5BackendWithFolderSupport/index'
 // import Modals from './common/Modals/index'
 import Sandbox from './Sandbox/index'
 import NewSandbox from './NewSandbox/index'
-import Dashboard from './Dashboard/index'
+// import Dashboard from './Dashboard/index'
 import { Container, Content } from './elements'
-import { userOvermind } from '~/hooks'
+import { useOvermind } from '~/hooks'
 
 const routeDebugger = _debug('cs:app:router')
 
@@ -32,10 +33,10 @@ const NotFound = Loadable(() => import('./common/NotFound'))
 // const Patron = Loadable(() => import('./Patron'));
 // const Curator = Loadable(() => import('./Curator'));
 // const CodeSadbox = () => this[`💥`].kaboom();
-
+const ErrorBoundary = (props) => props.children
 const Boundary = withRouter(ErrorBoundary)
 
-const Routes = () => {
+export const Routes = () => {
   const {actions} = useOvermind()
 
   useEffect(() => () => actions.appUnmounted(), [actions.appUnmounted])
@@ -80,11 +81,11 @@ const Routes = () => {
             {/*<Route exact path="/s/github" component={GitHub}/>*/}
             {/*<Route exact path="/s/cli" component={CliInstructions}/>*/}
             <Route exact path="/s" component={NewSandbox}/>
-            <Route path="/dashboard" component={Dashboard}/>
+            {/*<Route path="/dashboard" component={Dashboard}/>*/}
             {/*<Route path="/curator" component={Curator}/>*/}
             <Route path="/s/:id*" component={Sandbox}/>
             {/*<Route path="/live/:id" component={Live}/>*/}
-            <Route path="/signin" exact component={Dashboard}/>
+            {/*<Route path="/signin" exact component={Dashboard}/>*/}
             {/*<Route path="/signin/:jwt?" component={SignIn}/>*/}
             {/*<Route path="/u/:username" component={Profile}/>*/}
             {/*<Route path="/search" component={Search}/>*/}

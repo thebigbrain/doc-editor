@@ -2,7 +2,6 @@ import { convertTypeToStatus, NotificationType } from '@codesandbox/common/lib/u
 
 import { withLoadApp } from './factories';
 import * as internalActions from './internalActions';
-import { Action, AsyncAction } from '.';
 
 export const internal = internalActions;
 

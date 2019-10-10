@@ -1,22 +1,14 @@
 import React from 'react';
 
 import { Mutation } from 'react-apollo';
-import history from 'app/utils/history';
+import history from '~/utils/history';
 import { teamOverviewUrl } from '@codesandbox/common/lib/utils/url-generator';
 import track from '@codesandbox/common/lib/utils/analytics';
-import { hooksObserver, inject } from 'app/componentConnectors';
+import { hooksObserver, inject } from '~/componentConnectors';
 
 import { NotificationImage as Image } from '../elements';
 import { Button, Buttons, Container, W } from './elements';
 import { ACCEPT_TEAM_INVITATION, REJECT_TEAM_INVITATION } from '../../../../Dashboard/queries';
-
-interface Props {
-  read: boolean;
-  teamId: string;
-  teamName: string;
-  inviterName: string;
-  inviterAvatar: string;
-}
 
 export const TeamInvite = inject('signals')(
   hooksObserver(
@@ -27,7 +19,7 @@ export const TeamInvite = inject('signals')(
        inviterName,
        inviterAvatar,
        signals: { notificationAdded },
-     }: Props & { signals: any }) => (
+     }) => (
       <div>
         <Container read={read}>
           <Image src={inviterAvatar}/>

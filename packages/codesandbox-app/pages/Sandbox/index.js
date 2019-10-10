@@ -6,14 +6,15 @@ import { Button } from '@codesandbox/common/lib/components/Button'
 import Centered from '@codesandbox/common/lib/components/flex/Centered'
 import Fullscreen from '@codesandbox/common/lib/components/flex/Fullscreen'
 import Padding from '@codesandbox/common/lib/components/spacing/Padding'
-import { Title } from 'app/components/Title'
-import { Skeleton } from 'app/components/Skeleton'
-import { QuickActions } from 'app/pages/Sandbox/QuickActions'
-import { NotFound } from 'app/pages/common/NotFound'
-import { Navigation } from 'app/pages/common/Navigation'
-import { GithubIntegration } from 'app/pages/common/GithubIntegration'
-import Editor from './Editor/index'
-import { useOvermind } from '../../hooks/index'
+
+import { Title } from '~/components/Title'
+import { Skeleton } from '~/components/Skeleton'
+import { QuickActions } from '~/pages/Sandbox/QuickActions'
+import { NotFound } from '~/pages/common/NotFound'
+// import { Navigation } from '~/pages/common/Navigation'
+// import { GithubIntegration } from '~/pages/common/GithubIntegration'
+// import Editor from './Editor/index'
+import { useOvermind } from '~/hooks/index'
 
 function getContent(props) {
   const { state } = useOvermind()
@@ -67,7 +68,7 @@ function getContent(props) {
               <Link to="/patron">patron</Link>? Then you might need to get
               private access:
             </div>
-            <GithubIntegration small/>
+            {/*<GithubIntegration small/>*/}
           </div>
         )}
       </>
@@ -101,13 +102,14 @@ function getContent(props) {
 }
 
 export default function(props) {
-  const { match, state, actions } = props
+  const { match } = props
+  const {state, actions} = useOvermind()
   const { id } = match.params
   const sandbox = state.editor.currentSandbox
 
   actions.editor.sandboxChanged({ id })
 
-  const content = this.getContent()
+  const content = getContent(props)
   if (content) {
     return (
       <Fullscreen>
@@ -120,7 +122,7 @@ export default function(props) {
           }}
           margin={1}
         >
-          <Navigation title="Sandbox Editor"/>
+          {/*<Navigation title="Sandbox Editor"/>*/}
           <Centered
             style={{ flex: 1, width: '100%', height: '100%' }}
             horizontal
@@ -138,7 +140,7 @@ export default function(props) {
       <Helmet>
         <title>{getSandboxName(sandbox)} - CodeSandbox</title>
       </Helmet>
-      <Editor match={match}/>
+      {/*<Editor match={match}/>*/}
       <QuickActions/>
     </>
   )

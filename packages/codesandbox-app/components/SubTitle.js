@@ -13,6 +13,6 @@ export const SubTitle = styled.h2`
     font-weight: 300;
     line-height: 1.4;
     text-align: center;
-    ${delay !== null && delayEffect(delay)};
+    ${delayEffect(delay)};
   `}
 `;

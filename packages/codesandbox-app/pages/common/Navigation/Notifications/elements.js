@@ -41,10 +41,7 @@ export const Title = styled.div`
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 `;
 
-export const NotificationContainer = styled.div<{
-  read?: boolean;
-  success?: boolean;
-}>`
+export const NotificationContainer = styled.div`
   transition: 0.3s ease border-color;
   padding: 0.75rem 1rem;
 

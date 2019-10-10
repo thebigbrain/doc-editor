@@ -4,16 +4,16 @@ import { json } from 'overmind'
 import { ThemeProvider } from 'styled-components'
 import { Prompt } from 'react-router-dom'
 import { TextOperation } from 'ot'
-import { clone, inject, observer } from 'app/componentConnectors'
 import getTemplateDefinition from '@codesandbox/common/lib/templates'
 import SplitPane from 'react-split-pane'
 
-import { CodeEditor } from 'app/components/CodeEditor'
-import { DevTools } from 'app/components/Preview/DevTools'
+import { CodeEditor } from '~/components/CodeEditor'
+import { DevTools } from '~/components/Preview/DevTools'
 
 import { Preview } from './Preview/index'
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll'
 import Tabs from './Tabs/index'
+import {withOvermind} from "~/hooks"
 
 const settings = store => ({
   fontFamily: store.preferences.settings.fontFamily,
@@ -332,7 +332,7 @@ class EditorPreview extends React.Component {
     )
   }
   sendTransforms = operation => {
-    const { currentModuleShortid } = this.props.store.editor
+    const { currentModuleShortid } = this.props.overmind.state.editor
 
     this.props.signals.live.onTransformMade({
       moduleShortid: currentModuleShortid,
@@ -379,7 +379,7 @@ class EditorPreview extends React.Component {
   }
 
   render() {
-    const { signals, store } = this.props
+    const { actions: signals, state: store } = this.props.overmind
     const { currentModule } = store.editor
     const notSynced = !store.editor.isAllModulesSynced
     const sandbox = store.editor.currentSandbox
@@ -412,7 +412,7 @@ class EditorPreview extends React.Component {
     }
 
     const views = store.editor.devToolTabs
-    const currentPosition = this.props.store.editor.currentDevToolsPosition
+    const currentPosition = this.props.overmind.state.editor.currentDevToolsPosition
 
     const browserConfig = {
       id: 'codesandbox.browser',
@@ -470,7 +470,7 @@ class EditorPreview extends React.Component {
             style={{
               overflow: 'visible', // For VSCode Context Menu
             }}
-            split={this.props.store.editor.previewWindowOrientation}
+            split={this.props.overmind.state.editor.previewWindowOrientation}
             defaultSize="50%"
             pane1Style={
               windowVisible
@@ -602,4 +602,4 @@ class EditorPreview extends React.Component {
   }
 }
 
-export default inject('signals', 'store')(observer(EditorPreview))
+export default withOvermind(EditorPreview)

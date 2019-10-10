@@ -9,7 +9,7 @@ export const Buttons = styled.div`
   display: flex;
 `;
 
-export const Button = styled.div<{ decline?: boolean; disabled?: boolean }>`
+export const Button = styled.div`
   transition: 0.3s ease background-color;
   height: 36px;
   width: 100%;

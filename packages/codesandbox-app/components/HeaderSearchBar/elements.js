@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BaseSearchIcon from 'react-icons/lib/go/search';
+import {GoSearch as BaseSearchIcon} from 'react-icons/go';
 import Relative from '@codesandbox/common/lib/components/Relative';
 
 export const Container = styled(Relative)`

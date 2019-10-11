@@ -16,7 +16,7 @@ import { isSafari } from '@codesandbox/common/lib/utils/platform'
 // eslint-disable-next-line
 import { Provider as OvermindProvider } from 'overmind-react'
 import { Routes as App } from './pages/index'
-// import { config } from './overmind/index'
+import { config } from './overmind/index'
 import './split-pane.css'
 
 
@@ -71,7 +71,7 @@ async function initialize() {
     Configure Cerebral and Overmind
   */
 
-  const overmind = createOvermind({}, {
+  const overmind = createOvermind(config, {
     devtools:
       (window.opener && window.opener !== window) || !window.chrome
         ? false

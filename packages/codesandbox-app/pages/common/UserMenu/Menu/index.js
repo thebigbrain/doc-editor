@@ -1,33 +1,24 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import UserIcon from 'react-icons/lib/ti/user';
-import ExitIcon from 'react-icons/lib/md/exit-to-app';
-import FolderIcon from 'react-icons/lib/md/folder';
-import SettingsIcon from 'react-icons/lib/md/settings';
-import BookIcon from 'react-icons/lib/md/library-books';
-
+import {
+  TiUser as UserIcon
+} from 'react-icons/ti';
+import {
+  MdExitToApp as ExitIcon,
+  MdFolder as FolderIcon,
+  MdSettings as SettingsIcon,
+  MdLibraryBooks as BookIcon
+} from 'react-icons/md';
 import { curatorUrl, dashboardUrl, patronUrl, profileUrl } from '@codesandbox/common/lib/utils/url-generator';
 import PatronBadge from '@codesandbox/common/lib/utils/badges/PatronBadge';
 import track from '@codesandbox/common/lib/utils/analytics';
-// @ts-ignore
-import InfoIcon from '-!svg-react-loader!@codesandbox/common/lib/icons/sandbox.svg';
+import InfoIcon from '@codesandbox/common/lib/icons/sandbox.svg';
 
 import { Container, Icon, Item, Separator } from './elements';
 import { FeedbackIcon } from './FeedbackIcon';
 
-interface Props {
-  username: string;
-  curator: boolean;
-  openPreferences: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => void;
-  openStorageManagement: (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => void;
-  openFeedback: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  signOut: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}
+
 
 export const Menu = ({
                        username,
@@ -36,7 +27,7 @@ export const Menu = ({
                        openStorageManagement,
                        openFeedback,
                        signOut,
-                     }: Props) => {
+                     }) => {
   useEffect(() => {
     track('User Menu Open');
   }, []);

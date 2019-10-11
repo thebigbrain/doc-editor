@@ -1,14 +1,7 @@
 import browser from 'browser-detect';
 
-interface IbuildCrashReport {
-  error?: Error;
-  trace?: string;
-}
 
-export const buildCrashReport = ({
-                                   error,
-                                   trace,
-                                 }: IbuildCrashReport): string => {
+export const buildCrashReport = ({ error, trace, }) => {
   const { name, version, os } = browser();
 
   const title = `💥 Crash Report: <Please Add a Short Description of Crash Circumstances>`;

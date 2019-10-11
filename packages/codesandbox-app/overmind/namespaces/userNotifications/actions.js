@@ -1,11 +1,10 @@
-import { Action, AsyncAction } from 'app/overmind';
-import { client } from 'app/graphql/client';
+import { client } from '~/graphql/client';
 import gql from 'graphql-tag';
 import * as internalActions from './internalActions';
 
 export const internal = internalActions;
 
-export const notificationsOpened: AsyncAction = async ({ state, effects }) => {
+export const notificationsOpened = async ({ state, effects }) => {
   state.userNotifications.notificationsOpened = true;
   state.userNotifications.unreadCount = 0;
   client.mutate({
@@ -19,11 +18,11 @@ export const notificationsOpened: AsyncAction = async ({ state, effects }) => {
   });
 };
 
-export const notificationsClosed: Action = ({ state }) => {
+export const notificationsClosed = ({ state }) => {
   state.userNotifications.notificationsOpened = false;
 };
 
-export const messageReceived: Action<{ event: string }> = (
+export const messageReceived = (
   { state },
   { event },
 ) => {

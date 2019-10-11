@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { CodeSadbox } from './CodeSadbox/index';
-import { ErrorInfo, IErrorBoundaryProps, IErrorBoundaryState } from './types';
 
-export class ErrorBoundary extends Component<IErrorBoundaryProps,
-  IErrorBoundaryState> {
+export class ErrorBoundary extends Component {
   static defaultProps = {
     FallbackComponent: CodeSadbox,
   };
@@ -13,13 +11,13 @@ export class ErrorBoundary extends Component<IErrorBoundaryProps,
     previousLocation: null,
   };
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(error) {
     return { error };
   }
 
   static getDerivedStateFromProps(
-    props: IErrorBoundaryProps,
-    state: IErrorBoundaryState,
+    props,
+    state,
   ) {
     if (props.location !== state.previousLocation) {
       return {
@@ -32,7 +30,7 @@ export class ErrorBoundary extends Component<IErrorBoundaryProps,
     return null;
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo): void {
+  componentDidCatch(error, info) {
     const { onError } = this.props;
 
     if (typeof onError === 'function') {

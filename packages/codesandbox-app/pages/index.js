@@ -9,7 +9,7 @@ import theme from '@codesandbox/common/lib/theme'
 import { Button } from '@codesandbox/common/lib/components/Button'
 
 import Loadable from '~/utils/Loadable'
-// import { ErrorBoundary } from './common/ErrorBoundary/index'
+import { ErrorBoundary } from './common/ErrorBoundary'
 import HTML5Backend from './common/HTML5BackendWithFolderSupport/index'
 // import Modals from './common/Modals/index'
 import Sandbox from './Sandbox/index'
@@ -33,7 +33,6 @@ const NotFound = Loadable(() => import('./common/NotFound'))
 // const Patron = Loadable(() => import('./Patron'));
 // const Curator = Loadable(() => import('./Curator'));
 // const CodeSadbox = () => this[`💥`].kaboom();
-const ErrorBoundary = (props) => props.children
 const Boundary = withRouter(ErrorBoundary)
 
 export const Routes = () => {

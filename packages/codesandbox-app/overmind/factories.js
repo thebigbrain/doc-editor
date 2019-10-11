@@ -1,6 +1,4 @@
-import { Contributor } from '@codesandbox/common/lib/types';
-import { IDerive, IState, json } from 'overmind';
-import { AsyncAction } from '.';
+import { json } from 'overmind';
 
 export const withLoadApp = (
   continueAction,

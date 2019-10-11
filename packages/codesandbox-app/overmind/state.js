@@ -1,6 +1,3 @@
-import store from 'store/dist/store.modern'
-
-import { CurrentUser, Notification, Sandbox, UploadFile } from '@codesandbox/common/lib/types'
 
 export const state = {
   isPatron: ({ user }) =>
@@ -8,7 +5,7 @@ export const state = {
   isLoggedIn: ({ jwt, user }) => Boolean(jwt) && Boolean(user),
   // TODO: Should not reference store directly here, rather initialize
   // the state with "onInitialize" setting the jwt
-  hasLogIn: ({ jwt }) => !!jwt || !!store.get('jwt'),
+  hasLogIn: ({ jwt }) => !!jwt,
   isContributor: ({ contributors }) => username =>
     contributors.findIndex(
       contributor =>

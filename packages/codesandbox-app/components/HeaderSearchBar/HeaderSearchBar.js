@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import history from 'app/utils/history';
+import history from '~/utils/history';
 import { searchUrl } from '@codesandbox/common/lib/utils/url-generator';
 import { Container, Input, SearchButton, SearchIcon } from './elements';
 
 export const HeaderSearchBar = () => {
   const [query, setQuery] = useState(``);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     history.push(searchUrl(query));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     setQuery(e.target.value);
   };
 

@@ -108,9 +108,9 @@
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-> .window-icon-bg {
+  > .part.titlebar
+  > .window-controls-container
+  > .window-icon-bg {
   display: inline-block;
   -webkit-app-region: no-drag;
   height: 100%;
@@ -118,49 +118,49 @@
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-.window-icon
-svg {
+  > .part.titlebar
+  > .window-controls-container
+  .window-icon
+  svg {
   shape-rendering: crispEdges;
   text-align: center;
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-> .window-icon-bg
-> .window-icon {
+  > .part.titlebar
+  > .window-controls-container
+  > .window-icon-bg
+  > .window-icon {
   height: 100%;
   width: 100%;
   -webkit-mask-size: 23.1%;
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-> .window-icon-bg:hover {
+  > .part.titlebar
+  > .window-controls-container
+  > .window-icon-bg:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
 .monaco-workbench
-> .part.titlebar.light
-> .window-controls-container
-> .window-icon-bg:hover {
+  > .part.titlebar.light
+  > .window-controls-container
+  > .window-icon-bg:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-> .window-icon-bg.window-close-bg:hover {
+  > .part.titlebar
+  > .window-controls-container
+  > .window-icon-bg.window-close-bg:hover {
   background-color: rgba(232, 17, 35, 0.9);
 }
 
 .monaco-workbench
-> .part.titlebar
-> .window-controls-container
-.window-icon.window-close:hover {
+  > .part.titlebar
+  > .window-controls-container
+  .window-icon.window-close:hover {
   background-color: white;
 }
 
@@ -202,15 +202,15 @@ svg {
 
 .monaco-workbench .menubar .menubar-menu-items-holder.monaco-menu-container {
   font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe WPC',
-  'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+    'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
   outline: 0;
   border: none;
   font-size: 0.75rem;
 }
 
 .monaco-workbench
-.menubar
-.menubar-menu-items-holder.monaco-menu-container
-:focus {
+  .menubar
+  .menubar-menu-items-holder.monaco-menu-container
+  :focus {
   outline: 0;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {GoPlus as PlusIcon} from 'react-icons/go';
-import { Action } from './Action';
+import { Action } from './Action/index';
 import {useOvermind} from '@lz/hooks'
 
 export const NewSandboxButton = () => {

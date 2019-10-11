@@ -1,76 +1,76 @@
-import React from 'react'
-import { basename } from 'path'
-import { inject, observer } from 'app/componentConnectors'
-import Media from 'react-media'
+import React from 'react';
+import { basename } from 'path';
+import { inject, observer } from 'app/componentConnectors';
+import Media from 'react-media';
 
-import { Spring } from 'react-spring/renderprops'
+import { Spring } from 'react-spring/renderprops';
 
-import track from '@codesandbox/common/lib/utils/analytics'
-import { ESC } from '@codesandbox/common/lib/utils/keycodes'
-import { getSandboxName } from '@codesandbox/common/lib/utils/get-sandbox-name'
-import { Container, FolderName, SandboxInput, SandboxName } from './elements'
+import track from '@codesandbox/common/lib/utils/analytics';
+import { ESC } from '@codesandbox/common/lib/utils/keycodes';
+import { getSandboxName } from '@codesandbox/common/lib/utils/get-sandbox-name';
+import { Container, SandboxName, SandboxInput, FolderName } from './elements';
 
 class CollectionInfo extends React.Component {
   state = {
     updatingName: false,
     nameValue: '',
-  }
+  };
 
-  sandboxName = () => getSandboxName(this.props.sandbox) || 'Untitled'
+  sandboxName = () => getSandboxName(this.props.sandbox) || 'Untitled';
 
   updateSandboxInfo = () => {
-    this.props.signals.workspace.sandboxInfoUpdated()
+    this.props.signals.workspace.sandboxInfoUpdated();
 
     this.setState({
       updatingName: false,
-    })
-  }
+    });
+  };
 
   submitNameChange = e => {
-    e.preventDefault()
-    this.updateSandboxInfo()
+    e.preventDefault();
+    this.updateSandboxInfo();
 
-    track('Change Sandbox Name From Header')
-  }
+    track('Change Sandbox Name From Header');
+  };
 
   handleNameClick = () => {
     this.setState({
       updatingName: true,
       nameValue: this.sandboxName(),
-    })
-  }
+    });
+  };
 
   handleKeyUp = e => {
     if (e.keyCode === ESC) {
-      this.updateSandboxInfo()
+      this.updateSandboxInfo();
     }
-  }
+  };
 
   handleBlur = () => {
-    this.updateSandboxInfo()
-  }
+    this.updateSandboxInfo();
+  };
 
   handleInputUpdate = e => {
     this.props.signals.workspace.valueChanged({
       field: 'title',
       value: e.target.value,
-    })
+    });
 
     this.setState({
       nameValue: e.target.value,
-    })
-  }
+    });
+  };
 
   render() {
-    const { sandbox, isLoggedIn, signals } = this.props
-    const { nameValue, updatingName } = this.state
+    const { sandbox, isLoggedIn, signals } = this.props;
+    const { nameValue, updatingName } = this.state;
 
-    const value = nameValue !== 'Untitled' && updatingName ? nameValue : ''
+    const value = nameValue !== 'Untitled' && updatingName ? nameValue : '';
 
     const folderName = sandbox.collection
       ? basename(sandbox.collection.path) ||
-      (sandbox.team ? sandbox.team.name : 'My Sandboxes')
-      : 'My Sandboxes'
+        (sandbox.team ? sandbox.team.name : 'My Sandboxes')
+      : 'My Sandboxes';
 
     return (
       <Spring
@@ -80,13 +80,13 @@ class CollectionInfo extends React.Component {
         to={
           updatingName
             ? {
-              opacity: 0,
-              pointerEvents: 'none',
-            }
+                opacity: 0,
+                pointerEvents: 'none',
+              }
             : {
-              opacity: 1,
-              pointerEvents: 'initial',
-            }
+                opacity: 1,
+                pointerEvents: 'initial',
+              }
         }
       >
         {style => (
@@ -103,7 +103,7 @@ class CollectionInfo extends React.Component {
                           onClick={() => {
                             signals.modalOpened({
                               modal: 'moveSandbox',
-                            })
+                            });
                           }}
                         >
                           {folderName}
@@ -131,7 +131,7 @@ class CollectionInfo extends React.Component {
                       autoFocus
                       innerRef={el => {
                         if (el) {
-                          el.focus()
+                          el.focus();
                         }
                       }}
                       onKeyUp={this.handleKeyUp}
@@ -151,8 +151,8 @@ class CollectionInfo extends React.Component {
           />
         )}
       </Spring>
-    )
+    );
   }
 }
 
-export default inject('signals')(observer(CollectionInfo))
+export default inject('signals')(observer(CollectionInfo));

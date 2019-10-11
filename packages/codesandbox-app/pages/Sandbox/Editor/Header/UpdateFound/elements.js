@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const UpdateMessage = styled.div`
   color: white;
@@ -19,7 +19,7 @@ export const UpdateMessage = styled.div`
       content: 'Click to Refresh';
     }
   }
-`
+`;
 
 export const UpdateContainer = styled.div`
   cursor: pointer;
@@ -31,4 +31,4 @@ export const UpdateContainer = styled.div`
       }
     }
   }
-`
+`;

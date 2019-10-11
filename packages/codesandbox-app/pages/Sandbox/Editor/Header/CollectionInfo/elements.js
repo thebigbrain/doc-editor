@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import AutosizeInput from 'react-input-autosize'
+import styled from 'styled-components';
+import AutosizeInput from 'react-input-autosize';
 
 export const Container = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const Container = styled.div`
   align-items: center;
   white-space: nowrap;
   text-align: center;
-`
+`;
 
 export const SandboxName = styled.span`
   color: ${props => (props.theme.light ? 'black' : 'white')};
@@ -16,7 +16,7 @@ export const SandboxName = styled.span`
 
   cursor: pointer;
   text-overflow: ellipsis;
-`
+`;
 
 export const SandboxInput = styled(AutosizeInput)`
   input {
@@ -29,7 +29,7 @@ export const SandboxInput = styled(AutosizeInput)`
     padding: 0;
     text-align: center;
   }
-`
+`;
 
 export const FolderName = styled.button`
   display: inline-block;
@@ -46,4 +46,4 @@ export const FolderName = styled.button`
   &:hover {
     color: white;
   }
-`
+`;

@@ -13,7 +13,7 @@ import {
   PickButton,
   ShareButton,
   ForkButton,
-} from './Buttons'
+} from './Buttons/index'
 import {
   Container,
   Right,
@@ -23,12 +23,12 @@ import {
   DashboardLink,
   AccountContainer,
   UserMenuContainer,
-  // SignInButton,
+  SignInButton,
 } from './elements'
-import {Logo} from './Logo'
+import {Logo} from './Logo/index'
 // import {MenuBar} from './MenuBar'
-import {SandboxName} from './SandboxName'
-import {useOvermind} from '@lz/hooks'
+import {SandboxName} from './SandboxName/index'
+import {useOvermind} from '@doce/hooks'
 
 export const Header = ({zenMode}) => {
   const {state} = useOvermind()
@@ -67,7 +67,7 @@ export const Header = ({zenMode}) => {
               {/*<UserMenu />*/}
             </UserMenuContainer>
           ) : (
-            {/*<SignInButton />*/}
+            <SignInButton />
           )}
         </AccountContainer>
       </Right>

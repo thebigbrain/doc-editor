@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { SignInButton as BaseSignInButton } from 'app/pages/common/SignInButton';
+import { SignInButton as BaseSignInButton } from '~/pages/common/SignInButton';
 // @ts-ignore
-import Dashboard from '-!svg-react-loader!@codesandbox/common/lib/icons/dashboard.svg';
+import Dashboard from '@codesandbox/common/lib/icons/dashboard.svg';
 
-export const Container = styled.div<{ zenMode: boolean }>`
+export const Container = styled.div`
   ${({ theme, zenMode }) => css`
     display: ${zenMode ? 'none' : 'flex'};
     position: fixed;
@@ -12,10 +12,10 @@ export const Container = styled.div<{ zenMode: boolean }>`
     justify-content: space-between;
     align-items: center;
     background-color: ${theme['titleBar.activeBackground'] ||
-theme.background2};
+      theme.background2};
     font-size: 1.2rem;
     color: ${theme['titleBar.activeForeground'] ||
-css`rgba(255, 255, 255, 0.7)`};
+      css`rgba(255, 255, 255, 0.7)`};
     margin: 0;
     height: 3rem;
     font-weight: 400;
@@ -24,8 +24,8 @@ css`rgba(255, 255, 255, 0.7)`};
     box-sizing: border-box;
     border-bottom: 1px solid
       ${theme['titleBar.activeForeground']
-  ? theme['titleBar.border'] || 'transparent'
-  : theme.background2.darken(0.3)};
+        ? theme['titleBar.border'] || 'transparent'
+        : theme.background2.darken(0.3)};
   `}
 `;
 

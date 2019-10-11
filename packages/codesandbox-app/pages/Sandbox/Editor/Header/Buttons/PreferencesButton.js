@@ -1,6 +1,6 @@
 import React from 'react'
 import {MdSettings as SettingsIcon} from 'react-icons/md'
-import {Action} from './Action'
+import {Action} from './Action/index'
 import {useOvermind} from '@lz/hooks'
 
 export const PreferencesButton = () => {

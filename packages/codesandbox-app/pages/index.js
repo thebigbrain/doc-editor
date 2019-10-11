@@ -16,7 +16,7 @@ import Sandbox from './Sandbox/index'
 import NewSandbox from './NewSandbox/index'
 // import Dashboard from './Dashboard/index'
 import { Container, Content } from './elements'
-import { useOvermind } from '~/hooks'
+import { useOvermind } from '@doce/hooks'
 
 const routeDebugger = _debug('cs:app:router')
 

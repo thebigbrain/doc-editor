@@ -32,7 +32,7 @@ import NetlifyLogs from './NetlifyLogs/index'
 // eslint-disable-next-line
 import SignInForTemplates from './SignInForTemplates/index.ts'
 import { SurveyModal } from './SurveyModal/index'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 const MoveSandboxFolderModal = Loadable(() =>
   import('./MoveSandboxFolderModal/index'),

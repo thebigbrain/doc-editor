@@ -17,7 +17,7 @@ import {
   ShowSidebarButton,
   Sidebar,
 } from './elements'
-import { useOvermind } from '~/hooks'
+import { useOvermind } from '@doce/hooks'
 
 export default function(props) {
   const { history } = props

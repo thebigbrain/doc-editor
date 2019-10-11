@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchDependencies from '~/pages/Sandbox/SearchDependencies'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 
 function SearchDependenciesModal() {

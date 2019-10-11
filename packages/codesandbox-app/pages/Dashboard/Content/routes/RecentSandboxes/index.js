@@ -9,7 +9,7 @@ import { Content as Sandboxes } from '../../Sandboxes/index'
 
 import CreateNewSandbox from '../../CreateNewSandbox/index'
 import { RECENT_SANDBOXES_CONTENT_QUERY } from '../../../queries'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 const RecentSandboxes = () => {
   const {state: store} = useOvermind()

@@ -13,7 +13,7 @@ import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 
 import { Description, WorkspaceSubtitle } from '../../elements'
 import { CreateButton, File, FileDescription, FilesContainer, FileTitle } from './elements'
-import { useOvermind } from '~/hooks'
+import { useOvermind } from '@doce/hooks'
 
 
 const FileConfig = ({

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Alert} from '~/components/Alert'
-import {userOvermind} from '~/hooks'
+import {userOvermind} from '@doce/hooks'
 
 function DeleteDeploymentModal() {
   const {actions} = userOvermind()

@@ -5,7 +5,7 @@ import { Button } from '@codesandbox/common/lib/components/Button'
 import AutosizeTextArea from '@codesandbox/common/lib/components/AutosizeTextArea'
 import Input from '@codesandbox/common/lib/components/Input'
 import pushToAirtable from '~/store/utils/pushToAirtable'
-import { useOvermind } from '~/hooks'
+import { useOvermind } from '@doce/hooks'
 
 import { EmojiButton } from './elements'
 

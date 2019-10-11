@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Loadable from 'app/utils/Loadable'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 import { Container, Heading } from '../elements'
 

@@ -6,7 +6,7 @@ import track from '@codesandbox/common/lib/utils/analytics'
 import { Button } from '@codesandbox/common/lib/components/Button'
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator'
 import Title from './Title'
-import {withOvermind} from '~/hooks'
+import {withOvermind} from '@doce/hooks'
 
 import {
   ButtonContainer,

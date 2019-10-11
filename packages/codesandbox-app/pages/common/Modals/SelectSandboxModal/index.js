@@ -2,7 +2,7 @@ import * as React from 'react'
 import Sandbox from './Sandbox/index'
 
 import { Padding } from './elements'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 
 export default function SelectSandboxModal() {

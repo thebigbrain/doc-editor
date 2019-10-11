@@ -1,0 +1,19 @@
+{
+  "name": "@doce/theme",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "homepage": "",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "color-parse": "^1.3.8",
+    "parse-color": "^1.0.0",
+    "react": "^16.10.2",
+    "styled-components": "^4.4.0"
+  },
+  "peerDependencies": {
+  }
+}

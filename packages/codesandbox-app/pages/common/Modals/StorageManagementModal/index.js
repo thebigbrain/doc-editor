@@ -11,7 +11,7 @@ import {
   Title,
 } from './elements'
 import FilesList from './FilesList/index'
-import {withOvermind} from '~/hooks'
+import {withOvermind} from '@doce/hooks'
 
 // eslint-disable-next-line
 class StorageManagementModal extends React.Component {

@@ -14,7 +14,7 @@ import { NotFound } from '~/pages/common/NotFound'
 // import { Navigation } from '~/pages/common/Navigation'
 // import { GithubIntegration } from '~/pages/common/GithubIntegration'
 // import Editor from './Editor/index'
-import { useOvermind } from '~/hooks/index'
+import { useOvermind } from '@doce/hooks'
 
 function getContent(props) {
   const { state } = useOvermind()

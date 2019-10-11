@@ -1,6 +1,6 @@
 import React from 'react'
 import {Alert} from '~/components/Alert'
-import {useOvermind} from '~/hooks'
+import {useOvermind} from '@doce/hooks'
 
 function DeleteSandboxModal({ signals }) {
   const {actions} = useOvermind()

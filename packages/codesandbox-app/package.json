@@ -45,6 +45,7 @@
     "codesandbox-import-utils": "^2.1.9",
     "compare-versions": "^3.5.1",
     "console-feed": "^2.8.10",
+    "date-fns": "^2.4.1",
     "downshift": "^3.3.4",
     "embed": "^0.0.1",
     "file-saver": "^2.0.2",

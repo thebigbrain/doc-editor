@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { ContextMenu } from 'app/components/ContextMenu'
+import { ContextMenu } from '~/components/ContextMenu'
 import { Container, StyledCloseIcon, TabTitle } from './elements'
 
 class Tab extends React.Component {

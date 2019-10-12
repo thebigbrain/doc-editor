@@ -1,7 +1,6 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 
-import { canPrettify } from 'app/utils/prettify'
+import { canPrettify } from '~/utils/prettify'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 
 import TabContainer from './TabContainer/index'
@@ -9,7 +8,9 @@ import PreviewIcon from './PreviewIcon'
 
 import { Container, IconContainer, IconWrapper, Line, StyledPrettierIcon, TabsContainer } from './elements'
 
-import ModuleTab from './ModuleTab/index'
+import ModuleTab from './ModuleTab'
+import {withOvermind} from '~/overmind'
+
 
 class EditorTabs extends React.Component {
   closeTab = tabIndex => {
@@ -66,7 +67,7 @@ class EditorTabs extends React.Component {
   }
 
   render() {
-    const { store, signals } = this.props
+    const { state: store, actions: signals } = this.props.overmind
     const sandbox = store.editor.currentSandbox
     const moduleObject = {}
     // We keep this object to keep track if there are duplicate titles.
@@ -211,4 +212,4 @@ class EditorTabs extends React.Component {
   }
 }
 
-export default inject('signals', 'store')(observer(EditorTabs))
+export default withOvermind(EditorTabs)

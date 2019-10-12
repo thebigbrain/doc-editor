@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
-import CrossIcon from 'react-icons/lib/md/clear'
-import EditIcon from 'react-icons/lib/go/pencil'
+import {
+  MdClear as CrossIcon
+} from 'react-icons/md'
+import {
+  GoPencil as EditIcon
+} from 'react-icons/go'
 
 import { EntryContainer, Icon, IconArea, WorkspaceInputContainer } from '../../../elements'
 import { EnvironmentIcon, IconWrapper } from './elements'

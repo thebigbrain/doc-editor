@@ -1,6 +1,6 @@
 import React from 'react';
 import { LikeHeart } from './elements';
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 export const LikeButton = () => {
   const {state:{ editor: { currentSandbox } }} = useOvermind()

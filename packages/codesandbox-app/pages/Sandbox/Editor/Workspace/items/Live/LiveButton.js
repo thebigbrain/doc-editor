@@ -1,7 +1,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import RecordIcon from 'react-icons/lib/md/fiber-manual-record'
+import {
+  MdFiberManualRecord as RecordIcon
+} from 'react-icons/md'
 
 const styles = css`
   display: flex;
@@ -60,7 +62,7 @@ export default class LiveButton extends React.PureComponent {
     showIcon: true,
   }
 
-  timer: ?number
+  timer
   startHovering = () => {
     this.setState({ hovering: true })
   }

@@ -17,7 +17,7 @@ import {
   TemplateBadge,
   Main,
 } from './elements'
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 export const SandboxName = () => {
   const {

@@ -1,11 +1,13 @@
 import React from 'react'
-import { hooksObserver, inject } from 'app/componentConnectors'
 
 import { Button } from '@codesandbox/common/lib/components/Button'
 
 import { ButtonContainer } from './elements'
+import {useOvermind} from "~/overmind"
 
-function AddVersion({ signals, children }) {
+function AddVersion({ children }) {
+  const {actions: signals} = useOvermind()
+
   return (
     <div style={{ position: 'relative' }}>
       <ButtonContainer>
@@ -25,4 +27,4 @@ function AddVersion({ signals, children }) {
   )
 }
 
-export default inject('signals')(hooksObserver(AddVersion))
+export default AddVersion

@@ -10,7 +10,7 @@ import Live from './items/Live/index';
 import { More } from './items/More/index';
 import { NotOwnedSandboxInfo } from './items/NotOwnedSandboxInfo/index';
 import { ProjectInfo } from './items/ProjectInfo/index';
-import { Server } from './items/Server/index';
+import { Server } from './items/Server';
 import { Advertisement } from './Advertisement/index';
 import { Chat } from './Chat/index';
 import { ConnectionNotice } from './ConnectionNotice/index';

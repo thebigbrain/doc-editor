@@ -1,13 +1,14 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 
 import LiveInfo from './LiveInfo'
 import LiveButton from './LiveButton'
 
 import { Description, ErrorDescription, WorkspaceInputContainer, WorkspaceSubtitle } from '../../elements'
-import { More } from '../More/index'
+import { More } from '../More'
+import {useOvermind} from '~/overmind'
 
 const Live = ({ signals, store }) => {
+  const {state: store, actions: signals} = useOvermind()
   const hasUnsyncedModules = !store.editor.isAllModulesSynced
 
   const showPlaceHolder =
@@ -90,4 +91,4 @@ const Live = ({ signals, store }) => {
   )
 }
 
-export default inject('signals', 'store')(observer(Live))
+export default Live

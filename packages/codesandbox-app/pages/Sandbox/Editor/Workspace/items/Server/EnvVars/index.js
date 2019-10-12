@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import { inject, observer } from 'app/componentConnectors'
 
 import { WorkspaceInputContainer } from '../../../elements'
 
 import { EnvEntry } from './EnvEntry'
 import { EnvModal } from './EnvModal'
+import {useOvermind} from "@doce/hooks"
 
-const EnvironmentVariablesComponent = ({ signals: { editor }, store }) => {
+const EnvironmentVariablesComponent = () => {
+  const {actions: { editor }, state: store} = useOvermind()
   useEffect(() => {
     editor.fetchEnvironmentVariables()
   }, [editor])
@@ -52,6 +53,4 @@ const EnvironmentVariablesComponent = ({ signals: { editor }, store }) => {
   )
 }
 
-export const EnvironmentVariables = inject('store', 'signals')(
-  observer(EnvironmentVariablesComponent),
-)
+export const EnvironmentVariables = EnvironmentVariablesComponent

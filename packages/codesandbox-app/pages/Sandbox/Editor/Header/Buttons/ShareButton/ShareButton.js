@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, ShareIcon} from './elements'
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 export const ShareButton = () => {
   const {

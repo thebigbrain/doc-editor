@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button} from './elements'
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 export const PickButton = () => {
   const {

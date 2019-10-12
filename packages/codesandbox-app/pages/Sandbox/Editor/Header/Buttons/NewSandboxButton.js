@@ -1,7 +1,7 @@
 import React from 'react';
 import {GoPlus as PlusIcon} from 'react-icons/go';
 import { Action } from './Action/index';
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 export const NewSandboxButton = () => {
   const {actions: { modalOpened }} = useOvermind()

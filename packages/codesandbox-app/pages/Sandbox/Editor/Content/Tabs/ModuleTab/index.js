@@ -1,7 +1,7 @@
 import React from 'react'
-import EntryIcons from 'app/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons'
+import EntryIcons from '~/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons'
 // eslint-disable-next-line import/extensions
-import getType from 'app/utils/get-type.ts'
+import getType from '~/utils/get-type'
 
 import { StyledNotSyncedIcon } from './elements'
 import { StyledCloseIcon, TabDir, TabTitle } from '../Tab/elements'

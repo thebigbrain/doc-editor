@@ -6,7 +6,7 @@ import HeartIcon from '@codesandbox/common/lib/icons/heart-open.svg' // eslint-d
 // @ts-ignore
 import FullHeartIcon from '@codesandbox/common/lib/icons/heart.svg' // eslint-disable-line import/no-webpack-loader-syntax
 import {Container} from './elements'
-import {useOvermind} from '@lz/hooks'
+import {useOvermind} from '~/overmind'
 
 const MaybeTooltip = ({loggedIn, disableTooltip, title, children}) =>
   loggedIn && !disableTooltip ? (

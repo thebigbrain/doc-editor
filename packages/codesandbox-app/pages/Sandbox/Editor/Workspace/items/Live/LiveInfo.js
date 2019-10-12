@@ -456,4 +456,4 @@ class LiveInfo extends React.Component {
   }
 }
 
-export default inject('store')(observer(LiveInfo))
+export default LiveInfo

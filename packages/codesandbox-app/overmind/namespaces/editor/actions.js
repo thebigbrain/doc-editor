@@ -1,13 +1,13 @@
-import {sortObjectByKeys} from 'codesandbox-app/overmind/utils/common'
-import {withLoadApp, withOwnedSandbox} from 'codesandbox-app/overmind/factories'
+import {sortObjectByKeys} from '~/overmind/utils/common'
+import {withLoadApp, withOwnedSandbox} from '~/overmind/factories'
 import {json} from 'overmind'
-import {clearCorrectionsFromAction} from 'codesandbox-app/utils/corrections'
+import {clearCorrectionsFromAction} from '~/utils/corrections'
 import {WindowOrientation} from '@codesandbox/common/lib/types'
 import {
   addDevToolsTab as addDevToolsTabUtil,
   closeDevToolsTab as closeDevToolsTabUtil,
   moveDevToolsTab as moveDevToolsTabUtil,
-} from 'codesandbox-app/pages/Sandbox/Editor/Content/utils'
+} from '~/pages/Sandbox/Editor/Content/utils'
 import * as internalActions from './internalActions'
 
 export const internal = internalActions;

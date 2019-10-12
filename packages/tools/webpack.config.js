@@ -13,10 +13,6 @@ const baseConfig = {
   },
   externals: [],
   resolve: {
-    modules: [
-      path.resolve('node_modules'),
-      path.resolve('.')
-    ],
     alias: {
       // ... and any other directories you might have
       '~': path.resolve('')
@@ -71,7 +67,12 @@ const clientConfig = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader?classPrefix',
+        use: {
+          loader: 'svg-react-loader',
+          options: {
+            name: 'Icon',
+          },
+        }
       },
       {
         test: /\.(png|jpg|gif)$/i,
@@ -93,8 +94,7 @@ const clientConfig = {
     new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
-    modules: [path.resolve('.'),]
+    extensions: ['*', '.js', '.jsx']
   },
   devServer: {
     contentBase: './dist',

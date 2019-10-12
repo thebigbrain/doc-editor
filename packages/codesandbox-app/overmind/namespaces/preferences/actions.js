@@ -1,4 +1,4 @@
-import { setVimExtensionEnabled } from '~/vscode/initializers';
+// import { setVimExtensionEnabled } from '~/vscode/initializers';
 import { json } from 'overmind';
 
 export const viewModeChanged = ({ state }, { showEditor, showPreview }) => {
@@ -39,7 +39,7 @@ export const settingChanged = ({ state, effects }, { name, value }) => {
   settingsTarget[lastKey] = value;
 
   if (name === 'vimMode') {
-    setVimExtensionEnabled(value);
+    // setVimExtensionEnabled(value);
   }
 
   effects.settingsStore.set(firstKey, state.preferences.settings[firstKey]);

@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import track from '@codesandbox/common/lib/utils/analytics';
-import Template from '@codesandbox/common/lib/components/Template';
-import { ImportTab } from './ImportTab';
-import { MyTemplates } from './MyTemplates/index';
-import { MyTemplatesTab } from './MyTemplatesTab/index';
-import { Button, Container, InnerContainer, Tab, TabContainer, Templates, Title } from './elements';
-import { client, container, popular, presets } from './availableTemplates';
+import React, { useState } from 'react'
+import track from '@codesandbox/common/lib/utils/analytics'
+import Template from '@codesandbox/common/lib/components/Template'
+import { ImportTab } from './ImportTab'
+import { MyTemplates } from './MyTemplates/index'
+import { MyTemplatesTab } from './MyTemplatesTab/index'
+import { Button, Container, InnerContainer, Tab, TabContainer, Templates, Title } from './elements'
+import { client, container, popular, presets } from './availableTemplates'
+import { useOvermind } from '~/overmind'
 
 export const NewSandboxModal =
   ({
      forking = false,
      closing = false,
      createSandbox,
-     store: { user },
    }) => {
-    const [selectedTab, setSelectedTab] = useState(0);
+    const { state: { user } } = useOvermind()
+
+    const [selectedTab, setSelectedTab] = useState(0)
 
     const tabs = [
       'Overview',
@@ -27,18 +29,18 @@ export const NewSandboxModal =
         name: buttonName,
         tabIndex: index,
       }))
-      .filter(({ name }) => Boolean(name));
+      .filter(({ name }) => Boolean(name))
 
     const selectTab = (tab) => {
-      setSelectedTab(tab.tabIndex);
+      setSelectedTab(tab.tabIndex)
 
-      track('New Sandbox Modal - Open Tab', { tabName: tab.name });
-    };
+      track('New Sandbox Modal - Open Tab', { tabName: tab.name })
+    }
 
     const selectTemplate = template => {
-      track('New Sandbox Modal - Select Template', { template });
-      createSandbox(template);
-    };
+      track('New Sandbox Modal - Select Template', { template })
+      createSandbox(template)
+    }
 
     return (
       <Container closing={closing} forking={forking}>
@@ -47,7 +49,7 @@ export const NewSandboxModal =
             <Button
               key={tab.name}
               onClick={() => {
-                selectTab(tab);
+                selectTab(tab)
               }}
               selected={selectedTab === tab.tabIndex}
             >
@@ -129,6 +131,6 @@ export const NewSandboxModal =
           </Tab>
         </InnerContainer>
       </Container>
-    );
-  };
+    )
+  }
 

@@ -17,8 +17,6 @@ import { isSafari } from '@codesandbox/common/lib/utils/platform'
 import { Routes as App } from './pages/index'
 import { config, OvermindProvider } from './overmind'
 import './split-pane.css'
-import { ErrorBoundary } from './pages/common/ErrorBoundary'
-
 
 const debug = _debug('cs:app')
 
@@ -53,11 +51,9 @@ async function boot(overmind) {
       render(
         <OvermindProvider value={overmind}>
           <ThemeProvider theme={theme}>
-            <ErrorBoundary>
-              <Router history={history}>
-                <App/>
-              </Router>
-            </ErrorBoundary>
+            <Router history={history}>
+              <App/>
+            </Router>
           </ThemeProvider>
         </OvermindProvider>,
         rootEl,

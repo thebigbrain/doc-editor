@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { client } from 'app/graphql/client'
+import { client } from '~/graphql/client'
 import immer from 'immer'
 import { notificationState } from '@codesandbox/common/lib/utils/notifications'
 import track from '@codesandbox/common/lib/utils/analytics'

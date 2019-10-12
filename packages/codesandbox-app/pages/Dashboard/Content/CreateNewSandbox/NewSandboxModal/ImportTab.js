@@ -1,9 +1,11 @@
 import React from 'react';
-import TerminalIcon from 'react-icons/lib/go/terminal';
-import UploadIcon from 'react-icons/lib/go/cloud-upload';
+import {
+  GoTerminal as TerminalIcon,
+  GoCloudUpload as UploadIcon,
+} from 'react-icons/go';
 import { ImportChoice, ImportChoices, ImportWizardContainer } from './elements';
 
-import { GitHubImport, StackbitImport } from './Imports/index';
+import { GitHubImport, StackbitImport } from './Imports';
 
 export const ImportTab = ({ username }) => (
   <>

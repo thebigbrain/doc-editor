@@ -7,12 +7,9 @@ import { Empty, Title } from './elements';
 
 // Would be good to actually have this interface filled out
 // Would be better if we could generate types from our GraphQL server
-interface ListTemplatesResponse {
-  me?: any;
-}
 
 export const MyTemplatesTab = ({ selectTemplate }) => {
-  const { data = {} } = useQuery<ListTemplatesResponse>(LIST_TEMPLATES, {
+  const { data = {} } = useQuery(LIST_TEMPLATES, {
     variables: { showAll: true },
     fetchPolicy: 'cache-and-network',
   });

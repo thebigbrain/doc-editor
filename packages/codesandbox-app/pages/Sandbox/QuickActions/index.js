@@ -6,13 +6,13 @@ import {ESC} from '@codesandbox/common/lib/utils/keycodes'
 
 import Input from '@codesandbox/common/lib/components/Input'
 import Keys from './Keys'
-import {userOvermind} from '~/overmind'
+import {useOvermind} from '~/overmind'
 
 import {Container, Entry, InputContainer, Items, Keybindings, Title} from './elements'
 
 
 function QuickActionsComponent() {
-  const {state, actions} = userOvermind()
+  const {state, actions} = useOvermind()
   // we'll just keep track of what the user changes the inputValue to be
   // so when the user makes a wish we can provide that info to genie
   let inputValue = ''

@@ -1,17 +1,15 @@
 import immer from 'immer';
-import { ViewConfig, ViewTab } from '@codesandbox/common/lib/templates/template';
-import { ITabPosition } from 'app/components/Preview/DevTools/Tabs';
 
-const isEqual = (prevPos: ITabPosition, nextPos: ITabPosition) =>
+const isEqual = (prevPos, nextPos) =>
   prevPos.devToolIndex === nextPos.devToolIndex &&
   prevPos.tabPosition === nextPos.tabPosition;
 
 export function addDevToolsTab(
-  tabs: ViewConfig[],
-  newTab: ViewTab,
-  position?: ITabPosition,
+  tabs,
+  newTab,
+  position,
 ) {
-  const positionToAdd: ITabPosition = position || {
+  const positionToAdd = position || {
     devToolIndex: 0,
     tabPosition: tabs[0].views.length,
   };
@@ -27,9 +25,9 @@ export function addDevToolsTab(
 }
 
 export function moveDevToolsTab(
-  tabs: ViewConfig[],
-  prevPos: ITabPosition,
-  nextPos: ITabPosition,
+  tabs,
+  prevPos,
+  nextPos,
 ) {
   if (isEqual(prevPos, nextPos)) {
     return tabs;
@@ -61,7 +59,7 @@ export function moveDevToolsTab(
   });
 }
 
-export function closeDevToolsTab(tabs: ViewConfig[], closePos: ITabPosition) {
+export function closeDevToolsTab(tabs, closePos) {
   // We want to do this immutable, to prevent conflicts while the file is changing
   return immer(tabs, draft => {
     const devTools = draft[closePos.devToolIndex];

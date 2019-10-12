@@ -1,7 +1,7 @@
 import React from 'react';
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator';
 import CustomTemplate from '@codesandbox/common/lib/components/CustomTemplate';
-import history from 'app/utils/history';
+import history from '~/utils/history';
 import { useQuery } from '@apollo/react-hooks';
 import { LIST_TEMPLATES } from '../../../../queries';
 import { Title } from '../elements';

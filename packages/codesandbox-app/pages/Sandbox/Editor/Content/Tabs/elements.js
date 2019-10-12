@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
-import PrettierIcon from 'react-icons/lib/md/brush'
+import {
+  MdBrush as PrettierIcon
+} from 'react-icons/md'
 
 const HEIGHT = '35px'
 

@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { inject, observer } from 'app/componentConnectors'
 import { sortBy } from 'lodash-es'
 
-import RecordIcon from 'react-icons/lib/md/fiber-manual-record'
+import {
+  MdFiberManualRecord as RecordIcon,
+  MdAdd as AddIcon,
+  MdRemove as RemoveIcon
+} from 'react-icons/md'
 import Input from '@codesandbox/common/lib/components/Input'
 import Margin from '@codesandbox/common/lib/components/spacing/Margin'
 import delay from '@codesandbox/common/lib/utils/animation/delay-effect'
@@ -11,10 +14,10 @@ import Switch from '@codesandbox/common/lib/components/Switch'
 
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 
-import AddIcon from 'react-icons/lib/md/add'
-import RemoveIcon from 'react-icons/lib/md/remove'
-import FollowIcon from 'react-icons/lib/io/eye'
-import UnFollowIcon from 'react-icons/lib/io/eye-disabled'
+import {
+  IoIosEye as FollowIcon,
+  IoIosEyeOff as UnFollowIcon
+} from 'react-icons/io'
 
 import User from './User'
 import Countdown from './Countdown'

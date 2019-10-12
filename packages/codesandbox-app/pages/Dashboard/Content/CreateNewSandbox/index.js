@@ -10,7 +10,7 @@ import Portal from '@codesandbox/common/lib/components/Portal'
 
 import { AnimatedModalContainer, ButtonsContainer, Container, ContainerLink, DarkBG } from './elements'
 // eslint-disable-next-line import/no-named-as-default
-import { NewSandboxModal } from './NewSandboxModal/index'
+import { NewSandboxModal } from './NewSandboxModal'
 
 class CreateNewSandbox extends React.PureComponent {
   state = {

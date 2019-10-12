@@ -1,6 +1,8 @@
 import React from 'react';
 import { Elastic, TweenMax } from 'gsap';
-import FaAngleUp from 'react-icons/lib/fa/angle-up';
+import {
+  FaAngleUp
+} from 'react-icons/fa';
 import store from 'store/dist/store.modern';
 
 import { TemplateType } from '@codesandbox/common/lib/templates';

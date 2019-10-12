@@ -10,7 +10,7 @@ import { Button } from '@codesandbox/common/lib/components/Button'
 import { useOvermind } from '~/overmind'
 
 import Loadable from '~/utils/Loadable'
-// import { ErrorBoundary } from './common/ErrorBoundary'
+import { ErrorBoundary } from './common/ErrorBoundary'
 import HTML5Backend from './common/HTML5BackendWithFolderSupport'
 // import Modals from './common/Modals'
 import Sandbox from './Sandbox'
@@ -33,6 +33,9 @@ const NotFound = Loadable(() => import('./common/NotFound'))
 // const Patron = Loadable(() => import('./Patron'));
 // const Curator = Loadable(() => import('./Curator'));
 // const CodeSadbox = () => this[`💥`].kaboom();
+
+
+const Boundary = withRouter(ErrorBoundary)
 
 export const Routes = () => {
   const {actions} = useOvermind()
@@ -72,30 +75,32 @@ export const Routes = () => {
         state={notificationState}
         Button={Button}
       />
-      <Content>
-        <Switch>
-          <Route exact path="/" render={() => <Redirect to="/s"/>}/>
-          {/*<Route exact path="/s/github" component={GitHub}/>*/}
-          {/*<Route exact path="/s/cli" component={CliInstructions}/>*/}
-          <Route exact path="/s" component={NewSandbox}/>
-          {/*<Route path="/dashboard" component={Dashboard}/>*/}
-          {/*<Route path="/curator" component={Curator}/>*/}
-          <Route path="/s/:id*" component={Sandbox}/>
-          {/*<Route path="/live/:id" component={Live}/>*/}
-          {/*<Route path="/signin" exact component={Dashboard}/>*/}
-          {/*<Route path="/signin/:jwt?" component={SignIn}/>*/}
-          {/*<Route path="/u/:username" component={Profile}/>*/}
-          {/*<Route path="/search" component={Search}/>*/}
-          {/*<Route path="/patron" component={Patron}/>*/}
-          {/*<Route path="/cli/login" component={CLI}/>*/}
-          {/*<Route path="/auth/zeit" component={ZeitSignIn}/>*/}
-          {/*{process.env.NODE_ENV === `development` && (*/}
-          {/*<Route path="/codesadbox" component={CodeSadbox}/>*/}
-          {/*)}*/}
-          <Route component={NotFound}/>
-        </Switch>
-      </Content>
-      {/*<Modals/>*/}
+      <Boundary>
+        <Content>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/s"/>}/>
+            {/*<Route exact path="/s/github" component={GitHub}/>*/}
+            {/*<Route exact path="/s/cli" component={CliInstructions}/>*/}
+            <Route exact path="/s" component={NewSandbox}/>
+            {/*<Route path="/dashboard" component={Dashboard}/>*/}
+            {/*<Route path="/curator" component={Curator}/>*/}
+            <Route path="/s/:id*" component={Sandbox}/>
+            {/*<Route path="/live/:id" component={Live}/>*/}
+            {/*<Route path="/signin" exact component={Dashboard}/>*/}
+            {/*<Route path="/signin/:jwt?" component={SignIn}/>*/}
+            {/*<Route path="/u/:username" component={Profile}/>*/}
+            {/*<Route path="/search" component={Search}/>*/}
+            {/*<Route path="/patron" component={Patron}/>*/}
+            {/*<Route path="/cli/login" component={CLI}/>*/}
+            {/*<Route path="/auth/zeit" component={ZeitSignIn}/>*/}
+            {/*{process.env.NODE_ENV === `development` && (*/}
+            {/*<Route path="/codesadbox" component={CodeSadbox}/>*/}
+            {/*)}*/}
+            <Route component={NotFound}/>
+          </Switch>
+        </Content>
+        {/*<Modals/>*/}
+      </Boundary>
     </Container>
     </DndProvider>
   )

@@ -19,12 +19,12 @@ import {Integrations} from './Integrations/index'
 import {Badges} from './Badges/index'
 import {Experiments} from './Experiments/index'
 import {KeyMapping} from './KeyMapping/index'
-import {userOvermind} from '~/overmind'
+import {useOvermind} from '~/overmind'
 
 import {Container, ContentContainer} from './elements'
 
 function PreferencesModal(props) {
-  const {state, actions} = userOvermind()
+  const {state, actions} = useOvermind()
 
   const getItems = () => {
     const hasSubscription = state.isPatron

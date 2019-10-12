@@ -20,7 +20,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "start": "parcel index.html"
+    "start": "webpack-dev-server"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
@@ -100,9 +100,15 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-react": "^7.6.3",
+    "@babel/runtime-corejs3": "^7.6.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
+    "css-loader": "^3.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "merge-deep": "^3.0.2",
     "parcel-bundler": "^1.12.4",
+    "style-loader": "^1.0.0",
+    "svg-react-loader": "^0.4.6",
     "typescript": "^3.6.3",
     "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9",

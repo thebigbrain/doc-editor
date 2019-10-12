@@ -1,4 +1,3 @@
-// @ts-check
 import React from 'react'
 import { MdKeyboardArrowRight as RightIcon, MdKeyboardArrowLeft as LeftIcon } from 'react-icons/md'
 import { Navigation } from '~/pages/common/Navigation'

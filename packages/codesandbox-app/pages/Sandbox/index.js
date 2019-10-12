@@ -11,9 +11,9 @@ import { Title } from '~/components/Title'
 import { Skeleton } from '~/components/Skeleton'
 import { QuickActions } from '~/pages/Sandbox/QuickActions'
 import { NotFound } from '~/pages/common/NotFound'
-// import { Navigation } from '~/pages/common/Navigation'
+import { Navigation } from '~/pages/common/Navigation'
 // import { GithubIntegration } from '~/pages/common/GithubIntegration'
-// import Editor from './Editor/index'
+import Editor from './Editor'
 import { useOvermind } from '~/overmind'
 
 function getContent(props) {
@@ -122,7 +122,7 @@ export default function(props) {
           }}
           margin={1}
         >
-          {/*<Navigation title="Sandbox Editor"/>*/}
+          <Navigation title="Sandbox Editor"/>
           <Centered
             style={{ flex: 1, width: '100%', height: '100%' }}
             horizontal
@@ -140,7 +140,7 @@ export default function(props) {
       <Helmet>
         <title>{getSandboxName(sandbox)} - CodeSandbox</title>
       </Helmet>
-      {/*<Editor match={match}/>*/}
+      <Editor match={match}/>
       <QuickActions/>
     </>
   )

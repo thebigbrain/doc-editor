@@ -2,10 +2,7 @@ import styled, { css } from 'styled-components';
 import delayEffect from '@codesandbox/common/lib/utils/animation/delay-effect';
 import delayOutEffect from '@codesandbox/common/lib/utils/animation/delay-out-effect';
 
-export const Container = styled.main<{
-  closing: boolean;
-  forking: boolean;
-}>`
+export const Container = styled.main`
   ${({ closing, forking, theme }) => css`
     display: flex;
     flex-direction: column;
@@ -41,10 +38,7 @@ css`
   `}
 `;
 
-export const TabContainer = styled.div<{
-  closing: boolean;
-  forking: boolean;
-}>`
+export const TabContainer = styled.div`
   ${({ closing, forking, theme }) => css`
     display: flex;
     align-items: flex-start;
@@ -62,10 +56,7 @@ css`
   `}
 `;
 
-export const InnerContainer = styled.div<{
-  closing: boolean;
-  forking: boolean;
-}>`
+export const InnerContainer = styled.div`
   ${({ closing, forking }) => css`
     padding: 2rem;
     overflow-y: auto;
@@ -99,7 +90,7 @@ export const ImportChoices = styled.div`
   ${delayEffect(0.1)};
 `;
 
-export const Tab = styled.section<{ visible: boolean }>`
+export const Tab = styled.section`
   ${({ visible }) => css`
     display: ${visible ? 'block' : 'none'};
     transition: 0.15s ease opacity;
@@ -134,9 +125,7 @@ const activeStyles = css`
   `}
 `;
 
-export const Button = styled.button<{
-  selected: boolean;
-}>`
+export const Button = styled.button`
   ${({ selected, theme }) => css`
     position: relative;
     padding: 1rem 2rem;

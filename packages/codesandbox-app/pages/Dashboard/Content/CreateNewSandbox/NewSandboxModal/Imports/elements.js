@@ -44,7 +44,7 @@ const linkStyles = css`
   font-size: 1rem;
 `;
 
-export const PlaceHolderLink = styled.span<{ error: string }>`
+export const PlaceHolderLink = styled.span`
   ${linkStyles};
 
   ${props =>

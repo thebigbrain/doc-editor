@@ -2,11 +2,7 @@ import React from 'react';
 import { ImportDescription, ImportHeader, Section } from './elements';
 import { StackbitButton } from './StackbitButton';
 
-interface Props {
-  username: string;
-}
-
-export const StackbitImport = ({ username }: Props) => (
+export const StackbitImport = ({ username }) => (
   <Section style={{ flex: 4 }}>
     <ImportHeader>Import from Stackbit</ImportHeader>
     <ImportDescription>

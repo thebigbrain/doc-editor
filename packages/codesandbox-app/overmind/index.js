@@ -7,7 +7,7 @@ import * as actions from './actions'
 import * as preferences from './namespaces/preferences'
 import * as userNotifications from './namespaces/userNotifications'
 // import * as patron from './namespaces/patron'
-// import * as editor from './namespaces/editor'
+import * as editor from './namespaces/editor'
 // import * as live from './namespaces/live'
 // import * as workspace from './namespaces/workspace'
 // import * as dashboard from './namespaces/dashboard'
@@ -31,7 +31,7 @@ export const config = merge(
     preferences,
     userNotifications,
     // patron,
-    // editor,
+    editor,
     // live,
     // workspace,
     // dashboard,

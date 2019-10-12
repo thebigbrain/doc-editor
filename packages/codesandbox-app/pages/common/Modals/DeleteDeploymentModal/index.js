@@ -1,9 +1,9 @@
 import React from 'react'
 import {Alert} from '~/components/Alert'
-import {userOvermind} from '~/overmind'
+import {useOvermind} from '~/overmind'
 
 function DeleteDeploymentModal() {
-  const {actions} = userOvermind()
+  const {actions} = useOvermind()
 
   return (
     <Alert

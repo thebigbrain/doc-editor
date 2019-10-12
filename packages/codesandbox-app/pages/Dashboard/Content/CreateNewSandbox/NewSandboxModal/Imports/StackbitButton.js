@@ -1,5 +1,5 @@
 import React from 'react';
-import history from 'app/utils/history';
+import history from '~/utils/history';
 import { Button } from '@codesandbox/common/lib/components/Button';
 import { gitHubToSandboxUrl } from '@codesandbox/common/lib/utils/url-generator';
 
@@ -23,8 +23,7 @@ function receiveMessage(event) {
   }
 }
 
-function openStackbit(username: string) {
-  // @ts-ignore
+function openStackbit(username) {
   window.stackbitWindow = window.open(
     `https://app.stackbit.com/wizard?ref=codesandbox&githubUser=${username}&ssgExclusive=1&ssg=gatsby&cmsExclusive=netlifycms,forestry,nocms`,
     '_blank',
@@ -32,12 +31,7 @@ function openStackbit(username: string) {
   );
 }
 
-interface Props {
-  username: string;
-  style?: React.CSSProperties;
-}
-
-export const StackbitButton = ({ username, style }: Props) => (
+export const StackbitButton = ({ username, style }) => (
   <Button style={style} small onClick={() => openStackbit(username)}>
     Generate Sandbox
   </Button>

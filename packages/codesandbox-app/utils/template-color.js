@@ -1,7 +1,6 @@
 import { decorateSelector } from '@codesandbox/common/lib/theme';
-import { Sandbox, Template } from '@codesandbox/common/lib/types';
 
-export const templateColor = (sandbox: Sandbox, templateDef: Template) => {
+export const templateColor = (sandbox, templateDef) => {
   if (sandbox && sandbox.customTemplate) {
     return decorateSelector(() => sandbox.customTemplate.color);
   }

@@ -19,7 +19,7 @@ import {Integrations} from './Integrations/index'
 import {Badges} from './Badges/index'
 import {Experiments} from './Experiments/index'
 import {KeyMapping} from './KeyMapping/index'
-import {userOvermind} from '@doce/hooks'
+import {userOvermind} from '~/overmind'
 
 import {Container, ContentContainer} from './elements'
 

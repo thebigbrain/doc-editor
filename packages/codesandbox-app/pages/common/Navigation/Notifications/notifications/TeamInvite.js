@@ -8,7 +8,7 @@ import React from 'react';
 import { NotificationImage as Image } from '../elements';
 import { Button, Buttons, Container, W } from './elements';
 // import { ACCEPT_TEAM_INVITATION, REJECT_TEAM_INVITATION } from '../../../../Dashboard/queries';
-import { useOvermind } from '@doce/hooks'
+import { useOvermind } from '~/overmind'
 
 export const TeamInvite =
     ({

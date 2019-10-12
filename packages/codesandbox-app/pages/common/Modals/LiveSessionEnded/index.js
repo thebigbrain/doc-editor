@@ -5,7 +5,7 @@ import Row from '@codesandbox/common/lib/components/flex/Row'
 
 import { Container } from './elements'
 import { Explanation, Heading } from '../elements'
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 
 function LiveModeEnded() {

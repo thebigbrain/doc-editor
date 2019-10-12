@@ -7,17 +7,17 @@ import { createOvermind } from 'overmind'
 import { logError } from '@codesandbox/common/lib/utils/analytics'
 import '@codesandbox/common/lib/global.css'
 import history from '~/utils/history'
-// import { client } from 'app/graphql/client'
+// import { client } from '~/graphql/client'
 import requirePolyfills from '@codesandbox/common/lib/load-dynamic-polyfills'
 import { convertTypeToStatus, notificationState } from '@codesandbox/common/lib/utils/notifications'
 import 'normalize.css'
 import theme from '@codesandbox/common/lib/theme'
 import { isSafari } from '@codesandbox/common/lib/utils/platform'
-// eslint-disable-next-line
-import { Provider as OvermindProvider } from 'overmind-react'
+
 import { Routes as App } from './pages/index'
-import { config } from './overmind/index'
+import { config, OvermindProvider } from './overmind'
 import './split-pane.css'
+import { ErrorBoundary } from './pages/common/ErrorBoundary'
 
 
 const debug = _debug('cs:app')
@@ -53,9 +53,11 @@ async function boot(overmind) {
       render(
         <OvermindProvider value={overmind}>
           <ThemeProvider theme={theme}>
-            <Router history={history}>
-              <App/>
-            </Router>
+            <ErrorBoundary>
+              <Router history={history}>
+                <App/>
+              </Router>
+            </ErrorBoundary>
           </ThemeProvider>
         </OvermindProvider>,
         rootEl,

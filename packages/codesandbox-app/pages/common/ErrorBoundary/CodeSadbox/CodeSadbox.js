@@ -6,12 +6,11 @@ import {
 import { Button } from '@codesandbox/common/lib/components/Button';
 import { dashboardUrl } from '@codesandbox/common/lib/utils/url-generator';
 import { Navigation } from '~/pages/common/Navigation';
-// @ts-ignore
 import Dashboard from '@codesandbox/common/lib/icons/dashboard.svg';
 import { Sadbox } from './Sadbox';
 import { buildCrashReport } from './buildCrashReport';
 import { Actions, ButtonIcon, Container, Content, Header, Nav, Subtitle, Title } from './elements';
-import { useOvermind } from '@doce/hooks'
+import { useOvermind } from '~/overmind'
 
 export const CodeSadbox = ({ error, trace }) => {
   const {state} = useOvermind()

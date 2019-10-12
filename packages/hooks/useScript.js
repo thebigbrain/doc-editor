@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 const cachedScripts = []
 
-const useScript = (src) => {
+export const useScript = (src) => {
   const [state, setState] = useState({
     loaded: false,
     error: false,
@@ -60,5 +60,3 @@ const useScript = (src) => {
 
   return [state.loaded, state.error]
 }
-
-export default useScript

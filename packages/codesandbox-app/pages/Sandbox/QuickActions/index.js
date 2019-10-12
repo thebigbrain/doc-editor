@@ -6,7 +6,7 @@ import {ESC} from '@codesandbox/common/lib/utils/keycodes'
 
 import Input from '@codesandbox/common/lib/components/Input'
 import Keys from './Keys'
-import {userOvermind} from '@doce/hooks'
+import {userOvermind} from '~/overmind'
 
 import {Container, Entry, InputContainer, Items, Keybindings, Title} from './elements'
 

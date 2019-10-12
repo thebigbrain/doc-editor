@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import MaxWidth from '@codesandbox/common/lib/components/flex/MaxWidth';
 import Margin from '@codesandbox/common/lib/components/spacing/Margin';
 import Centered from '@codesandbox/common/lib/components/flex/Centered';
-import { useOvermind } from '@doce/hooks';
+import { useOvermind } from '~/overmind';
 import { Title } from '~/components/Title';
 import { SubTitle } from '~/components/SubTitle';
 import { Navigation } from '~/pages/common/Navigation';

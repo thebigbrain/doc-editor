@@ -13,7 +13,7 @@ import { DevTools } from '~/components/Preview/DevTools'
 import { Preview } from './Preview/index'
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll'
 import Tabs from './Tabs/index'
-import {withOvermind} from "@doce/hooks"
+import {withOvermind} from "~/overmind"
 
 const settings = store => ({
   fontFamily: store.preferences.settings.fontFamily,

@@ -1,7 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const merge = require('merge-deep')
+
+exports.merge = require('merge-deep')
+
+console.log(path.resolve(__dirname, '.'), path.resolve('.'))
 
 const baseConfig = {
   mode: process.env.mode || 'development',
@@ -11,20 +14,18 @@ const baseConfig = {
   externals: [],
   resolve: {
     modules: [
-      path.resolve(__dirname, 'node_modules'),
+      path.resolve('node_modules'),
+      path.resolve('.')
     ],
     alias: {
       // ... and any other directories you might have
-      client: path.resolve(__dirname, 'client'),
-      server: path.resolve(__dirname, 'server'),
-      components: path.resolve(__dirname, 'client/components'),
-      pages: path.resolve(__dirname, 'client/pages'),
+      '~': path.resolve('')
     },
   },
 }
 
 const clientConfig = {
-  entry: './src/index.js',
+  entry: './index.js',
   output: {
     publicPath: '/',
   },
@@ -49,6 +50,7 @@ const clientConfig = {
                 },
               ],
               '@babel/plugin-proposal-class-properties',
+              "babel-plugin-styled-components",
             ],
           },
         },
@@ -86,15 +88,13 @@ const clientConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/public/index.html',
+      template: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
     extensions: ['*', '.js', '.jsx'],
-    modules: [
-      path.resolve(__dirname, 'client'),
-    ]
+    modules: [path.resolve('.'),]
   },
   devServer: {
     contentBase: './dist',
@@ -105,6 +105,5 @@ const clientConfig = {
   },
   devtool: 'eval-source-map'
 }
-module.exports = [
-  merge(baseConfig, clientConfig),
-]
+
+exports.commonConfig = exports.merge(baseConfig, clientConfig)

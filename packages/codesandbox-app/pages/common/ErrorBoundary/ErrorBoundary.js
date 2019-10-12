@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CodeSadbox } from './CodeSadbox/index';
+import { CodeSadbox } from './CodeSadbox';
 
 export class ErrorBoundary extends Component {
   static defaultProps = {

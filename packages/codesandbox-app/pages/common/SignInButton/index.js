@@ -3,7 +3,7 @@ import * as React from 'react';
 import { GoMarkGithub as GithubIcon} from 'react-icons/go';
 import { Button } from '@codesandbox/common/lib/components/Button';
 import Row from '@codesandbox/common/lib/components/flex/Row';
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 const SignInButtonComponent = (props) => {
   const { actions } = useOvermind()

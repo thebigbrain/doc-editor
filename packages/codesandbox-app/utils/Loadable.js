@@ -1,5 +1,5 @@
 import React from 'react'
-import { Loading } from 'app/components/Loading'
+import { Loading } from '~/components/Loading'
 
 export default loader =>
   class extends React.Component {

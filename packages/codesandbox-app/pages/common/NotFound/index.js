@@ -4,7 +4,7 @@ import { Button } from '@codesandbox/common/lib/components/Button';
 import { newSandboxWizard } from '@codesandbox/common/lib/utils/url-generator';
 
 import { Buttons, Container, SubTitle, Title } from './elements';
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 export const NotFound = () => {
   const {state} = useOvermind()

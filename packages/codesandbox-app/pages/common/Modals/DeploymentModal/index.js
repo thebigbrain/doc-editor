@@ -15,7 +15,7 @@ import {
   StyledLogo,
   StyledNowLogo,
 } from './elements'
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 export default function DeploymentModal() {
   const {state, actions} = useOvermind()

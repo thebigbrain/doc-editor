@@ -22,7 +22,7 @@ import { Notifications } from './Notifications/index';
 import { SignInButton } from '../SignInButton/index';
 import { UserMenu } from '../UserMenu/index';
 import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements';
-import { useOvermind } from '@doce/hooks'
+import { useOvermind } from '~/overmind'
 
 export const Navigation = ({ title, searchNoInput, }) => {
   const {

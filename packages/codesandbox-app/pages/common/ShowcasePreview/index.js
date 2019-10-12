@@ -2,7 +2,7 @@ import React from 'react'
 
 import Preview from '@codesandbox/common/lib/components/Preview'
 import { parseSandboxConfigurations } from '@codesandbox/common/lib/templates/configuration/parse-sandbox-configurations'
-import { mainModule } from 'app/store/utils/main-module'
+import { mainModule } from '~/store/utils/main-module'
 
 import { Container } from './elements'
 

@@ -1,5 +1,4 @@
 import { isIOS } from '@codesandbox/common/lib/utils/platform';
-import { Derive } from '~/overmind';
 import { KEYBINDINGS } from '@codesandbox/common/lib/utils/keybindings';
 
 export const state = {

@@ -3,7 +3,7 @@ import Relative from '@codesandbox/common/lib/components/Relative'
 import { HoverMenu } from '~/components/HoverMenu'
 import { Menu } from './Menu/index'
 import { ClickableContainer, ProfileImage } from './elements'
-import { useOvermind } from '@doce/hooks'
+import { useOvermind } from '~/overmind'
 
 export const UserMenu = () => {
   const {

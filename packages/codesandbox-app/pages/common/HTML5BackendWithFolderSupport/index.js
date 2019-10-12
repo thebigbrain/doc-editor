@@ -1,5 +1,5 @@
 import HTML5Backend from 'react-dnd-html5-backend'
-import { getFilesFromDragEvent } from './html-dir-content/index'
+import { getFilesFromDragEvent } from './html-dir-content'
 
 export default (manager) => {
   const backend = HTML5Backend(manager)

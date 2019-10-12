@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert } from '~/components/Alert'
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 
 function DeleteProfileSandboxModal() {

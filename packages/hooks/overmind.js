@@ -1,5 +1,6 @@
-import { createHook, createConnect  } from 'overmind-react'
+import { createHook, createConnect, Provider } from 'overmind-react'
 
 export const useOvermind = createHook()
 
 export const withOvermind = createConnect()
+export const OvermindProvider = Provider

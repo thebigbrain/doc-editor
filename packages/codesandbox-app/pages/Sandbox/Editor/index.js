@@ -13,7 +13,7 @@ import Content from './Content/index'
 import {Header} from './Header/index'
 import {Navigation} from './Navigation/index'
 import getVSCodeTheme from './utils/get-vscode-theme'
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 const STATUS_BAR_SIZE = 22
 

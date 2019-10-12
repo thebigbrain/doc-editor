@@ -1,9 +1,10 @@
 import { merge, namespaced } from 'overmind/config'
-// import * as effects from './effects'
+import {createConnect, createHook, Provider} from 'overmind-react'
+import * as effects from './effects'
 import { state } from './state'
 import { onInitialize } from './onInitialize'
 import * as actions from './actions'
-// import * as preferences from './namespaces/preferences'
+import * as preferences from './namespaces/preferences'
 import * as userNotifications from './namespaces/userNotifications'
 // import * as patron from './namespaces/patron'
 // import * as editor from './namespaces/editor'
@@ -22,12 +23,12 @@ import * as userNotifications from './namespaces/userNotifications'
 export const config = merge(
   {
     onInitialize,
-    // effects,
+    effects,
     state,
     actions,
   },
   namespaced({
-    // preferences,
+    preferences,
     userNotifications,
     // patron,
     // editor,
@@ -43,3 +44,9 @@ export const config = merge(
     // modals: createModals(modals),
   }),
 );
+
+// export * from '@doce/hooks'
+
+export const useOvermind = createHook()
+export const withOvermind = createConnect()
+export const OvermindProvider = Provider

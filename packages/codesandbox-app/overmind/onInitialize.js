@@ -3,6 +3,7 @@ export const onInitialize = (
   overmindInstance,
 ) => {
   const provideJwtToken = () => state.jwt || effects.jwt.get();
+  return null
 
   effects.fsSync.initialize({
     getCurrentSandboxId() {

@@ -17,7 +17,7 @@ import { ConnectionNotice } from './ConnectionNotice/index';
 import { SSEDownNotice } from './SSEDownNotice/index';
 import { WorkspaceItem } from './WorkspaceItem/index';
 import { ContactContainer, Container, ItemTitle, VersionContainer } from './elements';
-import {useOvermind} from "@doce/hooks"
+import {useOvermind} from "~/overmind"
 
 const workspaceTabs = {
   project: ProjectInfo,

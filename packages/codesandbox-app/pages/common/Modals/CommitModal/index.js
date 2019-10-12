@@ -1,6 +1,6 @@
 import React from 'react'
 import { GitProgress } from '~/components/GitProgress'
-import {useOvermind} from '@doce/hooks'
+import {useOvermind} from '~/overmind'
 
 
 export default function CommitModal() {

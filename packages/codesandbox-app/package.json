@@ -4,15 +4,15 @@
   "license": "ISC",
   "babel": {
     "presets": [
+      "@babel/preset-env",
       "@babel/preset-react"
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      "babel-plugin-styled-components"
+      "@babel/plugin-transform-runtime",
+      "babel-plugin-styled-components",
+      "@babel/plugin-proposal-export-namespace-from"
     ]
-  },
-  "alias": {
-    "app": "~"
   },
   "browserslist": [
     ">0.25%",
@@ -30,6 +30,7 @@
     "@doce/theme": "^1.0.0",
     "@typeform/embed": "^0.13.1",
     "@types/react": "^16.8.0",
+    "airtable": "^0.7.1",
     "ansi-html": "^0.0.7",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
@@ -55,16 +56,18 @@
     "gsap": "^2.1.3",
     "history": "^4.10.1",
     "http-browserify": "^1.7.0",
+    "humps": "^2.0.1",
     "immer": "^4.0.1",
     "immutability-helper": "^3.0.1",
     "instantsearch.css": "^7.3.1",
     "jszip": "^3.2.2",
     "lodash-es": "^4.17.15",
     "match-sorter": "^4.0.2",
+    "merge-deep": "^3.0.2",
     "normalize.css": "^8.0.1",
     "ot": "^0.0.15",
     "overmind": "^19.2.0",
-    "overmind-react": "^20.2.0",
+    "overmind-react": "^21.0.0",
     "phoenix": "^1.4.10",
     "qrcode.react": "^0.9.3",
     "rc-slider": "^8.7.1",
@@ -94,9 +97,15 @@
   "devDependencies": {
     "@babel/core": "^7.6.3",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
   }
 }

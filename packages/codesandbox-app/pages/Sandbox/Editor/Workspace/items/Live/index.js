@@ -3,11 +3,11 @@ import React from 'react'
 import LiveInfo from './LiveInfo'
 import LiveButton from './LiveButton'
 
-import { Description, ErrorDescription, WorkspaceInputContainer, WorkspaceSubtitle } from '../../elements'
-import { More } from '../More'
+import {Description, ErrorDescription, WorkspaceInputContainer, WorkspaceSubtitle} from '../../elements'
+import {More} from '../More'
 import {useOvermind} from '~/overmind'
 
-const Live = ({ signals, store }) => {
+const Live = () => {
   const {state: store, actions: signals} = useOvermind()
   const hasUnsyncedModules = !store.editor.isAllModulesSynced
 

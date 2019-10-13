@@ -1,12 +1,12 @@
-import { Button } from '@codesandbox/common/lib/components/Button';
-import Modal from 'app/components/Modal';
-import { useOvermind } from 'app/overmind';
-import React from 'react';
-import useKeyPressEvent from 'react-use/lib/useKeyPressEvent';
+import {Button} from '@codesandbox/common/lib/components/Button'
+import Modal from '~/components/Modal'
+import {useOvermind} from '~/overmind'
+import React from 'react'
+import useKeyPressEvent from 'react-use/lib/useKeyPressEvent'
 
-import { Actions, Close, Container, Enter, Title, UnlockButton } from './elements';
+import {Actions, Close, Container, Enter, Title, UnlockButton} from './elements'
 
-const ModalContent: React.FC = () => {
+const ModalContent = () => {
   const {
     state: {
       editor: {
@@ -21,7 +21,7 @@ const ModalContent: React.FC = () => {
     modalsActions.forkFrozenModal.close('unfreeze');
   };
 
-  const fork = (event?: { defaultPrevented: boolean }) => {
+  const fork = (event) => {
     if (event && !event.defaultPrevented) {
       modalsActions.forkFrozenModal.close('fork');
     }
@@ -49,7 +49,7 @@ const ModalContent: React.FC = () => {
   );
 };
 
-export const ForkFrozenSandboxModal: React.FC = () => {
+export const ForkFrozenSandboxModal = () => {
   const {
     state: { modals },
     actions: { modals: modalsActions },

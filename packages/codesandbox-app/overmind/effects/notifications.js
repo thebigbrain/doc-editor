@@ -1,17 +1,14 @@
-import { Channel, Socket } from 'phoenix';
+import {Channel, Socket} from 'phoenix'
 
-type Options = {
-  provideSocket: () => Socket;
-};
 
-let channel: Channel = null;
-let _options: Options = null;
+let channel = null
+let _options = null
 
 /*
   TODO: Refactor to pass in data instead of using context
 */
 export default {
-  initialize(options: Options) {
+  initialize(options) {
     _options = options;
   },
   disconnect() {
@@ -27,7 +24,7 @@ export default {
         .receive('error', resp => reject(resp));
     });
   },
-  joinChannel(userId: string): Promise<{ unread: number }> {
+  joinChannel(userId) {
     const socket = _options.provideSocket();
 
     channel = socket.channel(`notification:${userId}`, {});
@@ -39,8 +36,8 @@ export default {
         .receive('error', resp => reject(resp));
     });
   },
-  listen(action: (message: { event: string; data: any }) => void) {
-    channel.onMessage = (event: any, data: any) => {
+  listen(action) {
+    channel.onMessage = (event, data) => {
       const disconnected = data == null && event === 'phx_error';
       const alteredEvent = disconnected ? 'connection-loss' : event;
 

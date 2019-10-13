@@ -1,8 +1,6 @@
-import { Action, AsyncAction } from 'app/overmind';
-import { EditorSelection, Module, Sandbox } from '@codesandbox/common/lib/types';
-import { json } from 'overmind';
+import {json} from 'overmind'
 
-export const clearUserSelections: Action<any> = ({ state }, live_user_id) => {
+export const clearUserSelections = ({state}, live_user_id) => {
   const clearSelections = userId => {
     const userIndex = state.live.roomInfo.users.findIndex(u => u.id === userId);
 
@@ -27,7 +25,7 @@ export const clearUserSelections: Action<any> = ({ state }, live_user_id) => {
   }
 };
 
-export const reset: Action = ({ state, actions, effects }) => {
+export const reset = ({state, actions, effects}) => {
   actions.live.internal.clearUserSelections(null);
   state.live.isLive = false;
   state.live.error = null;
@@ -36,12 +34,12 @@ export const reset: Action = ({ state, actions, effects }) => {
   effects.live.resetClients();
 };
 
-export const disconnect: Action = ({ effects }) => {
+export const disconnect = ({effects}) => {
   effects.live.resetClients();
   effects.live.disconnect();
 };
 
-export const initialize: AsyncAction<string, Sandbox> = async (
+export const initialize = async (
   { state, effects, actions },
   id,
 ) => {
@@ -83,7 +81,7 @@ export const initialize: AsyncAction<string, Sandbox> = async (
   return null;
 };
 
-export const initializeModuleState: Action<any> = (
+export const initializeModuleState = (
   { state, effects },
   moduleState,
 ) => {
@@ -107,7 +105,7 @@ export const initializeModuleState: Action<any> = (
   });
 };
 
-export const getSelectionsForModule: Action<Module, EditorSelection[]> = (
+export const getSelectionsForModule = (
   { state },
   module,
 ) => {

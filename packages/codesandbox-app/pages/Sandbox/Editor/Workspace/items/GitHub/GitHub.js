@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import { GithubIntegration } from '~/pages/common/GithubIntegration';
+import {GithubIntegration} from '~/pages/common/GithubIntegration'
 
-import { Description } from '../../elements';
-import { WorkspaceItem } from '../../WorkspaceItem/index';
+import {Description} from '../../elements'
+import {WorkspaceItem} from '../../WorkspaceItem/index'
 
-import { CreateRepo } from './CreateRepo/index';
-import { Git } from './Git';
-import { More } from '../More';
-import {useOvermind} from "@doce/hooks"
+import {CreateRepo} from './CreateRepo/index'
+import {Git} from './Git'
+import {More} from '../More'
+import {useOvermind} from "~/overmind"
 
 export const GitHub = () => {
   const {state: store} = useOvermind()

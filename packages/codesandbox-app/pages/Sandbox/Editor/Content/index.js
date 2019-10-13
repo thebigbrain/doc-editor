@@ -1,18 +1,17 @@
-// @flow
 import * as React from 'react'
-import { json } from 'overmind'
-import { ThemeProvider } from 'styled-components'
-import { Prompt } from 'react-router-dom'
-import { TextOperation } from 'ot'
+import {json} from 'overmind'
+import {ThemeProvider} from 'styled-components'
+import {Prompt} from 'react-router-dom'
+import {TextOperation} from 'ot'
 import getTemplateDefinition from '@codesandbox/common/lib/templates'
 import SplitPane from 'react-split-pane'
 
-import { CodeEditor } from '~/components/CodeEditor'
-import { DevTools } from '~/components/Preview/DevTools'
+import {CodeEditor} from '~/components/CodeEditor'
+import {DevTools} from '~/components/Preview/DevTools'
 
-import { Preview } from './Preview/index'
-import preventGestureScroll, { removeListener } from './prevent-gesture-scroll'
-import Tabs from './Tabs/index'
+import {Preview} from './Preview'
+import preventGestureScroll, {removeListener} from './prevent-gesture-scroll'
+import Tabs from './Tabs'
 import {withOvermind} from "~/overmind"
 
 const settings = store => ({

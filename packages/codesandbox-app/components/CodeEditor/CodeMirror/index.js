@@ -1,12 +1,10 @@
-// @flow
-
 import * as React from 'react'
 import CodeMirror from 'codemirror'
-import { withTheme } from 'styled-components'
-import { resolveModule } from '@codesandbox/common/lib/sandbox/modules'
-import { getCodeMirror } from 'app/utils/codemirror'
+import {withTheme} from 'styled-components'
+import {resolveModule} from '@codesandbox/common/lib/sandbox/modules'
+import {getCodeMirror} from '~/utils/codemirror'
 
-import { listen } from 'codesandbox-api'
+import {listen} from 'codesandbox-api'
 
 import 'codemirror/addon/dialog/dialog'
 import 'codemirror/addon/hint/show-hint'
@@ -15,37 +13,33 @@ import 'codemirror/addon/lint/lint.css'
 import 'codemirror/addon/lint/lint'
 
 import FuzzySearch from '../FuzzySearch/index'
-import { CodeContainer, Container } from './elements'
+import {CodeContainer, Container} from './elements'
 // eslint-disable-next-line
 import LinterWorker
   from 'worker-loader?publicPath=/&name=monaco-linter.[hash:8].worker.js!../Monaco/workers/linter/index'
-import type { ModuleError, Module } from '@codesandbox/common/lib/types'
-import type { Props, Editor } from '../types'
 
-type
-State = { fuzzySearchEnabled: boolean }
 
 const documentCache = {}
 
 const highlightLines = (
-  cm: typeof CodeMirror,
-  highlightedLines: Array<number>,
+  cm,
+  highlightedLines,
 ) => {
   highlightedLines.forEach(line => {
     cm.addLineClass(+line - 1, 'background', 'cm-line-highlight')
   })
 }
 
-class CodemirrorEditor extends React.Component<Props, State> implements Editor {
-  codemirror: typeof CodeMirror
+class CodemirrorEditor extends React.Component {
+  codemirror
 
-  codemirrorElement: ?HTMLDivElement
-  server: $PropertyType<CodeMirror, 'TernServer'>
-  sandbox: $PropertyType<Props, 'sandbox'>
-  currentModule: $PropertyType<Props, 'currentModule'>
-  settings: $PropertyType<Props, 'settings'>
-  dependencies: $PropertyType<Props, 'dependencies'>
-  disposeInitializer: ?() => void
+  codemirrorElement
+  server
+  sandbox
+  currentModule
+  settings
+  dependencies
+  disposeInitializer
   setupCodeSandboxListener = () => listen(this.handleMessage)
   handleMessage = action => {
     if (action.action === 'editor.open-module') {
@@ -62,7 +56,21 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
       }
     }
   }
-  setErrors = (errors: Array<ModuleError>) => {
+  linterWorker
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      fuzzySearchEnabled: false,
+    }
+    this.sandbox = props.sandbox
+    this.currentModule = props.currentModule
+    this.settings = props.settings
+
+    this.codeSandboxListener = this.setupCodeSandboxListener()
+  }
+
+  setErrors = (errors) => {
     const codeLines = this.codemirror.getValue().split('\n')
 
     codeLines.forEach((_, i) => {
@@ -79,8 +87,8 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
       }
     })
   }
-  linterWorker: ?Worker
-  validate = (code: string = '', updateLinting: Function) => {
+
+  validate = (code = '', updateLinting) => {
     if (!this.currentModule || !/\.jsx?$/.test(this.currentModule.title)) {
       updateLinting([])
       return
@@ -99,7 +107,7 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
         version: code,
       })
 
-      linterWorker.onmessage = (event: MessageEvent) => {
+      linterWorker.onmessage = (event) => {
         // $FlowIssue
         const { markers, version } = event.data
 
@@ -122,7 +130,8 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
       }
     }
   }
-  changeSettings = async (settings: $PropertyType<Props, 'settings'>) => {
+
+  changeSettings = async (settings) => {
     const defaultKeys = {
       'Cmd-/': cm => {
         cm.listSelections().forEach(() => {
@@ -256,7 +265,8 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
 
     this.forceUpdate()
   }
-  changeModule = async (newModule: Module) => {
+
+  changeModule = async (newModule) => {
     this.currentModule = newModule
 
     const { currentModule } = this
@@ -275,7 +285,8 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
     this.changeCode(currentModule.code || '')
     this.configureEmmet()
   }
-  changeCode = (code: string = '', moduleId: string) => {
+
+  changeCode = (code = '', moduleId) => {
     const pos = this.codemirror.getCursor()
     this.codemirror.setCursor(pos)
     if (
@@ -285,7 +296,31 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
       this.codemirror.setValue(code)
     }
   }
-  getMode = async (title: string) => {
+  initializeCodemirror = async () => {
+    const el = this.codemirrorElement
+    const {code, id, title} = this.currentModule
+
+    if (!this.props.onlyViewMode && this.props.settings.vimMode) {
+      // We let codemirror handle save when vim mode is enabled, because this allows
+      // us to have :w functionality
+      CodeMirror.commands.save = this.handleSaveCode
+    }
+
+    const mode = (await this.getMode(title)) || 'typescript'
+
+    documentCache[id] = new CodeMirror.Doc(code || '', mode)
+
+    this.codemirror = getCodeMirror(el, documentCache[id])
+
+    if (this.props.highlightedLines) {
+      highlightLines(this.codemirror, this.props.highlightedLines)
+    }
+
+    this.codemirror.on('changes', this.handleChange)
+    this.changeSettings(this.settings)
+  }
+
+  getMode = async (title) => {
     if (title == null) return 'jsx'
 
     const kind = title.match(/\.([^.]*)$/)
@@ -356,34 +391,6 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
 
     return 'jsx'
   }
-  initializeCodemirror = async () => {
-    const el = this.codemirrorElement
-    const { code, id, title } = this.currentModule
-
-    if (!this.props.onlyViewMode && this.props.settings.vimMode) {
-      // We let codemirror handle save when vim mode is enabled, because this allows
-      // us to have :w functionality
-      CodeMirror.commands.save = this.handleSaveCode
-    }
-
-    const mode = (await this.getMode(title)) || 'typescript'
-
-    documentCache[id] = new CodeMirror.Doc(code || '', mode)
-
-    this.codemirror = getCodeMirror(el, documentCache[id])
-
-    if (this.props.highlightedLines) {
-      highlightLines(this.codemirror, this.props.highlightedLines)
-    }
-
-    this.codemirror.on('changes', this.handleChange)
-    this.changeSettings(this.settings)
-  }
-  handleChange = (cm: typeof CodeMirror, change: { origin: string }) => {
-    if (change.origin !== 'setValue' && this.props.onChange) {
-      this.props.onChange(cm.getValue(), this.currentModule.shortid)
-    }
-  }
   getCode = () => this.codemirror.getValue()
   handleSaveCode = async () => {
     const { onSave } = this.props
@@ -406,7 +413,14 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
   closeFuzzySearch = () => {
     this.setState({ fuzzySearchEnabled: false }, () => this.forceUpdate())
   }
-  setCurrentModule = (moduleId: string) => {
+
+  handleChange = (cm, change) => {
+    if (change.origin !== 'setValue' && this.props.onChange) {
+      this.props.onChange(cm.getValue(), this.currentModule.shortid)
+    }
+  }
+
+  setCurrentModule = (moduleId) => {
     this.closeFuzzySearch()
     if (!window.__isTouch) {
       this.codemirror.focus()
@@ -416,19 +430,7 @@ class CodemirrorEditor extends React.Component<Props, State> implements Editor {
     }
   }
 
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      fuzzySearchEnabled: false,
-    }
-    this.sandbox = props.sandbox
-    this.currentModule = props.currentModule
-    this.settings = props.settings
-
-    this.codeSandboxListener = this.setupCodeSandboxListener()
-  }
-
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps) {
     if (
       this.props.width !== nextProps.width ||
       this.props.height !== nextProps.height

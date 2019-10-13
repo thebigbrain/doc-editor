@@ -1,36 +1,34 @@
 import React from 'react'
 
-import { Editor, Settings } from '../types'
 import MonacoReactComponent from '../Monaco/MonacoReactComponent'
 import defineTheme from '../Monaco/define-theme'
 
-import { CodeContainer, Container } from '../Monaco/elements'
+import {CodeContainer, Container} from '../Monaco/elements'
 import getSettings from '../Monaco/settings'
 import getMode from '../Monaco/mode'
 
-type
-Props = {
-  originalCode: string,
-  modifiedCode: string,
-  title? : string,
-  settings: Settings,
-}
 
-export default class MonacoDiff extends React.Component<Props>
-  implements Editor {
-  editor: any
-  monaco: any
-  sizeProbeInterval: IntervalID // eslint-disable-line no-undef
-  settings: Settings
+export default class MonacoDiff extends React.Component {
+  editor
+  monaco
+  sizeProbeInterval // eslint-disable-line no-undef
+  settings
   resizeEditor = () => {
     this.forceUpdate(() => {
       this.editor.layout()
     })
   }
+
+  constructor(props) {
+    super(props)
+
+    this.settings = props.settings
+  }
+
   setDiff = async (
-    originalCode: string,
-    modifiedCode: string,
-    title: string,
+    originalCode,
+    modifiedCode,
+    title,
   ) => {
     const mode = (await getMode(title, this.monaco)) || 'typescript'
     const originalModel = this.monaco.editor.createModel(originalCode, mode)
@@ -41,7 +39,8 @@ export default class MonacoDiff extends React.Component<Props>
       modified: modifiedModel,
     })
   }
-  configureEditor = async (editor: any, monaco: any) => {
+
+  configureEditor = async (editor, monaco) => {
     this.editor = editor
     this.monaco = monaco
 
@@ -57,13 +56,7 @@ export default class MonacoDiff extends React.Component<Props>
     this.sizeProbeInterval = setInterval(this.resizeEditor.bind(this), 3000)
   }
 
-  constructor(props: Props) {
-    super(props)
-
-    this.settings = props.settings
-  }
-
-  UNSAFE_componentWillUpdate(nextProps: Props) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (
       this.props.originalCode !== nextProps.originalCode ||
       this.props.modifiedCode !== nextProps.modifiedCode

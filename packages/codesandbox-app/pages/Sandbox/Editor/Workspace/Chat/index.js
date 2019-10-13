@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { sortBy, takeRight } from 'lodash-es'
-import { inject, observer } from 'app/componentConnectors'
+import {sortBy, takeRight} from 'lodash-es'
+import {inject, observer} from 'app/componentConnectors'
 
 import AutosizeTextArea from '@codesandbox/common/lib/components/AutosizeTextArea'
-import { ENTER } from '@codesandbox/common/lib/utils/keycodes'
+import {ENTER} from '@codesandbox/common/lib/utils/keycodes'
 
 const Container = styled.div`
   min-height: 200px;
@@ -27,7 +27,7 @@ class ChatComponent extends React.Component {
     value: '',
   }
 
-  handleKeyDown = (e: KeyboardEvent) => {
+  handleKeyDown = (e) => {
     if (e.keyCode === ENTER && !e.shiftKey) {
       e.preventDefault()
       e.stopPropagation()

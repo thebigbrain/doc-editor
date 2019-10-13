@@ -1,26 +1,13 @@
-// @flow
-import React, { Component } from 'react';
-import { inject, observer } from 'app/componentConnectors';
+import React, {Component} from 'react'
 
-import BasePreview from '@codesandbox/common/lib/components/Preview';
-import RunOnClick from '@codesandbox/common/lib/components/RunOnClick';
-import getTemplate from '@codesandbox/common/lib/templates';
+import BasePreview from '@codesandbox/common/lib/components/Preview'
+import RunOnClick from '@codesandbox/common/lib/components/RunOnClick'
+import getTemplate from '@codesandbox/common/lib/templates'
+import {withOvermind} from "~/overmind"
 
-type Props = {
-  hidden?: boolean;
-  runOnClick?: boolean;
-  store: any;
-  signals: any;
-  options: { url?: string };
-  reaction: any;
-};
 
-type State = {
-  running: boolean;
-};
-
-class PreviewComponent extends Component<Props, State> {
-  state: State = {
+class PreviewComponent extends Component {
+  state = {
     running: !this.props.runOnClick,
   };
 
@@ -50,7 +37,7 @@ class PreviewComponent extends Component<Props, State> {
     const disposeHandleModuleChange = this.props.reaction(
       ({ editor }) => editor.currentModule,
       () => {
-        if (!this.props.store.editor.isInProjectView) {
+        if (!this.props.overmind.state.editor.isInProjectView) {
           this.handleCodeChange(preview);
         }
       },
@@ -98,9 +85,9 @@ class PreviewComponent extends Component<Props, State> {
   };
 
   handleCodeChange = preview => {
-    const { settings } = this.props.store.preferences;
+    const {settings} = this.props.overmind.state.preferences
     const { isServer } = getTemplate(
-      this.props.store.editor.currentSandbox.template,
+      this.props.overmind.state.editor.currentSandbox.template,
     );
     if (!isServer && settings.livePreviewEnabled) {
       if (settings.instantPreviewEnabled) {
@@ -112,7 +99,7 @@ class PreviewComponent extends Component<Props, State> {
   };
 
   handleStructureChange = preview => {
-    const { settings } = this.props.store.preferences;
+    const {settings} = this.props.overmind.state.preferences
     if (settings.livePreviewEnabled) {
       if (settings.instantPreviewEnabled) {
         preview.executeCodeImmediately();
@@ -123,11 +110,11 @@ class PreviewComponent extends Component<Props, State> {
   };
 
   handleModuleSyncedChange = (preview, change) => {
-    const { settings } = this.props.store.preferences;
+    const {settings} = this.props.overmind.state.preferences
 
     if (
       change &&
-      (this.props.store.editor.currentSandbox.template === 'static' ||
+      (this.props.overmind.state.editor.currentSandbox.template === 'static' ||
         !settings.livePreviewEnabled)
     ) {
       preview.handleRefresh();
@@ -154,7 +141,7 @@ class PreviewComponent extends Component<Props, State> {
       containerStatus,
       error,
       hasUnrecoverableError,
-    } = this.props.store.server;
+    } = this.props.overmind.state.server;
 
     if (containerStatus === 'hibernated') {
       return 'The container has been hibernated because of inactivity, you can start it by refreshing the browser.';
@@ -172,7 +159,8 @@ class PreviewComponent extends Component<Props, State> {
   };
 
   render() {
-    const { store, signals, options } = this.props;
+    const {options} = this.props
+    const {state: store, actions: signals} = this.props.overmind
 
     const completelyHidden = !store.editor.previewWindowVisible;
 
@@ -203,4 +191,4 @@ class PreviewComponent extends Component<Props, State> {
   }
 }
 
-export const Preview = inject('signals', 'store')(observer(PreviewComponent));
+export const Preview = PreviewComponent

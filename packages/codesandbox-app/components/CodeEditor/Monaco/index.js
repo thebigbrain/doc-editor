@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { TextOperation } from 'ot'
-import { debounce } from 'lodash-es'
-import { dirname, join } from 'path'
-import { withTheme } from 'styled-components'
-import { getModulePath } from '@codesandbox/common/lib/sandbox/modules'
-import { actions, dispatch, listen } from 'codesandbox-api'
+import {TextOperation} from 'ot'
+import {debounce} from 'lodash-es'
+import {dirname, join} from 'path'
+import {withTheme} from 'styled-components'
+import {getModulePath} from '@codesandbox/common/lib/sandbox/modules'
+import {actions, dispatch, listen} from 'codesandbox-api'
 
 import getTemplate from '@codesandbox/common/lib/templates'
-import { getTextOperation } from '@codesandbox/common/lib/utils/diff'
+import {getTextOperation} from '@codesandbox/common/lib/utils/diff'
 
 import delay from '@codesandbox/common/lib/utils/delay'
 /* eslint-disable import/no-webpack-loader-syntax */
@@ -17,27 +17,15 @@ import TypingsFetcherWorker
 import eventToTransform from './event-to-transform'
 import MonacoEditorComponent from './MonacoReactComponent'
 import FuzzySearch from '../FuzzySearch/index'
-import { CodeContainer, Container } from './elements'
+import {CodeContainer, Container} from './elements'
 import defineTheme from './define-theme'
 import getSettings from './settings'
 import getMode from './mode'
-import { liftOff } from './grammars/configure-tokenizer'
-import { indexToLineAndColumn, lineAndColumnToIndex } from './monaco-index-converter'
-import { updateUserSelections } from './live-decorations'
-import type {
-  Module,
-  Sandbox,
-  ModuleError,
-  ModuleCorrection,
-  Directory,
-} from '@codesandbox/common/lib/types'
-/* eslint-enable import/no-webpack-loader-syntax */
-import type { Props, Editor } from '../types'
+import {liftOff} from './grammars/configure-tokenizer'
+import {indexToLineAndColumn, lineAndColumnToIndex} from './monaco-index-converter'
+import {updateUserSelections} from './live-decorations'
 
-type
-State = {
-  fuzzySearchEnabled: boolean,
-}
+/* eslint-enable import/no-webpack-loader-syntax */
 
 function getSelection(lines, selection) {
   const startSelection = lineAndColumnToIndex(
@@ -67,27 +55,27 @@ let modelCache = {}
 /**
  * This editor is like a slim version of our VSCode editor. It's used in the embed.
  */
-class MonacoEditor extends React.Component<Props, State> implements Editor {
+class MonacoEditor extends React.Component implements Editor {
   static defaultProps = {
     width: '100%',
     height: '100%',
   }
 
-  sandbox: $PropertyType<Props, 'sandbox'>
-  currentModule: $PropertyType<Props, 'currentModule'>
-  settings: $PropertyType<Props, 'settings'>
-  dependencies: ?$PropertyType<Props, 'dependencies'>
-  tsconfig: ?$PropertyType<Props, 'tsconfig'>
-  disposeInitializer: ?() => void
-  syntaxWorker: ?Worker
-  lintWorker: ?Worker
-  typingsFetcherWorker: ?Worker
-  editor: any
-  monaco: any
-  receivingCode: ?boolean = false
-  transpilationListener: ?Function
-  sizeProbeInterval: ?number
-  configureEditor = async (editor: any, monaco: any) => {
+  sandbox
+  currentModule
+  settings
+  dependencies
+  tsconfig
+  disposeInitializer
+  syntaxWorker
+  lintWorker
+  typingsFetcherWorker
+  editor
+  monaco
+  receivingCode
+  transpilationListener
+  sizeProbeInterval
+  configureEditor = async (editor, monaco) => {
     this.editor = editor
     this.monaco = monaco
 
@@ -282,16 +270,16 @@ class MonacoEditor extends React.Component<Props, State> implements Editor {
       noSyntaxValidation: !hasNativeTypescript,
     })
   }
-  setReceivingCode = (receiving: boolean) => {
+  setReceivingCode = (receiving) => {
     this.receivingCode = receiving
   }
-  setTSConfig = (config: Object) => {
+  setTSConfig = (config) => {
     this.tsconfig = config
 
     this.setCompilerOptions()
   }
   changeModule = (
-    newModule: Module,
+    newModule,
     errors
   corrections
   const

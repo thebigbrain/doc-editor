@@ -24,7 +24,7 @@ try {
 
 // eslint-disable-next-line
 export const getCodeMirror = (el, doc, options) => {
-  const cm: CodeMirror.Editor = new CodeMirror(el, {
+  const cm = new CodeMirror(el, {
     value: doc,
     theme: 'oceanic',
     keyMap: 'sublime',

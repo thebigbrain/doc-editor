@@ -1,21 +1,10 @@
-import React from 'react';
-import { Elastic, TweenMax } from 'gsap';
-import {
-  FaAngleUp
-} from 'react-icons/fa';
-import store from 'store/dist/store.modern';
-
-import { TemplateType } from '@codesandbox/common/lib/templates';
-import { ViewConfig } from '@codesandbox/common/lib/templates/template';
-import track from '@codesandbox/common/lib/utils/analytics';
-
-import { console } from './Console/index';
-import { DevToolTabs, ITabPosition } from './Tabs/index';
-import { problems } from './Problems/index';
-import { reactDevTools } from './React-Devtools/index';
-import { terminal } from './Terminal/index';
-import { tests } from './Tests/index';
-import { Container, ContentContainer, Header } from './elements';
+import React from 'react'
+import {Elastic, TweenMax} from 'gsap'
+import {FaAngleUp} from 'react-icons/fa'
+import store from 'store/dist/store.modern'
+import track from '@codesandbox/common/lib/utils/analytics'
+import {DevToolTabs} from './Tabs/index'
+import {Container, ContentContainer, Header} from './elements'
 
 function unFocus(document, window) {
   if (document.selection) {
@@ -31,8 +20,8 @@ function unFocus(document, window) {
 }
 
 function normalizeTouchEvent(
-  event: React.TouchEvent | TouchEvent,
-): React.MouseEvent & MouseEvent {
+  event
+) {
   // @ts-ignore
   return {
     ...event,
@@ -41,99 +30,77 @@ function normalizeTouchEvent(
   };
 }
 
-export interface IViews {
-  [id: string]: IViewType;
-}
+export class DevTools extends React.PureComponent {
+  node
+  closedHeight = () => (this.props.primary ? 35 : 28)
+  allViews
 
-export interface IViewAction {
-  title: string;
-  onClick: () => void;
-  Icon: React.ComponentClass<any, any>;
-  disabled?: boolean;
-}
+  constructor(props) {
+    super(props)
 
-export interface IViewType {
-  id: string;
-  title: string | ((options: any) => string);
-  Content: React.ComponentType<DevToolProps>;
-  actions: IViewAction[] | ((info: { owned: boolean }) => IViewAction[]);
-}
+    const isOpen = Boolean(props.viewConfig.open)
 
-export type StatusType = 'info' | 'warning' | 'error' | 'success' | 'clear';
+    this.allViews = props.addedViews
+      ? {...VIEWS, ...props.addedViews}
+      : VIEWS
 
-export type Status = {
-  unread: number;
-  type: StatusType;
-};
+    this.state = {
+      status: {},
 
-export type DevToolProps = {
-  hidden: boolean;
-  updateStatus: (type: StatusType, count?: number) => void;
-  sandboxId: string;
-  openDevTools: () => void;
-  hideDevTools: () => void;
-  selectCurrentPane: () => void;
-  owned: boolean;
-  options: any;
-};
+      mouseDown: false,
+      startY: 0,
+      startHeight: 0,
+      height: isOpen ? '40%' : this.closedHeight(),
 
-const VIEWS: IViews = {
-  [console.id]: console,
-  [problems.id]: problems,
-  [tests.id]: tests,
-  [terminal.id]: terminal,
-  [reactDevTools.id]: reactDevTools,
-};
+      hidden: !props.primary && !isOpen,
 
-type Props = {
-  sandboxId: string;
-  template: TemplateType;
-  setDragging?: (dragging: boolean) => void;
-  zenMode?: boolean;
-  shouldExpandDevTools?: boolean;
-  devToolsOpen?: boolean;
-  setDevToolsOpen?: (open: boolean) => void;
-  view?: 'browser' | 'console' | 'tests';
-  owned: boolean;
-  primary: boolean;
-  viewConfig: ViewConfig;
-  devToolIndex: number;
-  moveTab?: (prevPos: ITabPosition, nextPos: ITabPosition) => void;
-  closeTab?: (pos: ITabPosition) => void;
-  setPane: (pos: ITabPosition) => void;
-  addedViews?: IViews;
-  hideTabs?: boolean;
-  currentDevToolIndex: number;
-  currentTabPosition: number;
-};
-type State = {
-  status: { [title: string]: Status | undefined };
-  height: number | string;
-  mouseDown: boolean;
-  hidden: boolean;
-  startY: number;
-  startHeight: number;
-  currentTabIndex: number;
-};
+      currentTabIndex: 0,
+    }
+  }
 
-export class DevTools extends React.PureComponent<Props, State> {
-  normalizeHeight = (el: HTMLDivElement) => {
+  getCurrentPane = () =>
+    this.props.viewConfig.views[this.state.currentTabIndex]
+
+  /**
+   * Set the current tab based on whether the selection has changed to the current
+   * devtools
+   */
+  static getDerivedStateFromProps(props, state) {
+    if (props.devToolIndex === props.currentDevToolIndex) {
+      return {
+        currentTabIndex: Math.min(
+          props.currentTabPosition,
+          props.viewConfig.views.length - 1,
+        ),
+      }
+    }
+
+    // Prevent selecting the last tab
+    if (state.currentTabIndex > props.viewConfig.views.length - 1) {
+      return {currentTabIndex: props.viewConfig.views.length - 1}
+    }
+
+    return null
+  }
+
+  normalizeHeight = (el) => {
     if (typeof this.state.height === 'string') {
       const { height } = el.getBoundingClientRect();
 
       this.setState({ height });
     }
   };
-  closedHeight = () => (this.props.primary ? 35 : 28);
+
   /**
    * This stops the propagation of the mousewheel event so the editor itself cannot
    * block it to prevent gesture scrolls. Without this scrolling won't work in the
    * console.
    */
-  mouseWheelHandler = (e: WheelEvent) => {
+  mouseWheelHandler = (e) => {
     e.stopPropagation();
   };
-  setHidden = (hidden: boolean) => {
+
+  setHidden = (hidden) => {
     if (!hidden) {
       return this.setState(state => ({
         status: {
@@ -151,11 +118,10 @@ export class DevTools extends React.PureComponent<Props, State> {
       }
     });
   };
-  getCurrentPane = () =>
-    this.props.viewConfig.views[this.state.currentTabIndex];
-  updateStatus = (id: string) => (
-    status: 'success' | 'warning' | 'error' | 'info' | 'clear',
-    count?: number,
+
+  updateStatus = (id) => (
+    status,
+    count,
   ) => {
     if (!this.state.hidden && this.getCurrentPane().id === id) {
       return;
@@ -194,13 +160,15 @@ export class DevTools extends React.PureComponent<Props, State> {
       },
     }));
   };
-  handleTouchStart = (event: React.TouchEvent) => {
+
+  handleTouchStart = (event) => {
     if (event.touches && event.touches.length) {
       this.handleMouseDown(normalizeTouchEvent(event));
     }
   };
+
   handleMouseDown = (
-    event: React.MouseEvent & { clientX: number; clientY: number },
+    event,
   ) => {
     if (!this.state.mouseDown && typeof this.state.height === 'number') {
       unFocus(document, window);
@@ -215,10 +183,43 @@ export class DevTools extends React.PureComponent<Props, State> {
       }
     }
   };
-  handleTouchEnd = (event: TouchEvent) => {
+  handleClick = () => {
+    this.openDevTools()
+  }
+
+  handleTouchEnd = (event) => {
     this.handleMouseUp(event);
   };
-  handleMouseUp = (e: Event) => {
+  openDevTools = () => {
+    this.setHidden(false)
+    const heightObject = {height: this.state.height}
+    if (this.props.setDevToolsOpen) {
+      this.props.setDevToolsOpen(true)
+    }
+    TweenMax.to(heightObject, 0.3, {
+      height: store.get('devtools.height') || 300,
+      onUpdate: () => {
+        this.setState(heightObject)
+      },
+      ease: Elastic.easeOut.config(0.25, 1),
+    })
+  }
+  hideDevTools = () => {
+    this.setHidden(true)
+    const heightObject = {height: this.state.height}
+    if (this.props.setDevToolsOpen) {
+      this.props.setDevToolsOpen(false)
+    }
+    TweenMax.to(heightObject, 0.3, {
+      height: this.closedHeight(),
+      onUpdate: () => {
+        this.setState(heightObject)
+      },
+      ease: Elastic.easeOut.config(0.25, 1),
+    })
+  }
+
+  handleMouseUp = (e) => {
     if (this.state.mouseDown) {
       this.setState({ mouseDown: false });
       if (this.props.setDragging) {
@@ -243,13 +244,15 @@ export class DevTools extends React.PureComponent<Props, State> {
       }
     }
   };
-  handleTouchMove = (event: TouchEvent) => {
+
+  handleTouchMove = (event) => {
     if (event.touches && event.touches.length) {
       this.handleMouseMove(normalizeTouchEvent(event));
     }
   };
+
   handleMouseMove = (
-    event: MouseEvent & { clientX: number; clientY: number },
+    event,
   ) => {
     if (this.state.mouseDown) {
       let maxHeight = 0;
@@ -268,10 +271,8 @@ export class DevTools extends React.PureComponent<Props, State> {
       this.setHidden(newHeight < 64);
     }
   };
-  handleClick = () => {
-    this.openDevTools();
-  };
-  handleMinimizeClick = (e: React.MouseEvent<React.ReactSVGElement>) => {
+
+  handleMinimizeClick = (e) => {
     if (!this.state.hidden) {
       e.preventDefault();
       e.stopPropagation();
@@ -280,35 +281,8 @@ export class DevTools extends React.PureComponent<Props, State> {
       });
     }
   };
-  openDevTools = () => {
-    this.setHidden(false);
-    const heightObject = { height: this.state.height };
-    if (this.props.setDevToolsOpen) {
-      this.props.setDevToolsOpen(true);
-    }
-    TweenMax.to(heightObject, 0.3, {
-      height: store.get('devtools.height') || 300,
-      onUpdate: () => {
-        this.setState(heightObject);
-      },
-      ease: Elastic.easeOut.config(0.25, 1),
-    });
-  };
-  hideDevTools = () => {
-    this.setHidden(true);
-    const heightObject = { height: this.state.height };
-    if (this.props.setDevToolsOpen) {
-      this.props.setDevToolsOpen(false);
-    }
-    TweenMax.to(heightObject, 0.3, {
-      height: this.closedHeight(),
-      onUpdate: () => {
-        this.setState(heightObject);
-      },
-      ease: Elastic.easeOut.config(0.25, 1),
-    });
-  };
-  setPane = (index: number) => {
+
+  setPane = (index) => {
     if (this.state.hidden && !this.props.primary) {
       this.openDevTools();
     }
@@ -331,56 +305,10 @@ export class DevTools extends React.PureComponent<Props, State> {
       },
     }));
   };
-  getViews = (): IViews => this.allViews;
-  node: HTMLDivElement;
-  allViews: IViews;
 
-  constructor(props: Props) {
-    super(props);
+  getViews = () => this.allViews
 
-    const isOpen = Boolean(props.viewConfig.open);
-
-    this.allViews = props.addedViews
-      ? { ...VIEWS, ...props.addedViews }
-      : VIEWS;
-
-    this.state = {
-      status: {},
-
-      mouseDown: false,
-      startY: 0,
-      startHeight: 0,
-      height: isOpen ? '40%' : this.closedHeight(),
-
-      hidden: !props.primary && !isOpen,
-
-      currentTabIndex: 0,
-    };
-  }
-
-  /**
-   * Set the current tab based on whether the selection has changed to the current
-   * devtools
-   */
-  static getDerivedStateFromProps(props: Props, state: State) {
-    if (props.devToolIndex === props.currentDevToolIndex) {
-      return {
-        currentTabIndex: Math.min(
-          props.currentTabPosition,
-          props.viewConfig.views.length - 1,
-        ),
-      };
-    }
-
-    // Prevent selecting the last tab
-    if (state.currentTabIndex > props.viewConfig.views.length - 1) {
-      return { currentTabIndex: props.viewConfig.views.length - 1 };
-    }
-
-    return null;
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.props.devToolsOpen !== prevProps.devToolsOpen &&
       prevState.hidden === this.state.hidden
@@ -410,9 +338,9 @@ export class DevTools extends React.PureComponent<Props, State> {
 
   componentWillUnmount() {
     // eslint-disable-next-line no-unused-vars
-    this.updateStatus = (title: string) => (
-      type: StatusType,
-      count?: number,
+    this.updateStatus = (title) => (
+      type,
+      count,
     ) => {
     };
     document.removeEventListener('mouseup', this.handleMouseUp, false);

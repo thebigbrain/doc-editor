@@ -10,6 +10,8 @@ import {
 } from '~/pages/Sandbox/Editor/Content/utils'
 import * as internalActions from './internalActions'
 
+export * from './items'
+
 export const internal = internalActions;
 
 export const onNavigateAway = () => {

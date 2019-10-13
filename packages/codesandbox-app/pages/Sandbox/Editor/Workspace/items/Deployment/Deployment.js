@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react'
 
-import { Description } from '../../elements';
+import {Description} from '../../elements'
 
-import { More } from '../More';
+import {More} from '../More'
 
-import { Netlify } from './Netlify';
-import { Zeit } from './Zeit';
-import {useOvermind} from "@doce/hooks"
+import {Netlify} from './Netlify'
+import {Zeit} from './Zeit'
+import {useOvermind} from "~/overmind"
 
 export const Deployment = () => {
   const {

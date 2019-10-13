@@ -1,16 +1,14 @@
-import React from 'react';
-import {
-  GoBrowser as BrowserIcon
-} from 'react-icons/go';
-import Margin from '@codesandbox/common/lib/components/spacing/Margin';
+import React from 'react'
+import {GoBrowser as BrowserIcon} from 'react-icons/go'
+import Margin from '@codesandbox/common/lib/components/spacing/Margin'
 
-import { Description, EntryContainer, WorkspaceInputContainer } from '../../elements';
+import {Description, EntryContainer, WorkspaceInputContainer} from '../../elements'
 
-import { Status } from './Status';
-import { Tasks } from './Tasks';
-import { EnvironmentVariables } from './EnvVars/index';
-import { ActionButton, MainBadge, Port, Power as PowerIcon, SubTitle, TasksContainer } from './elements';
-import {useOvermind} from "@doce/hooks"
+import {Status} from './Status'
+import {Tasks} from './Tasks'
+import {EnvironmentVariables} from './EnvVars/index'
+import {ActionButton, MainBadge, Port, Power as PowerIcon, SubTitle, TasksContainer} from './elements'
+import {useOvermind} from "~/overmind"
 
 
 export const Server = () => {

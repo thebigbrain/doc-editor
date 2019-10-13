@@ -1,27 +1,6 @@
-import {
-  CurrentUser,
-  CustomTemplate,
-  Dependency,
-  Directory,
-  EnvironmentVariable,
-  GitChanges,
-  GitCommit,
-  GitInfo,
-  GitPr,
-  Module,
-  PaymentDetails,
-  PickedSandboxes,
-  PopularSandboxes,
-  Profile,
-  Sandbox,
-  SandboxPick,
-  UploadedFilesInfo,
-  UserSandbox,
-} from '@codesandbox/common/lib/types';
-import { TemplateType } from '@codesandbox/common/lib/templates';
-import { client } from '~/graphql/client';
-import { LIST_TEMPLATES } from '~/pages/Dashboard/queries';
-import apiFactory from './apiFactory';
+import {client} from '~/graphql/client'
+import {LIST_TEMPLATES} from '~/pages/Dashboard/queries'
+import apiFactory from './apiFactory'
 
 let api;
 
@@ -61,7 +40,7 @@ export default {
     return api.get(`/dependencies/${name}@latest`);
   },
   async getSandbox(id) {
-    const sandbox = await api.get<Sandbox>(`/sandboxes/${id}`);
+    const sandbox = await api.get(`/sandboxes/${id}`)
 
     // We need to add client side properties for tracking
     return {
@@ -415,7 +394,7 @@ export default {
     template,
   ) {
     return api
-      .post<{ template: CustomTemplate }>(`/sandboxes/${sandboxId}/templates`, {
+      .post(`/sandboxes/${sandboxId}/templates`, {
         template,
       })
       .then(data => data.template);

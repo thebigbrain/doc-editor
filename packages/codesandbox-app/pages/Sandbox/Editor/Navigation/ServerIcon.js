@@ -1,5 +1,5 @@
 import React from 'react'
-import ServerIcon from 'react-icons/lib/go/server'
+import {GoServer as ServerIcon} from 'react-icons/go'
 
 export default () => (
   <span style={{ fontSize: '.875em' }}>

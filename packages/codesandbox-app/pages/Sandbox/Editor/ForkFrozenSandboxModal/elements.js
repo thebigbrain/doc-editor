@@ -1,7 +1,6 @@
-import styled, { css } from 'styled-components';
-import { Button } from '@codesandbox/common/lib/components/Button';
-import CloseIcon from 'react-icons/lib/md/close';
-import ReturnIcon from 'react-icons/lib/md/keyboard-return';
+import styled, {css} from 'styled-components'
+import {Button} from '@codesandbox/common/lib/components/Button'
+import {MdClose as CloseIcon, MdKeyboardReturn as ReturnIcon} from 'react-icons/md'
 
 export const Container = styled.div`
   ${({ theme }) => css`

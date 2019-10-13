@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import { ButtonContainer } from '../../../elements';
+import {ButtonContainer} from '../../../elements'
 
-import { AliasDeploymentButton } from './AliasDeploymentButton/index';
-import { DeleteDeploymentButton } from './DeleteDeploymentButton/index';
-import { VisitDeploymentButton } from './VisitDeploymentButton/index';
-import {useOvermind} from "@doce/hooks"
+import {AliasDeploymentButton} from './AliasDeploymentButton/index'
+import {DeleteDeploymentButton} from './DeleteDeploymentButton/index'
+import {VisitDeploymentButton} from './VisitDeploymentButton/index'
+import {useOvermind} from "~/overmind"
 
 
 export const Actions = ({ deploy,  }) => {

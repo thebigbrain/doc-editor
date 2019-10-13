@@ -17,7 +17,7 @@ export async function getConfig(linter) {
   return config
 }
 
-export function getVerifyOptions(filename: string) {
+export function getVerifyOptions(filename) {
   if (filename.endsWith('.vue')) {
     return {
       preprocess: plugin.processors['.vue'].preprocess,

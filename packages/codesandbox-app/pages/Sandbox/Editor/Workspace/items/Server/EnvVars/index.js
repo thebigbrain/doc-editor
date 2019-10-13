@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 
-import { WorkspaceInputContainer } from '../../../elements'
+import {WorkspaceInputContainer} from '../../../elements'
 
-import { EnvEntry } from './EnvEntry'
-import { EnvModal } from './EnvModal'
-import {useOvermind} from "@doce/hooks"
+import {EnvEntry} from './EnvEntry'
+import {EnvModal} from './EnvModal'
+import {useOvermind} from "~/overmind"
 
 const EnvironmentVariablesComponent = () => {
   const {actions: { editor }, state: store} = useOvermind()

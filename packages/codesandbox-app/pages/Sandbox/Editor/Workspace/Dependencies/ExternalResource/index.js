@@ -2,12 +2,12 @@ import React from 'react'
 
 import CrossIcon from 'react-icons/lib/md/clear'
 
-import { EntryContainer, Icon, IconArea } from '../../elements'
-import { Link } from '../elements'
+import {EntryContainer, Icon, IconArea} from '../../elements'
+import {Link} from '../elements'
 
-const getNormalizedUrl = (url: string) => `${url.replace(/\/$/g, '')}/`
+const getNormalizedUrl = (url) => `${url.replace(/\/$/g, '')}/`
 
-function getName(resource: string) {
+function getName(resource) {
   if (resource.endsWith('.css') || resource.endsWith('.js')) {
     const match = resource.match(/.*\/(.*)/)
 

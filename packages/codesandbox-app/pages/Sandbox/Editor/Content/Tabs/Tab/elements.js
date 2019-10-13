@@ -1,11 +1,7 @@
-import styled, { css } from 'styled-components';
-import CloseIcon from 'react-icons/lib/go/x';
+import styled, {css} from 'styled-components'
+import CloseIcon from 'react-icons/lib/go/x'
 
-export const Container = styled.div<{
-  isOver?: boolean;
-  active?: boolean;
-  dirty?: boolean;
-}>`
+export const Container = styled.div`
   position: relative;
   display: inline-flex;
   justify-content: center;
@@ -66,7 +62,7 @@ export const TabDir = styled.div`
   white-space: nowrap;
 `;
 
-export const StyledCloseIcon = styled(CloseIcon)<{ show?: boolean | string }>`
+export const StyledCloseIcon = styled(CloseIcon)`
   transition: 0.1s ease opacity;
 
   float: right;

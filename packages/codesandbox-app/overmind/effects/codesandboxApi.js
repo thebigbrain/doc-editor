@@ -1,9 +1,9 @@
-import { dispatch, listen } from 'codesandbox-api';
+import {dispatch, listen} from 'codesandbox-api'
 
 const listeners = new Map();
 
 export default {
-  listen(action: ({ data: any }) => void): () => void {
+  listen(action) {
     if (listeners.get(action)) {
       listeners.get(action)();
     }
@@ -21,13 +21,13 @@ export default {
   disconnectSSE() {
     dispatch({ type: 'codesandbox:sse:disconnect' });
   },
-  logTerminalMessage(data: any) {
+  logTerminalMessage(data) {
     dispatch({
       type: 'terminal:message',
       data,
     });
   },
-  exitShell(data: any) {
+  exitShell(data) {
     const { id, code, signal } = data;
 
     dispatch({
@@ -37,7 +37,7 @@ export default {
       id,
     });
   },
-  outShell(dataArg: any) {
+  outShell(dataArg) {
     const { id, data } = dataArg;
 
     dispatch({

@@ -1,13 +1,13 @@
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import React from 'react';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import React from 'react'
 
-import { WorkspaceInputContainer, WorkspaceSubtitle } from '../../../../elements';
+import {WorkspaceInputContainer, WorkspaceSubtitle} from '../../../../elements'
 
-import { Deploy, Deploys as DeploysWrapper, DeploysContainer, Name, State } from '../../elements';
+import {Deploy, Deploys as DeploysWrapper, DeploysContainer, Name, State} from '../../elements'
 
-import { Actions } from './Actions/index';
-import { Alias } from './Alias/index';
-import {useOvermind} from "@doce/hooks"
+import {Actions} from './Actions/index'
+import {Alias} from './Alias/index'
+import {useOvermind} from "~/overmind"
 
 export const Deploys = () => {
   const { state: { deployment: { sandboxDeploys } } } = useOvermind()

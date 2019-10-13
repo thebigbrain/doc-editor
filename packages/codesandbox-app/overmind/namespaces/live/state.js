@@ -1,28 +1,7 @@
-import { LiveUser, RoomInfo } from '@codesandbox/common/lib/types';
-import { Derive } from 'app/overmind';
+import {LiveUser} from '@codesandbox/common/lib/types'
 
-type State = {
-  isLive: boolean;
-  isTeam: boolean;
-  isLoading: boolean;
-  receivingCode: boolean;
-  error: string;
-  reconnecting: boolean;
-  notificationsHidden: boolean;
-  followingUserId: string | null;
-  liveUserId: string;
-  roomInfo: RoomInfo;
-  liveUser: Derive<State, LiveUser>;
-  isEditor: Derive<State, (liveUserId: string) => boolean>;
-  isCurrentEditor: Derive<State, boolean>;
-  isOwner: Derive<State, boolean>;
-  liveUsersByModule: Derive<State,
-    {
-      [id: string]: string[];
-    }>;
-};
 
-export const state: State = {
+export const state = {
   isLive: false,
   isTeam: false,
   isLoading: false,

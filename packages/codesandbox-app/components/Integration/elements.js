@@ -1,9 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled, {css} from 'styled-components'
 
-export const Container = styled.div<{
-  small: boolean;
-  loading: boolean;
-}>`
+export const Container = styled.div`
   ${({ small, loading, theme }) => css`
     display: inline-flex;
     width: 100%;
@@ -24,7 +21,7 @@ css`
   `}
 `;
 
-export const IntegrationBlock = styled.div<{ bgColor: string; small: boolean }>`
+export const IntegrationBlock = styled.div`
   ${({ bgColor, small }) => css`
     display: inline-flex;
     flex: 1;

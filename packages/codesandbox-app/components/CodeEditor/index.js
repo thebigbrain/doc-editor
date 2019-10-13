@@ -1,21 +1,21 @@
 import React from 'react'
-import { MdDvr as UIIcon } from 'react-icons/md'
-import { GoQuestion as QuestionIcon } from 'react-icons/go'
+import {MdDvr as UIIcon} from 'react-icons/md'
+import {GoQuestion as QuestionIcon} from 'react-icons/go'
 import getUI from '@codesandbox/common/lib/templates/configuration/ui'
 import Centered from '@codesandbox/common/lib/components/flex/Centered'
 import Margin from '@codesandbox/common/lib/components/spacing/Margin'
 import isImage from '@codesandbox/common/lib/utils/is-image'
 import getDefinition from '@codesandbox/common/lib/templates'
-import { getModulePath } from '@codesandbox/common/lib/sandbox/modules'
+import {getModulePath} from '@codesandbox/common/lib/sandbox/modules'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
-import { Title } from '~/components/Title'
-import { SubTitle } from '~/components/SubTitle'
+import {Title} from '~/components/Title'
+import {SubTitle} from '~/components/SubTitle'
 import Loadable from '~/utils/Loadable'
-import { ImageViewer } from './ImageViewer/index'
-import { Configuration } from './Configuration/index'
-import { VSCode } from './VSCode/index'
+import {ImageViewer} from './ImageViewer/index'
+import {Configuration} from './Configuration/index'
+import {VSCode} from './VSCode/index'
 import MonacoDiff from './MonacoDiff/index'
-import { Icon, Icons } from './elements'
+import {Icon, Icons} from './elements'
 
 const CodeMirror = Loadable(() =>
   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
@@ -50,7 +50,7 @@ const getDependencies = (sandbox) => {
     }
   } else {
     return typeof sandbox.npmDependencies.toJS === 'function'
-      ? (sandbox.npmDependencies as any).toJS()
+      ? (sandbox.npmDependencies).toJS()
       : sandbox.npmDependencies
   }
 }

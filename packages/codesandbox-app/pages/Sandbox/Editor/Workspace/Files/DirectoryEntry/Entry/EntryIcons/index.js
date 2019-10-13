@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
-import ErrorIcon from 'react-icons/lib/md/error'
+import {MdError as ErrorIcon} from 'react-icons/md'
 
-import { RedIcon, SVGIcon } from './elements'
+import {RedIcon, SVGIcon} from './elements'
 import getIconURL from './GetIconURL'
 
 class GetIcon extends Component {
@@ -46,12 +46,7 @@ function EntryIcon({
                      width = 16,
                      height = 16,
                      error,
-                   }: {
-  type: string,
-  width?: number,
-  height?: number,
-  error?: boolean,
-}) {
+                   }) {
   return (
     <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>
       <GetIcon type={type} error={error} width={width} height={height}/>

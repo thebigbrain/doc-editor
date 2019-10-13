@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react'
 
-import { ZeitIntegration } from '~/pages/common/ZeitIntegration';
+import {ZeitIntegration} from '~/pages/common/ZeitIntegration'
 
-import { Wrapper } from '../elements';
+import {Wrapper} from '../elements'
 
-import { DeployButton } from './DeployButton/index';
-import { Deploys } from './Deploys/index';
-import { NoIntegrationWrapper } from './elements';
-import {useOvermind} from "@doce/hooks"
+import {DeployButton} from './DeployButton/index'
+import {Deploys} from './Deploys/index'
+import {NoIntegrationWrapper} from './elements'
+import {useOvermind} from "~/overmind"
 
 export const Zeit = () => {
   const {

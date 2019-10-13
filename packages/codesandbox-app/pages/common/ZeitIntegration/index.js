@@ -1,7 +1,7 @@
 import React from 'react'
 import {Integration} from '~/components/Integration'
 import {ZeitLogo} from '~/components/ZeitLogo'
-import {useOvermind} from "@doce/hooks"
+import {useOvermind} from "~/overmind"
 
 
 export const ZeitIntegration = ({small}) => {

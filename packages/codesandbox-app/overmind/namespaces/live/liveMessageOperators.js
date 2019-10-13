@@ -1,10 +1,8 @@
-import { Directory, LiveMessage, LiveMessageEvent, Module, Selection } from '@codesandbox/common/lib/types';
-import { json, mutate } from 'overmind';
-import { Operator } from 'app/overmind';
-import { camelizeKeys } from 'humps';
-import { NotificationStatus } from '@codesandbox/notifications/lib/state';
+import {json, mutate} from 'overmind'
+import {camelizeKeys} from 'humps'
+import {NotificationStatus} from '@codesandbox/notifications/lib/state'
 
-export const onJoin: Operator<LiveMessage<LiveMessageEvent.JOIN>> = mutate(
+export const onJoin = mutate(
   ({ effects, state }) => {
     effects.notificationToast.success(
       state.live.isTeam ? 'Connected to Live Team!' : 'Connected to Live!',
@@ -20,9 +18,7 @@ export const onJoin: Operator<LiveMessage<LiveMessageEvent.JOIN>> = mutate(
   },
 );
 
-export const onModuleState: Operator<LiveMessage<{
-  module_state: any;
-}>> = mutate(({ state, actions }, { data }) => {
+export const onModuleState = mutate(({state, actions}, {data}) => {
   // We get this when we notice that there is an out of sync
   // Really no reason to set this state as everything runs sync
   state.live.receivingCode = true;
@@ -30,12 +26,7 @@ export const onModuleState: Operator<LiveMessage<{
   state.live.receivingCode = false;
 });
 
-export const onUserEntered: Operator<LiveMessage<{
-  users: any[];
-  editor_ids: string[];
-  owner_ids: string[];
-  joined_user_id: string;
-}>> = mutate(({ state, effects }, { data }) => {
+export const onUserEntered = mutate(({state, effects}, {data}) => {
   if (state.live.isLoading) {
     return;
   }
@@ -44,7 +35,7 @@ export const onUserEntered: Operator<LiveMessage<{
 
   // TODO: What happening here? Is it not an array of users?
   // Check the running code and fix the type
-  state.live.roomInfo.users = users as any;
+  state.live.roomInfo.users = users
   state.live.roomInfo.editorIds = data.editor_ids;
   state.live.roomInfo.ownerIds = data.owner_ids;
 
@@ -60,12 +51,7 @@ export const onUserEntered: Operator<LiveMessage<{
   });
 });
 
-export const onUserLeft: Operator<LiveMessage<{
-  users: any[];
-  left_user_id: string;
-  editor_ids: string[];
-  owner_ids: string[];
-}>> = mutate(({ state, actions, effects }, { data }) => {
+export const onUserLeft = mutate(({state, actions, effects}, {data}) => {
   if (!state.live.notificationsHidden) {
     const { users } = state.live.roomInfo;
     const user = users ? users.find(u => u.id === data.left_user_id) : null;
@@ -84,15 +70,12 @@ export const onUserLeft: Operator<LiveMessage<{
 
   // TODO: Same here, not an array?
   // Check running code
-  state.live.roomInfo.users = users as any;
+  state.live.roomInfo.users = users
   state.live.roomInfo.ownerIds = data.owner_ids;
   state.live.roomInfo.editorIds = data.editor_ids;
 });
 
-export const onModuleSaved: Operator<LiveMessage<{
-  moduleShortid: string;
-  savedCode: string;
-}>> = mutate(({ state, actions }, { _isOwnMessage, data }) => {
+export const onModuleSaved = mutate(({state, actions}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -112,19 +95,14 @@ export const onModuleSaved: Operator<LiveMessage<{
   });
 });
 
-export const onModuleCreated: Operator<LiveMessage<{
-  module: Module;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onModuleCreated = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
   state.editor.currentSandbox.modules.push(data.module);
 });
 
-export const onModuleMassCreated: Operator<LiveMessage<{
-  modules: Module[];
-  directories: Directory[];
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onModuleMassCreated = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -136,10 +114,7 @@ export const onModuleMassCreated: Operator<LiveMessage<{
   );
 });
 
-export const onModuleUpdated: Operator<LiveMessage<{
-  moduleShortid: string;
-  module: Module;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onModuleUpdated = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -154,9 +129,7 @@ export const onModuleUpdated: Operator<LiveMessage<{
   );
 });
 
-export const onModuleDeleted: Operator<LiveMessage<{
-  moduleShortid: string;
-}>> = mutate(({ actions }, { _isOwnMessage, data }) => {
+export const onModuleDeleted = mutate(({actions}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -166,9 +139,7 @@ export const onModuleDeleted: Operator<LiveMessage<{
   });
 });
 
-export const onDirectoryCreated: Operator<LiveMessage<{
-  module: Directory; // This is very weird?
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onDirectoryCreated = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -176,10 +147,7 @@ export const onDirectoryCreated: Operator<LiveMessage<{
   state.editor.currentSandbox.directories.push(data.module);
 });
 
-export const onDirectoryUpdated: Operator<LiveMessage<{
-  directoryShortid: string;
-  module: Directory; // Still very weird
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onDirectoryUpdated = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -191,9 +159,7 @@ export const onDirectoryUpdated: Operator<LiveMessage<{
   state.editor.sandboxes[sandbox.id].directories[directoryIndex] = data.module;
 });
 
-export const onDirectoryDeleted: Operator<LiveMessage<{
-  directoryShortid: string;
-}>> = mutate(({ state, actions }, { _isOwnMessage, data }) => {
+export const onDirectoryDeleted = mutate(({state, actions}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -204,11 +170,7 @@ export const onDirectoryDeleted: Operator<LiveMessage<{
   });
 });
 
-export const onUserSelection: Operator<LiveMessage<{
-  liveUserId: string;
-  moduleShortid: string;
-  selection: Selection;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onUserSelection = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -242,10 +204,7 @@ export const onUserSelection: Operator<LiveMessage<{
   }
 });
 
-export const onUserCurrentModule: Operator<LiveMessage<{
-  live_user_id: string;
-  moduleShortid: string;
-}>> = mutate(({ state, actions }, { _isOwnMessage, data }) => {
+export const onUserCurrentModule = mutate(({state, actions}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
@@ -278,9 +237,7 @@ export const onUserCurrentModule: Operator<LiveMessage<{
   }
 });
 
-export const onLiveMode: Operator<LiveMessage<{
-  mode: string;
-}>> = mutate(({ state, actions }, { _isOwnMessage, data }) => {
+export const onLiveMode = mutate(({state, actions}, {_isOwnMessage, data}) => {
   if (!_isOwnMessage) {
     state.live.roomInfo.mode = data.mode;
   }
@@ -290,26 +247,20 @@ export const onLiveMode: Operator<LiveMessage<{
   );
 });
 
-export const onLiveChatEnabled: Operator<LiveMessage<{
-  enabled: boolean;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onLiveChatEnabled = mutate(({state}, {_isOwnMessage, data}) => {
   if (_isOwnMessage) {
     return;
   }
   state.live.roomInfo.chatEnabled = data.enabled;
 });
 
-export const onLiveAddEditor: Operator<LiveMessage<{
-  editor_user_id: string;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onLiveAddEditor = mutate(({state}, {_isOwnMessage, data}) => {
   if (!_isOwnMessage) {
     state.live.roomInfo.editorIds.push(data.editor_user_id);
   }
 });
 
-export const onLiveRemoveEditor: Operator<LiveMessage<{
-  editor_user_id: string;
-}>> = mutate(({ state }, { _isOwnMessage, data }) => {
+export const onLiveRemoveEditor = mutate(({state}, {_isOwnMessage, data}) => {
   if (!_isOwnMessage) {
     const userId = data.editor_user_id;
 
@@ -320,10 +271,7 @@ export const onLiveRemoveEditor: Operator<LiveMessage<{
   }
 });
 
-export const onOperation: Operator<LiveMessage<{
-  module_shortid: string;
-  operation: any;
-}>> = mutate(({ state, effects }, { _isOwnMessage, data }) => {
+export const onOperation = mutate(({state, effects}, {_isOwnMessage, data}) => {
   if (state.live.isLoading) {
     return;
   }
@@ -340,7 +288,7 @@ export const onOperation: Operator<LiveMessage<{
   }
 });
 
-export const onConnectionLoss: Operator<LiveMessage> = mutate(
+export const onConnectionLoss = mutate(
   ({ state, effects }) => {
     if (!state.live.reconnecting) {
       effects.notificationToast.add({
@@ -352,9 +300,7 @@ export const onConnectionLoss: Operator<LiveMessage> = mutate(
   },
 );
 
-export const onDisconnect: Operator<LiveMessage<{
-  reason: string;
-}>> = mutate(({ state, actions }, { data }) => {
+export const onDisconnect = mutate(({state, actions}, {data}) => {
   actions.live.internal.disconnect();
 
   state.editor.currentSandbox.owned = state.live.isOwner;
@@ -370,18 +316,14 @@ export const onDisconnect: Operator<LiveMessage<{
   actions.live.internal.reset();
 });
 
-export const onOwnerLeft: Operator<LiveMessage> = mutate(({ actions }) => {
+export const onOwnerLeft = mutate(({actions}) => {
   actions.modalOpened({
     modal: 'liveSessionEnded',
     message: 'The owner left the session',
   });
 });
 
-export const onChat: Operator<LiveMessage<{
-  live_user_id: string;
-  message: string;
-  date: number;
-}>> = mutate(({ state }, { data }) => {
+export const onChat = mutate(({state}, {data}) => {
   let name = state.live.roomInfo.chat.users[data.live_user_id];
 
   if (!name) {
@@ -404,10 +346,7 @@ export const onChat: Operator<LiveMessage<{
   });
 });
 
-export const onNotification: Operator<LiveMessage<{
-  message: string;
-  type: NotificationStatus;
-}>> = mutate(({ effects }, { data }) => {
+export const onNotification = mutate(({effects}, {data}) => {
   effects.notificationToast.add({
     message: data.message,
     status: data.type,

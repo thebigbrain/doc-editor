@@ -16,9 +16,10 @@ program
 
 const filename = program.entry
 const moduleName = program.name
-const prefix = `local@${moduleName}`
+const prefix = '~/'/*`local@${moduleName}`*/
 const out = Path.resolve('./dist', filename)
 const root = Path.resolve('.')
+console.log(root)
 let currentPathStack = [Path.resolve(filename)]
 let localModules = {}
 
@@ -40,9 +41,11 @@ function transformJs(code) {
 
         if (/^\./i.test(file)) {
           const prev = currentPathStack[currentPathStack.length - 1]
-          currentPathStack.push(Path.resolve(prev, '..', file))
-          console.log(file)
+          let resource = Path.resolve(prev, '..', file)
+          currentPathStack.push(resource)
           args[0].value = processJs()
+        } else {
+          console.log(file)
         }
       }
     }
@@ -54,12 +57,14 @@ function transformJs(code) {
 function processJs() {
   let resource = currentPathStack.pop()
   resource = require.resolve(resource)
-  let id = `${prefix}:${Path.relative(root, resource)}`
-  let code = readJsFile(resource)
-  if (localModules[id] == null) {
-    let result = transformJs(code)
-    localModules[id] = result.code
-  }
+  resource = Path.relative(root, resource)
+  let id = `${prefix}${resource}`
+  console.log(id)
+  // let code = readJsFile(resource)
+  // if (localModules[id] == null) {
+  //   let result = transformJs(code)
+  //   localModules[id] = result.code
+  // }
   return id
 }
 
@@ -67,17 +72,19 @@ function readJsFile(filename) {
   return fs.readFileSync(filename)
 }
 
-function writeOut(result) {
-  let code = `// load local modules early
+function writeLocals() {
+  return `// load local modules early
 window.__localModules = window.__localModules || {};
 window.__localModules['${prefix}'] = window.__localModules['${prefix}'] || {}
 Object.assign(
   window.__localModules['${prefix}'],
   ${JSON.stringify(localModules)}
 )
-
-${result.code}
 `
+}
+
+function writeOut(result) {
+  let code = `${result.code}`
   mkdirp.sync(Path.dirname(out))
   fs.writeFileSync(out, code, 'utf-8')
 }

@@ -24,3 +24,14 @@ export const LiveMessageEvent = {
   CHAT: "chat",
   NOTIFICATION: "notification"
 }
+
+export const StripeErrorCode = {
+  REQUIRES_ACTION: "requires_action"
+}
+
+export const PatronBadge = {
+  ONE: "patron-1",
+  TWO: "patron-2",
+  THREE: "patron-3",
+  FOURTH: "patron-4"
+}

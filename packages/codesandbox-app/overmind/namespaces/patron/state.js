@@ -1,4 +1,4 @@
-import { PatronBadge, PatronTier } from '@codesandbox/common/lib/types';
+import { PatronBadge } from '../../utils/const';
 
 export const state = {
   price: 10,
@@ -22,9 +22,7 @@ export const state = {
       case 4:
         return PatronBadge.FOURTH;
       default: {
-        const neverTier = tier;
-
-        return neverTier;
+        return tier;
       }
     }
   },

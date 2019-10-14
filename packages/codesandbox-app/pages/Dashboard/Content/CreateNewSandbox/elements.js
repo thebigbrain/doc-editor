@@ -7,7 +7,7 @@ const fadeIn = keyframes`
   100% { opacity: 0.5; }
 `;
 
-export const DarkBG = styled.div<{ closing: boolean }>`
+export const DarkBG = styled.div`
   ${({ closing }) => css`
     position: fixed;
     top: 0;
@@ -32,7 +32,7 @@ export const ButtonsContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export const Container = styled.div<{ hide: boolean }>`
+export const Container = styled.div`
   ${({ color, hide, theme }) => css`
     display: flex;
     justify-content: center;
@@ -71,9 +71,7 @@ export const Container = styled.div<{ hide: boolean }>`
 
 export const ContainerLink = Container.withComponent(Link);
 
-export const AnimatedModalContainer = styled(animated.div)<{
-  forking: boolean;
-}>`
+export const AnimatedModalContainer = styled(animated.div)`
   ${({ forking }) =>
   forking &&
   css`

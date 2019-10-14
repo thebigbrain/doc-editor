@@ -96,6 +96,8 @@ export const sandboxChanged = withLoadApp(async ({ state, actions, effects }, { 
 
   const sandbox = state.editor.currentSandbox;
 
+  if (sandbox == null) return
+
   actions.internal.ensurePackageJSON();
 
   await actions.editor.internal.initializeLiveSandbox(sandbox);

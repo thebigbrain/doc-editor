@@ -3,7 +3,7 @@ import { protocolAndHost } from '@codesandbox/common/lib/utils/url-generator';
 
 import { getGlobal } from '@codesandbox/common/lib/utils/global';
 
-const global = getGlobal() as Window & { BrowserFS: any };
+const global = getGlobal();
 
 const fs = global.BrowserFS.BFSRequire('fs');
 const SERVICE_URL = 'https://ata-fetcher.cloud/api/v5/typings';

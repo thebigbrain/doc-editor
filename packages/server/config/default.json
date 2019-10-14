@@ -28,7 +28,7 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "/",
+      "redirect": "/auth/authenticate.html",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
@@ -52,8 +52,9 @@
         "secret": "<twitter oauth secret>"
       },
       "github": {
-        "key": "<github oauth key>",
-        "secret": "<github oauth secret>"
+        "key": "cfa356a83f13f07699a7",
+        "secret": "729e51f7fa0a2106ad6e1de58ff2d1832097bc41",
+        "scope": "user:email,repo"
       }
     }
   },

@@ -1,30 +1,30 @@
 import { convertTypeToStatus, notificationState } from '@codesandbox/common/lib/utils/notifications';
-import { NotificationMessage, NotificationStatus } from '@codesandbox/notifications/lib/state';
+import {  NotificationStatus } from '@codesandbox/notifications/lib/state';
 
 export default {
   convertTypeToStatus,
-  add(notification: NotificationMessage) {
+  add(notification) {
     notificationState.addNotification(notification);
   },
-  error(message: string) {
+  error(message) {
     notificationState.addNotification({
       message,
       status: NotificationStatus.ERROR,
     });
   },
-  success(message: string) {
+  success(message) {
     notificationState.addNotification({
       message,
       status: NotificationStatus.SUCCESS,
     });
   },
-  warning(message: string) {
+  warning(message) {
     notificationState.addNotification({
       message,
       status: NotificationStatus.WARNING,
     });
   },
-  notice(message: string) {
+  notice(message) {
     notificationState.addNotification({
       message,
       status: NotificationStatus.NOTICE,

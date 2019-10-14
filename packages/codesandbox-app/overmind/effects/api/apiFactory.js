@@ -8,12 +8,7 @@ export const API_ROOT = '/api/v1'
 
 
 export default (config) => {
-  const createHeaders = (jwt) =>
-    jwt
-      ? {
-        Authorization: `Bearer ${jwt}`,
-      }
-      : {}
+  const createHeaders = (jwt) => jwt ? { Authorization: `Bearer ${jwt}` } : {}
 
   const showError = error => {
     config.onError(error.message)

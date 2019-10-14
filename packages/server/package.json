@@ -29,6 +29,7 @@
     "helmet": "^3.20.0",
     "mongodb": "^3.2.7",
     "mongodb-core": "^3.2.7",
+    "node-fetch": "^2.6.0",
     "serve-favicon": "^2.5.0",
     "winston": "^3.0.0"
   },

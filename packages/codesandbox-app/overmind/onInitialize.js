@@ -2,16 +2,16 @@ export const onInitialize = (
   { state, effects, actions },
   overmindInstance,
 ) => {
-  const provideJwtToken = () => state.jwt || effects.jwt.get();
+  // const provideJwtToken = () => state.jwt || effects.jwt.get();
 
-  // effects.fsSync.initialize({
-  //   getCurrentSandboxId() {
-  //     return state.editor.currentId;
-  //   },
-  //   getModulesByPath() {
-  //     return state.editor.modulesByPath;
-  //   },
-  // });
+  effects.fsSync.initialize({
+    getCurrentSandboxId() {
+      return state.editor.currentId;
+    },
+    getModulesByPath() {
+      return state.editor.modulesByPath;
+    },
+  });
   //
   // effects.live.initialize({
   //   provideJwtToken,
@@ -21,16 +21,10 @@ export const onInitialize = (
   effects.keybindingManager.initialize(overmindInstance);
 
   effects.api.initialize({
-    provideJwtToken,
+    // provideJwtToken,
     onError(error) {
       effects.notificationToast.error(error);
-    },
-    getParsedConfigurations() {
-      return state.editor.parsedConfigurations;
-    },
-    getModulesByPath() {
-      return state.editor.modulesByPath;
-    },
+    }
   });
 
   // effects.notifications.initialize({

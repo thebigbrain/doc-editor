@@ -5,7 +5,7 @@ export default (() => {
 
   return {
     track,
-    trackOnce(event: string, data: any = {}) {
+    trackOnce(event, data = {}) {
       if (trackedEvents[event]) {
         return;
       }

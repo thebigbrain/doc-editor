@@ -6,7 +6,7 @@ import {onInitialize} from './onInitialize'
 import * as actions from './actions'
 import * as preferences from './namespaces/preferences'
 import * as userNotifications from './namespaces/userNotifications'
-// import * as patron from './namespaces/patron'
+import * as patron from './namespaces/patron'
 import * as editor from './namespaces/editor'
 import * as live from './namespaces/live'
 // import * as workspace from './namespaces/workspace'
@@ -30,7 +30,7 @@ export const config = merge(
   namespaced({
     preferences,
     userNotifications,
-    // patron,
+    patron,
     editor,
     live,
     // workspace,

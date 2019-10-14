@@ -373,7 +373,7 @@ export const moduleDeleted = async ({ state, effects, actions }, { moduleShortid
   actions.editor.internal.setCurrentModule(state.editor.mainModule);
 
   try {
-    await effects.api.deleteModule(sandbox.id, moduleShortid);
+    await effects.api.deleteModuleFromSandbox(sandbox.id, moduleShortid);
 
     if (state.live.isCurrentEditor) {
       effects.live.sendModuleDeleted(moduleShortid);

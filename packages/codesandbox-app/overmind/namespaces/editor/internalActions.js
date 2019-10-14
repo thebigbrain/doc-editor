@@ -13,7 +13,6 @@ export const ensureSandboxId = ({ state }, id) => {
 
   const { sandboxes } = state.editor
   const matchingSandboxId = Object.keys(sandboxes).find(
-    // @ts-ignore
     idItem => sandboxUrl(sandboxes[idItem]) === `${editorUrl()}${id}`,
   )
 

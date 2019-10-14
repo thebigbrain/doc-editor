@@ -1,8 +1,7 @@
 import React from 'react'
 import { Spring } from 'react-spring/renderprops'
-import { inject, observer } from 'app/componentConnectors'
 import { ThemeProvider } from 'styled-components'
-import history from 'app/utils/history'
+import history from '~/utils/history'
 import { ENTER, ESC } from '@codesandbox/common/lib/utils/keycodes'
 import theme from '@codesandbox/common/lib/theme'
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator'
@@ -11,6 +10,7 @@ import Portal from '@codesandbox/common/lib/components/Portal'
 import { AnimatedModalContainer, ButtonsContainer, Container, ContainerLink, DarkBG } from './elements'
 // eslint-disable-next-line import/no-named-as-default
 import { NewSandboxModal } from './NewSandboxModal'
+import {withOvermind} from '~/overmind'
 
 class CreateNewSandbox extends React.PureComponent {
   state = {
@@ -25,7 +25,7 @@ class CreateNewSandbox extends React.PureComponent {
           history.push(sandboxUrl({ id: template.shortid }))
         }, 300)
       } else {
-        this.props.signals.dashboard.createSandboxClicked({
+        this.props.overmind.actions.dashboard.createSandboxClicked({
           sandboxId: template.shortid,
           body: {
             collectionId: this.props.collectionId,
@@ -215,4 +215,4 @@ class CreateNewSandbox extends React.PureComponent {
   }
 }
 
-export default inject('signals')(observer(CreateNewSandbox))
+export default withOvermind(CreateNewSandbox)

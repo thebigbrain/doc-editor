@@ -1,33 +1,26 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import Media from 'react-media';
-import { exploreUrl, patronUrl, searchUrl } from '@codesandbox/common/lib/utils/url-generator';
+import * as React from 'react'
+import { Link } from 'react-router-dom'
+import Media from 'react-media'
+import { exploreUrl, patronUrl, searchUrl } from '@codesandbox/common/lib/utils/url-generator'
 
-import {
-  GoSearch as SearchIcon,
-  GoPlus as PlusIcon,
-  GoFlame as FlameIcon,
-} from 'react-icons/go';
-import {
-  MdNotifications as BellIcon
-} from 'react-icons/md';
-import Row from '@codesandbox/common/lib/components/flex/Row';
-import Tooltip from '@codesandbox/common/lib/components/Tooltip';
-import { HeaderSearchBar } from '~/components/HeaderSearchBar';
-import { Overlay } from '~/components/Overlay';
-// @ts-ignore
-import PatronBadge from '@codesandbox/common/lib/utils/badges/svg/patron-4.svg';
-import { Notifications } from './Notifications/index';
+import { GoFlame as FlameIcon, GoPlus as PlusIcon, GoSearch as SearchIcon } from 'react-icons/go'
+import { MdNotifications as BellIcon } from 'react-icons/md'
+import Row from '@codesandbox/common/lib/components/flex/Row'
+import Tooltip from '@codesandbox/common/lib/components/Tooltip'
+import { HeaderSearchBar } from '~/components/HeaderSearchBar'
+import { Overlay } from '~/components/Overlay'
+import PatronBadge from '@codesandbox/common/lib/utils/badges/svg/patron-4.svg'
+import { Notifications } from './Notifications/index'
 
-import { SignInButton } from '../SignInButton/index';
-import { UserMenu } from '../UserMenu/index';
-import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements';
+import { SignInButton } from '../SignInButton'
+import { UserMenu } from '../UserMenu/index'
+import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements'
 import { useOvermind } from '~/overmind'
 
-export const Navigation = ({ title, searchNoInput, }) => {
+export const Navigation = ({ title, searchNoInput }) => {
   const {
     state: { isLoggedIn, isPatron, user, userNotifications },
-    actions: { modalOpened, userNotifications: userNotificationsSignals }
+    actions: { modalOpened, userNotifications: userNotificationsSignals },
   } = useOvermind()
 
   return (
@@ -85,29 +78,26 @@ export const Navigation = ({ title, searchNoInput, }) => {
               noHeightAnimation
             >
               {open => (
-                <Observer>
-                  {({ store }) => (
-                    <Action
-                      style={{ position: 'relative', fontSize: '1.25rem' }}
-                      onClick={open}
+                  <Action
+                    style={{ position: 'relative', fontSize: '1.25rem' }}
+                    onClick={open}
+                  >
+                    <Tooltip
+                      placement="bottom"
+                      content={
+                        userNotifications.unreadCount > 0
+                          ? 'Show Notifications'
+                          : 'No Notifications'
+                      }
                     >
-                      <Tooltip
-                        placement="bottom"
-                        content={
-                          store.userNotifications.unreadCount > 0
-                            ? 'Show Notifications'
-                            : 'No Notifications'
-                        }
-                      >
-                        <BellIcon height={35}/>
-                        {store.userNotifications.unreadCount > 0 && (
-                          <UnreadIcon/>
-                        )}
-                      </Tooltip>
-                    </Action>
-                  )}
-                </Observer>
-              )}
+                      <BellIcon height={35}/>
+                      {userNotifications.unreadCount > 0 && (
+                        <UnreadIcon/>
+                      )}
+                    </Tooltip>
+                  </Action>
+                )
+              }
             </Overlay>
           )}
 
@@ -128,5 +118,5 @@ export const Navigation = ({ title, searchNoInput, }) => {
         {isLoggedIn ? <UserMenu/> : <SignInButton/>}
       </Wrapper>
     </Row>
-  );
+  )
 }

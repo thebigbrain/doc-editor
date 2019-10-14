@@ -1,7 +1,5 @@
-import { Sandbox } from '@codesandbox/common/lib/types';
-
 export default {
-  create(sandbox: Sandbox) {
+  create(sandbox) {
     return import(/* webpackChunkName: 'create-zip' */ './create-zip').then(
       module =>
         module
@@ -9,7 +7,7 @@ export default {
           .then(result => ({ file: result.file })),
     );
   },
-  download(sandbox: Sandbox) {
+  download(sandbox) {
     return import(/* webpackChunkName: 'create-zip' */ './create-zip').then(
       module =>
         module

@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap --npm-client=yarn",
-    "start:cs-app": "lerna run start --scope @cs/app --stream"
+    "start:cs-app": "lerna run dev --scope @cs/app --scope @doce/server --parallel"
   },
   "devDependencies": {
     "lerna": "^3.16.4"

@@ -9,6 +9,10 @@ module.exports = function (app) {
     app.channel('anonymous').join(connection)
   })
 
+  app.on('disconnect', connection => {
+    // app.channel(app.channels).leave(connection)
+  })
+
   app.on('login', (authResult, {connection}) => {
     // connection can be undefined if there is no
     // real-time connection, e.g. when logging in via REST
@@ -36,8 +40,18 @@ module.exports = function (app) {
       // Easily organize users by email and userid for things like messaging
       app.channel(`emails/${user.email}`).join(connection)
       app.channel(`userIds/${user.id}`).join(connection)
+
+      (user.roles).forEach(role => app.channel(`roles/${role}`).join(connection))
     }
   })
+
+  app.on('logout', (payload, { connection }) => {
+    if(connection) {
+      //When logging out, leave all channels before joining anonymous channel
+      app.channel(app.channels).leave(connection);
+      app.channel('anonymous').join(connection);
+    }
+  });
 
   // eslint-disable-next-line no-unused-vars
   app.publish((data, hook) => {
@@ -50,13 +64,17 @@ module.exports = function (app) {
 
   // Here you can also add service specific event publishers
   // e.g. the publish the `users` service `created` event to the `admins` channel
-  // app.service('users').publish('created', () => app.channel('admins'));
+  app.service('users').publish('created', (data, context) => app.channel('admins'))
 
   // With the userid and email organization from above you can easily select involved users
-  // app.service('messages').publish(() => {
-  //   return [
-  //     app.channel(`userIds/${data.createdBy}`),
-  //     app.channel(`emails/${data.recipientEmail}`)
-  //   ];
-  // });
+  app.service('messages').publish((data, context) => {
+    return [
+      app.channel(`userIds/${data.createdBy}`),
+      app.channel(`emails/${data.recipientEmail}`)
+    ];
+  });
+
+  app.service('notifications').publish('created', data => {
+      return data.toUsers.map(userId => app.channel(`userIds/${userId}`))
+  })
 }

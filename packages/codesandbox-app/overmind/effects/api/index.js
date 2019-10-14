@@ -1,17 +1,17 @@
 import {client} from '~/graphql/client'
 import {LIST_TEMPLATES} from '~/pages/Dashboard/queries'
-import apiFactory from './apiFactory'
+// import apiFactory from './apiFactory'
+import * as api from './feathers'
 
-let api;
+// let api;
 
 export default {
-  initialize(config) {
-    api = apiFactory(config);
+  initialize({onError}) {
+    // api = apiFactory(config);
+    api.initialize({url: 'http://localhost:3030'})
   },
   async getAuthToken() {
-    const response = await api.get<{ token }>('/auth/auth-token');
-
-    return response.token;
+    return await api.getAccessToken();
   },
   createPatronSubscription(token, amount, coupon) {
     return api.post('/users/current_user/subscription', {
@@ -33,14 +33,21 @@ export default {
   cancelPatronSubscription() {
     return api.delete('/users/current_user/subscription');
   },
-  getCurrentUser() {
-    return api.get('/users/current');
+  async getCurrentUser() {
+    return await api.getCurrentUser();
   },
-  getDependency(name) {
-    return api.get(`/dependencies/${name}@latest`);
+  async getDependency(name) {
+    const s = api.getService('dependencies')
+    return await s.get(name, {version: 'latest'})
   },
   async getSandbox(id) {
-    const sandbox = await api.get(`/sandboxes/${id}`)
+    if (id === 'new') {
+      return {}
+    }
+
+    const s = api.getService('sandboxes')
+    const sandbox = await s.get(id)
+    console.log(sandbox)
 
     // We need to add client side properties for tracking
     return {
@@ -52,38 +59,38 @@ export default {
       })),
     };
   },
-  forkSandbox(id, body) {
-    const url = id.includes('/')
-      ? `/sandboxes/fork/${id}`
-      : `/sandboxes/${id}/fork`;
+  async forkSandbox(id, body) {
+    const s = api.getService('sandboxes')
+    console.log(id, body)
+    return await s.create(body, {id, op: 'fork'})
 
-    return api.post(url, body || {});
   },
-  createModule(sandboxId, module) {
-    return api.post(`/sandboxes/${sandboxId}/modules`, {
-      module: {
-        title: module.title,
-        directoryShortid: module.directoryShortid,
-        code: module.code,
-        isBinary: module.isBinary === undefined ? false : module.isBinary,
-      },
-    });
+  async createModule(sandboxId, module) {
+    const s = api.getService('modules')
+    return await s.create({
+      title: module.title,
+      directoryShortid: module.directoryShortid,
+      code: module.code,
+      isBinary: module.isBinary === undefined ? false : module.isBinary,
+    })
   },
-  deleteModule(sandboxId, moduleShortid) {
-    return api.delete(`/sandboxes/${sandboxId}/modules/${moduleShortid}`);
+  async deleteModuleFromSandbox(sandboxId, moduleShortid) {
+    const s = api.getService('sandboxes')
+    return await s.patch(sandboxId, {modules: [{id: moduleShortid}]}, {op: 'remove'})
   },
-  saveModuleCode(sandboxId, module) {
-    return api.put(`/sandboxes/${sandboxId}/modules/${module.shortid}`, {
-      module: { code: module.code },
-    });
+  async saveModuleCode(sandboxId, module) {
+    const s = api.getService('sandboxes')
+    return await s.patch(sandboxId, {modules: [{code: module.code}]}, { op: 'update'})
+
   },
-  saveModules(sandboxId, modules) {
-    return api.put(`/sandboxes/${sandboxId}/modules/mupdate`, {
-      modules,
-    });
+  async saveModules(sandboxId, modules) {
+    const s = api.getService('sandboxes')
+    return await s.update(sandboxId, {modules})
   },
-  getGitChanges(sandboxId) {
-    return api.get(`/sandboxes/${sandboxId}/git/diff`);
+  async getGitChanges(sandboxId) {
+    const s = api.getService('sandboxes')
+    const sandbox = await s.get(sandboxId)
+    return sandbox && sandbox.git && sandbox.git.diff
   },
   saveTemplate(sandboxId, template) {
     return api.put(`/sandboxes/${sandboxId}/`, {
@@ -303,8 +310,9 @@ export default {
       page: String(page),
     });
   },
-  getSandboxes() {
-    return api.get('/sandboxes');
+  async getSandboxes() {
+    const s = api.getService('sandboxes')
+    return s.find();
   },
   updateShowcasedSandbox(username, sandboxId) {
     return api.patch(`/users/${username}`, {
@@ -313,14 +321,9 @@ export default {
       },
     });
   },
-  deleteSandbox(sandboxId) {
-    return api.request({
-      method: 'DELETE',
-      url: `/sandboxes/${sandboxId}`,
-      data: {
-        id: sandboxId,
-      },
-    });
+  async deleteSandbox(sandboxId) {
+    const s = api.getService('sandboxes')
+    return await s.remove(sandboxId);
   },
   createTag(sandboxId, tagName) {
     return api.post(`/sandboxes/${sandboxId}/tags`, {
@@ -362,7 +365,7 @@ export default {
     });
   },
   signout() {
-    return api.delete(`/users/signout`);
+    return api.logout();
   },
   signoutGithubIntegration() {
     return api.delete(`/users/current_user/integrations/github`);

@@ -58,7 +58,7 @@ class DirectoryEntry extends React.Component {
   renameModule = (moduleShortid, title) => {
     this.props.signals.files.moduleRenamed({ moduleShortid, title })
   }
-  deleteModule = (shortid, title) => {
+  deleteModuleFromSandbox = (shortid, title) => {
     this.setState({
       showDeleteModuleModal: true,
       moduleToDeleteShortid: shortid,
@@ -282,7 +282,7 @@ class DirectoryEntry extends React.Component {
             depth={depth}
             renameModule={this.renameModule}
             parentShortid={shortid}
-            deleteEntry={this.deleteModule}
+            deleteEntry={this.deleteModuleFromSandbox}
             setCurrentModule={this.setCurrentModule}
             markTabsNotDirty={this.markTabsNotDirty}
             discardModuleChanges={this.discardChanges}

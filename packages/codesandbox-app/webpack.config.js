@@ -99,7 +99,7 @@ const clientConfig = {
     contentBase: './dist',
     historyApiFallback: true,
     proxy: {
-      '/mongo': 'http://localhost:3080'
+      '/oauth': 'http://localhost:3030'
     }
   },
   devtool: 'eval-source-map'

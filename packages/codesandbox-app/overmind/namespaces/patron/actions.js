@@ -1,5 +1,5 @@
 import { withLoadApp } from '~/overmind/factories';
-import { StripeErrorCode } from '@codesandbox/common/lib/types';
+import { StripeErrorCode } from '../../utils/const';
 
 export const patronMounted = withLoadApp();
 

@@ -51,6 +51,20 @@ export const npmDependencyRemoved = withOwnedSandbox(async ({ state, effects, ac
   });
 });
 
+export const loadSandbox = withLoadApp(async ({state, actions, effects}, {id}) => {
+  state.editor.isLoading = true
+  state.editor.notFound = false;
+
+  try {
+    state.editor.currentSandbox = await effects.api.getSandbox(newId);
+  } catch (error) {
+    state.editor.notFound = true;
+    state.editor.error = error.message;
+  }
+
+  state.editor.isLoading = false
+})
+
 export const sandboxChanged = withLoadApp(async ({ state, actions, effects }, { id }) => {
   state.editor.error = null;
 
@@ -96,7 +110,6 @@ export const sandboxChanged = withLoadApp(async ({ state, actions, effects }, { 
 
   const sandbox = state.editor.currentSandbox;
 
-  if (sandbox == null) return
 
   actions.internal.ensurePackageJSON();
 

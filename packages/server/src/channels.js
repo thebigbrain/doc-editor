@@ -41,7 +41,7 @@ module.exports = function (app) {
       app.channel(`emails/${user.email}`).join(connection)
       app.channel(`userIds/${user.id}`).join(connection)
 
-      (user.roles).forEach(role => app.channel(`roles/${role}`).join(connection))
+      // (user.roles || []).forEach(role => app.channel(`roles/${role}`).join(connection))
     }
   })
 

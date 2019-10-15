@@ -107,7 +107,8 @@ export default function(props) {
   const { id } = match.params
   const sandbox = state.editor.currentSandbox
 
-  actions.editor.sandboxChanged({ id })
+  // actions.editor.sandboxChanged({ id })
+  actions.editor.loadSandbox({id})
 
   const content = getContent(props)
   if (content) {

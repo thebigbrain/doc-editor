@@ -53,11 +53,11 @@ function ContentSplit(props) {
   const hideNavigation =
     state.preferences.settings.zenMode && state.workspace.workspaceHidden
 
-  const {statusBar} = store.editor
+  const {statusBar} = state.editor
 
   const templateDef = sandbox && getTemplateDefinition(sandbox.template)
 
-  const topOffset = store.preferences.settings.zenMode ? 0 : 3 * 16
+  const topOffset = state.preferences.settings.zenMode ? 0 : 3 * 16
   const bottomOffset = vscode ? STATUS_BAR_SIZE : 0
 
   return (
@@ -72,73 +72,73 @@ function ContentSplit(props) {
         style={{lineHeight: 'initial'}}
         className="monaco-workbench"
       >
-        <Header zenMode={store.preferences.settings.zenMode}/>
+        <Header zenMode={state.preferences.settings.zenMode}/>
 
-        <Fullscreen style={{width: 'initial'}}>
-          {!hideNavigation && (
-            <Navigation topOffset={topOffset} bottomOffset={bottomOffset}/>
-          )}
+        {/*<Fullscreen style={{width: 'initial'}}>*/}
+          {/*{!hideNavigation && (*/}
+            {/*<Navigation topOffset={topOffset} bottomOffset={bottomOffset}/>*/}
+          {/*)}*/}
 
-          <div
-            style={{
-              position: 'fixed',
-              left: hideNavigation ? 0 : 'calc(3.5rem + 1px)',
-              top: topOffset,
-              right: 0,
-              bottom: bottomOffset,
-              height: statusBar ? 'auto' : 'calc(100% - 3.5rem)',
-            }}
-          >
-            <SplitPane
-              split="vertical"
-              defaultSize={17 * 16}
-              minSize={0}
-              onDragStarted={() => actions.editor.resizingStarted()}
-              onDragFinished={() => actions.editor.resizingStopped()}
-              onChange={size => {
-                if (size > 0 && store.workspace.workspaceHidden) {
-                  actions.workspace.setWorkspaceHidden({hidden: false})
-                } else if (size === 0 && !store.workspace.workspaceHidden) {
-                  actions.workspace.setWorkspaceHidden({hidden: true})
-                }
-              }}
-              pane1Style={{
-                visibility: store.workspace.workspaceHidden
-                  ? 'hidden'
-                  : 'visible',
-                maxWidth: store.workspace.workspaceHidden ? 0 : 'inherit',
-              }}
-              pane2Style={{
-                height: '100%',
-              }}
-              style={{
-                overflow: 'visible', // For VSCode Context Menu
-              }}
-            >
-              {store.workspace.workspaceHidden ? <div/> : <Workspace/>}
-              <Content match={match}/>
-            </SplitPane>
+          {/*<div*/}
+            {/*style={{*/}
+              {/*position: 'fixed',*/}
+              {/*left: hideNavigation ? 0 : 'calc(3.5rem + 1px)',*/}
+              {/*top: topOffset,*/}
+              {/*right: 0,*/}
+              {/*bottom: bottomOffset,*/}
+              {/*height: statusBar ? 'auto' : 'calc(100% - 3.5rem)',*/}
+            {/*}}*/}
+          {/*>*/}
+            {/*<SplitPane*/}
+              {/*split="vertical"*/}
+              {/*defaultSize={17 * 16}*/}
+              {/*minSize={0}*/}
+              {/*onDragStarted={() => actions.editor.resizingStarted()}*/}
+              {/*onDragFinished={() => actions.editor.resizingStopped()}*/}
+              {/*onChange={size => {*/}
+                {/*if (size > 0 && state.workspace.workspaceHidden) {*/}
+                  {/*actions.workspace.setWorkspaceHidden({hidden: false})*/}
+                {/*} else if (size === 0 && !state.workspace.workspaceHidden) {*/}
+                  {/*actions.workspace.setWorkspaceHidden({hidden: true})*/}
+                {/*}*/}
+              {/*}}*/}
+              {/*pane1Style={{*/}
+                {/*visibility: state.workspace.workspaceHidden*/}
+                  {/*? 'hidden'*/}
+                  {/*: 'visible',*/}
+                {/*maxWidth: state.workspace.workspaceHidden ? 0 : 'inherit',*/}
+              {/*}}*/}
+              {/*pane2Style={{*/}
+                {/*height: '100%',*/}
+              {/*}}*/}
+              {/*style={{*/}
+                {/*overflow: 'visible', // For VSCode Context Menu*/}
+              {/*}}*/}
+            {/*>*/}
+              {/*{state.workspace.workspaceHidden ? <div/> : <Workspace/>}*/}
+              {/*<Content match={match}/>*/}
+            {/*</SplitPane>*/}
 
-            {vscode && (
-              <StatusBar
-                style={{
-                  position: 'fixed',
-                  display: statusBar ? 'block' : 'none',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: STATUS_BAR_SIZE,
-                }}
-                className="monaco-workbench mac nopanel"
-              >
-                <div
-                  className="part statusbar"
-                  id="workbench.parts.statusbar"
-                />
-              </StatusBar>
-            )}
-          </div>
-        </Fullscreen>
+            {/*{vscode && (*/}
+              {/*<StatusBar*/}
+                {/*style={{*/}
+                  {/*position: 'fixed',*/}
+                  {/*display: statusBar ? 'block' : 'none',*/}
+                  {/*bottom: 0,*/}
+                  {/*left: 0,*/}
+                  {/*right: 0,*/}
+                  {/*height: STATUS_BAR_SIZE,*/}
+                {/*}}*/}
+                {/*className="monaco-workbench mac nopanel"*/}
+              {/*>*/}
+                {/*<div*/}
+                  {/*className="part statusbar"*/}
+                  {/*id="workbench.parts.statusbar"*/}
+                {/*/>*/}
+              {/*</StatusBar>*/}
+            {/*)}*/}
+          {/*</div>*/}
+        {/*</Fullscreen>*/}
         <ForkFrozenSandboxModal/>
       </Container>
     </ThemeProvider>

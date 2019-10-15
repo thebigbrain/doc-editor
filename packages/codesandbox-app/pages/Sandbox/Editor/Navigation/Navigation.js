@@ -2,23 +2,11 @@ import React from 'react'
 import {GoPlus as PlusIcon} from 'react-icons/go'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 // import getWorkspaceItems, { getDisabledItems } from '~/store/modules/workspace/items';
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import InfoIcon from '@codesandbox/common/lib/icons/sandbox.svg'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import GitHubIcon from '@codesandbox/common/lib/icons/github.svg'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import LiveIcon from '@codesandbox/common/lib/icons/live.svg'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import FilesIcon from '@codesandbox/common/lib/icons/file.svg'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import RocketIcon from '@codesandbox/common/lib/icons/rocket.svg'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
 import ConfigurationIcon from '@codesandbox/common/lib/icons/cog.svg'
 import {Container, IconContainer, Separator} from './elements'
 import ServerIcon from './ServerIcon'

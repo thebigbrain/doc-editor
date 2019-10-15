@@ -2,16 +2,18 @@ import React from 'react';
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator';
 import CustomTemplate from '@codesandbox/common/lib/components/CustomTemplate';
 import history from '~/utils/history';
-import { useQuery } from '@apollo/react-hooks';
-import { LIST_TEMPLATES } from '../../../../queries';
+// import { useQuery } from '@apollo/react-hooks';
+// import { LIST_TEMPLATES } from '../../../../queries';
 import { Title } from '../elements';
 import { MyTemplatesList } from './elements';
+import {useOvermind} from '~/overmind'
 
 // Would be good to actually have this interface filled out
 // Would be better if we could generate types from our GraphQL server
 
 
 export const MyTemplates = ({ selectTemplate }) => {
+  const {state} = useOvermind()
   const { data = {} } = useQuery(LIST_TEMPLATES, {
     variables: { showAll: true },
     fetchPolicy: 'cache-and-network',

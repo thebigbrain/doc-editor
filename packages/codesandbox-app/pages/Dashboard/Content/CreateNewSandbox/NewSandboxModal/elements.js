@@ -140,10 +140,7 @@ export const Button = styled.button`
     transition: 0.15s ease all;
     cursor: pointer;
 
-    ${selected &&
-css`
-        ${activeStyles};
-      `};
+    ${selected && css`${activeStyles};`};
 
     &:focus {
       outline: none;

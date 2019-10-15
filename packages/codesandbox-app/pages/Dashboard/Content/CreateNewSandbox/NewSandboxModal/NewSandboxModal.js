@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import track from '@codesandbox/common/lib/utils/analytics'
 import Template from '@codesandbox/common/lib/components/Template'
 import { ImportTab } from './ImportTab'
-import { MyTemplates } from './MyTemplates/index'
-import { MyTemplatesTab } from './MyTemplatesTab/index'
+// import { MyTemplates } from './MyTemplates'
+// import { MyTemplatesTab } from './MyTemplatesTab'
 import { Button, Container, InnerContainer, Tab, TabContainer, Templates, Title } from './elements'
 import { client, container, popular, presets } from './availableTemplates'
 import { useOvermind } from '~/overmind'
@@ -60,7 +60,7 @@ export const NewSandboxModal =
 
         <InnerContainer forking={forking} closing={closing}>
           <Tab visible={selectedTab === 0}>
-            {user && <MyTemplates selectTemplate={selectTemplate}/>}
+            {/*{user && <MyTemplates selectTemplate={selectTemplate}/>}*/}
             <Title>Popular Templates</Title>
             <Templates>
               {popular.map(type =>
@@ -75,11 +75,11 @@ export const NewSandboxModal =
               )}
             </Templates>
           </Tab>
-          {user && (
-            <Tab visible={selectedTab === 1}>
-              <MyTemplatesTab selectTemplate={selectTemplate}/>
-            </Tab>
-          )}
+          {/*{user && (*/}
+            {/*<Tab visible={selectedTab === 1}>*/}
+              {/*<MyTemplatesTab selectTemplate={selectTemplate}/>*/}
+            {/*</Tab>*/}
+          {/*)}*/}
           <Tab visible={selectedTab === 2}>
             <Title>Client Templates</Title>
             <Templates>

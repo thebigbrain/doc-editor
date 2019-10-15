@@ -1,5 +1,5 @@
-import {client} from '~/graphql/client'
-import {LIST_TEMPLATES} from '~/pages/Dashboard/queries'
+// import {client} from '~/graphql/client'
+// import {LIST_TEMPLATES} from '~/pages/Dashboard/queries'
 // import apiFactory from './apiFactory'
 import * as api from './feathers'
 
@@ -41,23 +41,26 @@ export default {
     return await s.get(name, {version: 'latest'})
   },
   async getSandbox(id) {
+    const s = api.getService('sandboxes')
+    let sandbox = null
+
     if (id === 'new') {
-      return {}
+      sandbox = await s.create({title: parseInt(Math.random() * 1000).toString()})
+    } else {
+      sandbox = await s.get(id)
     }
 
-    const s = api.getService('sandboxes')
-    const sandbox = await s.get(id)
-    console.log(sandbox)
+    return sandbox
 
-    // We need to add client side properties for tracking
-    return {
-      ...sandbox,
-      modules: sandbox.modules.map(module => ({
-        ...module,
-        savedCode: null,
-        isNotSynced: false,
-      })),
-    };
+    // // We need to add client side properties for tracking
+    // return {
+    //   ...sandbox,
+    //   modules: sandbox.modules.map(module => ({
+    //     ...module,
+    //     savedCode: null,
+    //     isNotSynced: false,
+    //   })),
+    // };
   },
   async forkSandbox(id, body) {
     const s = api.getService('sandboxes')

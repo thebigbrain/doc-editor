@@ -16,7 +16,6 @@ export const signIn = async (
     const jwt = await actions.internal.signInGithub(options)
     await actions.internal.setJwt(jwt)
     state.user = await effects.api.getCurrentUser()
-    console.log(state.user)
     actions.internal.setPatronPrice()
     actions.internal.setSignedInCookie()
     actions.internal.setStoredSettings()

@@ -21,10 +21,10 @@ export const UserMenu = () => {
     <Relative>
       <ClickableContainer onClick={userMenuOpened}>
         <ProfileImage
-          alt={user.username}
+          alt={user.login}
           width={30}
           height={30}
-          src={user.avatarUrl}
+          src={user.avatar_url}
         />
       </ClickableContainer>
       {userMenuOpen && (

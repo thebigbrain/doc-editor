@@ -1,21 +1,22 @@
 {
   "exclude": [
     "node_modules",
+    "./**/*.test.js",
     "./**/*.test.ts",
-    "./**/*.test.tsx",
-    "./**/*.stories.tsx"
+    "./**/*.test.tsx"
   ],
   "include": ["./src/**/*"],
-
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES6",
-    "resolveJsonModule": true,
-    "jsx": "react",
-    "lib": ["es2015", "dom"],
+    "strict": false,
+    "target": "ESNext",
+    "jsx": "preserve",
     "outDir": "lib",
-    "declaration": true,
-    "allowJs": false,
-    "esModuleInterop": true
+    "declaration": false,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": false,
+    "noEmitHelpers": true,
+    "skipLibCheck": true,
+    "suppressExcessPropertyErrors": true
   }
 }

@@ -6,7 +6,7 @@ import track from '@codesandbox/common/lib/utils/analytics';
 import { sandboxUrl } from '@codesandbox/common/lib/utils/url-generator';
 import CustomTemplate from '@codesandbox/common/lib/components/CustomTemplate';
 import { getSandboxName } from '@codesandbox/common/lib/utils/get-sandbox-name';
-import { DelayedAnimation } from 'codesandbox-app/components/DelayedAnimation';
+import { DelayedAnimation } from '~/components/DelayedAnimation';
 import history from 'app/utils/history';
 import { ContextMenu } from 'app/components/ContextMenu';
 import { LIST_TEMPLATES, unmakeTemplates } from '../../../queries';

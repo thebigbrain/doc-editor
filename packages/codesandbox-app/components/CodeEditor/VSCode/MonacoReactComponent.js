@@ -1,6 +1,6 @@
 import React from 'react'
 import FontFaceObserver from 'fontfaceobserver'
-import { vscode } from 'app/vscode'
+import { vscode } from '~/vscode'
 
 import './icon-theme.css'
 import './workbench-theme.css'
@@ -8,16 +8,6 @@ import './workbench-theme.css'
 // import { setSocketURL } from 'node-services/lib/net';
 
 function noop() {
-}
-
-export
-type
-EditorAPI = {
-  openFile(path: string): any,
-  getActiveCodeEditor(): any,
-  editorPart: any,
-  textFileService: any,
-  editorService: any,
 }
 
 const fontPromise = new FontFaceObserver('dm').load().catch(() => {
@@ -136,7 +126,7 @@ class MonacoEditor extends React.PureComponent {
             }
 
             const editorApi = {
-              openFile(path: string) {
+              openFile(path) {
                 fontPromise.then(() => {
                   codeEditorService.openCodeEditor({
                     resource: context.monaco.Uri.file('/sandbox' + path),

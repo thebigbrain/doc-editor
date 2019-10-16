@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@codesandbox/common/lib/components/Button';
-import { Title } from 'codesandbox-app/components/Title';
-import { SubTitle } from 'codesandbox-app/components/SubTitle';
+import { Title } from '~/components/Title';
+import { SubTitle } from '~/components/SubTitle';
 import { Buttons, Container, TokenContainer } from './elements';
 const select = ({ target }) => target.select();
 export const Prompt = ({ error, token, loading, username, signIn, }) => {

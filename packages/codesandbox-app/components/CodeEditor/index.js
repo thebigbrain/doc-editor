@@ -10,20 +10,20 @@ import {getModulePath} from '@codesandbox/common/lib/sandbox/modules'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 import {Title} from '~/components/Title'
 import {SubTitle} from '~/components/SubTitle'
-import Loadable from '~/utils/Loadable'
+// import Loadable from '~/utils/Loadable'
 // import {ImageViewer} from './ImageViewer/index'
 // import {Configuration} from './Configuration/index'
 import {VSCode} from './VSCode/index'
 import MonacoDiff from './MonacoDiff/index'
 import {Icon, Icons} from './elements'
 
-const CodeMirror = Loadable(() =>
-  import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
-)
-
-const Monaco = Loadable(() =>
-  import(/* webpackChunkName: 'codemirror-editor' */ './Monaco/index'),
-)
+// const CodeMirror = Loadable(() =>
+//   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
+// )
+//
+// const Monaco = Loadable(() =>
+//   import(/* webpackChunkName: 'codemirror-editor' */ './Monaco/index'),
+// )
 
 const getDependencies = (sandbox) => {
   const packageJSON = sandbox.modules.find(

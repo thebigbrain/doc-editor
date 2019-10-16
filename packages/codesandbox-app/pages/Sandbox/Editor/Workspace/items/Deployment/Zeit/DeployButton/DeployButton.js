@@ -1,7 +1,7 @@
 import { hooksObserver, inject } from 'app/componentConnectors';
 import React from 'react';
 import { DeploymentIntegration } from 'app/components/DeploymentIntegration';
-import { NowLogo } from 'codesandbox-app/components/NowLogo';
+import { NowLogo } from '~/components/NowLogo';
 import { DeployButtonContainer } from '../../elements';
 export const DeployButton = inject('store', 'signals')(hooksObserver(({ isOpen, toggle, signals: { deployment: { deploySandboxClicked }, }, }) => (<DeployButtonContainer>
         <DeploymentIntegration bgColor="#000000" onDeploy={deploySandboxClicked} Icon={NowLogo} name="Now" open={isOpen} onToggle={toggle}>

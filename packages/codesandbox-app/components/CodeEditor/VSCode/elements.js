@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import theme from '@codesandbox/common/lib/theme';
+
 export const Container = styled.div `
   width: 100%;
   height: 100%;
@@ -7,6 +8,7 @@ export const Container = styled.div `
 `;
 // TODO: move common to TS
 const usedTheme = theme;
+
 export const CodeContainer = styled.div `
   position: relative;
   width: 100%;

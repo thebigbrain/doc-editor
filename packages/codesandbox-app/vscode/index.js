@@ -1,5 +1,5 @@
 import { convertTypeToStatus, notificationState } from '@codesandbox/common/lib/utils/notifications';
-import { blocker } from 'codesandbox-app/utils/blocker';
+import { blocker } from '~/utils/blocker';
 import { KeyCode, KeyMod } from './keyCodes';
 import bootstrap from './dev-bootstrap';
 import { MenuId } from './menus';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { hooksObserver, inject } from 'app/componentConnectors';
 import { format } from 'date-fns';
-import { LinkButton } from 'codesandbox-app/components/LinkButton';
+import { LinkButton } from '~/components/LinkButton';
 import { Buttons, CancelText, Centered, SmallText, StripeInput, StyledButton } from './elements';
 function ChangeSubscriptionComponent({ date, markedAsCancelled, cancelSubscription, updateSubscription, store, signals, }) {
     const isLoading = store.patron.isUpdatingSubscription;

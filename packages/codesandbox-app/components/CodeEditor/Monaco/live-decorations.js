@@ -20,18 +20,7 @@ export function updateUserSelections(
   monaco,
   editor,
   currentModule,
-  userSelections: Array<
-    | {
-      userId: string,
-      selection: null,
-    }
-      | {
-      userId: string,
-      name: string,
-      selection: any,
-      color: Array<number>,
-    }
-    >,
+  userSelections,
 ) {
   if (!editor.getModel()) {
     return

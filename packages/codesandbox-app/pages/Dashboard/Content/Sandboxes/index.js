@@ -1,5 +1,5 @@
 import React from 'react';
-import { DelayedAnimation } from 'codesandbox-app/components/DelayedAnimation';
+import { DelayedAnimation } from '~/components/DelayedAnimation';
 import { Container, HeaderContainer, HeaderTitle } from '../elements';
 import { SandboxGrid } from '../SandboxGrid/index';
 import { Filters } from './Filters/index';

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import MaxWidth from '@codesandbox/common/lib/components/flex/MaxWidth';
 import Margin from '@codesandbox/common/lib/components/spacing/Margin';
 import { hooksObserver, inject } from 'app/componentConnectors';
-import { Title } from 'codesandbox-app/components/Title';
-import { SubTitle } from 'codesandbox-app/components/SubTitle';
+import { Title } from '~/components/Title';
+import { SubTitle } from '~/components/SubTitle';
 import { Navigation } from 'app/pages/common/Navigation';
 import { Code, Container, Content } from './elements';
 const CLIInstructions = inject('signals')(hooksObserver(({ signals: { cliInstructionsMounted } }) => {

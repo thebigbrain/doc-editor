@@ -2,8 +2,8 @@ import getUI from '@codesandbox/common/lib/templates/configuration/ui';
 import theme from '@codesandbox/common/lib/theme';
 import { TextOperation } from 'ot';
 import React from 'react';
-import EntryIcons from 'app/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons';
-import getType from 'codesandbox-app/utils/get-type';
+import EntryIcons from '~/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons';
+import getType from '~/utils/get-type';
 import { Container, Description, Title } from './elements';
 export class Configuration extends React.PureComponent {
     constructor(props) {

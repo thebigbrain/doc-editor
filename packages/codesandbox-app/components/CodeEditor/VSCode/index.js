@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { ThemeProvider } from 'styled-components'
 import { TextOperation } from 'ot'
 import { debounce } from 'lodash-es'
-import {json} from 'overmind'
+import { json } from 'overmind'
 import { getModulePath, resolveModule } from '@codesandbox/common/lib/sandbox/modules'
 import { actions, dispatch, listen } from 'codesandbox-api'
 import prettify from '~/utils/prettify'
@@ -64,6 +64,7 @@ export class VSCode extends React.Component {
         }
       })
     }
+
     this.getVSCodePath = (moduleId) => `/sandbox${getModulePath(this.sandbox.modules, this.sandbox.directories, moduleId)}`
     this.getCurrentModuleVSCodePath = () => this.getVSCodePath(this.currentModule.id)
     this.getPrettierConfig = () => {
@@ -75,12 +76,14 @@ export class VSCode extends React.Component {
         return this.settings.prettierConfig || DEFAULT_PRETTIER_CONFIG
       }
     }
+
     this.provideDocumentFormattingEdits = (model, options, token) => prettify(model.uri.fsPath, () => model.getValue(), this.getPrettierConfig(), () => false, token).then(newCode => [
       {
         range: model.getFullModelRange(),
         text: newCode,
       },
     ])
+
     this.setupCodeSandboxAPIListener = () => listen(({ action, type, code, path, lineNumber, column }) => {
       if (type === 'add-extra-lib') {
         // TODO: bring this func back
@@ -106,6 +109,7 @@ export class VSCode extends React.Component {
         }
       }
     })
+
     this.modelListeners = {}
     this.getModelContentChangeListener = model => model.onDidChangeContent(e => {
       const { path } = model.uri
@@ -126,6 +130,7 @@ export class VSCode extends React.Component {
         }
       }
     })
+
     this.listenForFileChanges = () => {
       this.modelAddedListener = this.editor.textFileService.modelService.onModelAdded(model => {
         if (this.modelListeners[model.uri.path] === undefined) {
@@ -153,6 +158,7 @@ export class VSCode extends React.Component {
         }
       })
     }
+
     this.disposeContentListeners = () => {
       if (this.modelAddedListener) {
         this.modelAddedListener.dispose()
@@ -167,6 +173,7 @@ export class VSCode extends React.Component {
         this.modelListeners[p].listener.dispose()
       })
     }
+
     this.configureEditor = async (editor, monaco) => {
       this.editor = editor
       this.monaco = monaco
@@ -278,6 +285,7 @@ export class VSCode extends React.Component {
         this.disposeInitializer = this.props.onInitialized(this)
       }
     }
+
     this.changeModule = (newModule, errors, corrections) => {
       this.swapDocuments(newModule)
       this.currentModule = newModule
@@ -300,11 +308,13 @@ export class VSCode extends React.Component {
         this.liveOperationCode = ''
       }
     }
+
     this.onSelectionChangedDebounced = debounce(data => {
       if (this.props.onSelectionChanged) {
         this.props.onSelectionChanged(data)
       }
     })
+
     this.liveOperationCode = ''
     this.sendChangeOperations = changeEvent => {
       const { sendTransforms, isLive, onCodeReceived } = this.props
@@ -331,6 +341,7 @@ export class VSCode extends React.Component {
         onCodeReceived()
       }
     }
+
     this.userClassesGenerated = {}
     this.userSelectionDecorations = {}
     this.updateUserSelections = (userSelections) => {
@@ -338,6 +349,7 @@ export class VSCode extends React.Component {
         updateUserSelections(this.monaco, this.editor.getActiveCodeEditor(), this.currentModule, userSelections)
       }
     }
+
     this.changeSandbox = (newSandbox, newCurrentModule, dependencies) => new Promise(resolve => {
       this.sandbox = newSandbox
       this.dependencies = dependencies
@@ -347,6 +359,7 @@ export class VSCode extends React.Component {
         resolve(null)
       })
     })
+
     this.moduleSyncedChanged = () => {
       const openedModels = this.editor.textFileService.getFileModels()
       openedModels.forEach(fileModel => {
@@ -364,6 +377,7 @@ export class VSCode extends React.Component {
         }
       })
     }
+
     this.changeCode = (code, moduleId) => {
       const editor = this.editor.getActiveCodeEditor()
       if (code !== this.getCode() &&
@@ -372,6 +386,7 @@ export class VSCode extends React.Component {
         this.lint(code, this.currentModule.title, editor.getModel().getVersionId())
       }
     }
+
     this.applyOperationToModel = (operation, pushStack = false, model = this.editor.getActiveCodeEditor().getModel()) => {
       const results = []
       let index = 0
@@ -424,6 +439,7 @@ export class VSCode extends React.Component {
       }
       this.receivingCode = false
     }
+
     this.applyOperations = (operations) => {
       const operationsJSON = operations.toJSON ? operations.toJSON() : operations
       Object.keys(operationsJSON).forEach(moduleShortid => {
@@ -467,9 +483,11 @@ export class VSCode extends React.Component {
         }
       })
     }
+
     this.changeDependencies = (dependencies) => {
       this.dependencies = dependencies
     }
+
     this.changeSettings = (settings) => {
       this.settings = settings
       if (settings.lintEnabled && !this.lintWorker) {
@@ -478,6 +496,7 @@ export class VSCode extends React.Component {
       this.editor.getActiveCodeEditor().updateOptions(this.getEditorOptions())
       this.forceUpdate()
     }
+
     this.setErrors = (errors) => {
       const activeEditor = this.editor.getActiveCodeEditor()
       if (activeEditor) {
@@ -506,6 +525,7 @@ export class VSCode extends React.Component {
         }
       }
     }
+
     this.setCorrections = (corrections) => {
       const activeEditor = this.editor.getActiveCodeEditor()
       if (activeEditor) {
@@ -537,6 +557,7 @@ export class VSCode extends React.Component {
         }
       }
     }
+
     this.setupLintWorker = () => {
       if (!this.lintWorker) {
         this.lintWorker = new LinterWorker()
@@ -569,6 +590,7 @@ export class VSCode extends React.Component {
         }
       }
     }
+
     this.setupWorkers = () => {
       const { settings } = this
       if (settings.lintEnabled) {
@@ -578,6 +600,7 @@ export class VSCode extends React.Component {
         }, 5000)
       }
     }
+
     this.updateDecorations = async (classifications) => {
       const decorations = classifications.map(classification => ({
         range: new this.monaco.Range(classification.startLine, classification.start, classification.endLine, classification.end),
@@ -593,11 +616,13 @@ export class VSCode extends React.Component {
         .getActiveCodeEditor()
         .deltaDecorations(modelInfo.decorations || [], decorations)
     }
+
     this.getModelById = (id) => {
       const modulePath = getModulePath(this.sandbox.modules, this.sandbox.directories, id)
       const uri = this.monaco.Uri.file('/sandbox' + modulePath)
       return this.editor.textFileService.modelService.getModel(uri)
     }
+
     this.getFileModel = (modulePath) => this.editor.textFileService.getFileModels(this.monaco.Uri.file(modulePath))[0]
     this.getCurrentModelPath = () => {
       const activeEditor = this.editor.getActiveCodeEditor()
@@ -610,6 +635,7 @@ export class VSCode extends React.Component {
       }
       return model.uri.path.replace(/^\/sandbox/, '')
     }
+
     this.openModule = (module) => {
       if (module.id) {
         const path = getModulePath(this.sandbox.modules, this.sandbox.directories, module.id)
@@ -618,9 +644,11 @@ export class VSCode extends React.Component {
         }
       }
     }
+
     this.swapDocuments = (nextModule) => {
       this.openModule(nextModule)
     }
+
     this.lint = async (code, title, version) => {
       if (!title) {
         return
@@ -639,6 +667,7 @@ export class VSCode extends React.Component {
         }
       }
     }
+
     this.handleChange = (currentModuleShortid, currentModuleTitle, newCode) => {
       if (this.props.onChange) {
         this.props.onChange(newCode, currentModuleShortid)
@@ -650,11 +679,13 @@ export class VSCode extends React.Component {
           .getVersionId())
       }
     }
+
     this.hasNativeTypescript = () => {
       const { sandbox } = this
       const template = getTemplate(sandbox.template)
       return template.isTypescript
     }
+
     this.resizeEditorInstantly = () => {
       this.forceUpdate(() => {
         if (this.editor) {
@@ -662,6 +693,7 @@ export class VSCode extends React.Component {
         }
       })
     }
+
     /**
      * We manually commit lib changes, because if do this for *every* change we will
      * reload the whole TS worker & AST for every change. This method is debounced
@@ -675,12 +707,14 @@ export class VSCode extends React.Component {
         noSyntaxValidation: !this.hasNativeTypescript(),
       })
     }
+
     this.getCode = () => {
       const activeEditor = this.editor.getActiveCodeEditor()
       if (!activeEditor)
         return ''
       return activeEditor.getValue()
     }
+
     this.getEditorOptions = () => {
       const { settings } = this
       const { currentModule } = this
@@ -690,6 +724,7 @@ export class VSCode extends React.Component {
         readOnly: Boolean(this.props.readOnly),
       }
     }
+
     this.getCustomEditor = (modulePath) => {
       const template = getTemplate(this.sandbox.template)
       const config = template.configurationFiles[modulePath]
@@ -769,12 +804,24 @@ export class VSCode extends React.Component {
   render() {
     const { width, height } = this.props
     const options = this.getEditorOptions()
-    return (<Container id="vscode-container">
-      <GlobalStyles/>
-      <MonacoEditorComponent id={this.props.sandbox.id} width={width} height={height} theme="CodeSandbox"
-                             options={options} editorDidMount={this.configureEditor} editorWillMount={() => {
-      }} getEditorOptions={this.getEditorOptions} customEditorAPI={{ getCustomEditor: this.getCustomEditor }}/>
-    </Container>)
+
+    return (
+      <Container id="vscode-container">
+        <GlobalStyles/>
+        <MonacoEditorComponent
+          id={this.props.sandbox.id}
+          width={width}
+          height={height}
+          theme="CodeSandbox"
+          options={options}
+          editorDidMount={this.configureEditor}
+          editorWillMount={() => {
+          }}
+          getEditorOptions={this.getEditorOptions}
+          customEditorAPI={{ getCustomEditor: this.getCustomEditor }}
+        />
+      </Container>
+    )
   }
 }
 

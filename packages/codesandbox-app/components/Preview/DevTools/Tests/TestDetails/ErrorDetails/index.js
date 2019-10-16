@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from '@codesandbox/common/lib/theme';
 import ansiHTML from 'ansi-html';
-import { escapeHtml } from 'codesandbox-app/utils/escape';
+import { escapeHtml } from '~/utils/escape';
 const Container = styled.div `
   font-family: Menlo, Source Code Pro, monospace;
   padding: 1rem;

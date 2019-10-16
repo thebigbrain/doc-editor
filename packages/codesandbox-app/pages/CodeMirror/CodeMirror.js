@@ -1,5 +1,5 @@
 import React from 'react'
-import CodeMirror from 'packages/codesandbox-app/pages/CodeMirror/CodeMirror'
+import CodeMirror from '~/pages/CodeMirror/CodeMirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/mode/jsx/jsx'

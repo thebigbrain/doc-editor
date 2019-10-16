@@ -21,7 +21,7 @@ class MonacoEditor extends React.PureComponent {
     }
 
     // eslint-disable-next-line global-require
-    require('app/vscode/dev-bootstrap').default(false, [
+    require('~/vscode/dev-bootstrap').default(false, [
       'vs/editor/editor.main',
     ])(() => {
       this.initMonaco()

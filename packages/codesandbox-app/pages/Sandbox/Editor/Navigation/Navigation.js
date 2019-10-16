@@ -1,7 +1,6 @@
 import React from 'react'
 import {GoPlus as PlusIcon} from 'react-icons/go'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
-// import getWorkspaceItems, { getDisabledItems } from '~/store/modules/workspace/items';
 import InfoIcon from '@codesandbox/common/lib/icons/sandbox.svg'
 import GitHubIcon from '@codesandbox/common/lib/icons/github.svg'
 import LiveIcon from '@codesandbox/common/lib/icons/live.svg'
@@ -66,7 +65,7 @@ export const Navigation =
      topOffset,
      bottomOffset,
    }) => {
-    const {state: store, actions} = useOvermind()
+    const {actions} = useOvermind()
 
     const shownItems = actions.editor.getWorkspaceItems()
     const disabledItems = actions.editor.getDisabledItems()

@@ -1,7 +1,7 @@
 import React from 'react';
 //  Fix css prop types in styled-components (see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31245#issuecomment-463640878)
-import VERSION from '@codesandbox/common/lib/version';
-import { SocialInfo } from '~/components/SocialInfo';
+// import VERSION from '@codesandbox/common/lib/version';
+// import { SocialInfo } from '~/components/SocialInfo';
 // import ConfigurationFiles from './items/ConfigurationFiles/index';
 // import { Deployment } from './items/Deployment/index';
 // import Files from './items/Files/index';
@@ -72,13 +72,13 @@ const WorkspaceComponent = () => {
         <>
           {/*{!(isPatron || owned) && <Advertisement/>}*/}
 
-          <ContactContainer>
-            <SocialInfo style={{ display: 'inline-block' }}/>
+          {/*<ContactContainer>*/}
+            {/*/!*<SocialInfo style={{ display: 'inline-block' }}/>*!/*/}
 
-            <VersionContainer className="codesandbox-version">
-              {VERSION}
-            </VersionContainer>
-          </ContactContainer>
+            {/*<VersionContainer className="codesandbox-version">*/}
+              {/*{VERSION}*/}
+            {/*</VersionContainer>*/}
+          {/*</ContactContainer>*/}
 
           <SSEDownNotice/>
 

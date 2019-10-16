@@ -23,6 +23,25 @@ const StatusBar = styled.div`
   }
 `
 
+const VsCodeStatusBar = ({visible = true}) => (
+  <StatusBar
+    style={{
+      position: 'fixed',
+      display: visible ? 'block' : 'none',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: STATUS_BAR_SIZE,
+    }}
+    className="monaco-workbench mac nopanel"
+  >
+    <div
+      className="part statusbar"
+      id="workbench.parts.statusbar"
+    />
+  </StatusBar>
+)
+
 function ContentSplit(props) {
   const {state, actions} = useOvermind()
   const customVSCodeTheme = state.preferences.settings.customVSCodeTheme
@@ -120,24 +139,7 @@ function ContentSplit(props) {
               <div>content here...</div>
             </SplitPane>
 
-            {vscode && (
-              <StatusBar
-                style={{
-                  position: 'fixed',
-                  display: statusBar ? 'block' : 'none',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: STATUS_BAR_SIZE,
-                }}
-                className="monaco-workbench mac nopanel"
-              >
-                <div
-                  className="part statusbar"
-                  id="workbench.parts.statusbar"
-                />
-              </StatusBar>
-            )}
+            {vscode && (<VsCodeStatusBar visible={statusBar}/>)}
           </div>
         </Fullscreen>
         {/*<ForkFrozenSandboxModal/>*/}

@@ -9,7 +9,7 @@ import * as userNotifications from './namespaces/userNotifications'
 import * as patron from './namespaces/patron'
 import * as editor from './namespaces/editor'
 import * as live from './namespaces/live'
-// import * as workspace from './namespaces/workspace'
+import * as workspace from './namespaces/workspace'
 // import * as dashboard from './namespaces/dashboard'
 // import * as deployment from './namespaces/deployment'
 // import * as files from './namespaces/files'
@@ -33,7 +33,7 @@ export const config = merge(
     patron,
     editor,
     live,
-    // workspace,
+    workspace,
     // dashboard,
     // deployment,
     // files,

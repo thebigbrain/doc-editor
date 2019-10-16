@@ -11,6 +11,7 @@ const baseConfig = {
   },
   externals: [],
   resolve: {
+    // modules: [],
     alias: {
       // ... and any other directories you might have
       '~': path.resolve(__dirname, '.')

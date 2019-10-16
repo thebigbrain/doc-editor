@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
-
-export const Container = styled.button`
+export const Container = styled.button `
   display: inline-flex;
   transition: 0.3s ease color;
   font-family: Poppins, Roboto, sans-serif;
@@ -24,19 +23,17 @@ export const Container = styled.button`
     font-size: 1rem;
   }
 
-  ${props =>
-  props.loggedIn &&
-  css`
+  ${props => props.loggedIn &&
+    css `
       cursor: pointer;
       &:hover {
         color: ${props.highlightHover ? props.theme.secondary : 'inherit'};
       }
     `};
 
-  ${props =>
-  props.liked &&
-  props.highlightHover &&
-  css`
+  ${props => props.liked &&
+    props.highlightHover &&
+    css `
       color: ${props.theme.secondary};
     `};
 `;

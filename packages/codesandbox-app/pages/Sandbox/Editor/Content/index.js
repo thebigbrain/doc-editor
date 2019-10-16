@@ -1,18 +1,18 @@
 import * as React from 'react'
-import {json} from 'overmind'
-import {ThemeProvider} from 'styled-components'
-import {Prompt} from 'react-router-dom'
-import {TextOperation} from 'ot'
+import { json } from 'overmind'
+import { ThemeProvider } from 'styled-components'
+import { Prompt } from 'react-router-dom'
+import { TextOperation } from 'ot'
 import getTemplateDefinition from '@codesandbox/common/lib/templates'
 import SplitPane from 'react-split-pane'
 
-import {CodeEditor} from '~/components/CodeEditor'
-import {DevTools} from '~/components/Preview/DevTools'
+import { CodeEditor } from '~/components/CodeEditor'
+// import { DevTools } from '~/components/Preview/DevTools'
 
-import {Preview} from './Preview'
-import preventGestureScroll, {removeListener} from './prevent-gesture-scroll'
-import Tabs from './Tabs'
-import {withOvermind} from "~/overmind"
+import { Preview } from './Preview'
+import preventGestureScroll, { removeListener } from './prevent-gesture-scroll'
+// import Tabs from './Tabs'
+import { withOvermind } from '~/overmind'
 
 const settings = store => ({
   fontFamily: store.preferences.settings.fontFamily,
@@ -501,7 +501,7 @@ class EditorPreview extends React.Component {
                 marginTop: 0,
               }}
             >
-              {!store.preferences.settings.experimentVSCode && <Tabs/>}
+              {/*{!store.preferences.settings.experimentVSCode && <Tabs/>}*/}
               <CodeEditor
                 style={{
                   top: store.preferences.settings.experimentVSCode ? 0 : 35,
@@ -550,50 +550,50 @@ class EditorPreview extends React.Component {
               />
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-              }}
-              id="csb-devtools" // used for tabs for highlighting
-            >
-              {views.map((v, i) => (
-                <DevTools
-                  key={i} // eslint-disable-line react/no-array-index-key
-                  devToolIndex={i}
-                  addedViews={{
-                    'codesandbox.browser': browserConfig,
-                  }}
-                  setDragging={dragging => {
-                    if (dragging) {
-                      this.props.signals.editor.resizingStarted()
-                    } else {
-                      this.props.signals.editor.resizingStopped()
-                    }
-                  }}
-                  sandboxId={sandbox.id}
-                  template={sandbox.template}
-                  shouldExpandDevTools={store.preferences.showDevtools}
-                  zenMode={preferences.settings.zenMode}
-                  setDevToolsOpen={open =>
-                    this.props.signals.preferences.setDevtoolsOpen({ open })
-                  }
-                  owned={sandbox.owned}
-                  primary={i === 0}
-                  viewConfig={v}
-                  moveTab={this.moveDevToolsTab}
-                  closeTab={this.closeDevToolsTab}
-                  currentDevToolIndex={currentPosition.devToolIndex}
-                  currentTabPosition={currentPosition.tabPosition}
-                  setPane={position =>
-                    this.props.signals.editor.onDevToolsPositionChanged({
-                      position,
-                    })
-                  }
-                />
-              ))}
-            </div>
+            {/*<div*/}
+              {/*style={{*/}
+                {/*display: 'flex',*/}
+                {/*flexDirection: 'column',*/}
+                {/*height: '100%',*/}
+              {/*}}*/}
+              {/*id="csb-devtools" // used for tabs for highlighting*/}
+            {/*>*/}
+              {/*{views.map((v, i) => (*/}
+                {/*<DevTools*/}
+                  {/*key={i} // eslint-disable-line react/no-array-index-key*/}
+                  {/*devToolIndex={i}*/}
+                  {/*addedViews={{*/}
+                    {/*'codesandbox.browser': browserConfig,*/}
+                  {/*}}*/}
+                  {/*setDragging={dragging => {*/}
+                    {/*if (dragging) {*/}
+                      {/*this.props.signals.editor.resizingStarted()*/}
+                    {/*} else {*/}
+                      {/*this.props.signals.editor.resizingStopped()*/}
+                    {/*}*/}
+                  {/*}}*/}
+                  {/*sandboxId={sandbox.id}*/}
+                  {/*template={sandbox.template}*/}
+                  {/*shouldExpandDevTools={store.preferences.showDevtools}*/}
+                  {/*zenMode={preferences.settings.zenMode}*/}
+                  {/*setDevToolsOpen={open =>*/}
+                    {/*this.props.signals.preferences.setDevtoolsOpen({ open })*/}
+                  {/*}*/}
+                  {/*owned={sandbox.owned}*/}
+                  {/*primary={i === 0}*/}
+                  {/*viewConfig={v}*/}
+                  {/*moveTab={this.moveDevToolsTab}*/}
+                  {/*closeTab={this.closeDevToolsTab}*/}
+                  {/*currentDevToolIndex={currentPosition.devToolIndex}*/}
+                  {/*currentTabPosition={currentPosition.tabPosition}*/}
+                  {/*setPane={position =>*/}
+                    {/*this.props.signals.editor.onDevToolsPositionChanged({*/}
+                      {/*position,*/}
+                    {/*})*/}
+                  {/*}*/}
+                {/*/>*/}
+              {/*))}*/}
+            {/*</div>*/}
           </SplitPane>
         </div>
       </ThemeProvider>

@@ -56,7 +56,7 @@ export const loadSandbox = withLoadApp(async ({state, actions, effects}, {id}) =
   state.editor.notFound = false;
 
   try {
-    state.editor.currentSandbox = await effects.api.getSandbox(newId);
+    state.editor.currentSandbox = await effects.api.getSandbox(id);
   } catch (error) {
     state.editor.notFound = true;
     state.editor.error = error.message;

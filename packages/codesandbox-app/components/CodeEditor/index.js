@@ -2,17 +2,17 @@ import React from 'react'
 import {MdDvr as UIIcon} from 'react-icons/md'
 import {GoQuestion as QuestionIcon} from 'react-icons/go'
 import getUI from '@codesandbox/common/lib/templates/configuration/ui'
-import Centered from '@codesandbox/common/lib/components/flex/Centered'
-import Margin from '@codesandbox/common/lib/components/spacing/Margin'
-import isImage from '@codesandbox/common/lib/utils/is-image'
+// import Centered from '@codesandbox/common/lib/components/flex/Centered'
+// import Margin from '@codesandbox/common/lib/components/spacing/Margin'
+// import isImage from '@codesandbox/common/lib/utils/is-image'
 import getDefinition from '@codesandbox/common/lib/templates'
 import {getModulePath} from '@codesandbox/common/lib/sandbox/modules'
 import Tooltip from '@codesandbox/common/lib/components/Tooltip'
 import {Title} from '~/components/Title'
 import {SubTitle} from '~/components/SubTitle'
 import Loadable from '~/utils/Loadable'
-import {ImageViewer} from './ImageViewer/index'
-import {Configuration} from './Configuration/index'
+// import {ImageViewer} from './ImageViewer/index'
+// import {Configuration} from './Configuration/index'
 import {VSCode} from './VSCode/index'
 import MonacoDiff from './MonacoDiff/index'
 import {Icon, Icons} from './elements'
@@ -108,56 +108,58 @@ export class CodeEditor extends React.PureComponent {
     )
     const config = template.configurationFiles[modulePath]
 
-    if (
-      !settings.experimentVSCode &&
-      config &&
-      getUI(config.type) &&
-      this.state.showConfigUI
-    ) {
-      return (
-        <Configuration
-          {...props}
-          dependencies={dependencies}
-          config={config}
-          toggleConfigUI={this.toggleConfigUI}
-        />
-      )
-    }
+    // if (
+    //   !settings.experimentVSCode &&
+    //   config &&
+    //   getUI(config.type) &&
+    //   this.state.showConfigUI
+    // ) {
+    //   return (
+    //     <Configuration
+    //       {...props}
+    //       dependencies={dependencies}
+    //       config={config}
+    //       toggleConfigUI={this.toggleConfigUI}
+    //     />
+    //   )
+    // }
 
-    if (!settings.experimentVSCode && module.isBinary) {
-      if (isImage(module.title)) {
-        return <ImageViewer {...props} dependencies={dependencies}/>
-      }
+    // if (!settings.experimentVSCode && module.isBinary) {
+    //   if (isImage(module.title)) {
+    //     return <ImageViewer {...props} dependencies={dependencies}/>
+    //   }
+    //
+    //   return (
+    //     <Margin
+    //       style={{
+    //         overflow: 'auto',
+    //         height: props.height || '100%',
+    //         width: props.width || '100%',
+    //       }}
+    //       top={2}
+    //     >
+    //       <Centered horizontal vertical>
+    //         <Title>This file is too big to edit</Title>
+    //         <SubTitle>
+    //           We will add support for this as soon as possible.
+    //         </SubTitle>
+    //
+    //         <a href={module.code} target="_blank" rel="noreferrer noopener">
+    //           Open file externally
+    //         </a>
+    //       </Centered>
+    //     </Margin>
+    //   )
+    // }
 
-      return (
-        <Margin
-          style={{
-            overflow: 'auto',
-            height: props.height || '100%',
-            width: props.width || '100%',
-          }}
-          top={2}
-        >
-          <Centered horizontal vertical>
-            <Title>This file is too big to edit</Title>
-            <SubTitle>
-              We will add support for this as soon as possible.
-            </SubTitle>
+    // let Editor =
+    //   settings.codeMirror && !props.isLive ? CodeMirror : Monaco
 
-            <a href={module.code} target="_blank" rel="noreferrer noopener">
-              Open file externally
-            </a>
-          </Centered>
-        </Margin>
-      )
-    }
+    // if (settings.experimentVSCode) {
+    //   Editor = VSCode
+    // }
 
-    let Editor =
-      settings.codeMirror && !props.isLive ? CodeMirror : Monaco
-
-    if (settings.experimentVSCode) {
-      Editor = VSCode
-    }
+    let Editor = VSCode
 
     return (
       <div

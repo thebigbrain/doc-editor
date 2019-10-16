@@ -17,17 +17,17 @@ import Editor from './Editor'
 import { useOvermind } from '~/overmind'
 
 function getContent(props) {
-  const { state } = useOvermind()
+  const {
+    state: {editor, user, live, hasLogIn}
+  } = useOvermind()
 
-  const { hasLogIn } = state
-
-  if (state.editor.notFound) {
+  if (editor.notFound) {
     return <NotFound/>
   }
 
-  if (state.editor.error) {
+  if (editor.error) {
     const isGithub = props.match.params.id.includes('github')
-    const hasPrivateAccess = state.user && state.user.integrations.github
+    const hasPrivateAccess = user && user.integrations.github
     return (
       <>
         <div
@@ -41,7 +41,7 @@ function getContent(props) {
           Something went wrong
         </div>
         <Title style={{ fontSize: '1.25rem', marginBottom: 0 }}>
-          {state.editor.error}
+          {editor.error}
         </Title>
         <br/>
         <div style={{ display: 'flex', maxWidth: 400, width: '100%' }}>
@@ -76,9 +76,9 @@ function getContent(props) {
   }
 
   if (
-    state.editor.isLoading ||
-    (state.live.isTeam && state.live.isLoading) ||
-    state.editor.currentSandbox == null
+    editor.isLoading ||
+    (live.isTeam && live.isLoading) ||
+    editor.currentSandbox == null
   ) {
     return (
       <>
@@ -103,12 +103,15 @@ function getContent(props) {
 
 export default function(props) {
   const { match } = props
-  const {state, actions} = useOvermind()
+  const {state: {editor}, actions} = useOvermind()
   const { id } = match.params
-  const sandbox = state.editor.currentSandbox
+  const sandbox = editor.currentSandbox
 
   // actions.editor.sandboxChanged({ id })
-  actions.editor.loadSandbox({id})
+  React.useEffect(() => {
+    actions.editor.loadSandbox({id})
+    console.log(id, editor)
+  }, [id])
 
   const content = getContent(props)
   if (content) {

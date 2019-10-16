@@ -9,13 +9,13 @@ function select(el) {
 }
 
 export default class EntryTitleInput extends React.PureComponent {
-  handleChange = (e: KeyboardEvent) => {
+  handleChange = (e) => {
     if (e.target) {
       this.props.onChange(e.target.value)
       this.setState({ currentValue: e.target.value })
     }
   }
-  handleKeyUp = (e: KeyboardEvent) => {
+  handleKeyUp = (e) => {
     if (e.keyCode === ENTER) {
       this.props.onCommit(this.state.currentValue.trim())
     } else if (e.keyCode === ESC) {

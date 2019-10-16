@@ -23,7 +23,7 @@ const mapColorToState = (state, theme) => {
   return theme.gray
 }
 
-export const State = styled.span < {state: string} > `
+export const State = styled.span`
   ${({state, theme}) => css`
     align-items: center;
     display: flex;

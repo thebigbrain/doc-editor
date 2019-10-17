@@ -20,7 +20,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "babel:build": "node ../tools/babel"
   },
   "dependencies": {

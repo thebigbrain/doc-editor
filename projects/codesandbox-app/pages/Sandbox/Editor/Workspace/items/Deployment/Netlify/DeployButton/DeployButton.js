@@ -3,7 +3,7 @@ import track from '@csb/common/lib/utils/analytics'
 import { DeploymentIntegration } from '~/components/DeploymentIntegration'
 import { NetlifyLogo } from '~/components/NetlifyLogo'
 import { DeployButtonContainer } from '../../elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const DeployButton = ({ isOpen, toggle}) => {
   const {

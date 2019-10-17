@@ -9,7 +9,7 @@ import PreviewIcon from './PreviewIcon'
 import { Container, IconContainer, IconWrapper, Line, StyledPrettierIcon, TabsContainer } from './elements'
 
 import ModuleTab from './ModuleTab'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 
 class EditorTabs extends React.Component {

@@ -9,7 +9,7 @@ import RocketIcon from '@csb/common/lib/icons/rocket.svg'
 import ConfigurationIcon from '@csb/common/lib/icons/cog.svg'
 import {Container, IconContainer, Separator} from './elements'
 import ServerIcon from './ServerIcon'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 const IDS_TO_ICONS = {
   project: InfoIcon,

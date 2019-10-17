@@ -1,7 +1,7 @@
 import getTemplate from '@csb/common/lib/templates'
 import React from 'react'
 import { Container } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const SSEDownNotice = () => {
   const {

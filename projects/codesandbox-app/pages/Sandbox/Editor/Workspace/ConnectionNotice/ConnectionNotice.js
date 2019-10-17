@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const ConnectionNotice = () => {
   const {state: { connected }} = useOvermind()

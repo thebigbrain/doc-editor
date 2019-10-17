@@ -5,7 +5,7 @@ import { Button } from '@csb/common/lib/components/Button'
 import AutosizeTextArea from '@csb/common/lib/components/AutosizeTextArea'
 import Input from '@csb/common/lib/components/Input'
 import pushToAirtable from '~/store/utils/pushToAirtable'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 import { EmojiButton } from './elements'
 

@@ -6,7 +6,7 @@ import HeartIcon from '@csb/common/lib/icons/heart-open.svg' // eslint-disable-l
 // @ts-ignore
 import FullHeartIcon from '@csb/common/lib/icons/heart.svg' // eslint-disable-line import/no-webpack-loader-syntax
 import {Container} from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 const MaybeTooltip = ({loggedIn, disableTooltip, title, children}) =>
   loggedIn && !disableTooltip ? (

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { WorkspaceInputContainer } from '../../elements'
 import { EditPen } from '../elements'
 import { SandboxDescription } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const Description = ({ editable }) => {
   const {

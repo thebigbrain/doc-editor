@@ -1,8 +1,8 @@
 {
-  "name": "@muggle/hooks",
-  "version": "1.0.0",
-  "dependencies": {
-    "overmind-react": "latest",
-    "react": "latest"
-  }
+	"name": "@muggle/hooks",
+	"version": "1.0.0",
+	"dependencies": {
+		"overmind-react": "latest",
+		"react": "latest"
+	}
 }

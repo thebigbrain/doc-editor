@@ -6,7 +6,7 @@ import track from '@csb/common/lib/utils/analytics'
 import {SignInButton} from '~/pages/common/SignInButton'
 
 import {Description} from '../../elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const More = ({id, message}) => {
   const {

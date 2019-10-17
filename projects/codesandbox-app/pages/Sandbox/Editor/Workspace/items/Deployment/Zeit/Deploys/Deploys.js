@@ -7,7 +7,7 @@ import {Deploy, Deploys as DeploysWrapper, DeploysContainer, Name, State} from '
 
 import {Actions} from './Actions/index'
 import {Alias} from './Alias/index'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const Deploys = () => {
   const { state: { deployment: { sandboxDeploys } } } = useOvermind()

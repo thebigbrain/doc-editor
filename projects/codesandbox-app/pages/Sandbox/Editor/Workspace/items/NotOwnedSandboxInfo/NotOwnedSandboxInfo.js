@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Dependencies from '../../Dependencies/index';
+// import Dependencies from '../../Dependencies/index';
 import Files from '../../Files/index';
 import { Project } from '../../Project/index';
 import { WorkspaceItem } from '../../WorkspaceItem/index';
@@ -16,14 +16,14 @@ export const NotOwnedSandboxInfo = () => {
         style={{ marginTop: '.5rem' }}
         title="Files"
       >
-        <Files setEditActions={setEditActions}/>
+        {/*<Files setEditActions={setEditActions}/>*/}
       </WorkspaceItem>
       <WorkspaceItem
         defaultOpen
         style={{ marginTop: '.5rem' }}
         title="Dependencies"
       >
-        <Dependencies/>
+        {/*<Dependencies/>*/}
       </WorkspaceItem>
     </div>
   );

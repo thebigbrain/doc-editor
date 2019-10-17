@@ -1,6 +1,6 @@
 import React from 'react'
 import { GitProgress } from '~/components/GitProgress'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export default function PRModal() {
   let result = null

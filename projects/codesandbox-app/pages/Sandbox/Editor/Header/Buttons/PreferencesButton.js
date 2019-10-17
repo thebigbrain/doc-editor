@@ -1,7 +1,7 @@
 import React from 'react'
 import {MdSettings as SettingsIcon} from 'react-icons/md'
 import {Action} from './Action/index'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const PreferencesButton = () => {
   const {actions: {modalOpened}} = useOvermind()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Alert } from '~/components/Alert'
 import { permanentlyDeleteSandboxes } from '../../../Dashboard/queries'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 
 function EmptyTrash() {

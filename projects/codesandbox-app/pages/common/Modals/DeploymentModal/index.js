@@ -15,7 +15,7 @@ import {
   StyledLogo,
   StyledNowLogo,
 } from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export default function DeploymentModal() {
   const {state, actions} = useOvermind()

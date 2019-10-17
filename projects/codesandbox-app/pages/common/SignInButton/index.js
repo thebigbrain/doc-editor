@@ -3,7 +3,7 @@ import * as React from 'react';
 import { GoMarkGithub as GithubIcon} from 'react-icons/go';
 import { Button } from '@csb/common/lib/components/Button';
 import Row from '@csb/common/lib/components/flex/Row';
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 const SignInButtonComponent = (props) => {
   const { actions } = useOvermind()

@@ -6,7 +6,7 @@ import { ImportTab } from './ImportTab'
 // import { MyTemplatesTab } from './MyTemplatesTab'
 import { Button, Container, InnerContainer, Tab, TabContainer, Templates, Title } from './elements'
 import { client, container, popular, presets } from './availableTemplates'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const NewSandboxModal =
   ({

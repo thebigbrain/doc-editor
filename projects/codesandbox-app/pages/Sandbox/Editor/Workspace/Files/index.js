@@ -3,7 +3,7 @@ import {getModulePath} from '@csb/common/lib/sandbox/modules'
 
 import DirectoryEntry from './DirectoryEntry/index'
 import EditIcons from './DirectoryEntry/Entry/EditIcons/index'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 class Files extends React.Component {
   createModule = () => {
@@ -35,8 +35,8 @@ class Files extends React.Component {
   }
 
   render() {
-    const { state: store } = this.props
-    const sandbox = store.editor.currentSandbox
+    const { state, actions } = this.props.overmind
+    const sandbox = state.editor.currentSandbox
 
     return (
       <DirectoryEntry
@@ -44,8 +44,7 @@ class Files extends React.Component {
         getModulePath={this.getModulePath}
         title={sandbox.title || 'Project'}
         signals={
-          this.props
-            .signals /* TODO: Just pass what is needed by the DragDrop */
+          actions /* TODO: Just pass what is needed by the DragDrop */
         }
         initializeProperties={({
                                  onCreateModuleClick,
@@ -65,7 +64,7 @@ class Files extends React.Component {
                 onCreateDirectory={this.createDirectory}
                 onDownload={this.onDownload}
                 onUploadFile={
-                  store.isLoggedIn && sandbox.privacy === 0
+                  state.isLoggedIn && sandbox.privacy === 0
                     ? this.uploadFile
                     : undefined
                 }

@@ -1,5 +1,4 @@
 import {merge, namespaced} from 'overmind/config'
-import {createConnect, createHook, Provider} from 'overmind-react'
 import * as effects from './effects'
 import {state} from './state'
 import {onInitialize} from './onInitialize'
@@ -44,9 +43,3 @@ export const config = merge(
     // modals: createModals(modals),
   }),
 );
-
-// export * from '@muggle/hooks'
-
-export const useOvermind = createHook()
-export const withOvermind = createConnect()
-export const OvermindProvider = Provider

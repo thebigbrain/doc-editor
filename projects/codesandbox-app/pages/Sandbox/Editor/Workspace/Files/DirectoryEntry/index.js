@@ -9,6 +9,7 @@ import validateTitle from './validateTitle'
 import Entry from './Entry/index'
 import DirectoryChildren from './DirectoryChildren/index'
 import { EntryContainer, Opener, Overlay } from './elements'
+import { withOvermind } from '@muggle/hooks'
 
 const readDataURL = imageFile =>
   new Promise(resolve => {
@@ -48,14 +49,14 @@ class DirectoryEntry extends React.Component {
   }
   createModule = (_, title) => {
     const { shortid } = this.props
-    this.props.actions.files.moduleCreated({
+    this.props.overmind.actions.files.moduleCreated({
       title,
       directoryShortid: shortid,
     })
     this.resetState()
   }
   renameModule = (moduleShortid, title) => {
-    this.props.actions.files.moduleRenamed({ moduleShortid, title })
+    this.props.overmind.actions.files.moduleRenamed({ moduleShortid, title })
   }
   deleteModuleFromSandbox = (shortid, title) => {
     this.setState({
@@ -73,7 +74,7 @@ class DirectoryEntry extends React.Component {
   }
   createDirectory = (_, title) => {
     const { shortid } = this.props
-    this.props.actions.files.directoryCreated({
+    this.props.overmind.actions.files.directoryCreated({
       title,
       directoryShortid: shortid,
     })
@@ -86,7 +87,7 @@ class DirectoryEntry extends React.Component {
     fileSelector.onchange = async event => {
       const files = await getFiles(event.target.files)
 
-      this.props.actions.files.filesUploaded({
+      this.props.overmind.actions.files.filesUploaded({
         files,
         directoryShortid: this.props.shortid,
       })
@@ -95,7 +96,7 @@ class DirectoryEntry extends React.Component {
     fileSelector.click()
   }
   renameDirectory = (directoryShortid, title) => {
-    this.props.actions.files.directoryRenamed({ title, directoryShortid })
+    this.props.overmind.actions.files.directoryRenamed({ title, directoryShortid })
   }
   closeModals = () => {
     this.setState({
@@ -126,22 +127,22 @@ class DirectoryEntry extends React.Component {
     const { shortid } = this.props
 
     return [
-      ...this.props.state.editor.currentSandbox.modules.filter(
+      ...this.props.overmind.state.editor.currentSandbox.modules.filter(
         m => m.directoryShortid === shortid,
       ),
-      ...this.props.state.editor.currentSandbox.directories.filter(
+      ...this.props.overmind.state.editor.currentSandbox.directories.filter(
         d => d.directoryShortid === shortid,
       ),
     ]
   }
   setCurrentModule = moduleId => {
-    this.props.actions.editor.moduleSelected({ id: moduleId })
+    this.props.overmind.actions.editor.moduleSelected({ id: moduleId })
   }
   markTabsNotDirty = () => {
-    this.props.actions.editor.moduleDoubleClicked()
+    this.props.overmind.actions.editor.moduleDoubleClicked()
   }
   discardChanges = moduleShortid => {
-    this.props.actions.editor.discardModuleChanges({ moduleShortid })
+    this.props.overmind.actions.editor.discardModuleChanges({ moduleShortid })
 
     return true
   }
@@ -171,7 +172,7 @@ class DirectoryEntry extends React.Component {
     }
 
     this.openListener = reaction(
-      () => this.props.state.editor.currentModuleShortid,
+      () => this.props.overmind.state.editor.currentModuleShortid,
       () => {
         if (!this.state.open) {
           const { id, state } = this.props
@@ -196,11 +197,10 @@ class DirectoryEntry extends React.Component {
       isOver, // eslint-disable-line
       depth = 0,
       root,
-      state,
       getModulePath,
     } = this.props
     const { creating, open } = this.state
-    const { currentSandbox } = state.editor
+    const { currentSandbox } = this.props.overmind.state.editor
 
     const title = root
       ? 'Project'
@@ -226,7 +226,7 @@ class DirectoryEntry extends React.Component {
               onCreateModuleClick={this.onCreateModuleClick}
               onCreateDirectoryClick={this.onCreateDirectoryClick}
               onUploadFileClick={
-                this.props.state.isLoggedIn &&
+                this.props.overmind.state.isLoggedIn &&
                 currentSandbox.privacy === 0 &&
                 this.onUploadFileClick
               }
@@ -255,7 +255,7 @@ class DirectoryEntry extends React.Component {
                     this.setState({
                       showDeleteDirectoryModal: false,
                     })
-                    this.props.actions.files.directoryDeleted({
+                    this.props.overmind.actions.files.directoryDeleted({
                       directoryShortid: shortid,
                     })
                   }}
@@ -316,7 +316,7 @@ class DirectoryEntry extends React.Component {
                   this.setState({
                     showDeleteModuleModal: false,
                   })
-                  this.props.actions.files.moduleDeleted({
+                  this.props.overmind.actions.files.moduleDeleted({
                     moduleShortid: this.state.moduleToDeleteShortid,
                   })
                 }}
@@ -392,4 +392,4 @@ function collectTarget(connectMonitor, monitor) {
   }
 }
 
-export default DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry)
+export default withOvermind(DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry))

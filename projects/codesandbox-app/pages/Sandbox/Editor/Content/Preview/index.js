@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import BasePreview from '@csb/common/lib/components/Preview'
 import RunOnClick from '@csb/common/lib/components/RunOnClick'
 import getTemplate from '@csb/common/lib/templates'
-import {withOvermind} from "~/overmind"
+import {withOvermind} from "@muggle/hooks"
 
 
 class PreviewComponent extends Component {

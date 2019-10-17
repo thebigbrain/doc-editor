@@ -7,7 +7,7 @@ import React from 'react'
 import {WorkspaceInputContainer, WorkspaceSubtitle} from '~/pages/Sandbox/Editor/Workspace/elements'
 
 import {Error} from './elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 
 export const CreateRepo = ({style,}) => {

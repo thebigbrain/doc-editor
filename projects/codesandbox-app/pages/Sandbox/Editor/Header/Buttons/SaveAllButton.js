@@ -2,7 +2,7 @@ import React from 'react'
 import {MdSave as SaveIcon} from 'react-icons/md'
 // import {saveAllModules} from 'app/store/modules/editor/utils'
 import {Action} from './Action/index'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const SaveAllButton = () => {
   const {state, actions} = useOvermind()

@@ -6,7 +6,7 @@ import history from '~/utils/history';
 // import { LIST_TEMPLATES } from '../../../../queries';
 import { Title } from '../elements';
 import { MyTemplatesList } from './elements';
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 // Would be good to actually have this interface filled out
 // Would be better if we could generate types from our GraphQL server

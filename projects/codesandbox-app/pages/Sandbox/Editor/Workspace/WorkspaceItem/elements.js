@@ -1,13 +1,14 @@
-import styled from 'styled-components';
-import ExpandIcon from 'react-icons/lib/md/keyboard-arrow-down';
-export const ChildContainer = styled.div `
+import styled from 'styled-components'
+import { ExpandIcon } from '@muggle/icons'
+
+export const ChildContainer = styled.div`
   position: relative;
   margin: 0;
   padding: 0;
   height: 100%;
 
   ${({ disabled }) => disabled &&
-    `
+  `
     pointer-events: none;
 
     &:after {
@@ -26,8 +27,8 @@ export const ChildContainer = styled.div `
       background-color: rgba(0, 0, 0, 0.4);
     }
   `};
-`;
-export const ItemHeader = styled.div `
+`
+export const ItemHeader = styled.div`
   display: flex;
   align-items: center;
   position: relative;
@@ -42,20 +43,20 @@ export const ItemHeader = styled.div `
   cursor: pointer;
 
   /* background-color: ${props => props.theme['sideBarSectionHeader.background'] || 'transparent'}; */
-`;
-export const Title = styled.h3 `
+`
+export const Title = styled.h3`
   font-size: 0.875rem;
   margin: 0;
   font-weight: 400;
-`;
-export const ExpandIconContainer = styled(ExpandIcon) `
+`
+export const ExpandIconContainer = styled(ExpandIcon)`
   transition: 0.3s ease all;
   font-size: 1rem;
   margin-right: 0.5rem;
 
   transform: rotateZ(${props => (props.open ? 0 : -90)}deg);
-`;
-export const Actions = styled.div `
+`
+export const Actions = styled.div`
   position: absolute;
   right: 1rem;
   top: 0;
@@ -63,4 +64,4 @@ export const Actions = styled.div `
 
   display: flex;
   align-items: center;
-`;
+`

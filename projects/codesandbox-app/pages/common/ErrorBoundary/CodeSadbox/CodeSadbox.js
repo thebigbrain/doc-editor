@@ -10,7 +10,7 @@ import Dashboard from '@csb/common/lib/icons/dashboard.svg';
 import { Sadbox } from './Sadbox';
 import { buildCrashReport } from './buildCrashReport';
 import { Actions, ButtonIcon, Container, Content, Header, Nav, Subtitle, Title } from './elements';
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const CodeSadbox = ({ error, trace }) => {
   const {state} = useOvermind()

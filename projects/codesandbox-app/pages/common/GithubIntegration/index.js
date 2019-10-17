@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoMarkGithub as GithubLogo } from 'react-icons/go'
 import { Integration } from '~/components/Integration'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const GithubIntegration = ({ small = false }) => {
   const {

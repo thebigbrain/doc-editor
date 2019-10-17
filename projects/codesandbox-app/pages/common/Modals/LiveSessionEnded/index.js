@@ -5,7 +5,7 @@ import Row from '@csb/common/lib/components/flex/Row'
 
 import { Container } from './elements'
 import { Explanation, Heading } from '../elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 
 function LiveModeEnded() {

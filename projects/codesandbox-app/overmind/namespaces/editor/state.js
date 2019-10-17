@@ -1,13 +1,13 @@
-import {WindowOrientation,} from '@csb/common/lib/types'
-import {generateFileFromSandbox} from '@csb/common/lib/templates/configuration/package-json'
-import {dirname} from 'path'
-import {getPreviewTabs} from '@csb/common/lib/templates/devtools'
+import { WindowOrientation } from '@csb/common/lib/types'
+import { generateFileFromSandbox } from '@csb/common/lib/templates/configuration/package-json'
+import { dirname } from 'path'
+import { getPreviewTabs } from '@csb/common/lib/templates/devtools'
 import immer from 'immer'
-import {getSandboxOptions} from '@csb/common/lib/url'
-import {getDirectoryPath, getModulePath} from '@csb/common/lib/sandbox/modules'
+import { getSandboxOptions } from '@csb/common/lib/url'
+import { getDirectoryPath, getModulePath } from '@csb/common/lib/sandbox/modules'
 import getTemplate from '@csb/common/lib/templates'
-import {parseConfigurations} from '../../utils/parse-configurations'
-import {mainModule as getMainModule} from '../../utils/main-module'
+import { parseConfigurations } from '../../utils/parse-configurations'
+import { mainModule as getMainModule } from '../../utils/main-module'
 
 export const state = {
   sandboxes: {},

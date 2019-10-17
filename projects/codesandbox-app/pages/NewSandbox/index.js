@@ -6,7 +6,7 @@ import { sandboxUrl } from '@csb/common/lib/utils/url-generator'
 import { Navigation } from '~/pages/common/Navigation'
 import history from '~/utils/history'
 import { NewSandboxModal } from '../Dashboard/Content/CreateNewSandbox/NewSandboxModal'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 const createSandbox = template => {
   history.push(sandboxUrl({ id: template.shortid }))

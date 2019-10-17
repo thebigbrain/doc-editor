@@ -1,6 +1,7 @@
 import React from 'react'
 
-import CrossIcon from 'react-icons/lib/md/clear'
+import {CrossIcon} from '@muggle/icons'
+
 
 import {EntryContainer, Icon, IconArea} from '../../elements'
 import {Link} from '../elements'

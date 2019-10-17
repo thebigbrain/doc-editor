@@ -4,7 +4,7 @@ import {WorkspaceInputContainer} from '../../../elements'
 
 import {EnvEntry} from './EnvEntry'
 import {EnvModal} from './EnvModal'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 const EnvironmentVariablesComponent = () => {
   const {actions: { editor }, state: store} = useOvermind()

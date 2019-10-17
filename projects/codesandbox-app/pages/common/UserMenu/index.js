@@ -3,7 +3,7 @@ import Relative from '@csb/common/lib/components/Relative'
 import { HoverMenu } from '~/components/HoverMenu'
 import { Menu } from './Menu/index'
 import { ClickableContainer, ProfileImage } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const UserMenu = () => {
   const {

@@ -14,7 +14,7 @@ import { NotFound } from '~/pages/common/NotFound'
 import { Navigation } from '~/pages/common/Navigation'
 // import { GithubIntegration } from '~/pages/common/GithubIntegration'
 import Editor from './Editor'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 function getContent(props) {
   const {

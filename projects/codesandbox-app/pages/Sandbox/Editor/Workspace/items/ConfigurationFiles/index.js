@@ -13,7 +13,7 @@ import Tooltip from '@csb/common/lib/components/Tooltip'
 
 import { Description, WorkspaceSubtitle } from '../../elements'
 import { CreateButton, File, FileDescription, FilesContainer, FileTitle } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 
 const FileConfig = ({

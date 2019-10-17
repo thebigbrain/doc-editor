@@ -8,7 +8,7 @@ import {WorkspaceItem} from '../../WorkspaceItem/index'
 import {CreateRepo} from './CreateRepo/index'
 import {Git} from './Git'
 import {More} from '../More'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const GitHub = () => {
   const {state: store} = useOvermind()

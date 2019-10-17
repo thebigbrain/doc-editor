@@ -7,7 +7,7 @@ import { notificationState } from '@csb/common/lib/utils/notifications'
 import send, { DNT } from '@csb/common/lib/utils/analytics'
 import theme from '@csb/common/lib/theme'
 import { Button } from '@csb/common/lib/components/Button'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 import Loadable from '~/utils/Loadable'
 import { ErrorBoundary } from './common/ErrorBoundary'

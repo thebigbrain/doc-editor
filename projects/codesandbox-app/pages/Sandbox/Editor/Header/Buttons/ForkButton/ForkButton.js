@@ -1,6 +1,6 @@
 import React from 'react'
 import {ProgressButton, ForkIcon} from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const ForkButton = () => {
   const {

@@ -7,7 +7,7 @@ import {Wrapper} from '../elements'
 import {DeployButton} from './DeployButton/index'
 import {Deploys} from './Deploys/index'
 import {NoIntegrationWrapper} from './elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const Zeit = () => {
   const {

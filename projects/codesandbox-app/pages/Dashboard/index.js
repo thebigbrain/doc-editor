@@ -16,7 +16,7 @@ import {
   ShowSidebarButton,
   Sidebar,
 } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export default function(props) {
   const { history } = props

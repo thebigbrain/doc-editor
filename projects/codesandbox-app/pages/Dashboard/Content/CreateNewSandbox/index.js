@@ -10,7 +10,7 @@ import Portal from '@csb/common/lib/components/Portal'
 import { AnimatedModalContainer, ButtonsContainer, Container, ContainerLink, DarkBG } from './elements'
 // eslint-disable-next-line import/no-named-as-default
 import { NewSandboxModal } from './NewSandboxModal'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 class CreateNewSandbox extends React.PureComponent {
   state = {

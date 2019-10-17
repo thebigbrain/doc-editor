@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from '@csb/common/lib/components/Button'
 
 import { ButtonContainer } from './elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 function AddVersion({ children }) {
   const {actions: signals} = useOvermind()

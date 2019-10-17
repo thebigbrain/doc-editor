@@ -10,7 +10,7 @@ import {WorkspaceInputContainer, WorkspaceSubtitle} from '../../../elements'
 
 import {Buttons, Container, ErrorMessage, NoChanges} from './elements'
 import {TotalChanges} from './TotalChanges/index'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 const hasWriteAccess = (rights) =>
   ['admin', 'write'].includes(rights)

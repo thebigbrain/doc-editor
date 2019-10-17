@@ -1,7 +1,10 @@
 'use strict';
 
-module.exports = icons;
+export {
+  GoPrimitiveDot as NotSyncedIcon
+} from 'react-icons/go'
 
-function icons() {
-    // TODO
-}
+export {
+  MdClear as CrossIcon,
+  MdKeyboardArrowDown as ExpandIcon
+} from 'react-icons/md'

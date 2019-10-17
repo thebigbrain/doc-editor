@@ -8,7 +8,7 @@ import {Status} from './Status'
 import {Tasks} from './Tasks'
 import {EnvironmentVariables} from './EnvVars/index'
 import {ActionButton, MainBadge, Port, Power as PowerIcon, SubTitle, TasksContainer} from './elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 
 export const Server = () => {

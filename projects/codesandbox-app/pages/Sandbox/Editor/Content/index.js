@@ -12,7 +12,7 @@ import { CodeEditor } from '~/components/CodeEditor'
 import { Preview } from './Preview'
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll'
 // import Tabs from './Tabs'
-import { withOvermind } from '~/overmind'
+import { withOvermind } from '@muggle/hooks'
 
 const settings = store => ({
   fontFamily: store.preferences.settings.fontFamily,

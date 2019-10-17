@@ -30,8 +30,12 @@ import {
 // import { Keywords } from './Keywords'
 // import { SandboxConfig } from './SandboxConfig/index'
 import { Title } from './Title/index'
+import {useOvermind} from '@muggle/hooks'
 
-export const Project = ({ editable, store: { editor, isPatron }, signals: { workspace: { sandboxPrivacyChanged } } }) => {
+export const Project = ({ editable }) => {
+  const {
+    state: { editor, isPatron }, actions: { workspace: { sandboxPrivacyChanged } }
+  } = useOvermind()
   const sandbox = editor.currentSandbox
   const template = getTemplateDefinition(sandbox.template)
   const { isServer } = template

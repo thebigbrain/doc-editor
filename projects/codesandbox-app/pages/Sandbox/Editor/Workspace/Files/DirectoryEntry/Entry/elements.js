@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import NotSyncedIcon from 'react-icons/lib/go/primitive-dot'
+import {NotSyncedIcon} from '@muggle/icons'
 
 export const Right = styled.div`
   display: flex;

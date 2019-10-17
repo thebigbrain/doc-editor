@@ -3,7 +3,7 @@ import React from 'react'
 import getType from '~/utils/get-type'
 import validateTitle from '../validateTitle'
 import Entry from '../Entry/index'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 class ModuleEntry extends React.Component {
   validateTitle = (id, title) => {

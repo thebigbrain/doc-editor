@@ -15,7 +15,8 @@ import theme from '@csb/common/lib/theme'
 import {isSafari} from '@csb/common/lib/utils/platform'
 
 import {Routes as App} from './pages'
-import {config, OvermindProvider} from './overmind'
+import {config} from './overmind'
+import {OvermindProvider} from '@muggle/hooks'
 import './split-pane.css'
 
 const debug = _debug('cs:app')

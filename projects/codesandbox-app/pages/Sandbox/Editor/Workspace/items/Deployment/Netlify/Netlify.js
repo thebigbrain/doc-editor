@@ -5,7 +5,7 @@ import {Wrapper} from '../elements'
 
 import {DeployButton} from './DeployButton/index'
 import {SiteInfo} from './SiteInfo/index'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const Netlify = () => {
   const {

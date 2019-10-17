@@ -28,7 +28,7 @@ import {
 import {Logo} from './Logo/index'
 // import {MenuBar} from './MenuBar'
 import {SandboxName} from './SandboxName/index'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const Header = ({zenMode}) => {
   const {state} = useOvermind()

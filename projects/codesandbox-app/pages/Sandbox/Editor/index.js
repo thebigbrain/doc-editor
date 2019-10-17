@@ -13,7 +13,7 @@ import {Workspace} from './Workspace/index'
 import {Header} from './Header'
 import {Navigation} from './Navigation'
 import getVSCodeTheme from './utils/get-vscode-theme'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 const STATUS_BAR_SIZE = 22
 

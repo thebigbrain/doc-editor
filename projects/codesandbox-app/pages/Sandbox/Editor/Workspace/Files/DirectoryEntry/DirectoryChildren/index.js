@@ -5,7 +5,7 @@ import { HIDDEN_DIRECTORIES } from '@csb/common/lib/templates/constants/files'
 import validateTitle from '../validateTitle'
 import ModuleEntry from './ModuleEntry'
 import DirectoryEntry from '../index'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 class DirectoryChildren extends React.Component {
   validateTitle = (id, title) => {
@@ -22,14 +22,14 @@ class DirectoryChildren extends React.Component {
       deleteEntry,
       isInProjectView,
       markTabsNotDirty,
-      state,
+      overmind: {state},
       discardModuleChanges,
       getModulePath,
     } = this.props
 
     const {
       id: sandboxId,
-      modules,
+      modules = [],
       directories,
       template: sandboxTemplate,
     } = state.editor.currentSandbox
@@ -39,7 +39,7 @@ class DirectoryChildren extends React.Component {
       errors,
       corrections,
     } = state.editor
-    const mainModuleId = mainModule.id
+    const mainModuleId = mainModule && mainModule.id
 
     return (
       <div>

@@ -4,7 +4,7 @@ import { Button } from '@csb/common/lib/components/Button';
 import { newSandboxWizard } from '@csb/common/lib/utils/url-generator';
 
 import { Buttons, Container, SubTitle, Title } from './elements';
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const NotFound = () => {
   const {state} = useOvermind()

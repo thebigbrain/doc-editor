@@ -6,7 +6,7 @@ import {More} from '../More'
 
 import {Netlify} from './Netlify'
 import {Zeit} from './Zeit'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 export const Deployment = () => {
   const {

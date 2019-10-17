@@ -5,7 +5,7 @@ import LiveButton from './LiveButton'
 
 import {Description, ErrorDescription, WorkspaceInputContainer, WorkspaceSubtitle} from '../../elements'
 import {More} from '../More'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 const Live = () => {
   const {state: store, actions: signals} = useOvermind()

@@ -6,7 +6,7 @@ import {ESC} from '@csb/common/lib/utils/keycodes'
 
 import Input from '@csb/common/lib/components/Input'
 import Keys from './Keys'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 import {Container, Entry, InputContainer, Items, Keybindings, Title} from './elements'
 

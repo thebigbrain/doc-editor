@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, ShareIcon} from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const ShareButton = () => {
   const {

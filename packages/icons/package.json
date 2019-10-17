@@ -22,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/thebigbrain/doc-editor/issues"
+  },
+  "dependencies": {
+    "react-icons": "^3.7.0"
   }
 }

@@ -10,7 +10,7 @@ import AddResource from './AddResource/index'
 import ExternalResource from './ExternalResource/index'
 
 import {ErrorMessage} from './elements'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 const Dependencies = () => {
   const {state: {editor}, actions: {workspace, editor: editorSignals}} = useOvermind()

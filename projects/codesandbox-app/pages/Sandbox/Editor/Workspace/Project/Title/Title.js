@@ -5,7 +5,7 @@ import { ENTER, ESC } from '@csb/common/lib/utils/keycodes'
 import { WorkspaceInputContainer } from '../../elements'
 import { EditPen } from '../elements'
 import { SandboxTitle } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const Title = ({ editable }) => {
   const {

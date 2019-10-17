@@ -1,6 +1,6 @@
 import {Button} from '@csb/common/lib/components/Button'
 import Modal from '~/components/Modal'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 import React from 'react'
 import useKeyPressEvent from 'react-use/lib/useKeyPressEvent'
 

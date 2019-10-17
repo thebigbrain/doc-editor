@@ -6,7 +6,7 @@ import track from '@csb/common/lib/utils/analytics'
 import { Button } from '@csb/common/lib/components/Button'
 import { sandboxUrl } from '@csb/common/lib/utils/url-generator'
 import Title from './Title'
-import {withOvermind} from '~/overmind'
+import {withOvermind} from '@muggle/hooks'
 
 import {
   ButtonContainer,

@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchDependencies from '~/pages/Sandbox/SearchDependencies'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 
 function SearchDependenciesModal() {

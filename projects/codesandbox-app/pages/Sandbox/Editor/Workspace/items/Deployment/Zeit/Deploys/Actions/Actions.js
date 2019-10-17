@@ -5,7 +5,7 @@ import {ButtonContainer} from '../../../elements'
 import {AliasDeploymentButton} from './AliasDeploymentButton/index'
 import {DeleteDeploymentButton} from './DeleteDeploymentButton/index'
 import {VisitDeploymentButton} from './VisitDeploymentButton/index'
-import {useOvermind} from "~/overmind"
+import {useOvermind} from "@muggle/hooks"
 
 
 export const Actions = ({ deploy,  }) => {

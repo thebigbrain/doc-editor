@@ -15,7 +15,7 @@ import { Notifications } from './Notifications/index'
 import { SignInButton } from '../SignInButton'
 import { UserMenu } from '../UserMenu/index'
 import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements'
-import { useOvermind } from '~/overmind'
+import { useOvermind } from '@muggle/hooks'
 
 export const Navigation = ({ title, searchNoInput }) => {
   const {

@@ -17,7 +17,7 @@ import {
   TemplateBadge,
   Main,
 } from './elements'
-import {useOvermind} from '~/overmind'
+import {useOvermind} from '@muggle/hooks'
 
 export const SandboxName = () => {
   const {

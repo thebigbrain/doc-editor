@@ -1,8 +1,7 @@
 const MongoClient = require('mongodb').MongoClient
 
-
-function open(url) {
-  url = url || "mongodb://127.0.0.1:27017/test"
+module.exports = (url) => {
+  url = url || "mongodb://127.0.0.1:27017"
 
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, function (err, db) {
@@ -11,5 +10,3 @@ function open(url) {
     })
   })
 }
-
-module.exports = open

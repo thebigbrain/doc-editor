@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "webpack-dev-server",
-    "babel:build": "node ../tools/babel"
+    "babel:build": "node ../../packages/tools/babel"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",

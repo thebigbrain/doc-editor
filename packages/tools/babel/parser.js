@@ -1,13 +1,11 @@
 const path = require('path')
 const {transform} = require('./transformer')
 
-const cache = new Map()
 
-function parse(id) {
+function parse(id, cache = new Map()) {
   if (cache.has(id) || !isJsFile(id)) return
-  cache.set(id, true)
 
-  console.log(`parsing ${id} ...`)
+  // console.log(`parsing ${id} ...`)
 
   let name = id
   if (/^~\//.test(name)) name = name.substr(2)
@@ -17,11 +15,15 @@ function parse(id) {
   let data = {id, deps: result.deps, code: result.code, out}
   debug(data)
 
+  cache.set(id, data)
+
   result.deps.forEach(d => {
     if (isProjectJs(d)) {
-      parse(d)
+      parse(d, cache)
     }
   })
+
+  return cache
 }
 
 function isProjectJs(file) {

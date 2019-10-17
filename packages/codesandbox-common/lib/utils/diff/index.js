@@ -1,37 +1,51 @@
-import {TextOperation} from 'ot'
-import {stringDiff} from './lcs'
+"use strict";
 
-const MAX_DIFF_SIZE = 10000
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.findDiff = findDiff;
+exports.getTextOperation = getTextOperation;
 
-export function findDiff(originalText, modifiedText, pretty) {
-  return stringDiff(originalText, modifiedText, pretty)
+var _ot = require("ot");
+
+var _lcs = require("./lcs");
+
+var MAX_DIFF_SIZE = 10000;
+
+function findDiff(originalText, modifiedText, pretty) {
+  return (0, _lcs.stringDiff)(originalText, modifiedText, pretty);
 }
 
-export function getTextOperation(originalText, modifiedText) {
-  const ot = new TextOperation()
+function getTextOperation(originalText, modifiedText) {
+  var ot = new _ot.TextOperation();
+
   if (Math.max(originalText.length, modifiedText.length) > MAX_DIFF_SIZE) {
-    ot.delete(originalText.length)
-    ot.insert(modifiedText)
-    // eslint-disable-next-line
-    console.warn('Not optimizing edits, file is larger than ' + MAX_DIFF_SIZE + 'b')
-    return ot
+    ot["delete"](originalText.length);
+    ot.insert(modifiedText); // eslint-disable-next-line
+
+    console.warn('Not optimizing edits, file is larger than ' + MAX_DIFF_SIZE + 'b');
+    return ot;
   }
-  const diffs = findDiff(originalText, modifiedText, false)
-  let lastPos = 0
-  diffs.forEach(change => {
-    const start = change.originalStart
-    const end = change.originalStart + change.originalLength
+
+  var diffs = findDiff(originalText, modifiedText, false);
+  var lastPos = 0;
+  diffs.forEach(function (change) {
+    var start = change.originalStart;
+    var end = change.originalStart + change.originalLength;
+
     if (start - lastPos !== 0) {
-      ot.retain(start - lastPos)
+      ot.retain(start - lastPos);
     }
-    lastPos = end
-    const oldText = originalText.substr(start, change.originalLength)
-    const newText = modifiedText.substr(change.modifiedStart, change.modifiedLength)
+
+    lastPos = end;
+    var oldText = originalText.substr(start, change.originalLength);
+    var newText = modifiedText.substr(change.modifiedStart, change.modifiedLength);
+
     if (oldText !== newText) {
-      ot.insert(newText)
-      ot.delete(change.originalLength)
+      ot.insert(newText);
+      ot["delete"](change.originalLength);
     }
-  })
-  ot.retain(originalText.length - ot.baseLength)
-  return ot
+  });
+  ot.retain(originalText.length - ot.baseLength);
+  return ot;
 }

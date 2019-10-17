@@ -1,30 +1,41 @@
-import {protocolAndHost} from './url-generator'
+"use strict";
 
-export function getGlobal() {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getGlobal = getGlobal;
+exports.commonPostMessage = commonPostMessage;
+
+var _urlGenerator = require("./url-generator");
+
+function getGlobal() {
   if (typeof window !== 'undefined') {
-    return window
+    return window;
   }
+
   if (typeof self !== 'undefined') {
-    const returnedGlobal = self
-    return returnedGlobal
+    var returnedGlobal = self;
+    return returnedGlobal;
   }
+
   if (typeof global !== 'undefined') {
-    return global
+    return global;
   }
-  return {}
+
+  return {};
 }
 
-const global = getGlobal()
-
+var global = getGlobal();
 /**
  * A postmessage that works in main window and in worker.
  * It will send the message to the default origin.
  * @param message The message to send
  */
-export function commonPostMessage(message) {
+
+function commonPostMessage(message) {
   if (typeof Window !== 'undefined') {
-    global.postMessage(message, protocolAndHost())
+    global.postMessage(message, (0, _urlGenerator.protocolAndHost)());
   } else {
-    global.postMessage(message)
+    global.postMessage(message);
   }
 }

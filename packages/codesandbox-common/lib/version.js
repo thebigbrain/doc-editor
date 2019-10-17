@@ -1,22 +1,18 @@
-import preval from 'babel-plugin-preval/macro'
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.getTimestamp = void 0;
 // This is .js for preval
-const versionType = preval`module.exports = (() => {
-  if (process.env.NODE_ENV === 'development') {
-    return 'DEV';
-  }
-  if (process.env.STAGING_BRANCH) {
-    return 'PR';
-  }
-  return 'PROD';
-})()`
-const versionNumber = Math.floor(preval`module.exports = Date.now();` / 1000)
-const shortCommitSha = preval(`
-var execSync = require('child_process').execSync;
-try {
-  module.exports = execSync('git rev-parse --short HEAD').toString().trim();
-} catch (e) {
-  module.exports = 'unknown';
-}
-`)
-export const getTimestamp = version => +version.split('-')[1]
-export default preval(`module.exports = "${versionType}-${versionNumber}-${shortCommitSha}";`)
+var versionType = "PROD";
+var versionNumber = Math.floor(1571304515714 / 1000);
+var shortCommitSha = "3a2edb3";
+
+var getTimestamp = function getTimestamp(version) {
+  return +version.split('-')[1];
+};
+
+exports.getTimestamp = getTimestamp;
+var _default = "PROD-1571304515-3a2edb3";
+exports["default"] = _default;

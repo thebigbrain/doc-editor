@@ -1,118 +1,98 @@
-import {
-  AdonisIcon,
-  AngularIcon,
-  ApolloIcon,
-  CxJSIcon,
-  DojoIcon,
-  EmberIcon,
-  GatsbyIcon,
-  GridsomeIcon,
-  HTML5Icon,
-  MarkoIcon,
-  MDXDeckIcon,
-  NestIcon,
-  NextIcon,
-  NodeIcon,
-  NuxtIcon,
-  ParcelIcon,
-  PreactIcon,
-  QuasarIcon,
-  ReactIcon,
-  ReasonIcon,
-  SapperIcon,
-  StyleguidistIcon,
-  SvelteIcon,
-  UnibitIcon,
-  VueIcon,
-  VuePressIcon,
-} from '@codesandbox/template-icons'
-import {
-  adonis,
-  angular,
-  apollo,
-  cxjs,
-  dojo,
-  ember,
-  gatsby,
-  gridsome,
-  marko,
-  mdxDeck,
-  nest,
-  next,
-  node,
-  nuxt,
-  parcel,
-  preact,
-  quasar,
-  react,
-  reactTs,
-  reason,
-  sapper,
-  staticTemplate,
-  styleguidist,
-  svelte,
-  unibit,
-  vue,
-  vuepress,
-} from '.'
+"use strict";
 
-export default function getIcon(theme) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = getIcon;
+
+var _templateIcons = require("@codesandbox/template-icons");
+
+var _ = require(".");
+
+function getIcon(theme) {
   switch (theme) {
-    case adonis.name:
-      return AdonisIcon
-    case react.name:
-      return ReactIcon
-    case vue.name:
-      return VueIcon
-    case preact.name:
-      return PreactIcon
-    case reactTs.name:
-      return ReactIcon
-    case svelte.name:
-      return SvelteIcon
-    case angular.name:
-      return AngularIcon
-    case parcel.name:
-      return ParcelIcon
-    case dojo.name:
-      return DojoIcon
-    case ember.name:
-      return EmberIcon
-    case sapper.name:
-      return SapperIcon
-    case cxjs.name:
-      return CxJSIcon
-    case reason.name:
-      return ReasonIcon
-    case gatsby.name:
-      return GatsbyIcon
-    case marko.name:
-      return MarkoIcon
-    case next.name:
-      return NextIcon
-    case nuxt.name:
-      return NuxtIcon
-    case node.name:
-      return NodeIcon
-    case apollo.name:
-      return ApolloIcon
-    case nest.name:
-      return NestIcon
-    case staticTemplate.name:
-      return HTML5Icon
-    case styleguidist.name:
-      return StyleguidistIcon
-    case gridsome.name:
-      return GridsomeIcon
-    case vuepress.name:
-      return VuePressIcon
-    case mdxDeck.name:
-      return MDXDeckIcon
-    case quasar.name:
-      return QuasarIcon
-    case unibit.name:
-      return UnibitIcon
+    case _.adonis.name:
+      return _templateIcons.AdonisIcon;
+
+    case _.react.name:
+      return _templateIcons.ReactIcon;
+
+    case _.vue.name:
+      return _templateIcons.VueIcon;
+
+    case _.preact.name:
+      return _templateIcons.PreactIcon;
+
+    case _.reactTs.name:
+      return _templateIcons.ReactIcon;
+
+    case _.svelte.name:
+      return _templateIcons.SvelteIcon;
+
+    case _.angular.name:
+      return _templateIcons.AngularIcon;
+
+    case _.parcel.name:
+      return _templateIcons.ParcelIcon;
+
+    case _.dojo.name:
+      return _templateIcons.DojoIcon;
+
+    case _.ember.name:
+      return _templateIcons.EmberIcon;
+
+    case _.sapper.name:
+      return _templateIcons.SapperIcon;
+
+    case _.cxjs.name:
+      return _templateIcons.CxJSIcon;
+
+    case _.reason.name:
+      return _templateIcons.ReasonIcon;
+
+    case _.gatsby.name:
+      return _templateIcons.GatsbyIcon;
+
+    case _.marko.name:
+      return _templateIcons.MarkoIcon;
+
+    case _.next.name:
+      return _templateIcons.NextIcon;
+
+    case _.nuxt.name:
+      return _templateIcons.NuxtIcon;
+
+    case _.node.name:
+      return _templateIcons.NodeIcon;
+
+    case _.apollo.name:
+      return _templateIcons.ApolloIcon;
+
+    case _.nest.name:
+      return _templateIcons.NestIcon;
+
+    case _.staticTemplate.name:
+      return _templateIcons.HTML5Icon;
+
+    case _.styleguidist.name:
+      return _templateIcons.StyleguidistIcon;
+
+    case _.gridsome.name:
+      return _templateIcons.GridsomeIcon;
+
+    case _.vuepress.name:
+      return _templateIcons.VuePressIcon;
+
+    case _.mdxDeck.name:
+      return _templateIcons.MDXDeckIcon;
+
+    case _.quasar.name:
+      return _templateIcons.QuasarIcon;
+
+    case _.unibit.name:
+      return _templateIcons.UnibitIcon;
+
     default:
-      return ReactIcon
+      return _templateIcons.ReactIcon;
   }
 }

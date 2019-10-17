@@ -1,0 +1,13 @@
+{
+  "name": "@muggle/internal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "node ../tools/babel-build.js --name doce.internal --entry ./index.js"
+  },
+  "dependencies": {
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1"
+  }
+}

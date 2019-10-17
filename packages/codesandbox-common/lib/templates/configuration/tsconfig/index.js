@@ -1,13 +1,19 @@
-const JSX_PRAGMA = {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var JSX_PRAGMA = {
   react: 'React.createElement',
-  preact: 'h',
-}
-const config = {
+  preact: 'h'
+};
+var config = {
   title: 'tsconfig.json',
   type: 'typescript',
   description: 'Configuration for how TypeScript transpiles.',
   moreInfoUrl: 'http://www.typescriptlang.org/docs/handbook/tsconfig-json.html',
-  getDefaultCode: (template, resolveModule) => {
+  getDefaultCode: function getDefaultCode(template, resolveModule) {
     if (template === 'create-react-app-typescript') {
       return JSON.stringify({
         compilerOptions: {
@@ -26,21 +32,14 @@ const config = {
           noImplicitAny: true,
           strictNullChecks: true,
           suppressImplicitAnyIndexErrors: true,
-          noUnusedLocals: true,
+          noUnusedLocals: true
         },
-        exclude: [
-          'node_modules',
-          'build',
-          'scripts',
-          'acceptance-tests',
-          'webpack',
-          'jest',
-          'src/setupTests.ts',
-        ],
-      }, null, 2)
+        exclude: ['node_modules', 'build', 'scripts', 'acceptance-tests', 'webpack', 'jest', 'src/setupTests.ts']
+      }, null, 2);
     }
+
     if (template === 'parcel') {
-      const tsconfig = {
+      var tsconfig = {
         compilerOptions: {
           module: 'commonjs',
           jsx: 'preserve',
@@ -50,30 +49,33 @@ const config = {
           allowJs: true,
           lib: ['es6', 'dom'],
           rootDir: 'src',
-          moduleResolution: 'node',
-        },
-      }
-      const packageJSONModule = resolveModule('/package.json')
+          moduleResolution: 'node'
+        }
+      };
+      var packageJSONModule = resolveModule('/package.json');
+
       if (packageJSONModule) {
         try {
-          const parsed = JSON.parse(packageJSONModule.code)
-          let pragma = null
-          Object.keys(JSX_PRAGMA).forEach(dep => {
-            if ((parsed.dependencies && parsed.dependencies[dep]) ||
-              (parsed.devDependencies && parsed.devDependencies[dep])) {
-              pragma = JSX_PRAGMA[dep]
+          var parsed = JSON.parse(packageJSONModule.code);
+          var pragma = null;
+          Object.keys(JSX_PRAGMA).forEach(function (dep) {
+            if (parsed.dependencies && parsed.dependencies[dep] || parsed.devDependencies && parsed.devDependencies[dep]) {
+              pragma = JSX_PRAGMA[dep];
             }
-          })
+          });
+
           if (pragma !== null) {
-            tsconfig.compilerOptions.jsx = 'react'
-            tsconfig.compilerOptions.jsxFactory = pragma
+            tsconfig.compilerOptions.jsx = 'react';
+            tsconfig.compilerOptions.jsxFactory = pragma;
           }
         } catch (e) {
           /* do nothing */
         }
       }
-      return JSON.stringify(tsconfig, null, 2)
+
+      return JSON.stringify(tsconfig, null, 2);
     }
+
     if (template === 'nest') {
       return JSON.stringify({
         compilerOptions: {
@@ -88,10 +90,11 @@ const config = {
           target: 'es6',
           sourceMap: true,
           outDir: './dist',
-          baseUrl: './src',
-        },
-      }, null, 2)
+          baseUrl: './src'
+        }
+      }, null, 2);
     }
+
     if (template === '@dojo/cli-create-app') {
       return JSON.stringify({
         compilerOptions: {
@@ -99,14 +102,7 @@ const config = {
           experimentalDecorators: true,
           jsx: 'react',
           jsxFactory: 'tsx',
-          lib: [
-            'dom',
-            'es5',
-            'es2015.promise',
-            'es2015.iterable',
-            'es2015.symbol',
-            'es2015.symbol.wellknown',
-          ],
+          lib: ['dom', 'es5', 'es2015.promise', 'es2015.iterable', 'es2015.symbol', 'es2015.symbol.wellknown'],
           module: 'commonjs',
           moduleResolution: 'node',
           noUnusedLocals: true,
@@ -116,10 +112,11 @@ const config = {
           downLevelIteration: true,
           sourceMap: true,
           strict: true,
-          target: 'es5',
-        },
-      })
+          target: 'es5'
+        }
+      });
     }
+
     return JSON.stringify({
       compilerOptions: {
         outDir: 'build/dist',
@@ -137,11 +134,12 @@ const config = {
         noImplicitAny: true,
         strictNullChecks: true,
         suppressImplicitAnyIndexErrors: true,
-        noUnusedLocals: true,
-      },
-    }, null, 2)
+        noUnusedLocals: true
+      }
+    }, null, 2);
   },
   schema: 'https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/tsconfig.json',
-  partialSupportDisclaimer: `Only \`compilerOptions\` field is supported.`,
-}
-export default config
+  partialSupportDisclaimer: "Only `compilerOptions` field is supported."
+};
+var _default = config;
+exports["default"] = _default;

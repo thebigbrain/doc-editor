@@ -1,4 +1,4 @@
-import {getService} from "@doce/core"
+import {getService} from "@muggle/core"
 
 
 export default class LiveQueryService {

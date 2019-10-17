@@ -18,7 +18,7 @@ import { LoginStatus } from '../codesandbox-app/utils/const'
 
   storiesOf('Login', module)
     .add('login', () => {
-      const { Router } = require('@doce/core')
+      const { Router } = require('@muggle/core')
 
       const routePath = {
         app: '/app',

@@ -1,0 +1,26 @@
+{
+  "name": "@muggle/icons",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "thebigbrain <uibrick@126.com>",
+  "homepage": "https://github.com/thebigbrain/doc-editor#readme",
+  "license": "ISC",
+  "main": "lib/icons.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebigbrain/doc-editor.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/thebigbrain/doc-editor/issues"
+  }
+}

@@ -1,18 +1,31 @@
-import {NotificationState, NotificationStatus,} from '@codesandbox/notifications'
+"use strict";
 
-export const notificationState = new NotificationState()
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.convertTypeToStatus = convertTypeToStatus;
+exports.notificationState = void 0;
 
-export function convertTypeToStatus(type) {
+var _notifications = require("@codesandbox/notifications");
+
+var notificationState = new _notifications.NotificationState();
+exports.notificationState = notificationState;
+
+function convertTypeToStatus(type) {
   switch (type) {
     case 'notice':
-      return NotificationStatus.NOTICE
+      return _notifications.NotificationStatus.NOTICE;
+
     case 'warning':
-      return NotificationStatus.WARNING
+      return _notifications.NotificationStatus.WARNING;
+
     case 'error':
-      return NotificationStatus.ERROR
+      return _notifications.NotificationStatus.ERROR;
+
     case 'success':
-      return NotificationStatus.SUCCESS
+      return _notifications.NotificationStatus.SUCCESS;
+
     default:
-      return NotificationStatus.NOTICE
+      return _notifications.NotificationStatus.NOTICE;
   }
 }

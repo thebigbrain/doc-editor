@@ -1,17 +1,33 @@
-import configs from '.'
-import prettierUI from './prettierRC/ui'
-import sandboxUI from './sandbox/ui'
+"use strict";
 
-export default function getUI(configType) {
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = getUI;
+
+var _ = _interopRequireDefault(require("."));
+
+var _ui = _interopRequireDefault(require("./prettierRC/ui"));
+
+var _ui2 = _interopRequireDefault(require("./sandbox/ui"));
+
+function getUI(configType) {
   switch (configType) {
-    case configs.prettierRC.type: {
-      return prettierUI
-    }
-    case configs.sandboxConfig.type: {
-      return sandboxUI
-    }
-    default: {
-      return null
-    }
+    case _["default"].prettierRC.type:
+      {
+        return _ui["default"];
+      }
+
+    case _["default"].sandboxConfig.type:
+      {
+        return _ui2["default"];
+      }
+
+    default:
+      {
+        return null;
+      }
   }
 }

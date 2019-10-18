@@ -6,7 +6,7 @@ import {
   protocolAndHost,
   sandboxUrl,
 } from '@csb/common/lib/utils/url-generator'
-import { escapeHtml } from 'app/utils/escape'
+import { escapeHtml } from '~/utils/escape'
 
 export const BUTTON_URL = `${
   process.env.CODESANDBOX_HOST

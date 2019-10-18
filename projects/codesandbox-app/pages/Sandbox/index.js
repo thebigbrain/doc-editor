@@ -12,7 +12,7 @@ import { Skeleton } from '~/components/Skeleton'
 import { QuickActions } from '~/pages/Sandbox/QuickActions'
 import { NotFound } from '~/pages/common/NotFound'
 import { Navigation } from '~/pages/common/Navigation'
-// import { GithubIntegration } from '~/pages/common/GithubIntegration'
+import { GithubIntegration } from '~/pages/common/GithubIntegration'
 import Editor from './Editor'
 import { useOvermind } from '@muggle/hooks'
 
@@ -68,7 +68,7 @@ function getContent(props) {
               <Link to="/patron">patron</Link>? Then you might need to get
               private access:
             </div>
-            {/*<GithubIntegration small/>*/}
+            <GithubIntegration small/>
           </div>
         )}
       </>
@@ -107,8 +107,8 @@ export default function(props) {
   const { id } = match.params
   const sandbox = editor.currentSandbox
 
-  // actions.editor.sandboxChanged({ id })
   React.useEffect(() => {
+    // actions.editor.sandboxChanged({ id })
     actions.editor.loadSandbox({id})
     console.log(id, editor)
   }, [id])

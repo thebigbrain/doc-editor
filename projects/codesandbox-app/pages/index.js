@@ -12,7 +12,7 @@ import { useOvermind } from '@muggle/hooks'
 import Loadable from '~/utils/Loadable'
 import { ErrorBoundary } from './common/ErrorBoundary'
 import HTML5Backend from './common/HTML5BackendWithFolderSupport'
-// import Modals from './common/Modals'
+import Modals from './common/Modals'
 import Sandbox from './Sandbox'
 import NewSandbox from './NewSandbox'
 // import Dashboard from './Dashboard'
@@ -99,7 +99,7 @@ export const Routes = () => {
               <Route component={NotFound}/>
             </Switch>
           </Content>
-          {/*<Modals/>*/}
+          <Modals/>
         </Boundary>
       </Container>
     </DndProvider>

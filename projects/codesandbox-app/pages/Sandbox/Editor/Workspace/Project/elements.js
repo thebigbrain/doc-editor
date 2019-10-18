@@ -1,9 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
-import { GoQuestion as Question } from 'react-icons/go'
-import {
-  MdCreate as EditPenIcon
-} from 'react-icons/md'
+import { EditPenIcon, Question } from '@muggle/icons'
 
 export const Container = styled.div`
   position: relative;

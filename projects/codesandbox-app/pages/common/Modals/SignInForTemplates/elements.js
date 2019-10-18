@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import CloseIcon from 'react-icons/lib/md/close';
+import {CloseIcon} from '@muggle/icons';
+
 export const Close = styled(CloseIcon) `
   position: absolute;
   right: 20px;

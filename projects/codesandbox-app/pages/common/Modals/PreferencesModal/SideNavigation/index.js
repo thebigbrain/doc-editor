@@ -1,6 +1,6 @@
 import React from 'react'
 import Relative from '@csb/common/lib/components/Relative'
-import { SocialInfo } from 'app/components/SocialInfo'
+import { SocialInfo } from '~/components/SocialInfo'
 import { Container, Item, ITEM_HEIGHT, Selector, SocialContainer, Title } from './elements'
 
 export const SideNavigation = ({ menuItems, itemId, setItem }) => {

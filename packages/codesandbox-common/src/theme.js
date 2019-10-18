@@ -11,7 +11,7 @@ const colorMethods = [
   'greyscale',
   'whiten',
   'blacken',
-  'clearer',
+  'fade',
   'opaquer',
   'rotate',
 ]
@@ -22,10 +22,11 @@ const colorMethods = [
  *
  * vy60q8l043
  */
-const addModifier = (fn, method, ...modifierArgs) =>
-  (...args) => Color(fn(...args))[method](...modifierArgs).string()
+const addModifier = (fn, method, ...modifierArgs) => (...args) => {
+  return Color(fn(...args))[method](...modifierArgs).string()
+}
 /**
- * Add useful methods directly to selector function, as well as put an rgbString() call at the end
+ * Add useful methods directly to selector function, as well as put an string() call at the end
  * @param selector
  */
 export const decorateSelector = (selector) => {
@@ -33,6 +34,7 @@ export const decorateSelector = (selector) => {
   colorMethods.forEach(method => {
     selector[method] = memoizeOne((...args) => decorateSelector(addModifier(selector, method, ...args)))
   })
+  selector['clearer'] = selector['fade']
   return selector
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Question from 'react-icons/lib/go/question'
+import {Question} from '@muggle/icons'
 
 import { Prettier } from './Prettier/index'
 import { Title } from '../elements'

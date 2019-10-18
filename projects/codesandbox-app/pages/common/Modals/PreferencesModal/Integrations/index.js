@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { ZeitIntegration } from 'app/pages/common/ZeitIntegration'
-import { GithubIntegration } from 'app/pages/common/GithubIntegration'
+import { ZeitIntegration } from '~/pages/common/ZeitIntegration'
+import { GithubIntegration } from '~/pages/common/GithubIntegration'
 
 import { Container } from './elements'
 import { Title } from '../elements'

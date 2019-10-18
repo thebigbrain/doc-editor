@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components'
 import delayInEffect from '@csb/common/lib/utils/animation/delay-effect'
 import delayOutEffect from '@csb/common/lib/utils/animation/delay-out-effect'
-import { NowLogo } from 'app/components/NowLogo'
-import { OpaqueLogo } from 'app/components/OpaqueLogo'
+import { NowLogo } from '~/components/NowLogo'
+import { OpaqueLogo } from '~/components/OpaqueLogo'
 import Cube from './Cube/index'
 
 const cubeAnimation = keyframes`

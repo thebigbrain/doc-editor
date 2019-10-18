@@ -1,8 +1,9 @@
 import styled, { css, keyframes } from 'styled-components';
-import LocalLogo from 'react-icons/lib/md/laptop';
-import delayInEffect from '@codesandbox/common/lib/utils/animation/delay-effect';
-import { OpaqueLogo } from 'codesandbox-app/components/OpaqueLogo';
+import {LocalLogo} from '@muggle/icons';
+import delayInEffect from '@csb/common/lib/utils/animation/delay-effect';
+import { OpaqueLogo } from '~/components/OpaqueLogo';
 import { Cube } from '../Cube/index';
+
 export const Container = styled.div `
   ${({ theme }) => css `
     position: relative;

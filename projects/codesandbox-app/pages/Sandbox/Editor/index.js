@@ -6,7 +6,7 @@ import Fullscreen from '@csb/common/lib/components/flex/Fullscreen'
 import getTemplateDefinition from '@csb/common/lib/templates'
 import codesandbox from '@csb/common/lib/themes/codesandbox.json'
 
-// import ForkFrozenSandboxModal from './ForkFrozenSandboxModal'
+import {ForkFrozenSandboxModal} from './ForkFrozenSandboxModal'
 import {Container} from './elements'
 import {Workspace} from './Workspace/index'
 // import Content from './Content'
@@ -142,7 +142,7 @@ function ContentSplit(props) {
             {vscode && (<VsCodeStatusBar visible={statusBar}/>)}
           </div>
         </Fullscreen>
-        {/*<ForkFrozenSandboxModal/>*/}
+        <ForkFrozenSandboxModal/>
       </Container>
     </ThemeProvider>
   )

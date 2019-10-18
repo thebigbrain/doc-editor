@@ -1,5 +1,5 @@
 import React from 'react'
-import history from 'app/utils/history'
+import history from '~/utils/history'
 import { sandboxUrl } from '@csb/common/lib/utils/url-generator'
 import { NewSandboxModal } from '../../../Dashboard/Content/CreateNewSandbox/NewSandboxModal/index'
 

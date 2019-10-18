@@ -1,8 +1,9 @@
 import styled, { css, keyframes } from 'styled-components';
-import delayInEffect from '@codesandbox/common/lib/utils/animation/delay-effect';
-import { OpaqueLogo as BaseOpaqueLogo } from 'codesandbox-app/components/OpaqueLogo';
-import { GitHubLogo as BaseGitHubLogo } from 'codesandbox-app/components/GitHubLogo';
+import delayInEffect from '@csb/common/lib/utils/animation/delay-effect';
+import { OpaqueLogo as BaseOpaqueLogo } from '~/components/OpaqueLogo';
+import { GitHubLogo as BaseGitHubLogo } from '~/components/GitHubLogo';
 import { Cube as BaseCube } from '../Cube/index';
+
 export const Container = styled.div `
   ${({ theme }) => css `
     position: relative;

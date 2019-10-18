@@ -1,13 +1,13 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {useOvermind} from '@muggle/hooks'
 import { PaddedPreference, PreferenceContainer, Rule, SubContainer, SubDescription, Title } from '../../elements'
 
-function PreviewSettingsComponent({ store, signals }) {
+function PreviewSettingsComponent() {
+  const { state, actions } = useOvermind()
   const bindValue = name => ({
-    value: store.preferences.settings[name],
+    value: state.preferences.settings[name],
     setValue: value =>
-      signals.preferences.settingChanged({
+      actions.preferences.settingChanged({
         name,
         value,
       }),
@@ -51,6 +51,4 @@ function PreviewSettingsComponent({ store, signals }) {
   )
 }
 
-export const PreviewSettings = inject('store', 'signals')(
-  observer(PreviewSettingsComponent),
-)
+export const PreviewSettings = PreviewSettingsComponent

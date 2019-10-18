@@ -1,12 +1,12 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {useOvermind} from '@muggle/hooks'
 import Margin from '@csb/common/lib/components/spacing/Margin'
 import Badge from '@csb/common/lib/utils/badges/Badge'
 import { Title } from '../elements'
 
-function BadgesComponent({ store, signals }) {
-  const badgesCount = store.user.badges.length
+function BadgesComponent() {
+  const { state, actions } = useOvermind()
+  const badgesCount = state.user.badges.length
 
   return (
     <div>
@@ -17,12 +17,12 @@ function BadgesComponent({ store, signals }) {
         visibility.
       </strong>
       <Margin top={2}>
-        {store.user.badges.map(badge => (
+        {state.user.badges.map(badge => (
           <Badge
             key={badge.id}
             tooltip={false}
             onClick={b =>
-              signals.preferences.setBadgeVisibility({
+              actions.preferences.setBadgeVisibility({
                 ...b,
                 visible: !b.visible,
               })
@@ -37,4 +37,4 @@ function BadgesComponent({ store, signals }) {
   )
 }
 
-export const Badges = inject('store', 'signals')(observer(BadgesComponent))
+export const Badges = BadgesComponent

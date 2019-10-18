@@ -27,7 +27,7 @@ export const Info = styled.div`
   font-weight: 400;
 `;
 
-export const Action = styled.div<{ red: boolean }>`
+export const Action = styled.div`
   ${({ red, theme }) => css`
     display: flex;
     justify-content: center;

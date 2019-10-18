@@ -19,7 +19,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var colorMethods = ['negate', 'lighten', 'darken', 'saturate', 'desaturate', 'greyscale', 'whiten', 'blacken', 'clearer', 'opaquer', 'rotate'];
+var colorMethods = ['negate', 'lighten', 'darken', 'saturate', 'desaturate', 'greyscale', 'whiten', 'blacken', 'fade', 'opaquer', 'rotate'];
 /**
  * Takes a selector that returns a color string and returns new decorated selector that calls the
  * original function to get the color and then modifies that color, ultimately returning another
@@ -40,7 +40,7 @@ var addModifier = function addModifier(fn, method) {
   };
 };
 /**
- * Add useful methods directly to selector function, as well as put an rgbString() call at the end
+ * Add useful methods directly to selector function, as well as put an string() call at the end
  * @param selector
  */
 
@@ -56,6 +56,7 @@ var decorateSelector = function decorateSelector(selector) {
       return decorateSelector(addModifier.apply(void 0, [selector, method].concat(args)));
     });
   });
+  selector['clearer'] = selector['fade'];
   return selector;
 };
 

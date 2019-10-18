@@ -52,14 +52,12 @@ export const state = {
     tabPosition: 0,
   },
   currentSandbox: ({ sandboxes, currentId }) => sandboxes[currentId],
-  isAllModulesSynced: ({ changedModuleShortids }) =>
-    !changedModuleShortids.length,
-  currentModule: ({ currentSandbox, currentModuleShortid }) =>
-    (currentSandbox &&
-      currentSandbox.modules.find(
-        module => module.shortid === currentModuleShortid,
-      )) ||
-    ({}),
+  isAllModulesSynced: ({ changedModuleShortids }) => !changedModuleShortids.length,
+  currentModule: ({ currentSandbox, currentModuleShortid }) => (
+    currentSandbox && currentSandbox.modules.find(
+      module => module.shortid === currentModuleShortid,
+    )
+  ) || ({}),
   modulesByPath: ({ currentSandbox }) => {
     const modulesObject = {};
 

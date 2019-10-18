@@ -43,7 +43,7 @@ var UserTemplate = function UserTemplate(_ref) {
 
   return _react["default"].createElement(_elements.Button, {
     onClick: select,
-    color: (0, _color["default"])(template.color),
+    jsColor: (0, _color["default"])(template.color),
     custom: true,
     onKeyDown: function onKeyDown(e) {
       if (e.keyCode === _keycodes.ENTER) {

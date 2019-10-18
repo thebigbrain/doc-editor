@@ -1,13 +1,13 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {useOvermind} from '@muggle/hooks'
 import { PaddedPreference, PreferenceContainer, Rule, SubContainer, SubDescription } from '../../elements'
 
-function PrettierComponent({ store, signals }) {
+function PrettierComponent() {
+  const { state, actions } = useOvermind()
   const bindValue = name => ({
-    value: store.preferences.settings.prettierConfig[name],
+    value: state.preferences.settings.prettierConfig[name],
     setValue: value =>
-      signals.preferences.settingChanged({
+      actions.preferences.settingChanged({
         name: `prettierConfig.${name}`,
         value,
       }),
@@ -39,7 +39,7 @@ function PrettierComponent({ store, signals }) {
         <Rule/>
         <PaddedPreference
           style={{
-            opacity: store.preferences.settings.prettierConfig.fluid ? 0.5 : 1,
+            opacity: state.preferences.settings.prettierConfig.fluid ? 0.5 : 1,
           }}
           title="Print width"
           type="number"
@@ -47,7 +47,7 @@ function PrettierComponent({ store, signals }) {
         />
         <SubDescription
           style={{
-            opacity: store.preferences.settings.prettierConfig.fluid ? 0.5 : 1,
+            opacity: state.preferences.settings.prettierConfig.fluid ? 0.5 : 1,
           }}
         >
           Specify the line length that the printer will wrap on.
@@ -139,4 +139,4 @@ function PrettierComponent({ store, signals }) {
   )
 }
 
-export const Prettier = inject('store', 'signals')(observer(PrettierComponent))
+export const Prettier = PrettierComponent

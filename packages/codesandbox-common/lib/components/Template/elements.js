@@ -81,14 +81,14 @@ var makeColor = function makeColor(color, custom, checkContrast, theme) {
   }
 
   if (checkContrast && theme) {
-    return color.contrast((0, _color["default"])('#fff')) < 6.5 ? color.rgbString() : theme.gray();
+    return color.contrast((0, _color["default"])('#fff')) < 6.5 ? color.string() : theme.gray();
   }
 
-  return color.rgbString();
+  return color.string();
 };
 
 var Button = _styledComponents["default"].button(_templateObject(), function (_ref) {
-  var color = _ref.color,
+  var color = _ref.jsColor,
       selected = _ref.selected,
       custom = _ref.custom,
       theme = _ref.theme;

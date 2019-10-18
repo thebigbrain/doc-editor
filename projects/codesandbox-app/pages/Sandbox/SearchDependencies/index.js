@@ -2,7 +2,7 @@ import React from 'react'
 import { Configure, InstantSearch, PoweredBy } from 'react-instantsearch/dom'
 import { connectAutoComplete } from 'react-instantsearch/connectors'
 
-import Style from 'app/pages/Search/search'
+import Style from '~/pages/Search/search'
 import DependenciesCSS from './dependencies'
 
 import RawAutoComplete from './RawAutoComplete/index'

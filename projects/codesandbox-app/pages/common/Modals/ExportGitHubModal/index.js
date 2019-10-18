@@ -1,5 +1,5 @@
 import React from 'react'
-import { GitProgress } from 'app/components/GitProgress'
+import { GitProgress } from '~/components/GitProgress'
 
 function ExportGitHubModal({ isExported }) {
   return (

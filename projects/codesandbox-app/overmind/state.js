@@ -1,4 +1,3 @@
-
 export const state = {
   isPatron: ({ user }) =>
     Boolean(user && user.subscription && user.subscription.since),

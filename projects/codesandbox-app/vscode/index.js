@@ -1,4 +1,4 @@
-import { convertTypeToStatus, notificationState } from '@codesandbox/common/lib/utils/notifications';
+import { convertTypeToStatus, notificationState } from '@csb/common/lib/utils/notifications';
 import { blocker } from '~/utils/blocker';
 import { KeyCode, KeyMod } from './keyCodes';
 import bootstrap from './dev-bootstrap';

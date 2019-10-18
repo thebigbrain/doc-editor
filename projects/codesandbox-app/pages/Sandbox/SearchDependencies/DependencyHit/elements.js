@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Color from 'color'
 import Select from '@csb/common/lib/components/Select'
 import { UserWithAvatar } from '@csb/common/lib/components/UserWithAvatar'
-import { GitHubLogo } from 'app/components/GitHubLogo'
+import { GitHubLogo } from '~/components/GitHubLogo'
 
 export const GitHubLogoStyled = styled(GitHubLogo)`
   color: ${props =>
@@ -13,7 +13,7 @@ const getContainerColor = props => {
   if (props.highlighted) {
     return Color(props.theme['sideBar.background'])
       .darken(0.2)
-      .rgbString()
+      .string()
   }
 
   return props.theme['sideBar.background']
@@ -31,14 +31,14 @@ export const Container = styled.div`
       ${props =>
   Color(props.theme['sideBar.background'])
     .darken(0.4)
-    .rgbString()};
+    .string()};
   }
 
   &:hover {
     background-color: ${props =>
   Color(props.theme['sideBar.background'])
     .darken(0.2)
-    .rgbString()};
+    .string()};
   }
 `
 

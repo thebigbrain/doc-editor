@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {withOvermind} from '@muggle/hooks'
 import { Button } from '@csb/common/lib/components/Button'
 import Row from '@csb/common/lib/components/flex/Row'
 import Input, { TextArea } from '@csb/common/lib/components/Input'
@@ -12,9 +11,9 @@ import { Field, Label } from './elements'
 
 class PickSandboxModal extends Component {
   state = {
-    title: this.props.store.explore.pickedSandboxDetails.title || '',
+    title: this.props.overmind.state.explore.pickedSandboxDetails.title || '',
     description:
-      this.props.store.explore.pickedSandboxDetails.description || '',
+      this.props.overmind.state.explore.pickedSandboxDetails.description || '',
   }
 
   onChange = e =>
@@ -23,8 +22,8 @@ class PickSandboxModal extends Component {
     })
 
   render() {
-    const { signals, store } = this.props
-    const { id } = store.explore.pickedSandboxDetails
+    const { actions, state } = this.props.overmind
+    const { id } = state.explore.pickedSandboxDetails
     const { title, description } = this.state
 
     return (
@@ -38,7 +37,7 @@ class PickSandboxModal extends Component {
         <form
           onSubmit={e => {
             e.preventDefault()
-            signals.explore.pickSandbox({
+            actions.explore.pickSandbox({
               id,
               title,
               description,
@@ -80,7 +79,7 @@ class PickSandboxModal extends Component {
                 🚀
               </span>
             </Button>
-            <Button danger onClick={() => signals.modalClosed()}>
+            <Button danger onClick={() => actions.modalClosed()}>
               Cancel
             </Button>
           </Row>
@@ -90,4 +89,4 @@ class PickSandboxModal extends Component {
   }
 }
 
-export default inject('signals', 'store')(observer(PickSandboxModal))
+export default withOvermind(PickSandboxModal)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import Modal from '~/components/Modal'
 import Loadable from '~/utils/Loadable'
@@ -29,8 +29,8 @@ import PrivacyServerWarning from './PrivacyServerWarning/index'
 import PickSandboxModal from './PickSandboxModal/index'
 import FeedbackModal from './FeedbackModal/index'
 import NetlifyLogs from './NetlifyLogs/index'
-// eslint-disable-next-line
-import SignInForTemplates from './SignInForTemplates/index.ts'
+
+import {SignInForTemplates} from './SignInForTemplates'
 import { SurveyModal } from './SurveyModal/index'
 import {useOvermind} from '@muggle/hooks'
 

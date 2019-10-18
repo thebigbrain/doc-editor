@@ -1,15 +1,15 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import { basename } from 'path'
 import track from '@csb/common/lib/utils/analytics'
 import { Button } from '@csb/common/lib/components/Button'
-import ChevronRight from 'react-icons/lib/md/chevron-right'
+import {ChevronRight} from '@muggle/icons'
 
 import DirectoryPicker from './DirectoryPicker'
 import { Container } from '../elements'
 
 import { Block, CancelButton } from './elements'
 import { addSandboxesToFolder } from '../../../Dashboard/queries'
+import { withOvermind } from '@muggle/hooks'
 
 class MoveSandboxFolderModal extends React.Component {
   state = {
@@ -22,15 +22,15 @@ class MoveSandboxFolderModal extends React.Component {
   handleMove = () => {
     this.setState({ loading: true, error: undefined }, () => {
       addSandboxesToFolder(
-        [this.props.store.editor.currentSandbox.id],
+        [this.props.overmind.state.editor.currentSandbox.id],
         this.state.path,
         this.state.teamId,
       )
         .then(() => {
-          this.props.signals.refetchSandboxInfo()
+          this.props.overmind.actions.refetchSandboxInfo()
 
           this.setState({ loading: false })
-          this.props.signals.modalClosed()
+          this.props.overmind.actions.modalClosed()
 
           track('Move Sandbox From Editor')
         })
@@ -43,7 +43,7 @@ class MoveSandboxFolderModal extends React.Component {
   constructor(props) {
     super(props)
 
-    const sandbox = props.store.editor.currentSandbox
+    const sandbox = props.overmind.state.editor.currentSandbox
     const { collection } = sandbox
 
     this.state = {
@@ -104,4 +104,4 @@ class MoveSandboxFolderModal extends React.Component {
   }
 }
 
-export default inject('store', 'signals')(observer(MoveSandboxFolderModal))
+export default withOvermind(MoveSandboxFolderModal)

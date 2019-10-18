@@ -1,17 +1,18 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import { Route } from 'react-router-dom'
 
-import { vscode } from 'app/vscode'
+// import { vscode } from '~/vscode'
 import { Button } from '@csb/common/lib/components/Button'
 import { editorUrl } from '@csb/common/lib/utils/url-generator'
+import {useOvermind} from '@muggle/hooks'
 
-const VSCodePlaceholder = ({ children, store, signals, hideTitle }) => {
-  if (store.preferences.settings.experimentVSCode) {
+const VSCodePlaceholder = ({ children, hideTitle }) => {
+  const {state, actions} = useOvermind()
+  if (state.preferences.settings.experimentVSCode) {
     const openCommand = () => {
-      vscode.runCommand('workbench.action.openSettings2').then(() => {
-        signals.modalClosed()
-      })
+      // vscode.runCommand('workbench.action.openSettings2').then(() => {
+      //   actions.modalClosed()
+      // })
     }
 
     return hideTitle ? null : (
@@ -46,4 +47,4 @@ const VSCodePlaceholder = ({ children, store, signals, hideTitle }) => {
   return children
 }
 
-export default inject('store', 'signals')(observer(VSCodePlaceholder))
+export default VSCodePlaceholder

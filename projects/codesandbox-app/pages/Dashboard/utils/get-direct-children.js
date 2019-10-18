@@ -1,4 +1,4 @@
-function addSlash(path: string) {
+function addSlash(path) {
   if (path.endsWith('/')) {
     return path
   }
@@ -7,9 +7,9 @@ function addSlash(path: string) {
 }
 
 export default function getDirectChildren(
-  currentPath: string,
-  children: Array<{ path: string }>,
-): Set<string> {
+  currentPath,
+  children,
+) {
   const usedChildren = new Set()
 
   children.forEach(c => {

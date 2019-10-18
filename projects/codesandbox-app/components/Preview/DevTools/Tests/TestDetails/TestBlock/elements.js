@@ -10,7 +10,7 @@ export const BlockHeader = styled.div `
   overflow: hidden;
   background-color: ${props => Color(props.theme['sideBar.background'])
     .darken(props.theme.light ? 0.1 : 0.3)
-    .rgbString()};
+    .string()};
 `;
 export const Container = styled.div `
   margin-bottom: 0.75rem;

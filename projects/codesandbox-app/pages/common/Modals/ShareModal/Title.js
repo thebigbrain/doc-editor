@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Down from 'react-icons/lib/fa/angle-down'
-import Right from 'react-icons/lib/fa/angle-right'
+import {Down, Right} from '@muggle/icons'
 import { animated, Spring } from 'react-spring/renderprops'
 import { Title } from './elements'
 

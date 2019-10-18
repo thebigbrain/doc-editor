@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Query } from 'react-apollo'
-import { SandboxesItem } from 'app/pages/Dashboard/Sidebar/SandboxesItem'
+import { SandboxesItem } from '~/pages/Dashboard/Sidebar/SandboxesItem'
 
 import { TEAMS_QUERY } from '../../../Dashboard/queries'
 import { TeamContainer, TeamName } from './elements'

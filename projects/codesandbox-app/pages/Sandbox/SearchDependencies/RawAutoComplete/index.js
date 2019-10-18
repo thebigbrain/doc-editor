@@ -9,21 +9,21 @@ import DependencyHit from '../DependencyHit/index'
 import { AutoCompleteInput, SuggestionInput } from './elements'
 
 /* eslint-disable no-param-reassign */
-function getName(value: string) {
+function getName(value) {
   const scope = value[0] === '@' ? '@' : ''
   value = scope ? value.substr(1) : value
 
   return scope + value.split('@')[0]
 }
 
-function isExplicitVersion(value: string) {
+function isExplicitVersion(value) {
   const scope = value[0] === '@' ? '@' : ''
   value = scope ? value.substr(1) : value
 
   return value.includes('@')
 }
 
-function getVersion(value: string, hit) {
+function getVersion(value, hit) {
   if (value.indexOf('@') > 0) {
     return value.split('@')[1]
   }
@@ -34,7 +34,7 @@ function getVersion(value: string, hit) {
   return null
 }
 
-function getIsValid(value: string, hit, version: string) {
+function getIsValid(value, hit, version) {
   return Boolean(
     hit &&
     hit.tags &&
@@ -44,7 +44,7 @@ function getIsValid(value: string, hit, version: string) {
   )
 }
 
-function getHit(value: string, hits) {
+function getHit(value, hits) {
   return value && hits.find(hit => hit.name.startsWith(value))
 }
 
@@ -92,7 +92,7 @@ class RawAutoComplete extends React.Component {
               <SuggestionInput as="div">
                 {getRefinement()}
                 <span
-                  css={{
+                  style={{
                     color: 'var(--color-white-3)',
                   }}
                 >

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import DeleteIcon from 'react-icons/lib/md/delete'
+import { DeleteIcon } from '@muggle/icons'
 import Tooltip from '@csb/common/lib/components/Tooltip'
 
 export const DeleteFileButton = styled(props => (

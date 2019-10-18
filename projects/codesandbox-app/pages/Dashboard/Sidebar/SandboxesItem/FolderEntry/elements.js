@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import ChevronRight from 'react-icons/lib/md/chevron-right';
+import {ChevronRight} from '@muggle/icons';
+
 export const Container = styled(NavLink) `
   transition: 0.25s ease all;
   display: flex;

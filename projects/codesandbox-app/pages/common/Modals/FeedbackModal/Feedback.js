@@ -4,13 +4,14 @@ import { Button } from '@csb/common/lib/components/Button'
 
 import AutosizeTextArea from '@csb/common/lib/components/AutosizeTextArea'
 import Input from '@csb/common/lib/components/Input'
-import pushToAirtable from '~/store/utils/pushToAirtable'
 import { useOvermind } from '@muggle/hooks'
 
 import { EmojiButton } from './elements'
 
+const pushToAirtable = () => {};
+
 export default function(props) {
-  const { actions: signals } = useOvermind()
+  const { actions } = useOvermind()
   const [state, updateState] = React.useState({
     feedback: '',
     email: (props.user || {}).email,
@@ -27,7 +28,7 @@ export default function(props) {
   }
 
   const onSubmit = evt => {
-    const { id, user, signals } = props
+    const { id, user } = props
     const { feedback, emoji, email } = state
     evt.preventDefault()
 
@@ -47,9 +48,9 @@ export default function(props) {
               loading: false,
             },
             () => {
-              signals.modalClosed()
+              actions.modalClosed()
 
-              signals.notificationAdded({
+              actions.notificationAdded({
                 message: `Thanks for your feedback!`,
                 type: 'success',
               })
@@ -57,7 +58,7 @@ export default function(props) {
           )
         })
         .catch(e => {
-          signals.notificationAdded({
+          actions.notificationAdded({
             message: `Something went wrong while sending feedback: ${
               e.message
               }`,

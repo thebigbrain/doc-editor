@@ -1,6 +1,6 @@
 import { basename, join } from 'path'
 
-import { client } from 'app/graphql/client'
+import { client } from '~/graphql/client'
 
 import {
   ADD_SANDBOXES_TO_FOLDER_MUTATION,

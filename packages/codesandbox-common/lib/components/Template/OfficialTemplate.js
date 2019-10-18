@@ -27,7 +27,7 @@ var OfficialTemplate = function OfficialTemplate(_ref) {
   }, [selectTemplate, template]);
   return _react["default"].createElement(_elements.Button, {
     onClick: select,
-    color: template.color,
+    jsColor: template.color,
     onKeyDown: function onKeyDown(e) {
       if (e.keyCode === _keycodes.ENTER) {
         select();

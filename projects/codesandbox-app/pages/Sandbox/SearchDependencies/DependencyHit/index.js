@@ -1,6 +1,8 @@
 import React from 'react'
-import HomeIcon from 'react-icons/lib/io/home'
-import SearchIcon from 'react-icons/lib/go/search'
+import {
+  HomeIcon,
+  SearchIcon
+} from '@muggle/icons'
 import { Highlight } from 'react-instantsearch/dom'
 import compareVersions from 'compare-versions'
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 import getTemplateDefinition from '@csb/common/lib/templates'
-import { SignInButton } from 'app/pages/common/SignInButton'
+import { SignInButton } from '~/pages/common/SignInButton'
+import {withOvermind} from '@muggle/hooks'
 
 import { Container, Explanation, Heading } from '../elements'
 
@@ -9,9 +9,9 @@ class ForkServerModal extends React.Component {
   UNSAFE_componentWillUpdate() {
     // Which means that the user signed in in the meantime with the intention to
     // fork
-    if (this.props.store.loggedIn) {
-      this.props.signals.editor.forkSandboxClicked()
-      this.props.signals.modalClosed()
+    if (this.props.overmind.state.loggedIn) {
+      this.props.overmind.actions.editor.forkSandboxClicked()
+      this.props.overmind.actions.modalClosed()
     }
   }
 
@@ -42,4 +42,4 @@ class ForkServerModal extends React.Component {
   }
 }
 
-export default inject('store', 'signals')(observer(ForkServerModal))
+export default withOvermind(ForkServerModal)

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import ChevronRight from 'react-icons/lib/md/chevron-right'
+import {ChevronRight} from '@muggle/icons';
 
 export const AnimatedChevron = styled(ChevronRight)`
   transition: 0.25s ease transform;

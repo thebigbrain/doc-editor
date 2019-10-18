@@ -1,5 +1,5 @@
 import React from 'react'
-import { UploadProgress } from 'app/components/UploadProgress'
+import { UploadProgress } from '~/components/UploadProgress'
 
 const UploadModal = () => <UploadProgress message="Uploading Files..."/>
 

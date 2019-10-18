@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import AddIcon from 'react-icons/lib/md/add'
+import {AddIcon} from '@muggle/icons'
 import Tooltip from '@csb/common/lib/components/Tooltip'
 
 export const AddFileToSandboxButton = styled(props => (

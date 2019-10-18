@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { Popover, PopoverArrow, PopoverDisclosure } from 'reakit/Popover';
-import { PropertyValue } from '../../elements';
+import styled from 'styled-components'
+import { Popover, PopoverArrow, PopoverDisclosure } from 'reakit/Popover'
+import { PropertyValue } from '../../elements'
+
 export const Button = styled(PopoverDisclosure) `
   padding: 0;
   border: 0;

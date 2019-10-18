@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Loadable from 'app/utils/Loadable'
+import Loadable from '~/utils/Loadable'
 import {useOvermind} from '@muggle/hooks'
 
 import { Container, Heading } from '../elements'

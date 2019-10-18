@@ -1,17 +1,17 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {useOvermind} from '@muggle/hooks'
 import { PaddedPreference, PreferenceContainer, Rule, SubContainer, SubDescription, Title } from '../../elements'
 import VSCodePlaceholder from '../../VSCodePlaceholder'
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 const isFF = navigator.userAgent.toLowerCase().includes('firefox')
 
-function EditorSettingsComponent({ store, signals }) {
+function EditorSettingsComponent() {
+  const { state, actions } = useOvermind()
   const bindValue = name => ({
-    value: store.preferences.settings[name],
+    value: state.preferences.settings[name],
     setValue: value =>
-      signals.preferences.settingChanged({
+      actions.preferences.settingChanged({
         name,
         value,
       }),
@@ -92,6 +92,4 @@ function EditorSettingsComponent({ store, signals }) {
   )
 }
 
-export const EditorSettings = inject('store', 'signals')(
-  observer(EditorSettingsComponent),
-)
+export const EditorSettings = EditorSettingsComponent

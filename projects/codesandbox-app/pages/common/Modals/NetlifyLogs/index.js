@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'app/componentConnectors'
-
+import {withOvermind} from '@muggle/hooks'
 import { Button } from '@csb/common/lib/components/Button'
 import { Container } from '../LiveSessionEnded/elements'
 import { Explanation, Heading } from '../elements'
@@ -10,7 +9,7 @@ import { Item, List } from './elements'
 class NetlifyLogs extends Component {
   state = { logs: ['Contacting Netlify'] }
   getLogs = async () => {
-    const url = this.props.store.deployment.netlifyLogs
+    const url = this.props.overmind.state.deployment.netlifyLogs
 
     const data = await fetch(url)
     const { logs } = await data.json()
@@ -27,7 +26,7 @@ class NetlifyLogs extends Component {
   }
 
   render() {
-    const { signals } = this.props
+    const { actions } = this.props.overmind
 
     return (
       <Container>
@@ -40,7 +39,7 @@ class NetlifyLogs extends Component {
             <Item key={log}>{log}</Item>
           ))}
         </List>
-        <Button small onClick={() => signals.modalClosed()}>
+        <Button small onClick={() => actions.modalClosed()}>
           Close
         </Button>
       </Container>
@@ -48,4 +47,4 @@ class NetlifyLogs extends Component {
   }
 }
 
-export default inject('signals', 'store')(observer(NetlifyLogs))
+export default withOvermind(NetlifyLogs)

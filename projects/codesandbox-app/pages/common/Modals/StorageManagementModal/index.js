@@ -13,7 +13,7 @@ import {
 import FilesList from './FilesList/index'
 import {withOvermind} from '@muggle/hooks'
 
-// eslint-disable-next-line
+
 class StorageManagementModal extends React.Component {
   render() {
     const { state: store, actions: signals } = this.props.overmind

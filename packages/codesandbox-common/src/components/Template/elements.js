@@ -7,13 +7,13 @@ const makeColor = (color, custom, checkContrast, theme) => {
   }
   if (checkContrast && theme) {
     return color.contrast(Color('#fff')) < 6.5
-      ? color.rgbString()
+      ? color.string()
       : theme.gray()
   }
-  return color.rgbString()
+  return color.string()
 }
 export const Button = styled.button`
-  ${({color, selected, custom, theme}) => css`
+  ${({jsColor: color, selected, custom, theme}) => css`
     display: flex;
     align-items: center;
     padding: 1em;

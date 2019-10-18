@@ -1,16 +1,16 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 
 import { KEYBINDINGS } from '@csb/common/lib/utils/keybindings'
 import { PaddedPreference, PreferenceContainer, SubContainer, SubDescription, Title } from '../elements'
 import { ErrorMessage, Rule } from './elements'
 import VSCodePlaceholder from '../VSCodePlaceholder'
+import { withOvermind } from '@muggle/hooks'
 
 class KeyMappingComponent extends React.Component {
   state = { error: null }
 
   getUserBindings = () => {
-    const { keybindings } = this.props.store.preferences.settings
+    const { keybindings } = this.props.overmind.state.preferences.settings
 
     return keybindings.reduce(
       (bindings, binding) => ({
@@ -59,7 +59,7 @@ class KeyMappingComponent extends React.Component {
         this.setState({ error })
       } else {
         this.setState({ error: null })
-        this.props.signals.preferences.keybindingChanged({
+        this.props.overmind.actions.preferences.keybindingChanged({
           name,
           value,
         })
@@ -106,6 +106,4 @@ class KeyMappingComponent extends React.Component {
   }
 }
 
-export const KeyMapping = inject('signals', 'store')(
-  observer(KeyMappingComponent),
-)
+export const KeyMapping = withOvermind(KeyMappingComponent)

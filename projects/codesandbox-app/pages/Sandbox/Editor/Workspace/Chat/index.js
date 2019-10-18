@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import {sortBy, takeRight} from 'lodash-es'
-import {inject, observer} from 'app/componentConnectors'
 
 import AutosizeTextArea from '@csb/common/lib/components/AutosizeTextArea'
 import {ENTER} from '@csb/common/lib/utils/keycodes'
+import { withOvermind } from '@muggle/hooks'
 
 const Container = styled.div`
   min-height: 200px;
@@ -32,7 +32,7 @@ class ChatComponent extends React.Component {
       e.preventDefault()
       e.stopPropagation()
       // Enter
-      this.props.signals.live.onSendChat({
+      this.props.overmind.actions.live.onSendChat({
         message: this.state.value,
       })
       this.setState({ value: '' })
@@ -59,10 +59,10 @@ class ChatComponent extends React.Component {
   }
 
   render() {
-    const { store } = this.props
-    const { messages, users } = store.live.roomInfo.chat
-    const currentUserId = store.live.liveUserId
-    const roomInfoUsers = store.live.roomInfo.users
+    const { state } = this.props.overmind
+    const { messages, users } = state.live.roomInfo.chat
+    const currentUserId = state.live.liveUserId
+    const roomInfoUsers = state.live.roomInfo.users
 
     return (
       <Container
@@ -144,4 +144,4 @@ class ChatComponent extends React.Component {
   }
 }
 
-export const Chat = inject('signals', 'store')(observer(ChatComponent))
+export const Chat = withOvermind(ChatComponent)

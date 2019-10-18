@@ -12,10 +12,10 @@ import { NotOwnedSandboxInfo } from './items/NotOwnedSandboxInfo/index';
 import { ProjectInfo } from './items/ProjectInfo/index';
 // import { Server } from './items/Server';
 // import { Advertisement } from './Advertisement/index';
-// import { Chat } from './Chat/index';
+import { Chat } from './Chat/index';
 import { ConnectionNotice } from './ConnectionNotice/index';
 import { SSEDownNotice } from './SSEDownNotice/index';
-// import { WorkspaceItem } from './WorkspaceItem/index';
+import { WorkspaceItem } from './WorkspaceItem/index';
 import { ContactContainer, Container, ItemTitle, VersionContainer } from './elements';
 import {useOvermind} from "@muggle/hooks"
 
@@ -50,6 +50,8 @@ export const Workspace = () => {
     return null;
   }
 
+  console.log(activeTab)
+
   const Component = workspaceTabs[activeTab];
   const item =
     actions.workspace.getWorkspaceItems().find(({ id }) => id === activeTab) ||
@@ -62,11 +64,11 @@ export const Workspace = () => {
         {Component && <Component/>}
       </div>
 
-      {/*{isLive && roomInfo.chatEnabled && (*/}
-        {/*<WorkspaceItem defaultOpen title="Chat">*/}
-          {/*<Chat/>*/}
-        {/*</WorkspaceItem>*/}
-      {/*)}*/}
+      {isLive && roomInfo.chatEnabled && (
+        <WorkspaceItem defaultOpen title="Chat">
+          <Chat/>
+        </WorkspaceItem>
+      )}
 
       {!zenMode && (
         <>

@@ -1,6 +1,5 @@
 import React from 'react'
-import {MdSave as SaveIcon} from 'react-icons/md'
-// import {saveAllModules} from 'app/store/modules/editor/utils'
+import {SaveIcon} from '@muggle/icons'
 import {Action} from './Action/index'
 import {useOvermind} from '@muggle/hooks'
 
@@ -13,7 +12,7 @@ export const SaveAllButton = () => {
   return (
     <Action
       onClick={
-        isAllModulesSynced ? null : () => saveAllModules(state, actions)
+        isAllModulesSynced ? null : () => actions.editor.saveAllModules()
       }
       placeholder={isAllModulesSynced ? 'All modules are saved' : false}
       blink={changedModuleShortids.length > 2}

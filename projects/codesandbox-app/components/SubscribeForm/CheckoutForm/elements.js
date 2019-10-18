@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import Input from '@codesandbox/common/lib/components/Input';
+import Input from '@csb/common/lib/components/Input';
+
 export const CardContainer = styled.div `
   padding: 0.5rem;
   margin-top: 0.25rem;

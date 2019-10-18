@@ -1,5 +1,5 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
+import {useOvermind} from '@muggle/hooks'
 import themes from '@csb/common/lib/themes'
 
 import PreferenceText from '@csb/common/lib/components/Preference/PreferenceText'
@@ -7,13 +7,14 @@ import { PaddedPreference, PreferenceContainer, Rule, SubContainer, SubDescripti
 import { BigTitle } from './elements'
 import VSCodePlaceholder from '../VSCodePlaceholder'
 
-function EditorSettings({ store, signals }) {
+function EditorSettings() {
+  const { state, actions } = useOvermind()
   const bindValue = (name, setUndefined) => ({
     value: setUndefined
-      ? store.preferences.settings[name] || undefined
-      : store.preferences.settings[name],
+      ? state.preferences.settings[name] || undefined
+      : state.preferences.settings[name],
     setValue: value =>
-      signals.preferences.settingChanged({
+      actions.preferences.settingChanged({
         name,
         value,
       }),
@@ -53,7 +54,7 @@ function EditorSettings({ store, signals }) {
               </a>{' '}
               as default font, you can also use locally installed fonts
             </SubDescription>
-            {!fontOptions.includes(store.preferences.settings.fontFamily) && (
+            {!fontOptions.includes(state.preferences.settings.fontFamily) && (
               <PreferenceText
                 style={{ marginTop: '1rem' }}
                 placeholder="Enter your custom font"
@@ -98,7 +99,7 @@ function EditorSettings({ store, signals }) {
             </SubDescription>
           </VSCodePlaceholder>
 
-          {store.preferences.settings.experimentVSCode ? (
+          {state.preferences.settings.experimentVSCode ? (
             <div>
               <BigTitle>Editor Theme</BigTitle>
               <SubDescription>
@@ -171,4 +172,4 @@ function EditorSettings({ store, signals }) {
   )
 }
 
-export const Appearance = inject('store', 'signals')(observer(EditorSettings))
+export const Appearance = EditorSettings

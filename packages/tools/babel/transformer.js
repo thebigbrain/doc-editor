@@ -9,11 +9,11 @@ let deps = []
 const root = Path.resolve('.')
 const prefix = '~/'
 
-exports.transform = (filename) => {
+exports.transform = (filename, resolved = false) => {
   // currentPathStack = [Path.resolve(filename)]
   deps = []
 
-  filename = require.resolve(Path.resolve(root, filename))
+  filename = resolved ? filename : require.resolve(Path.resolve(root, filename))
 
   let code = readJsFile(filename)
   let result = transformJs(code, filename)

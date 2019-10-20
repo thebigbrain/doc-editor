@@ -1,7 +1,6 @@
 const commander = require('commander')
 const {parse} = require('./parser')
 const mongo = require('../common/mongo')
-const dep = require('./dep')
 
 const debug = require('../common/debug')
 
@@ -20,16 +19,38 @@ debug('parsing ...')
 const graph = parse(filename)
 debug('parsed')
 
-dep.handle(graph)
 
 async function handleAll(db) {
-  // await insertModules(db, graph)
-  // await queryModules(db, graph)
+  await insertModules(db, graph)
+  await queryModules(db, graph)
+  // await insertProject(db, graph)
+}
+
+async function insertProject(db, graph) {
+  const c = db.collection('projects')
+  try {
+    let deps = new Set()
+    for (let v of graph.values()) {
+      v.deps.forEach(d => {
+        deps.add(d)
+      })
+    }
+
+    const r = await c.insertOne({
+      name: moduleName,
+      entry: filename,
+      deps: Array.from(deps)
+    })
+    console.log(`project inserted`)
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 function fix(v, name = '') {
   let id = v.id
   if (name && (/^~\//.test(id) || id === filename)) v.project =  name
+  delete v.out
   return v
 }
 

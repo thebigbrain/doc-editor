@@ -1,8 +1,9 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import { Observer } from 'app/componentConnectors'
 import { Query } from 'react-apollo'
 import { basename } from 'path'
+import {useOvermind} from '@muggle/hooks'
+
 import { Content as Sandboxes } from '../../Sandboxes/index'
 import { Navigation } from './Navigation/index'
 // import Folders from './Folders';
@@ -13,6 +14,7 @@ import { PATHED_SANDBOXES_CONTENT_QUERY } from '../../../queries'
 import { getPossibleTemplates } from '../../Sandboxes/utils'
 
 const PathedSandboxes = props => {
+  const {state} = useOvermind()
   const path = '/' + decodeURIComponent(props.match.params.path || '')
   const { teamId } = props.match.params
   return (
@@ -24,66 +26,63 @@ const PathedSandboxes = props => {
         query={PATHED_SANDBOXES_CONTENT_QUERY}
         variables={{ path, teamId }}
       >
-        {({ loading, error, data }) => (
-          <Observer>
-            {({ store }) => {
-              if (error) {
-                console.error(error)
-                return <div>Error!</div>
-              }
+        {({ loading, error, data }) => {
 
-              const sandboxes =
-                loading || !data.me.collection
-                  ? []
-                  : data.me.collection.sandboxes
+          if (error) {
+            console.error(error)
+            return <div>Error!</div>
+          }
 
-              const possibleTemplates = getPossibleTemplates(sandboxes)
+          const sandboxes =
+            loading || !data.me.collection
+              ? []
+              : data.me.collection.sandboxes
 
-              // We want to hide all templates
-              // TODO: make this a query variable for graphql and move the logic to the server
-              const noTemplateSandboxes = sandboxes.filter(
-                s => !s.customTemplate,
-              )
-              const orderedSandboxes = store.dashboard.getFilteredSandboxes(
-                noTemplateSandboxes,
-              )
+          const possibleTemplates = getPossibleTemplates(sandboxes)
 
-              let mostUsedTemplate = null
-              if (!loading) {
-                try {
-                  mostUsedTemplate = getMostUsedTemplate(sandboxes)
-                } catch (e) {
-                  // Not critical
-                }
-              }
+          // We want to hide all templates
+          // TODO: make this a query variable for graphql and move the logic to the server
+          const noTemplateSandboxes = sandboxes.filter(
+            s => !s.customTemplate,
+          )
+          const orderedSandboxes = state.dashboard.getFilteredSandboxes(
+            noTemplateSandboxes,
+          )
 
-              return (
-                <Sandboxes
-                  ExtraElement={({ style }) => (
-                    <CreateNewSandbox
-                      collectionId={
-                        data &&
-                        data.me &&
-                        data.me.collection &&
-                        data.me.collection.id
-                      }
-                      mostUsedSandboxTemplate={mostUsedTemplate}
-                      style={style}
-                    />
-                  )}
-                  isLoading={loading}
-                  possibleTemplates={possibleTemplates}
-                  Header={<Navigation teamId={teamId} path={path}/>}
-                  // Fix React Virtualized First
-                  // SubHeader={
-                  //   <Folders me={data.me} loading={loading} teamId={teamId} />
-                  // }
-                  sandboxes={orderedSandboxes}
+          let mostUsedTemplate = null
+          if (!loading) {
+            try {
+              mostUsedTemplate = getMostUsedTemplate(sandboxes)
+            } catch (e) {
+              // Not critical
+            }
+          }
+
+          return (
+            <Sandboxes
+              ExtraElement={({ style }) => (
+                <CreateNewSandbox
+                  collectionId={
+                    data &&
+                    data.me &&
+                    data.me.collection &&
+                    data.me.collection.id
+                  }
+                  mostUsedSandboxTemplate={mostUsedTemplate}
+                  style={style}
                 />
-              )
-            }}
-          </Observer>
-        )}
+              )}
+              isLoading={loading}
+              possibleTemplates={possibleTemplates}
+              Header={<Navigation teamId={teamId} path={path}/>}
+              // Fix React Virtualized First
+              // SubHeader={
+              //   <Folders me={data.me} loading={loading} teamId={teamId} />
+              // }
+              sandboxes={orderedSandboxes}
+            />
+          )
+        }}
       </Query>
     </>
   )

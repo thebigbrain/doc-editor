@@ -119,10 +119,13 @@ export const state = {
 
     return isServer && currentSandbox.owned;
   },
+
   parsedConfigurations: ({ currentSandbox }) =>
     currentSandbox ? parseConfigurations(currentSandbox) : null,
+
   mainModule: ({ currentSandbox, parsedConfigurations }) =>
     currentSandbox ? getMainModule(currentSandbox, parsedConfigurations) : null,
+
   currentPackageJSON: ({ currentSandbox }) => {
     if (!currentSandbox) {
       return null;

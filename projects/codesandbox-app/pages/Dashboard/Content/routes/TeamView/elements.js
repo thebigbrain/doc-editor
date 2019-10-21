@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import CrossIcon from 'react-icons/lib/md/clear'
-import EditIcon from 'react-icons/lib/go/pencil'
+import {CrossIcon, EditIcon} from '@muggle/icons'
 
 export const TeamContainer = styled.div`
   display: flex;

@@ -108,9 +108,7 @@ export default function(props) {
   const sandbox = editor.currentSandbox
 
   React.useEffect(() => {
-    // actions.editor.sandboxChanged({ id })
-    actions.editor.loadSandbox({id})
-    console.log(id, editor)
+    actions.editor.sandboxChanged({ id })
   }, [id])
 
   const content = getContent(props)

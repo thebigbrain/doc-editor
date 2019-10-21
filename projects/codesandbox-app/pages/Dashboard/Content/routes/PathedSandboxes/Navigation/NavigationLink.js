@@ -1,6 +1,6 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
-import { inject, observer } from 'app/componentConnectors'
+
 import { collectTarget, entryTarget } from '../../../../Sidebar/SandboxesItem/folder-drop-target'
 import { NavigationLink } from './elements'
 
@@ -32,6 +32,5 @@ const Link = ({
     </div>,
   )
 
-export default inject('signals', 'store')(
-  DropTarget('SANDBOX', entryTarget, collectTarget)(observer(Link)),
-)
+export default DropTarget('SANDBOX', entryTarget, collectTarget)(Link)
+

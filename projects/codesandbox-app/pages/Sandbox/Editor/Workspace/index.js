@@ -8,7 +8,7 @@ import Files from './items/Files/index';
 // import { GitHub } from './items/GitHub/index';
 // import Live from './items/Live/index';
 // import { More } from './items/More/index';
-import { NotOwnedSandboxInfo } from './items/NotOwnedSandboxInfo/index';
+import { NotOwnedSandboxInfo } from './items/NotOwnedSandboxInfo';
 import { ProjectInfo } from './items/ProjectInfo/index';
 // import { Server } from './items/Server';
 // import { Advertisement } from './Advertisement/index';

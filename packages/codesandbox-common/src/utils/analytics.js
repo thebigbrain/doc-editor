@@ -214,6 +214,7 @@ const markLastTimeEventSent = () => {
   localStorage.setItem('csb-last-event-sent', Date.now().toString())
 }
 export default function track(eventName, secondArg = {}) {
+  console.log(eventName, secondArg)
   try {
     if (!DNT && isAllowedEvent(eventName, secondArg)) {
       const data = {

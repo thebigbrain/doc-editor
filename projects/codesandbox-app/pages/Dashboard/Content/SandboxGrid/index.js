@@ -1,7 +1,6 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
 
-import { distanceInWordsToNow } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 import { uniq } from 'lodash-es'
 import { basename } from 'path'
 import { camelizeKeys } from 'humps'
@@ -12,27 +11,17 @@ import Grid from 'react-virtualized/dist/commonjs/Grid'
 import Column from 'react-virtualized/dist/commonjs/Table/Column'
 import Table from 'react-virtualized/dist/commonjs/Table'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import downloadZip from 'app/store/providers/Utils/create-zip'
 import { getSandboxName } from '@csb/common/lib/utils/get-sandbox-name'
 import 'react-virtualized/styles.css'
+import { useOvermind } from '@muggle/hooks'
 
+import downloadZip from '~/store/providers/Utils/create-zip'
 import { SandboxItem } from '../SandboxCard/index'
 import { PADDING } from '../SandboxCard/elements'
 import { getBounds, Selection } from '../Selection/index'
 import { Content, StyledRow } from './elements'
 import { DragLayer } from '../DragLayer/index'
 
-import { deleteSandboxes, permanentlyDeleteSandboxes, setSandboxesPrivacy, undeleteSandboxes } from '../../queries'
-
-type
-State = {
-  selection: ? {
-    startX: number,
-    startY: number,
-    endX: number,
-    endY: number,
-  },
-}
 
 const BASE_WIDTH = 300
 const BASE_HEIGHT = 242
@@ -40,16 +29,15 @@ const IS_TABLE = false
 
 const diff = (a, b) => (a > b ? a - b : b - a)
 
-class SandboxGridComponent extends React.Component<*, State> {
-  state = {
-    selection: undefined,
-  }
+function SandboxGridComponent(props) {
+  const { state, actions } = useOvermind()
+  const [selection, setSelection] = React.useState(null)
 
-  loadedSandboxes = {}
+  const loadedSandboxes = {}
 
-  setSandboxesSelected = (ids, { additive = false, range = false } = {}) => {
-    const { store, sandboxes, signals } = this.props
-    const { selectedSandboxes } = store.dashboard
+  const setSandboxesSelected = (ids, { additive = false, range = false } = {}) => {
+    const { state, sandboxes, actions } = props
+    const { selectedSandboxes } = state.dashboard
     if (range === true) {
       track('Dashboard - Sandbox Shift Selection')
       const indexedSandboxes = sandboxes.map((sandbox, i) => ({ sandbox, i }))
@@ -71,7 +59,7 @@ class SandboxGridComponent extends React.Component<*, State> {
           .map(({ sandbox }) => sandbox.id)
           .slice(indexes[0], indexes[1] + 1)
 
-        signals.dashboard.sandboxesSelected({
+        actions.dashboard.sandboxesSelected({
           sandboxIds,
         })
         return
@@ -82,293 +70,278 @@ class SandboxGridComponent extends React.Component<*, State> {
 
     if (additive) {
       track('Dashboard - Sandbox Additive Selection')
-      sandboxIds = store.dashboard.selectedSandboxes.filter(
+      sandboxIds = state.dashboard.selectedSandboxes.filter(
         id => !ids.includes(id),
       )
       const additiveIds = ids.filter(
-        id => !store.dashboard.selectedSandboxes.includes(id),
+        id => !state.dashboard.selectedSandboxes.includes(id),
       )
 
       sandboxIds = uniq([...sandboxIds, ...additiveIds])
     }
 
-    signals.dashboard.sandboxesSelected({
+    actions.dashboard.sandboxesSelected({
       sandboxIds,
     })
   }
 
-  makeTemplates = (teamId
-?:
-  string
-) => {
-  const
-  this
-  props
-  collections = uniq(
-    this.props.sandboxes
-      .filter(sandbox => this.selectedSandboxesObject[sandbox.id])
-      .map(s => s.collection),
-  )
-    .store
-    .dashboard
-    .selectedSandboxes
-    .teamId
-,
-  collections
-,
+  const makeTemplates = (teamId) => {
+    const collections = uniq(
+      props.sandboxes
+        .filter(sandbox => selectedSandboxesObject[sandbox.id])
+        .map(s => s.collection),
+    )
 
-  makeTemplates();
-}
 
-deleteSandboxes = () => {
-  const collections = uniq(
-    this.props.sandboxes
-      .filter(sandbox => this.selectedSandboxesObject[sandbox.id])
-      .map(s => s.collection),
-  )
-  deleteSandboxes(this.props.store.dashboard.selectedSandboxes, collections)
-}
-
-undeleteSandboxes = () => {
-  undeleteSandboxes(this.props.store.dashboard.selectedSandboxes)
-}
-
-permanentlyDeleteSandboxes = () => {
-  permanentlyDeleteSandboxes(this.props.store.dashboard.selectedSandboxes)
-}
-
-setSandboxesPrivacy = (privacy: number) => {
-  setSandboxesPrivacy(this.props.store.dashboard.selectedSandboxes, privacy)
-}
-
-getSandbox = async sandboxId => {
-  if (this.loadedSandboxes[sandboxId]) {
-    return Promise.resolve(this.loadedSandboxes[sandboxId])
+    makeTemplates(
+      state.dashboard.selectedSandboxes,
+      teamId,
+      collections,
+    )
   }
 
-  return fetch(`${protocolAndHost()}/api/v1/sandboxes/${sandboxId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`,
-    },
-  })
-    .then(x => x.json())
-    .then(x => {
-      const data = camelizeKeys(x.data)
-      this.loadedSandboxes[data.id] = data
-      return data
+  const deleteSandboxes = () => {
+    const collections = uniq(
+      props.sandboxes
+        .filter(sandbox => selectedSandboxesObject[sandbox.id])
+        .map(s => s.collection),
+    )
+    deleteSandboxes(state.dashboard.selectedSandboxes, collections)
+  }
+
+  const undeleteSandboxes = () => {
+    undeleteSandboxes(state.dashboard.selectedSandboxes)
+  }
+
+  const permanentlyDeleteSandboxes = () => {
+    permanentlyDeleteSandboxes(state.dashboard.selectedSandboxes)
+  }
+
+  const setSandboxesPrivacy = (privacy) => {
+    setSandboxesPrivacy(state.dashboard.selectedSandboxes, privacy)
+  }
+
+  const getSandbox = async sandboxId => {
+    if (loadedSandboxes[sandboxId]) {
+      return Promise.resolve(loadedSandboxes[sandboxId])
+    }
+
+    return fetch(`${protocolAndHost()}/api/v1/sandboxes/${sandboxId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`,
+      },
     })
-}
+      .then(x => x.json())
+      .then(x => {
+        const data = camelizeKeys(x.data)
+        loadedSandboxes[data.id] = data
+        return data
+      })
+  }
 
-exportSandboxes = async () => {
-  const sandboxIds = uniq(
-    this.props.sandboxes
-      .filter(sandbox => this.selectedSandboxesObject[sandbox.id])
-      .map(s => s.id),
-  )
-  const sandboxes = await Promise.all(
-    sandboxIds.map(s => this.getSandbox(s)),
-  )
-  return Promise.all(
-    sandboxes.map(s => downloadZip(s, s.modules, s.directories)),
-  )
-}
+  const exportSandboxes = async () => {
+    const sandboxIds = uniq(
+      props.sandboxes
+        .filter(sandbox => selectedSandboxesObject[sandbox.id])
+        .map(s => s.id),
+    )
+    const sandboxes = await Promise.all(
+      sandboxIds.map(s => getSandbox(s)),
+    )
+    return Promise.all(
+      sandboxes.map(s => downloadZip(s, s.modules, s.directories)),
+    )
+  }
 
-onMouseDown = (event: MouseEvent) => {
-  this.setState({
-    selection: {
+  const onMouseDown = (event) => {
+    setSelection({
       startX: event.clientX,
       startY: event.clientY,
       endX: event.clientX,
       endY: event.clientY,
-    },
-  })
-
-  if (!event.metaKey) {
-    this.setSandboxesSelected([])
-  }
-
-  document.addEventListener('mousemove', this.onMouseMove)
-  document.addEventListener('mouseup', this.onMouseUp)
-}
-
-onMouseUp = () => {
-  if (
-    this.state.selection &&
-    (diff(this.state.selection.startX, this.state.selection.endX) > 50 ||
-      diff(this.state.selection.startY, this.state.selection.endY) > 50)
-  ) {
-    track('Dashboard - Sandbox Selection Done')
-  }
-
-  document.removeEventListener('mousemove', this.onMouseMove)
-  document.removeEventListener('mouseup', this.onMouseUp)
-  this.setState({
-    selection: undefined,
-  })
-}
-
-onMouseMove = event => {
-  if (this.state.selection) {
-    const newSelection = {
-      ...this.state.selection,
-      endX: event.clientX,
-      endY: event.clientY,
-    }
-    // eslint-disable-next-line
-    this.setState(state => ({
-      selection: newSelection,
-    }))
-
-    const sandboxes = document.querySelectorAll('.sandbox-item')
-    const selectedSandboxes = []
-    const selection = getBounds(
-      newSelection.startX,
-      newSelection.startY,
-      newSelection.endX,
-      newSelection.endY,
-    )
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const sandbox of sandboxes) {
-      const { top, height, left, width } = sandbox.getBoundingClientRect()
-      const padding = IS_TABLE ? 0 : PADDING
-      const boxWidth = width - padding
-      const boxHeight = height - padding
-
-      if (
-        (left >= selection.left || left + boxWidth >= selection.left) &&
-        left <= selection.left + selection.width &&
-        (top >= selection.top || top + boxHeight >= selection.top) &&
-        top <= selection.top + selection.height
-      ) {
-        selectedSandboxes.push(sandbox)
-      }
-    }
-
-    this.setSandboxesSelected(selectedSandboxes.map(el => el.id), {
-      additive: event.metaKey,
     })
-  }
-}
 
-isScrolling = () => this.scrolling
 
-cellRenderer = ({ rowIndex, columnIndex, key, style, isScrolling }) => {
-  this.scrolling = isScrolling
-
-  let index = rowIndex * this.columnCount + columnIndex
-  const { sandboxes, signals } = this.props
-
-  if (this.props.ExtraElement) {
-    if (index === 0) {
-      return <this.props.ExtraElement key="extra" style={style}/>
+    if (!event.metaKey) {
+      setSandboxesSelected([])
     }
 
-    index--
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
   }
 
-  if (index > sandboxes.length - 1) {
-    return null
-  }
-
-  const item = sandboxes[index]
-
-  const getOrder = () => {
-    if (item.removedAt) {
-      return `Deleted ${distanceInWordsToNow(item.removedAt)} ago`
+  const onMouseUp = () => {
+    if (
+      selection &&
+      (diff(selection.startX, selection.endX) > 50 ||
+        diff(selection.startY, selection.endY) > 50)
+    ) {
+      track('Dashboard - Sandbox Selection Done')
     }
 
-    const orderField = this.props.store.dashboard.orderBy.field
-    if (orderField === 'insertedAt') {
-      return `Created ${distanceInWordsToNow(item.insertedAt)} ago`
-    }
-
-    return `Edited ${distanceInWordsToNow(item.updatedAt)} ago`
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+    setSelection(null)
   }
 
-  let editedSince = getOrder()
-
-  if (this.props.page === 'search' || this.props.page === 'recent') {
-    const dir =
-      basename(item.collection.path) ||
-      (item.collection.teamId ? 'Team Sandboxes' : 'My Sandboxes')
-
-    if (dir) {
-      editedSince += ` in ${dir}`
-    }
-  }
-
-  return (
-    <SandboxItem
-      isScrolling={this.isScrolling}
-      id={item.id}
-      title={getSandboxName(item)}
-      alias={item.alias}
-      color={item.forkedTemplate ? item.forkedTemplate.color : undefined}
-      details={editedSince}
-      style={style}
-      key={key}
-      sandbox={item}
-      template={item.source.template}
-      removedAt={item.removedAt}
-      selected={this.selectedSandboxesObject[item.id]}
-      selectedCount={this.props.store.dashboard.selectedSandboxes.length}
-      setSandboxesSelected={this.setSandboxesSelected}
-      setDragging={signals.dashboard.dragChanged}
-      isDraggingItem={
-        this.isDragging && this.selectedSandboxesObject[item.id]
+  const onMouseMove = event => {
+    if (selection) {
+      const newSelection = {
+        ...selection,
+        endX: event.clientX,
+        endY: event.clientY,
       }
-      collectionPath={item.collection.path}
-      collectionTeamId={item.collection.teamId}
-      deleteSandboxes={this.deleteSandboxes}
-      undeleteSandboxes={this.undeleteSandboxes}
-      permanentlyDeleteSandboxes={this.permanentlyDeleteSandboxes}
-      exportSandboxes={this.exportSandboxes}
-      setSandboxesPrivacy={this.setSandboxesPrivacy}
-      makeTemplates={this.makeTemplates}
-      page={this.props.page}
-      privacy={item.privacy}
-      isPatron={this.props.store.isPatron}
-      screenshotUrl={item.screenshotUrl}
-    />
-  )
-}
 
-rowRenderer = props => {
-  const selected = this.selectedSandboxesObject[props.rowData.id]
-  return (
-    <StyledRow
-      {...props}
-      selected={selected}
-      className={`sandbox-item ${props.className}`}
-      id={props.rowData.id}
-      selectSandboxes={this.setSandboxesSelected}
-    />
-  )
-}
+      setSelection(newSelection)
 
-render()
-{
-  const { selection } = this.state
-  const { sandboxes, store } = this.props
+      const sandboxes = document.querySelectorAll('.sandbox-item')
+      const selectedSandboxes = []
+      const s = getBounds(
+        newSelection.startX,
+        newSelection.startY,
+        newSelection.endX,
+        newSelection.endY,
+      )
 
-  const { selectedSandboxes } = this.props.store.dashboard
+      // eslint-disable-next-line no-restricted-syntax
+      for (const sandbox of sandboxes) {
+        const { top, height, left, width } = sandbox.getBoundingClientRect()
+        const padding = IS_TABLE ? 0 : PADDING
+        const boxWidth = width - padding
+        const boxHeight = height - padding
+
+        if (
+          (left >= s.left || left + boxWidth >= s.left) &&
+          left <= s.left + s.width &&
+          (top >= s.top || top + boxHeight >= s.top) &&
+          top <= s.top + s.height
+        ) {
+          selectedSandboxes.push(sandbox)
+        }
+      }
+
+      setSandboxesSelected(selectedSandboxes.map(el => el.id), {
+        additive: event.metaKey,
+      })
+    }
+  }
+
+  const isScrolling = () => scrolling
+
+  const cellRenderer = ({ rowIndex, columnIndex, key, style, isScrolling }) => {
+    scrolling = isScrolling
+
+    let index = rowIndex * columnCount + columnIndex
+    const { sandboxes, actions } = props
+
+    if (props.ExtraElement) {
+      if (index === 0) {
+        return <props.ExtraElement key="extra" style={style}/>
+      }
+
+      index--
+    }
+
+    if (index > sandboxes.length - 1) {
+      return null
+    }
+
+    const item = sandboxes[index]
+
+    const getOrder = () => {
+      if (item.removedAt) {
+        return `Deleted ${formatDistanceToNow(item.removedAt)} ago`
+      }
+
+      const orderField = state.dashboard.orderBy.field
+      if (orderField === 'insertedAt') {
+        return `Created ${formatDistanceToNow(item.insertedAt)} ago`
+      }
+
+      return `Edited ${formatDistanceToNow(item.updatedAt)} ago`
+    }
+
+    let editedSince = getOrder()
+
+    if (props.page === 'search' || props.page === 'recent') {
+      const dir =
+        basename(item.collection.path) ||
+        (item.collection.teamId ? 'Team Sandboxes' : 'My Sandboxes')
+
+      if (dir) {
+        editedSince += ` in ${dir}`
+      }
+    }
+
+    return (
+      <SandboxItem
+        isScrolling={isScrolling}
+        id={item.id}
+        title={getSandboxName(item)}
+        alias={item.alias}
+        color={item.forkedTemplate ? item.forkedTemplate.color : undefined}
+        details={editedSince}
+        style={style}
+        key={key}
+        sandbox={item}
+        template={item.source.template}
+        removedAt={item.removedAt}
+        selected={selectedSandboxesObject[item.id]}
+        selectedCount={state.dashboard.selectedSandboxes.length}
+        setSandboxesSelected={setSandboxesSelected}
+        setDragging={actions.dashboard.dragChanged}
+        isDraggingItem={
+          isDragging && selectedSandboxesObject[item.id]
+        }
+        collectionPath={item.collection.path}
+        collectionTeamId={item.collection.teamId}
+        deleteSandboxes={deleteSandboxes}
+        undeleteSandboxes={undeleteSandboxes}
+        permanentlyDeleteSandboxes={permanentlyDeleteSandboxes}
+        exportSandboxes={exportSandboxes}
+        setSandboxesPrivacy={setSandboxesPrivacy}
+        makeTemplates={makeTemplates}
+        page={props.page}
+        privacy={item.privacy}
+        isPatron={state.isPatron}
+        screenshotUrl={item.screenshotUrl}
+      />
+    )
+  }
+
+  const rowRenderer = props => {
+    const selected = selectedSandboxesObject[props.rowData.id]
+    return (
+      <StyledRow
+        {...props}
+        selected={selected}
+        className={`sandbox-item ${props.className}`}
+        id={props.rowData.id}
+        selectSandboxes={setSandboxesSelected}
+      />
+    )
+  }
+
+
+  const { sandboxes } = props
+
+  const { selectedSandboxes } = state.dashboard
   let sandboxCount = sandboxes.length
 
-  this.isDragging = store.dashboard.isDragging
-  this.selectedSandboxesObject = {}
+  isDragging = state.dashboard.isDragging
+  selectedSandboxesObject = {}
   // Create an object to make it O(1)
   selectedSandboxes.forEach(id => {
-    this.selectedSandboxesObject[id] = true
+    selectedSandboxesObject[id] = true
   })
 
   return (
-    <Content style={{ overflowX: 'hidden' }} onMouseDown={this.onMouseDown}>
+    <Content style={{ overflowX: 'hidden' }} onMouseDown={onMouseDown}>
       <DragLayer/>
       <AutoSizer>
         {({ width, height }) => {
-          if (this.props.ExtraElement) {
+          if (props.ExtraElement) {
             sandboxCount += 1
           }
 
@@ -378,7 +351,7 @@ render()
           )
           const rowCount = Math.ceil(sandboxCount / columnCount)
           const columnWidth = width / columnCount
-          this.columnCount = columnCount
+          columnCount = columnCount
 
           if (IS_TABLE) {
             return (
@@ -390,7 +363,7 @@ render()
                 headerHeight={40}
                 rowHeight={40}
                 rowCount={sandboxCount}
-                rowRenderer={this.rowRenderer}
+                rowRenderer={rowRenderer}
                 rowGetter={({ index }) => sandboxes[index]}
                 headerStyle={{
                   color: 'white',
@@ -416,7 +389,7 @@ render()
                   label="Last Updated"
                   dataKey="updatedAt"
                   cellDataGetter={({ rowData }) =>
-                    distanceInWordsToNow(rowData.updatedAt) + ' ago'
+                    formatDistanceToNow(rowData.updatedAt) + ' ago'
                   }
                   width={150}
                 />
@@ -424,7 +397,7 @@ render()
                   label="Created"
                   dataKey="insertedAt"
                   cellDataGetter={({ rowData }) =>
-                    distanceInWordsToNow(rowData.insertedAt) + ' ago'
+                    formatDistanceToNow(rowData.insertedAt) + ' ago'
                   }
                   width={150}
                 />
@@ -442,7 +415,7 @@ render()
             <Grid
               style={{ outline: 'none', overflowX: 'hidden' }}
               cellCount={sandboxCount}
-              cellRenderer={this.cellRenderer}
+              cellRenderer={cellRenderer}
               width={width}
               height={height}
               rowCount={rowCount}
@@ -454,12 +427,10 @@ render()
         }}
       </AutoSizer>
 
-      {selection && <Selection {...this.state.selection} />}
+      {selection && <Selection {...selection} />}
     </Content>
   )
-}
+
 }
 
-export const SandboxGrid = inject('store', 'signals')(
-  observer(SandboxGridComponent),
-)
+export const SandboxGrid = SandboxGridComponent

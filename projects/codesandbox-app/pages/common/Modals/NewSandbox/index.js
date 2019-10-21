@@ -1,7 +1,8 @@
 import React from 'react'
-import history from '~/utils/history'
 import { sandboxUrl } from '@csb/common/lib/utils/url-generator'
-import { NewSandboxModal } from '../../../Dashboard/Content/CreateNewSandbox/NewSandboxModal/index'
+
+import history from '~/utils/history'
+import { NewSandboxModal } from '~/pages/Dashboard/Content/CreateNewSandbox/NewSandboxModal/index'
 
 export default ({ closeModal }) => (
   <NewSandboxModal

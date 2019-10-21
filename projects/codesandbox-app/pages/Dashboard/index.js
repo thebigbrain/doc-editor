@@ -1,5 +1,6 @@
 import React from 'react'
-import { MdKeyboardArrowRight as RightIcon, MdKeyboardArrowLeft as LeftIcon } from 'react-icons/md'
+import { RightIcon, LeftIcon } from '@muggle/icons'
+
 import { Navigation } from '~/pages/common/Navigation'
 import { SignInButton } from '~/pages/common/SignInButton'
 

@@ -2,11 +2,12 @@ import React from 'react'
 import { Mutation } from 'react-apollo'
 
 import Tooltip from '@csb/common/lib/components/Tooltip'
-import history from 'app/utils/history'
+
 import { dashboardUrl } from '@csb/common/lib/utils/url-generator'
 import { NotificationStatus } from '@codesandbox/notifications'
 import { notificationState } from '@csb/common/lib/utils/notifications'
 
+import history from '~/utils/history'
 import { LEAVE_TEAM, REMOVE_FROM_TEAM } from '../../../../queries'
 
 import { StyledCrossIcon } from '../elements'

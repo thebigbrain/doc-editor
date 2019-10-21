@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import Margin from '@csb/common/lib/components/spacing/Margin'
 import getDefinition from '@csb/common/lib/templates'
+import {useOvermind} from "@muggle/hooks"
+
 import {WorkspaceSubtitle} from '../elements'
 
 import AddVersion from './AddVersion/index'
@@ -10,10 +12,13 @@ import AddResource from './AddResource/index'
 import ExternalResource from './ExternalResource/index'
 
 import {ErrorMessage} from './elements'
-import {useOvermind} from "@muggle/hooks"
 
 const Dependencies = () => {
-  const {state: {editor}, actions: {workspace, editor: editorSignals}} = useOvermind()
+  const {
+    state: {editor},
+    actions: {workspace, editor: editorSignals}
+  } = useOvermind()
+
   const sandbox = editor.currentSandbox
 
   if (!editor.parsedConfigurations.package) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {GoBrowser as BrowserIcon} from 'react-icons/go'
+import {BrowserIcon} from '@muggle/icons'
 import Margin from '@csb/common/lib/components/spacing/Margin'
 
 import {Description, EntryContainer, WorkspaceInputContainer} from '../../elements'

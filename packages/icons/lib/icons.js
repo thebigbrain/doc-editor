@@ -4,7 +4,9 @@ export {
   GoPrimitiveDot as NotSyncedIcon,
   GoRepoForked as ForkIcon,
   GoQuestion as Question,
-  GoSearch as SearchIcon
+  GoSearch as SearchIcon,
+  GoBrowser as BrowserIcon,
+  GoPencil as EditIcon,
 } from 'react-icons/go'
 
 export {
@@ -21,7 +23,11 @@ export {
   MdFolder as FolderIcon,
   MdCreateNewFolder as AddFolderIcon,
   MdModeEdit as RenameIcon,
-  MdLaptop as LocalLogo
+  MdLaptop as LocalLogo,
+  MdKeyboardArrowRight as RightIcon,
+  MdKeyboardArrowLeft as LeftIcon,
+  MdInsertLink as Unlisted,
+  MdLock as Private,
 } from 'react-icons/md'
 
 export {
@@ -34,3 +40,7 @@ export {
 export {
   IoIosHome as HomeIcon
 } from 'react-icons/io'
+
+export {
+  IconBase
+} from 'react-icons'

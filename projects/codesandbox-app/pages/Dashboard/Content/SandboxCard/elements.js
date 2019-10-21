@@ -1,10 +1,12 @@
-import styled from 'styled-components';
-import fadeIn from '@codesandbox/common/lib/utils/animation/fade-in';
-import Tooltip from '@codesandbox/common/lib/components/Tooltip';
-import { ContextMenu } from 'app/components/ContextMenu';
-import { KebabIcon as MoreInfoIcon } from './KebabIcon';
-export const PADDING = 32;
-export const Container = styled.div `
+import styled from 'styled-components'
+import fadeIn from '@csb/common/lib/utils/animation/fade-in'
+import Tooltip from '@csb/common/lib/components/Tooltip'
+
+import { ContextMenu } from '~/components/ContextMenu'
+import { KebabIcon as MoreInfoIcon } from './KebabIcon'
+
+export const PADDING = 32
+export const Container = styled.div`
   ${fadeIn(0)};
   background-color: ${props => props.theme.background};
   overflow: hidden;
@@ -12,13 +14,13 @@ export const Container = styled.div `
   user-select: none;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-`;
-export const StyledContextMenu = styled(ContextMenu) `
+`
+export const StyledContextMenu = styled(ContextMenu)`
   padding-right: ${PADDING}px;
   box-sizing: border-box;
   opacity: ${({ isDraggingItem }) => (isDraggingItem ? 0 : 1)};
-`;
-export const SandboxImageContainer = styled.div `
+`
+export const SandboxImageContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -26,37 +28,37 @@ export const SandboxImageContainer = styled.div `
   height: 160px;
 
   background-color: rgba(255, 255, 255, 0.1);
-`;
-export const SandboxImage = styled.div `
+`
+export const SandboxImage = styled.div`
   background-size: contain;
   background-position: 50%;
   background-repeat: no-repeat;
   width: 100%;
   z-index: 1;
-`;
-export const SandboxInfo = styled.div `
+`
+export const SandboxInfo = styled.div`
   position: relative;
   display: flex;
   padding: 0.6rem 0.75rem;
   font-size: 0.875em;
 
   align-items: center;
-`;
-export const SandboxTitle = styled.div `
+`
+export const SandboxTitle = styled.div`
   display: flex;
   align-items: center;
-`;
-export const PrivacyIconContainer = styled(Tooltip) `
+`
+export const PrivacyIconContainer = styled(Tooltip)`
   display: flex;
   margin-left: 0.5rem;
   color: rgba(255, 255, 255, 0.4);
-`;
-export const SandboxDetails = styled.div `
+`
+export const SandboxDetails = styled.div`
   font-size: 0.875em;
   color: rgba(255, 255, 255, 0.5);
   margin-top: 4px;
-`;
-export const ImageMessage = styled.div `
+`
+export const ImageMessage = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -67,8 +69,8 @@ export const ImageMessage = styled.div `
 
   font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.6);
-`;
-export const KebabIcon = styled(MoreInfoIcon) `
+`
+export const KebabIcon = styled(MoreInfoIcon)`
   transition: 0.3s ease color;
   font-size: 1.75rem;
   height: 16px;
@@ -79,4 +81,4 @@ export const KebabIcon = styled(MoreInfoIcon) `
   &:hover {
     color: rgba(255, 255, 255, 0.8);
   }
-`;
+`

@@ -51,15 +51,16 @@ export default {
   },
   async getSandbox(id) {
     const s = api.getService('sandboxes')
-    let sandbox = null
+    let sandbox = await s.get(id)
 
-    if (id === 'new') {
-      sandbox = await s.create({title: parseInt(Math.random() * 1000).toString()})
-    } else {
-      sandbox = await s.get(id)
+    return {
+      ...sandbox,
+      modules: sandbox.modules.map(module => ({
+        ...module,
+        savedCode: null,
+        isNotSynced: false,
+      })),
     }
-
-    return sandbox
   },
   async forkSandbox(id, body) {
     const s = api.getService('sandboxes')

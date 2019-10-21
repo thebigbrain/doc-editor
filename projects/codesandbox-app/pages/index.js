@@ -15,7 +15,7 @@ import HTML5Backend from './common/HTML5BackendWithFolderSupport'
 import Modals from './common/Modals'
 import Sandbox from './Sandbox'
 import NewSandbox from './NewSandbox'
-// import Dashboard from './Dashboard'
+import Dashboard from './Dashboard'
 import { Container, Content } from './elements'
 
 const routeDebugger = _debug('cs:app:router')
@@ -82,7 +82,7 @@ export const Routes = () => {
               {/*<Route exact path="/s/github" component={GitHub}/>*/}
               {/*<Route exact path="/s/cli" component={CliInstructions}/>*/}
               <Route exact path="/s" component={NewSandbox}/>
-              {/*<Route path="/dashboard" component={Dashboard}/>*/}
+              <Route path="/dashboard" component={Dashboard}/>
               {/*<Route path="/curator" component={Curator}/>*/}
               <Route path="/s/:id*" component={Sandbox}/>
               {/*<Route path="/live/:id" component={Live}/>*/}

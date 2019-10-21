@@ -364,6 +364,7 @@ var markLastTimeEventSent = function markLastTimeEventSent() {
 
 function track(eventName) {
   var secondArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  console.log(eventName, secondArg);
 
   try {
     if (!DNT && isAllowedEvent(eventName, secondArg)) {

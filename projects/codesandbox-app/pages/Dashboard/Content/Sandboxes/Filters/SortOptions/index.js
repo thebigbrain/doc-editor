@@ -1,6 +1,7 @@
 import React from 'react'
-import { inject, observer } from 'app/componentConnectors'
-import { Overlay as OverlayComponent } from 'app/components/Overlay'
+import { useOvermind } from '@muggle/hooks'
+
+import { Overlay as OverlayComponent } from '~/components/Overlay'
 import Option from './Option'
 import { Arrow, Container, OrderName, OverlayContainer } from './elements'
 
@@ -10,11 +11,13 @@ const FIELD_TO_NAME = {
   title: 'Name',
 }
 
-class SortOptionsComponent extends React.Component {
-  toggleSort = e => {
+function SortOptionsComponent(props) {
+  const { state, actions } = useOvermind()
+
+  const toggleSort = e => {
     e.preventDefault()
-    const { orderBy } = this.props.store.dashboard
-    const { orderByChanged } = this.props.signals.dashboard
+    const { orderBy } = state.dashboard
+    const { orderByChanged } = actions.dashboard
     orderByChanged({
       orderBy: {
         order: orderBy.order === 'asc' ? 'desc' : 'asc',
@@ -23,9 +26,9 @@ class SortOptionsComponent extends React.Component {
     })
   }
 
-  setField = (field: string) => {
-    const { orderBy } = this.props.store.dashboard
-    const { orderByChanged } = this.props.signals.dashboard
+  const setField = (field) => {
+    const { orderBy } = state.dashboard
+    const { orderByChanged } = actions.dashboard
     orderByChanged({
       orderBy: {
         order: orderBy.order,
@@ -34,54 +37,52 @@ class SortOptionsComponent extends React.Component {
     })
   }
 
-  render() {
-    const { field, order } = this.props.store.dashboard.orderBy
-    const { hideOrder } = this.props
 
-    const Overlay = () => (
-      <OverlayContainer>
-        <Option
-          setField={this.setField}
-          currentField={field}
-          field="title"
-          name={FIELD_TO_NAME.title}
-        />
-        <Option
-          setField={this.setField}
-          currentField={field}
-          field="insertedAt"
-          name={FIELD_TO_NAME.insertedAt}
-        />
-        <Option
-          setField={this.setField}
-          currentField={field}
-          field="updatedAt"
-          name={FIELD_TO_NAME.updatedAt}
-        />
-      </OverlayContainer>
-    )
+  const { field, order } = state.dashboard.orderBy
+  const { hideOrder } = props
 
-    return (
-      <OverlayComponent event="Dashboard - Order By" content={Overlay}>
-        {open => (
-          <Container hideOrder={hideOrder}>
-            Sort by{' '}
-            <OrderName onClick={open}>{FIELD_TO_NAME[field]} </OrderName>
-            <Arrow
-              onClick={this.toggleSort}
-              style={{
-                transform: `rotate(${order === 'asc' ? -180 : 0}deg)`,
-                fontSize: '.875rem',
-                marginLeft: 4,
-              }}
-            />
-          </Container>
-        )}
-      </OverlayComponent>
-    )
-  }
+  const Overlay = () => (
+    <OverlayContainer>
+      <Option
+        setField={setField}
+        currentField={field}
+        field="title"
+        name={FIELD_TO_NAME.title}
+      />
+      <Option
+        setField={setField}
+        currentField={field}
+        field="insertedAt"
+        name={FIELD_TO_NAME.insertedAt}
+      />
+      <Option
+        setField={setField}
+        currentField={field}
+        field="updatedAt"
+        name={FIELD_TO_NAME.updatedAt}
+      />
+    </OverlayContainer>
+  )
+
+  return (
+    <OverlayComponent event="Dashboard - Order By" content={Overlay}>
+      {open => (
+        <Container hideOrder={hideOrder}>
+          Sort by{' '}
+          <OrderName onClick={open}>{FIELD_TO_NAME[field]} </OrderName>
+          <Arrow
+            onClick={toggleSort}
+            style={{
+              transform: `rotate(${order === 'asc' ? -180 : 0}deg)`,
+              fontSize: '.875rem',
+              marginLeft: 4,
+            }}
+          />
+        </Container>
+      )}
+    </OverlayComponent>
+  )
+
 }
 
-export const SortOptions = inject('store', 'signals')(
-  observer(SortOptionsComponent),
-)
+export const SortOptions = SortOptionsComponent

@@ -1,14 +1,13 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-
 import Input from '@csb/common/lib/components/Input'
 import { Button } from '@csb/common/lib/components/Button'
 import track from '@csb/common/lib/utils/analytics'
-import history from 'app/utils/history'
 import { teamOverviewUrl } from '@csb/common/lib/utils/url-generator'
 import { notificationState } from '@csb/common/lib/utils/notifications'
 import { NotificationStatus } from '@codesandbox/notifications'
 
+import history from '~/utils/history'
 import { Container, Description, HeaderContainer } from '../../elements'
 import { ComingSoon, Label, Overlay, PatronInfo, QuestionHeader } from './elements'
 import { CREATE_TEAM_MUTATION, TEAMS_QUERY } from '../../../queries'

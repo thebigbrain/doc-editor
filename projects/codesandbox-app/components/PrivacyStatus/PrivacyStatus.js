@@ -2,7 +2,7 @@ import React from 'react'
 import Tooltip from '@csb/common/lib/components/Tooltip'
 import { Icon, StyledPrivate, StyledUnlisted } from './elements'
 
-export const PrivacyStatus = ({ privacy, asIcon = false }) => {
+export const PrivacyStatus = ({ privacy = 0, asIcon = false }) => {
   const PRIVACY_MESSAGES = [
     {
       title: 'Public',

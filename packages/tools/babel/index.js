@@ -21,9 +21,9 @@ debug('parsed')
 
 
 async function handleAll(db) {
-  await insertModules(db, graph)
-  await queryModules(db, graph)
-  // await insertProject(db, graph)
+  // await insertModules(db, graph)
+  // await queryModules(db, graph)
+  await insertProject(db, graph)
 }
 
 async function insertProject(db, graph) {

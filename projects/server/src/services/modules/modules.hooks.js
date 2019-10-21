@@ -1,4 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const {notfound} = require('../../hooks/modules')
 
 module.exports = {
   before: {
@@ -13,7 +14,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
+    find: [notfound()],
     get: [],
     create: [],
     update: [],

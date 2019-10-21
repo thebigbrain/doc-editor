@@ -4,16 +4,18 @@ const babel = require("@babel/core")
 const traverse = require('@babel/traverse').default
 const generate = require('@babel/generator').default
 
+const debug = require('../common/debug')
+
 // let currentPathStack = []
 let deps = []
 const root = Path.resolve('.')
 const prefix = '~/'
 
-exports.transform = (filename) => {
+exports.transform = (filename, resolved = false) => {
   // currentPathStack = [Path.resolve(filename)]
   deps = []
 
-  filename = require.resolve(Path.resolve(root, filename))
+  filename = resolved ? filename : require.resolve(Path.resolve(root, filename))
 
   let code = readJsFile(filename)
   let result = transformJs(code, filename)
@@ -25,7 +27,11 @@ exports.transform = (filename) => {
 }
 
 function transformJs(code, currentFile) {
-  let result = babel.transform(code.toString(), {ast: true, code: false, root: Path.resolve(__dirname)})
+  let result = babel.transform(code.toString(), {
+    ast: true, 
+    code: false, 
+    root: Path.resolve(__dirname)
+  })
   traverse(result.ast, {
     enter(path) {
       // console.log(path.node.type)
@@ -54,7 +60,9 @@ function transformJs(code, currentFile) {
 function processJs(resource) {
   resource = require.resolve(resource)
   resource = Path.relative(root, resource)
-  let id = padJsPostfix(`${prefix}${resource}`.replace('\\', '/'))
+  resource = Path.normalize(resource)
+  debug(`${prefix}${resource}`.replace(/\\/g, '/'))
+  let id = padJsPostfix(`${prefix}${resource}`.replace(/\\/g, '/'))
   deps.push(id)
   return id
 }
@@ -64,7 +72,8 @@ function readJsFile(filename) {
 }
 
 function padJsPostfix(file) {
-  if (/^~\//.test(file) && !/\.css$/.test(file) && !/\.js$/.test(file)) {
+  let {ext} = Path.parse(file)
+  if (!ext) {
     return `${file}.js`
   }
   return file

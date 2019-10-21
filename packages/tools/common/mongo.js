@@ -1,12 +1,10 @@
 const MongoClient = require('mongodb').MongoClient
 
-module.exports = (url) => {
+module.exports = async (url) => {
   url = url || "mongodb://127.0.0.1:27017"
 
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(url, function (err, db) {
-      if (err) reject(err)
-      else resolve(db)
-    })
+  return await MongoClient.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
 }

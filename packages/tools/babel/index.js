@@ -1,5 +1,5 @@
 const commander = require('commander')
-const {parse} = require('./parser')
+const Parser = require('./parser')
 const mongo = require('../common/mongo')
 
 const debug = require('../common/debug')
@@ -14,9 +14,10 @@ program
 
 const filename = program.entry
 const moduleName = program.name
+const parser = new Parser(moduleName)
 
 debug('parsing ...')
-const graph = parse(filename)
+const graph = parser.parse(filename)
 debug('parsed')
 
 
@@ -29,17 +30,18 @@ async function handleAll(db) {
 async function insertProject(db, graph) {
   const c = db.collection('projects')
   try {
-    let deps = new Set()
-    for (let v of graph.values()) {
-      v.deps.forEach(d => {
-        deps.add(d)
-      })
-    }
+    // let deps = new Set()
+    // for (let v of graph.values()) {
+    //   v.deps.forEach(d => {
+    //     deps.add(d)
+    //   })
+    // }
 
     const r = await c.insertOne({
       name: moduleName,
       entry: filename,
-      deps: Array.from(deps)
+      graph: Array.from(graph.values()).map(v => ({id: v.id, deps: v.deps})),
+      // deps: Array.from(deps),
     })
     console.log(`project inserted`)
   } catch (e) {

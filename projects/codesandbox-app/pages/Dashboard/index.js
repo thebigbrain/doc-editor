@@ -69,7 +69,6 @@ export default function(props) {
           <LoggedInContainer>
             <OffsettedLogo/>
             <LoggedInTitle>Sign in to CodeSandbox</LoggedInTitle>
-
             <SignInButton big style={{ fontSize: '1rem' }}/>
           </LoggedInContainer>
         </Centered>

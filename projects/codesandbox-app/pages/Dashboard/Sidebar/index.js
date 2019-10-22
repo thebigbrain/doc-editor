@@ -127,7 +127,6 @@ function Sidebar(props) {
       </div>
     </SidebarStyled>
   )
-
 }
 
 export default withRouter(Sidebar)

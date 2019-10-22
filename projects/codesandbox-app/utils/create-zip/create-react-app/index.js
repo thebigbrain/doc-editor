@@ -1,4 +1,3 @@
-import type { Sandbox, Module, Directory } from '@codesandbox/common/lib/types';
 import files from 'buffer-loader!./files.zip'; // eslint-disable-line import/no-webpack-loader-syntax
 import {
   getResourceTag,
@@ -51,9 +50,9 @@ const getHTML = (modules, resources) =>
 
 export default function createZip(
   zip,
-  sandbox: Sandbox,
-  modules: Array<Module>,
-  directories: Array<Directory>
+  sandbox,
+  modules,
+  directories
 ) {
   return zip.loadAsync(files).then(async srcFolder => {
     const src = srcFolder.folder('src');

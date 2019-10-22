@@ -3,18 +3,7 @@ import { animated, interpolate, Spring } from 'react-spring/renderprops'
 
 import { Container, SandboxImage, SandboxImageContainer, SandboxInfo } from './elements'
 
-type
-Props = {
-  id: string,
-  i: number,
-  x: number,
-  y: number,
-  scale: number,
-  isLast: boolean,
-  selectedSandboxes: Array < string >,
-}
-
-export default class AnimatedSandboxItem extends React.Component<Props> {
+export default class AnimatedSandboxItem extends React.Component {
   state = { render: true }
 
   UNSAFE_componentWillMount() {

@@ -15,7 +15,7 @@ import { getSandboxName } from '@csb/common/lib/utils/get-sandbox-name'
 import 'react-virtualized/styles.css'
 import { useOvermind } from '@muggle/hooks'
 
-import downloadZip from '~/store/providers/Utils/create-zip'
+import downloadZip from '~/utils/create-zip'
 import { SandboxItem } from '../SandboxCard/index'
 import { PADDING } from '../SandboxCard/elements'
 import { getBounds, Selection } from '../Selection/index'

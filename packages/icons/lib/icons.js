@@ -28,6 +28,8 @@ export {
   MdKeyboardArrowLeft as LeftIcon,
   MdInsertLink as Unlisted,
   MdLock as Private,
+  MdCheck as Check,
+  MdArrowDownward as ArrowDown,
 } from 'react-icons/md'
 
 export {

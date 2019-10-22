@@ -1,13 +1,11 @@
-import type { Sandbox, Module, Directory } from '@codesandbox/common/lib/types';
-
 import files from 'buffer-loader!./files.zip'; // eslint-disable-line import/no-webpack-loader-syntax
 import { createFile, createDirectoryWithFiles } from '..';
 
 export default function createZip(
   zip,
-  sandbox: Sandbox,
-  modules: Array<Module>,
-  directories: Array<Directory>
+  sandbox,
+  modules,
+  directories
 ) {
   return zip.loadAsync(files).then(async src => {
     await Promise.all(

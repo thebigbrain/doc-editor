@@ -47,7 +47,7 @@ export default function(props) {
     <>
       <Sidebar active={showSidebar}>
         <SidebarContents/>
-        <ShowSidebarButton onClick={this.toggleSidebar}>
+        <ShowSidebarButton onClick={toggleSidebar}>
           {showSidebar ? (
             <LeftIcon style={{ color: 'white' }}/>
           ) : (

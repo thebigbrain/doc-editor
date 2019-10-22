@@ -1,4 +1,3 @@
-import type { Sandbox, Module, Directory } from '@codesandbox/common/lib/types';
 import files from 'buffer-loader!./files.zip'; // eslint-disable-line import/no-webpack-loader-syntax
 import { createFile, createDirectoryWithFiles } from '..';
 
@@ -6,7 +5,7 @@ import { createFile, createDirectoryWithFiles } from '..';
  * Add necessary scripts to package.json if they don't exist
  * @param {*} module
  */
-function alterPackageJSON(module: Module) {
+function alterPackageJSON(module) {
   try {
     const parsed = JSON.parse(module.code);
 
@@ -36,9 +35,9 @@ function alterPackageJSON(module: Module) {
 
 export default function createZip(
   zip,
-  sandbox: Sandbox,
-  modules: Array<Module>,
-  directories: Array<Directory>
+  sandbox,
+  modules,
+  directories
 ) {
   return zip.loadAsync(files).then(async src => {
     await Promise.all(

@@ -1,5 +1,5 @@
 import React from 'react'
-import Check from 'react-icons/lib/md/check'
+import {Check} from '@muggle/icons'
 import { IconContainer, OptionContainer } from './elements'
 
 export default ({ name, field, currentField, setField }) => {

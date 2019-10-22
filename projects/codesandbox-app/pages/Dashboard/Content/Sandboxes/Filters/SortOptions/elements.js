@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import ArrowDown from 'react-icons/lib/md/arrow-downward'
+import {ArrowDown} from '@muggle/icons'
 
 export const OptionContainer = styled.a`
   transition: 0.3s ease color;

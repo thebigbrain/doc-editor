@@ -81,7 +81,7 @@ const paddingTop = css`
   padding-top: 100px;
 `;
 
-export const Sidebar = styled.div<{ active: boolean }>`
+export const Sidebar = styled.div`
   display: flex;
   box-sizing: border-box;
 

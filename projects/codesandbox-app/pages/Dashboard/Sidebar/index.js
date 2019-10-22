@@ -1,150 +1,133 @@
 import React from 'react'
 import history from '~/utils/history'
-import {Route, withRouter} from 'react-router-dom'
-import {Query} from 'react-apollo'
+import { Route, withRouter } from 'react-router-dom'
+// import { Query } from 'react-apollo'
 import Input from '@csb/common/lib/components/Input'
-import {Button} from '@csb/common/lib/components/Button'
-import {MdPeople as PeopleIcon} from 'react-icons/md'
-// @ts-ignore
-import {teamOverviewUrl} from '@csb/common/lib/utils/url-generator'
+import { Button } from '@csb/common/lib/components/Button'
+import { PeopleIcon } from '@muggle/icons'
+import { teamOverviewUrl } from '@csb/common/lib/utils/url-generator'
 import DashboardIcon from '@csb/common/lib/icons/dashboard.svg'
+import { useOvermind } from '@muggle/hooks'
 
-import {Item} from './Item/index'
-import {SandboxesItem} from './SandboxesItem/index'
-import {TrashItem} from './TrashItem/index'
-import {CategoryHeader, InputWrapper, Items, SidebarStyled} from './elements'
-import {TEAMS_QUERY} from '../queries'
-import {TemplateItem} from './TemplateItem/index'
+import { Item } from './Item/index'
+import { SandboxesItem } from './SandboxesItem/index'
+import { TrashItem } from './TrashItem/index'
+import { CategoryHeader, InputWrapper, Items, SidebarStyled } from './elements'
+// import { TEAMS_QUERY } from '../queries'
+import { TemplateItem } from './TemplateItem/index'
 
-class Sidebar extends React.Component {
-  handleSearchFocus = () => {
+function Teams(props) {
+  const {state} = useOvermind()
+  const {currentTeamId} = props
+
+  return state.user && (state.user.teams || []).map(team => (
+    <div key={team.id}>
+      <Items>
+        <CategoryHeader>{team.name}</CategoryHeader>
+        <Item
+          Icon={PeopleIcon}
+          path={teamOverviewUrl(team.id)}
+          name="Team Overview"
+        />
+
+        <SandboxesItem
+          whatTheFuck
+          selectedSandboxes={
+            state.dashboard.selectedSandboxes
+          }
+          currentPath={path}
+          currentTeamId={currentTeamId}
+          teamId={team.id}
+        />
+
+        <TemplateItem
+          currentPath={path}
+          teamId={team.id}
+        />
+      </Items>
+    </div>
+  ))
+}
+
+function Sidebar(props) {
+  const { state, actions } = useOvermind()
+
+  const handleSearchFocus = () => {
     history.push('/dashboard/search', { from: 'sandboxSearchFocused' })
   }
 
-  handleSearchChange = e => {
-    this.props.signals.dashboard.searchChanged({ search: e.target.value })
+  const handleSearchChange = e => {
+    actions.dashboard.searchChanged({ search: e.target.value })
   }
 
-  render() {
-    const { store } = this.props
+  return (
+    <SidebarStyled>
+      <InputWrapper>
+        <Input
+          onFocus={handleSearchFocus}
+          block
+          value={state.dashboard.filters.search}
+          onChange={handleSearchChange}
+          placeholder="Search my sandboxes"
+        />
+      </InputWrapper>
 
-    return (
-      <SidebarStyled>
-        <InputWrapper>
-          <Input
-            onFocus={this.handleSearchFocus}
-            block
-            value={store.dashboard.filters.search}
-            onChange={this.handleSearchChange}
-            placeholder="Search my sandboxes"
-          />
-        </InputWrapper>
+      <Route
+        path={[
+          '/dashboard/sandboxes/:path*',
+          '/dashboard/teams/:teamId/sandboxes/:path*',
+          '/',
+        ]}
+      >
+        {routeProps => {
+          const testRegex = /\/dashboard.*?sandboxes/
 
-        <Route
-          path={[
-            '/dashboard/sandboxes/:path*',
-            '/dashboard/teams/:teamId/sandboxes/:path*',
-            '/',
-          ]}
+          const path = routeProps.location.pathname.replace(testRegex, '')
+          const currentTeamId = routeProps.match
+            ? routeProps.match.params.teamId
+            : undefined
+
+          return (
+            <>
+              <Items style={{ marginBottom: '1rem' }}>
+                <Item
+                  Icon={DashboardIcon}
+                  path="/dashboard/recent"
+                  name="Overview"
+                />
+
+                <SandboxesItem
+                  selectedSandboxes={
+                    state.dashboard.selectedSandboxes
+                  }
+                  currentPath={path}
+                  currentTeamId={currentTeamId}
+                  openByDefault
+                />
+
+                <TemplateItem currentPath={path}/>
+
+                <TrashItem currentPath={path}/>
+              </Items>
+              <Teams currentTeamId={currentTeamId}/>
+            </>
+          )
+        }}
+      </Route>
+
+      <div style={{ margin: '2rem', fontSize: '.875rem' }}>
+        <Button
+          style={{ display: 'block' }}
+          to="/dashboard/teams/new"
+          small={'small'}
+          block={'block'}
         >
-          {routeProps => {
-            const testRegex = /\/dashboard.*?sandboxes/
+          Create Team
+        </Button>
+      </div>
+    </SidebarStyled>
+  )
 
-            const path = routeProps.location.pathname.replace(testRegex, '')
-            const currentTeamId = routeProps.match
-              ? routeProps.match.params.teamId
-              : undefined
-
-            return (
-              <Observer>
-                {({ store: innerStore }) => (
-                  <>
-                    <Items style={{ marginBottom: '1rem' }}>
-                      <Item
-                        Icon={DashboardIcon}
-                        path="/dashboard/recent"
-                        name="Overview"
-                      />
-
-                      <SandboxesItem
-                        selectedSandboxes={
-                          innerStore.dashboard.selectedSandboxes
-                        }
-                        currentPath={path}
-                        currentTeamId={currentTeamId}
-                        openByDefault
-                      />
-
-                      <TemplateItem currentPath={path}/>
-
-                      <TrashItem currentPath={path}/>
-                    </Items>
-
-                    <Query query={TEAMS_QUERY}>
-                      {({ loading, data, error }) => {
-                        if (loading) {
-                          return null
-                        }
-
-                        if (error || !data.me) {
-                          return null
-                        }
-
-                        if (!(data && data.me)) {
-                          return null
-                        }
-
-                        const { teams = [] } = data.me
-
-                        return teams.map(team => (
-                          <div key={team.id}>
-                            <Items>
-                              <CategoryHeader>{team.name}</CategoryHeader>
-                              <Item
-                                Icon={PeopleIcon}
-                                path={teamOverviewUrl(team.id)}
-                                name="Team Overview"
-                              />
-
-                              <SandboxesItem
-                                whatTheFuck
-                                selectedSandboxes={
-                                  store.dashboard.selectedSandboxes
-                                }
-                                currentPath={path}
-                                currentTeamId={currentTeamId}
-                                teamId={team.id}
-                              />
-
-                              <TemplateItem
-                                currentPath={path}
-                                teamId={team.id}
-                              />
-                            </Items>
-                          </div>
-                        ))
-                      }}
-                    </Query>
-                  </>
-                )}
-              </Observer>
-            )
-          }}
-        </Route>
-
-        <div style={{ margin: '2rem', fontSize: '.875rem' }}>
-          <Button
-            style={{ display: 'block' }}
-            to="/dashboard/teams/new"
-            small
-            block
-          >
-            Create Team
-          </Button>
-        </div>
-      </SidebarStyled>
-    )
-  }
 }
 
 export default withRouter(Sidebar)

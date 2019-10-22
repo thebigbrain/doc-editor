@@ -30,6 +30,7 @@ export {
   MdLock as Private,
   MdCheck as Check,
   MdArrowDownward as ArrowDown,
+  MdNaturePeople as PeopleIcon,
 } from 'react-icons/md'
 
 export {

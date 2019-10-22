@@ -16,94 +16,90 @@ const getContainer = contextItems => {
   return Container
 }
 
-export class Item extends React.Component {
-  state = {
-    open: this.props.openByDefault,
-  }
+export function Item(props) {
+  const [open, setOpen] = React.useState(props.openByDefault)
 
-  toggleOpen = e => {
+  const toggleOpen = e => {
     e.preventDefault()
-    this.setState(state => ({ open: !state.open }))
+    setOpen(!open)
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.openByDefault === true && !this.props.openByDefault) {
-      this.setState({ open: true })
-    }
-  }
+  React.useEffect(() => {
+    setOpen(props.openByDefault)
+  }, [props.openByDefault])
 
-  render() {
-    const {
-      name,
-      contextItems,
-      Icon,
-      path,
-      children,
-      style,
-      active,
-      ...props
-    } = this.props
 
-    const UsedContainer = getContainer(contextItems)
+  const {
+    name,
+    contextItems,
+    Icon,
+    path,
+    children,
+    style,
+    active,
+    openByDefault,
+    ...rest
+  } = props
 
-    return (
-      <Route path={path}>
-        {res => {
-          const isActive = (res.match && res.match.isExact) || active
-          const isOpen =
-            this.state.open === undefined ? isActive : this.state.open
+  const UsedContainer = getContainer(contextItems)
 
-          if (
-            (res.match || isActive) &&
-            this.state.open === undefined &&
-            children
-          ) {
-            this.setState({ open: true })
-          }
-          return (
-            <>
-              <UsedContainer
-                style={style}
-                to={path}
-                exact
-                active={isActive}
-                {...props}
-              >
-                {children ? (
-                  <AnimatedChevron onClick={this.toggleOpen} open={isOpen}/>
-                ) : (
-                  <div
-                    style={{ width: 16, height: 16, marginRight: '0.25rem' }}
-                  />
-                )}
-                <IconContainer>
-                  <Icon/>
-                </IconContainer>
-                <ItemName>{name}</ItemName>
-              </UsedContainer>
+  return (
+    <Route path={path}>
+      {res => {
+        const isActive = (res.match && res.match.isExact) || active
+        const isOpen = open === undefined ? isActive : open
 
-              {children && (
-                <Animate
-                  transitionOnMount
-                  style={{
-                    height: 'auto',
-                    overflow: 'hidden',
-                  }}
-                  start={{
-                    height: 0, // The starting style for the component.
-                    // If the 'leave' prop isn't defined, 'start' is reused!
-                  }}
-                  show={isOpen}
-                  duration={250}
-                  stayMounted={false}
-                >
-                  {children}
-                </Animate>
+        if (
+          (res.match || isActive) &&
+          open === undefined &&
+          children
+        ) {
+          setOpen(true)
+        }
+        return (
+          <>
+            <UsedContainer
+              style={style}
+              to={path}
+              exact
+              active={isActive ? 'active' : ''}
+              {...rest}
+            >
+              {children ? (
+                <AnimatedChevron onClick={toggleOpen} open={isOpen}/>
+              ) : (
+                <div
+                  style={{ width: 16, height: 16, marginRight: '0.25rem' }}
+                />
               )}
-            </>
-          )
-        }}
-      </Route>
-    )
-  }
+              <IconContainer>
+                <Icon/>
+              </IconContainer>
+              <ItemName>{name}</ItemName>
+            </UsedContainer>
+
+            {children && (
+              <Animate
+                transitionOnMount
+                style={{
+                  height: 'auto',
+                  overflow: 'hidden',
+                }}
+                start={{
+                  height: 0, // The starting style for the component.
+                  // If the 'leave' prop isn't defined, 'start' is reused!
+                }}
+                show={isOpen}
+                duration={250}
+                stayMounted={false}
+              >
+                {children}
+              </Animate>
+            )}
+          </>
+        )
+      }}
+    </Route>
+  )
+
 }

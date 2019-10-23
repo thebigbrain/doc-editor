@@ -1,8 +1,10 @@
+const path = require('path')
 const Transformer = require('./transformer')
 
 class Parser {
   constructor(project) {
-    this.transformer = new Transformer(project)
+    this.prefix = `${project}/`
+    this.transformer = new Transformer(this.prefix)
     this.cache = new Map()
   }
 
@@ -15,21 +17,22 @@ class Parser {
     this.cache.set(id, data)
   
     result.deps.forEach(d => {
-      if (isProjectJs(d)) {
+      if (this.isProjectJs(d)) {
         this.parse(d)
       }
     })
   
     return this.cache
   }
-}
 
-function isProjectJs(file) {
-  return /^~\//.test(file)
+  isProjectJs(file) {
+    return /^~\//.test(file) || file.startsWith(this.prefix)
+  }
 }
 
 function isJsFile(file) {
-  return !/\.css$/.test(file)
+  let {ext} = path.parse(file)
+  return !ext || ext === '.js'
 }
 
 module.exports = Parser

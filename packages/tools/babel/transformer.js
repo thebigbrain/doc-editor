@@ -6,8 +6,8 @@ const generate = require('@babel/generator').default
 
 const debug = require('../common/debug')
 
-const root = Path.resolve('.')
-const prefix = '~/'
+const ROOT = Path.resolve('.')
+const PREFIX = '~/'
 
 function readJsFile(filename) {
   return fs.readFileSync(filename)
@@ -22,14 +22,16 @@ function padJsPostfix(file) {
 }
 
 class Transformer {
-  constructor(project) {
-    // this.prefix = `${project}/`
+  constructor(prefix) {
+    this.prefix = prefix
     this.deps = []
   }
 
   resolve(name) {
-    if (name.startsWith(prefix)) {
-      return name.substring(prefix.length)
+    if (name.startsWith(this.prefix)) {
+      return name.substring(this.prefix.length)
+    } else if (name.startsWith(PREFIX)) {
+      return name.substring(PREFIX.length)
     }
     return name
   }
@@ -38,7 +40,7 @@ class Transformer {
     this.deps = []
   
     filename = this.resolve(filename)
-    filename = resolved ? filename : require.resolve(Path.resolve(root, filename))
+    filename = resolved ? filename : require.resolve(Path.resolve(ROOT, filename))
   
     let code = readJsFile(filename)
     let result = this.transformJs(code, filename)
@@ -67,6 +69,9 @@ class Transformer {
           if (/^\./i.test(file)) {
             let resource = Path.resolve(currentFile, '..', file)
             args[0].value = this.processJs(resource)
+          } else if(file.startsWith('~/')) {
+            let resource = Path.resolve(ROOT, file.substring(2))
+            args[0].value = this.processJs(resource)
           } else {
             this.deps.push(file)
           }
@@ -79,10 +84,10 @@ class Transformer {
 
   processJs(resource) {
     resource = require.resolve(resource)
-    resource = Path.relative(root, resource)
+    resource = Path.relative(ROOT, resource)
     resource = Path.normalize(resource)
-    debug(`${prefix}${resource}`.replace(/\\/g, '/'))
-    let id = padJsPostfix(`${prefix}${resource}`.replace(/\\/g, '/'))
+    debug(`${this.prefix}${resource}`.replace(/\\/g, '/'))
+    let id = padJsPostfix(`${this.prefix}${resource}`.replace(/\\/g, '/'))
     this.deps.push(id)
     return id
   }

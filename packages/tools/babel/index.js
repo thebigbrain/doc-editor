@@ -10,9 +10,11 @@ program
   .usage('[OPTIONS]')
   .option('-e, --entry <entry>', 'entry file')
   .option('-n, --name <name>', 'module name')
+  .option('-d, --directory <directory>', 'process all files in directory recursively')
   .parse(process.argv)
 
 const filename = program.entry
+const directory = program.directory
 const moduleName = program.name
 const parser = new Parser(moduleName)
 
@@ -29,39 +31,31 @@ async function handleAll(db) {
 async function insertProject(db, graph) {
   const c = db.collection('projects')
   try {
-    // let deps = new Set()
-    // for (let v of graph.values()) {
-    //   v.deps.forEach(d => {
-    //     deps.add(d)
-    //   })
-    // }
-
-    const r = await c.insertOne({
+    const query = {name: moduleName}
+    const newValues = {$set: {
       name: moduleName,
       entry: filename,
       graph: Array.from(graph.values()).map(v => ({id: v.id, deps: v.deps})),
-      // deps: Array.from(deps),
-    })
+    }}
+    const r = await c.updateOne(query, newValues, {upsert: true})
     console.log(`project inserted`)
   } catch (e) {
     console.error(e)
   }
 }
 
-function fix(v, name = '') {
-  let id = v.id
-  if (name && (/^~\//.test(id) || id === filename)) v.project =  name
-  return v
-}
-
-async function insertModules(db, graph) {
+function insertModules(db, graph) {
   const c = db.collection('modules')
-  try {
-    const r = await c.insertMany(Array.from(graph.values()).map(v => fix(v, moduleName)))
-    console.log(`Number of documents inserted: ${r.insertedCount}, total ${graph.size}`)
-  } catch (e) {
-    console.error(e)
-  }
+
+    let promises = Array.from(graph.values()).map(async v => {
+      if (!v.id.startsWith(moduleName) && v.id !== '.') v.id = '.'
+      v.project = moduleName
+      const query = {id: v.id, project: v.project}
+      const newValues = {$set: v}
+      await c.updateOne(query, newValues, {upsert: true})
+    })
+
+    return Promise.all(promises).catch(console.error)
 }
 
 async function queryModules(db, graph) {

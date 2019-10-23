@@ -329,8 +329,8 @@ function SandboxGridComponent(props) {
   const { selectedSandboxes } = state.dashboard
   let sandboxCount = sandboxes.length
 
-  isDragging = state.dashboard.isDragging
-  selectedSandboxesObject = {}
+  let isDragging = state.dashboard.isDragging
+  let selectedSandboxesObject = {}
   // Create an object to make it O(1)
   selectedSandboxes.forEach(id => {
     selectedSandboxesObject[id] = true
@@ -345,12 +345,12 @@ function SandboxGridComponent(props) {
             sandboxCount += 1
           }
 
-          const columnCount = Math.max(
+          let columnCount = Math.max(
             1,
             Math.floor(width / (BASE_WIDTH + PADDING)),
           )
-          const rowCount = Math.ceil(sandboxCount / columnCount)
-          const columnWidth = width / columnCount
+          let rowCount = Math.ceil(sandboxCount / columnCount)
+          let columnWidth = width / columnCount
           columnCount = columnCount
 
           if (IS_TABLE) {

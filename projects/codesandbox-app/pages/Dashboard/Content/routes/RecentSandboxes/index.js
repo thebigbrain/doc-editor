@@ -11,7 +11,7 @@ const RecentSandboxes = (props) => {
   const {state} = useOvermind()
   const [loading, setLoading] = React.useState(true)
 
-  const sandboxes = state.user.sandboxes || []
+  const sandboxes = state.user && state.user.sandboxes || []
 
   let mostUsedTemplate = null
   try {

@@ -20,10 +20,9 @@ debug('parsing ...')
 const graph = parser.parse(filename)
 debug('parsed')
 
-
 async function handleAll(db) {
-  // await insertModules(db, graph)
-  // await queryModules(db, graph)
+  await insertModules(db, graph)
+  await queryModules(db, graph)
   await insertProject(db, graph)
 }
 
@@ -52,7 +51,6 @@ async function insertProject(db, graph) {
 function fix(v, name = '') {
   let id = v.id
   if (name && (/^~\//.test(id) || id === filename)) v.project =  name
-  delete v.out
   return v
 }
 

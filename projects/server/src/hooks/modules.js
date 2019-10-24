@@ -1,8 +1,19 @@
-exports.notfound = function (option) {
+exports.beforeFind = function (option) {
   return async (context) => {
-    const {service, result, params} = context
+    const {service, params} = context
 
-    console.log(params, result)
+    try {
+      let r = await service.Model.findOne({
+        id: {
+          $regex: params.query.id.toString()
+        }
+      })
+      if (r != null) {
+        context.result = {total: 1, data: [r]}
+      }
+    } catch (e) {
+      console.error(e)
+    }
 
     return context
   }

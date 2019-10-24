@@ -11,7 +11,8 @@
     "build:dev": "yarn build",
     "clean": "rimraf lib",
     "prepublish": "yarn build",
-    "start": "yarn build:dev --watch"
+    "start": "yarn build:dev --watch",
+    "babel:build": "node ../../packages/tools/babel -d ./lib -n @csb/common"
   },
   "dependencies": {
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",

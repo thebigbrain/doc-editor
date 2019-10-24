@@ -1,38 +1,30 @@
-const path = require('path')
 const Transformer = require('./transformer')
 
 class Parser {
   constructor(project) {
-    this.prefix = `${project}/`
-    this.transformer = new Transformer(this.prefix)
-    this.cache = new Map()
+    this.transformer = new Transformer(project)
+    this.cache = null
   }
 
-  parse(id) {
-    if (this.cache.has(id) || !isJsFile(id)) return
-    
-    let result = this.transformer.transform(id)
-    let data = {id, deps: result.deps, code: result.code}
-  
-    this.cache.set(id, data)
-  
+  parse(filename, cache = null) {
+    if (this.cache == null) {
+      this.cache = cache instanceof Map ? cache : new Map()
+    }
+
+    if (this.cache.has(filename)) return
+
+    let result = this.transformer.transform(filename)
+
+    this.cache.set(filename, result)
+
     result.deps.forEach(d => {
-      if (this.isProjectJs(d)) {
+      if (this.transformer.isProjectJs(d)) {
         this.parse(d)
       }
     })
-  
+
     return this.cache
   }
-
-  isProjectJs(file) {
-    return /^~\//.test(file) || file.startsWith(this.prefix)
-  }
-}
-
-function isJsFile(file) {
-  let {ext} = path.parse(file)
-  return !ext || ext === '.js'
 }
 
 module.exports = Parser

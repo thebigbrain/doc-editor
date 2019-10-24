@@ -9,7 +9,12 @@ const debug = require('../common/debug')
 const ROOT = Path.resolve('.')
 const PREFIX = '~/'
 
-function readJsFile(filename) {
+function isJsFile(file) {
+  let {ext} = Path.parse(file)
+  return !ext || ext === '.js'
+}
+
+function readFile(filename) {
   return fs.readFileSync(filename)
 }
 
@@ -22,8 +27,8 @@ function padJsPostfix(file) {
 }
 
 class Transformer {
-  constructor(prefix) {
-    this.prefix = prefix
+  constructor(project) {
+    this.prefix = `${project}/`
     this.deps = []
   }
 
@@ -38,23 +43,30 @@ class Transformer {
 
   transform(filename, resolved = false) {
     this.deps = []
-  
+
     filename = this.resolve(filename)
-    filename = resolved ? filename : require.resolve(Path.resolve(ROOT, filename))
-  
-    let code = readJsFile(filename)
-    let result = this.transformJs(code, filename)
-  
-    return {
-      code: result.code,
-      deps: this.deps
+    filename = require.resolve(Path.resolve(ROOT, filename))
+
+    let id = this.processJs(filename)
+    let code = readFile(filename)
+    let type = 'js'
+
+    if (isJsFile(filename)) {
+      let result = this.transformJs(code, filename)
+      code = result.code
+    } else {
+      const {ext} = Path.parse(filename)
+      type = ext.substr(1)
+      code = code.toString()
     }
+
+    return {id, code, deps: this.deps, type}
   }
 
   transformJs(code, currentFile) {
     let result = babel.transform(code.toString(), {
-      ast: true, 
-      code: false, 
+      ast: true,
+      code: false,
       root: Path.resolve(__dirname)
     })
     traverse(result.ast, {
@@ -64,32 +76,40 @@ class Transformer {
       CallExpression: (path) => {
         if (path.node.callee.name === 'require') {
           const args = path.node.arguments
-          const file = args[0].value
-  
+          let file = args[0].value
+
           if (/^\./i.test(file)) {
             let resource = Path.resolve(currentFile, '..', file)
-            args[0].value = this.processJs(resource)
+            file = this.processJs(resource)
           } else if(file.startsWith('~/')) {
             let resource = Path.resolve(ROOT, file.substring(2))
-            args[0].value = this.processJs(resource)
-          } else {
-            this.deps.push(file)
+            file = this.processJs(resource)
           }
+
+          this.deps.push(file)
+          args[0].value = file
         }
       }
     })
-  
+
     return generate(result.ast)
   }
 
   processJs(resource) {
     resource = require.resolve(resource)
+    let id = this.processResourceName(resource)
+    debug(id)
+    return id
+  }
+
+  processResourceName(resource) {
     resource = Path.relative(ROOT, resource)
     resource = Path.normalize(resource)
-    debug(`${this.prefix}${resource}`.replace(/\\/g, '/'))
-    let id = padJsPostfix(`${this.prefix}${resource}`.replace(/\\/g, '/'))
-    this.deps.push(id)
-    return id
+    return `${this.prefix}${resource}`.replace(/\\/g, '/')
+  }
+
+  isProjectJs(file) {
+    return file.startsWith(PREFIX) || file.startsWith(this.prefix)
   }
 }
 

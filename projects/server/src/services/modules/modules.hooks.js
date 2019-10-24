@@ -1,10 +1,10 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const {notfound} = require('../../hooks/modules')
+const {beforeFind} = require('../../hooks/modules')
 
 module.exports = {
   before: {
     all: [],
-    find: [],
+    find: [beforeFind()],
     get: [],
     create: [authenticate('jwt')],
     update: [authenticate('jwt')],

@@ -1,8 +1,10 @@
 const commander = require('commander')
-const Parser = require('./parser')
-const mongo = require('../common/mongo')
+const path = require('path')
 
+const Parser = require('./parser')
 const debug = require('../common/debug')
+const mongoHandle = require('./mongo-handler')
+const {parseFiles} = require('./publish')
 
 const program = new commander.Command()
 program
@@ -14,62 +16,24 @@ program
   .parse(process.argv)
 
 const filename = program.entry
-const directory = program.directory
 const moduleName = program.name
-const parser = new Parser(moduleName)
+const directory = program.directory
 
-debug('parsing ...')
-const graph = parser.parse(filename)
-debug('parsed')
 
-async function handleAll(db) {
-  await insertModules(db, graph)
-  await queryModules(db, graph)
-  await insertProject(db, graph)
-}
+async function start() {
+  const parser = new Parser(moduleName)
 
-async function insertProject(db, graph) {
-  const c = db.collection('projects')
-  try {
-    const query = {name: moduleName}
-    const newValues = {$set: {
-      name: moduleName,
-      entry: filename,
-      graph: Array.from(graph.values()).map(v => ({id: v.id, deps: v.deps})),
-    }}
-    const r = await c.updateOne(query, newValues, {upsert: true})
-    console.log(`project inserted`)
-  } catch (e) {
-    console.error(e)
+  debug('parsing ...')
+  let graph = filename && parser.parse(filename)
+  if (graph == null) {
+    graph = await parseFiles(parser, directory)
+    // debug(Array.from(graph.keys()))
   }
+  debug('parsed')
+
+  // graph = null
+
+  mongoHandle(moduleName, graph)
 }
 
-function insertModules(db, graph) {
-  const c = db.collection('modules')
-
-    let promises = Array.from(graph.values()).map(async v => {
-      if (!v.id.startsWith(moduleName) && v.id !== '.') v.id = '.'
-      v.project = moduleName
-      const query = {id: v.id, project: v.project}
-      const newValues = {$set: v}
-      await c.updateOne(query, newValues, {upsert: true})
-    })
-
-    return Promise.all(promises).catch(console.error)
-}
-
-async function queryModules(db, graph) {
-  const c = db.collection('modules')
-  const result = await c.find().toArray()
-  console.log(result.length, graph.size)
-}
-
-mongo().then(async client => {
-  const db = client.db('doc-editor')
-  try {
-    await handleAll(db)
-  } catch(e) {
-    console.error(e)
-  }
-  client.close()
-})
+(async () => await start())()

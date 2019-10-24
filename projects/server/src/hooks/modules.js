@@ -1,15 +1,27 @@
+async function pipe(queries = [], fetch) {
+  for (let query of queries) {
+    let r = await fetch(query)
+    if (r != null) return r
+  }
+
+  return null
+}
+
 exports.beforeFind = function (option) {
   return async (context) => {
     const {service, params} = context
 
     try {
-      let r = await service.Model.findOne({
-        id: {
-          $regex: params.query.id.toString()
-        }
-      })
+      let id = params.query.id
+      if (id.endsWith('.js')) return context
+
+      let r = await pipe(
+        [{id}, {id: `${id}.js`}, {id: `${id}/index`}, {id: `${id}/index.js`}],
+        async (query) => await service.Model.findOne(query)
+      )
+
       if (r != null) {
-        context.result = {total: 1, data: [r]}
+        context.dispatch = {total: 1, data: [r], skip: 0}
       }
     } catch (e) {
       console.error(e)

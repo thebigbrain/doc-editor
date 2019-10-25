@@ -6,6 +6,7 @@ const notifications = require('./notifications/notifications.service.js');
 const messages = require('./messages/messages.service.js');
 const templates = require('./templates/templates.service.js');
 const projects = require('./projects/projects.service.js');
+const contracts = require('./contracts/contracts.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -16,4 +17,5 @@ module.exports = function (app) {
   app.configure(messages);
   app.configure(templates);
   app.configure(projects);
+  app.configure(contracts);
 }

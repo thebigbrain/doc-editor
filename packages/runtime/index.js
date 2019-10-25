@@ -1,20 +1,44 @@
-import Isolate from './isolate';
+import Isolate from "./lib/isolate";
+
+async function doFetch(params, cls) {
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  };
+  const r = await window.fetch(
+    `http://localhost:3030/${cls}${utils.urlSearchStringify(params)}`,
+    {
+      headers
+    }
+  );
+  return await r.json();
+}
+
+async function fetchProject(name) {
+  let res = await doFetch({ name }, "projects");
+  return res.data[0];
+}
 
 class Fetcher {
   constructor(project) {
     this.project = project;
   }
 
-  async fetch(m) {
-    let r = await doFetch({ project: this.project, id: m.id }, "modules");
+  async fetch(id, project = null) {
+    let query = { id };
+    if (project != null) query.project = project;
+    let r = await doFetch(query, "modules");
     return r.data[0];
   }
 }
 
+function onMiss(id) {
+  console.log(id)
+}
+
 (async function main() {
-  let iso = new Isolate(new Fetcher('@csb/app'));
-
-  const modules = window.__COMPONENTS_REPO_COMPONENTS_DEPENDENCY_GRAPH || [];
-
-  await iso.loadModules(modules);
+  const name = "@csb/app";
+  let iso = new Isolate(new Fetcher(name), { onMiss });
+  let p = await fetchProject(name);
+  iso.loadModules(...p.graph);
 })();

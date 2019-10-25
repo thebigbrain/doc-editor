@@ -2,8 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "yarn lerna bootstrap --npm-client=yarn",
-    "start:cs-app": "yarn lerna run start --scope @csb/app --scope @muggle/server --parallel"
+    "postinstall": "lerna bootstrap",
+    "start:cs-app": "lerna run start --scope @csb/app --scope @muggle/server --parallel"
   },
   "devDependencies": {
     "lerna": "^3.16.4"

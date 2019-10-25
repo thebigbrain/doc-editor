@@ -8,7 +8,7 @@
     "config": "config/"
   },
   "scripts": {
-    "test": "yarn run eslint && yarn run jest",
+    "test": "npm run eslint && npm run jest",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "nodemon src/",
     "serve": "node src/",

@@ -4,12 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node ./index.js",
-    "build": "yarn clean && yarn babel --root-mode upward src -d lib --copy-files",
-    "build:dev": "yarn build",
-    "clean": "rimraf lib",
-    "prepublish": "yarn build",
-    "babel:build": "node ../../packages/tools/babel -d ./lib -n @csb/common"
+    "start": "babel-node ./index.js"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"

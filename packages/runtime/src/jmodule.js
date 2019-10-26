@@ -10,6 +10,7 @@ class JModule {
   }
 
   instantiate() {
+    if (typeof window === 'undefined') return
     // eslint-disable-next-line
     let fn = new Function('module', 'exports', 'require', `${this.code}`);
     fn(this, this.exports, this.require);

@@ -4,5 +4,5 @@
     "projects/*"
   ],
   "version": "independent",
-  "npmClient": "npm"
+  "npmClient": "yarn"
 }

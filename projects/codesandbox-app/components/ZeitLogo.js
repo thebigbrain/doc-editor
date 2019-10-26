@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   IconBase
-} from 'react-icons';
+} from '@muggle/icons';
 
 export const ZeitLogo = props => (
   <IconBase viewBox="0 0 226 200" {...props}>
@@ -13,13 +13,13 @@ export const ZeitLogo = props => (
         y2="50%"
         id="l1"
       >
-        <stop style={{ stopColor: '#000' }} offset="0%"/>
-        <stop style={{ stopColor: '#fff' }} offset="100%"/>
+        <stop style={{ stopColor: '#000' }} offset="0%" />
+        <stop style={{ stopColor: '#fff' }} offset="100%" />
       </linearGradient>
     </defs>
     <g stroke="none" strokeWidth="1" fillRule="evenodd">
       <g transform="translate(-141.000000, -156.000000)" fill="url(#l1)">
-        <polygon points="254 156.459299 367 356 141 356 "/>
+        <polygon points="254 156.459299 367 356 141 356 " />
       </g>
     </g>
   </IconBase>

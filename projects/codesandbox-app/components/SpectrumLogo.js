@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   IconBase
-} from 'react-icons';
+} from '@muggle/icons';
 
 export const SpectrumLogo = props => (
   <IconBase

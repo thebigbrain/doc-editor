@@ -84,6 +84,8 @@ class Transformer {
           } else if(file.startsWith('~/')) {
             let resource = Path.resolve(ROOT, file.substring(2))
             file = this.processJs(resource)
+          } else {
+            // debug(file)
           }
 
           this.deps.push(file)
@@ -98,7 +100,7 @@ class Transformer {
   processJs(resource) {
     resource = require.resolve(resource)
     let id = this.processResourceName(resource)
-    debug(id)
+    // debug(id)
     return id
   }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   IconBase
-} from 'react-icons';
+} from '@muggle/icons';
 
 export const GitHubLogo = props => (
   <IconBase viewBox="0 0 40 40" {...props}>

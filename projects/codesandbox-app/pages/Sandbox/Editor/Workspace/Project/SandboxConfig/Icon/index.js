@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { usePopoverState } from 'reakit/Popover'
 import * as templates from '@csb/common/lib/templates'
-import * as Icons from '@codesandbox/template-icons'
+import * as Icons from '@codesandbox/template-icons/dist-web/index'
 import getIcon from '@csb/common/lib/templates/icons'
 import { Item, PropertyName } from '../../elements'
 import { Arrow, Button, IconButton, IconWrapper, List, Value } from './elements'

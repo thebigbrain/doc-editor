@@ -1,4 +1,4 @@
-import Isolate from "./src/isolate";
+import Isolate from "./src/isolate"
 
 async function doFetch(params, cls) {
   const headers = {

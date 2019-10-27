@@ -1,4 +1,4 @@
-import files from 'buffer-loader!./files.zip'; // eslint-disable-line import/no-webpack-loader-syntax
+import files from './files.zip'; // eslint-disable-line import/no-webpack-loader-syntax
 import { createFile, createDirectoryWithFiles } from '..';
 
 export default function createZip(

@@ -23,24 +23,24 @@ const directory = program.directory
 const misses = program.misses
 
 async function start() {
-  const parser = new Parser(moduleName)
+  const graph = new Map()
+  const parser = new Parser(moduleName, graph)
 
   debug('parsing ...')
-  let graph = null
 
   if (filename) {
-    graph = parser.parse(filename)
+    parser.parse(filename)
   } else if (directory) {
-    graph = await parseFiles(parser, directory)
+    await parseFiles(parser, directory, graph)
   } else if (misses) {
     // graph = await installMisses()
   }
 
   debug('parsed')
 
-  graph = null
+  graph.clear()
 
-  mongoHandle(moduleName, graph)
+  if (graph.size) mongoHandle(moduleName, graph)
 }
 
 (async () => await start())()

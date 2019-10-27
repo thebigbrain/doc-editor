@@ -27,9 +27,10 @@ function padJsPostfix(file) {
 }
 
 class Transformer {
-  constructor(project) {
+  constructor(project, root = null) {
     this.prefix = `${project}/`
     this.deps = []
+    this.root = root || Path.resolve('.')
   }
 
   resolve(name) {
@@ -41,11 +42,11 @@ class Transformer {
     return name
   }
 
-  transform(filename, resolved = false) {
+  transform(filename) {
     this.deps = []
 
     filename = this.resolve(filename)
-    filename = require.resolve(Path.resolve(ROOT, filename))
+    filename = require.resolve(Path.resolve(this.root, filename))
 
     let id = this.processJs(filename)
     let code = readFile(filename)
@@ -82,7 +83,7 @@ class Transformer {
             let resource = Path.resolve(currentFile, '..', file)
             file = this.processJs(resource)
           } else if(file.startsWith('~/')) {
-            let resource = Path.resolve(ROOT, file.substring(2))
+            let resource = Path.resolve(this.root, file.substring(2))
             file = this.processJs(resource)
           } else {
             // debug(file)
@@ -105,7 +106,7 @@ class Transformer {
   }
 
   processResourceName(resource) {
-    resource = Path.relative(ROOT, resource)
+    resource = Path.relative(this.root, resource)
     resource = Path.normalize(resource)
     return `${this.prefix}${resource}`.replace(/\\/g, '/')
   }

@@ -88,6 +88,14 @@ const clientConfig = {
           },
         ],
       },
+      {
+        test: /\.(zip|gz)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [

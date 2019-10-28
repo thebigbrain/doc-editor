@@ -21,7 +21,7 @@ function padJsPostfix(file) {
 
 class Transformer {
   constructor(project) {
-    this.prefix = `${project}`
+    this.prefix = project
     this.deps = []
     this.root = Path.resolve('.')
   }
@@ -50,7 +50,9 @@ class Transformer {
     let type = 'js'
 
     if (isJsFile(filename)) {
-      let result = this.transformJs(code, filename)
+      let filedir = Path.dirname(filename)
+      if (filedir === '.') filedir = filename
+      let result = this.transformJs(code, filedir)
       code = result.code
     } else {
       const {ext} = Path.parse(filename)
@@ -61,7 +63,7 @@ class Transformer {
     return {id, code, deps: this.deps, type}
   }
 
-  transformJs(code, currentFile) {
+  transformJs(code, filedir) {
     let result = babel.transform(code.toString(), {
       ast: true,
       code: false,
@@ -77,7 +79,7 @@ class Transformer {
           let file = args[0].value
 
           if (/^\./i.test(file)) {
-            file = Path.join(currentFile, '..', file)
+            file = Path.join(filedir, file)
           } else if(file.startsWith('~/')) {
             file = this.resolve(file)
           } else {
@@ -91,6 +93,10 @@ class Transformer {
     })
 
     return generate(result.ast)
+  }
+
+  isInProject(name) {
+    return name.startsWith(this.prefix)
   }
 }
 

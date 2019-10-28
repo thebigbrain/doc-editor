@@ -1,4 +1,4 @@
-const path = require('path')
+const Path = require('path')
 const fs = require('fs')
 const Transformer = require('./transformer')
 const debug = require('../common/debug')
@@ -8,7 +8,7 @@ const skip = (...args) => {
 }
 
 const resolveModules = [
-  path.resolve('.'),
+  Path.resolve('.'),
 ]
 
 function isSymLink(filename) {
@@ -21,11 +21,44 @@ function isRuntimeDeps(filename) {
     || filename === 'path'
 }
 
+function findPackage(entry) {
+  let stats = fs.lstatSync(entry)
+  let dir = Path.resolve(entry)
+  if (stats.isFile()) {
+    dir = Path.dirname(entry)
+  }
+  let name = Path.resolve(dir, 'package.json')
+  while(true) {
+    if (fs.existsSync(name)) {
+      let pkg = JSON.parse(fs.readFileSync(name).toString('utf-8'))
+      return {pkg, root: Path.resolve(dir)}
+    }
+
+    let prev = dir
+    dir = Path.dirname(dir)
+    if (prev === dir) return null
+    name = Path.resolve(dir, 'package.json')
+  }
+}
+
+function parseProjectInfo(entry) {
+  let pkg = findPackage(entry)
+  if (pkg == null) throw `Invalid project: ${entry}`
+  let {root, pkg: {name}} = pkg
+debug(root, name)
+  return {name, root}
+}
+
 class BaseParser {
-  constructor(project, cache) {
-    this.transformer = new Transformer(project)
+  constructor(entry, cache) {
+    this.projectInfo = parseProjectInfo(entry)
+    this.transformer = new Transformer(this._moduleName)
     this.cache = cache
     this.skipped = new Set()
+  }
+
+  get moduleName() {
+    return this.projectInfo.name
   }
 
   parse(filename) {
@@ -45,7 +78,11 @@ class BaseParser {
           }
           return
         }
-        this.parse(d)
+        if (this.transformer.isInProject(d)) {
+          this.parse(d)
+        } else {
+          debug(d)
+        }
       } catch(e) {
         debug(result.id, '  ', d, '\t', e.message)
       }
@@ -57,4 +94,10 @@ class Parser extends BaseParser {
 
 }
 
-module.exports = Parser
+module.exports = {
+  Parser
+};
+
+(async () => {
+  parseProjectInfo('../../icons')
+})()

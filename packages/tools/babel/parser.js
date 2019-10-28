@@ -23,7 +23,8 @@ function isRuntimeDeps(filename) {
 
 function findPackage(entry) {
   let stats = fs.lstatSync(entry)
-  let dir = Path.resolve(entry)
+  let dir = entry = Path.resolve(entry)
+
   if (stats.isFile()) {
     dir = Path.dirname(entry)
   }
@@ -31,7 +32,8 @@ function findPackage(entry) {
   while(true) {
     if (fs.existsSync(name)) {
       let pkg = JSON.parse(fs.readFileSync(name).toString('utf-8'))
-      return {pkg, root: Path.resolve(dir)}
+      let root = Path.resolve(dir)
+      return {pkg, root, entry: Path.relative(root, entry)}
     }
 
     let prev = dir
@@ -45,7 +47,7 @@ function parseProjectInfo(entry) {
   let pkg = findPackage(entry)
   if (pkg == null) throw `Invalid project: ${entry}`
   let {root, pkg: {name}} = pkg
-debug(root, name)
+
   return {name, root}
 }
 
@@ -99,5 +101,5 @@ module.exports = {
 };
 
 (async () => {
-  parseProjectInfo('../../icons')
+  parseProjectInfo('../../icons/lib/icons.js')
 })()

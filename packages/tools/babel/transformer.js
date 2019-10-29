@@ -4,7 +4,14 @@ const babel = require("@babel/core")
 const traverse = require('@babel/traverse').default
 const generate = require('@babel/generator').default
 
+const {resolve} = require('./resolver')
 const debug = require('../common/debug')
+
+const babelTransformOption = {
+  ast: true,
+  code: false,
+  root: Path.resolve(__dirname)
+}
 
 function isJsFile(file) {
   let {ext} = Path.parse(file)
@@ -20,39 +27,28 @@ function padJsPostfix(file) {
 }
 
 class Transformer {
-  constructor(project) {
-    this.prefix = project
+  constructor(name, root, modulePaths = []) {
+    this.prefix = name
     this.deps = []
-    this.root = Path.resolve('.')
+    this.root = root
+    this.modulePaths = modulePaths
   }
 
-  readFile(filename) {
-    if (filename.startsWith(this.prefix)) filename = Path.join(this.root, filename.replace(this.prefix, ''))
-    let file = require.resolve(filename, {paths: [this.root]})
-    // debug('read file:', filename, file)
-    return fs.readFileSync(file)
-  }
-
-  resolve(name) {
-    if (name.startsWith('.')) name = Path.join(this.prefix, name)
-    if (name.startsWith('~')) name = name.replace('~', this.prefix)
-    return name.replace(/\\/g, '/')
+  resolve(filename) {
+    if (filename.startsWith(this.prefix + '/')) filename = Path.resolve(this.root, filename.replace(this.prefix, '.'))
+    return resolve(filename, {paths: this.modulePaths})
   }
 
   transform(filename) {
     this.deps = []
 
-    filename = this.resolve(filename)
-    // debug('enter:', filename)
-
     let id = filename
-    let code = this.readFile(filename)
+    filename = this.resolve(filename)
+    let code = fs.readFileSync(filename)
     let type = 'js'
 
     if (isJsFile(filename)) {
-      let filedir = Path.dirname(filename)
-      if (filedir === '.') filedir = filename
-      let result = this.transformJs(code, filedir)
+      let result = this.transformJs(code, filename)
       code = result.code
     } else {
       const {ext} = Path.parse(filename)
@@ -63,12 +59,8 @@ class Transformer {
     return {id, code, deps: this.deps, type}
   }
 
-  transformJs(code, filedir) {
-    let result = babel.transform(code.toString(), {
-      ast: true,
-      code: false,
-      root: Path.resolve(__dirname)
-    })
+  transformJs(code, filename) {
+    let result = babel.transform(code.toString(), babelTransformOption)
     traverse(result.ast, {
       enter: (path) => {
         // console.log(path.node.type)
@@ -79,9 +71,9 @@ class Transformer {
           let file = args[0].value
 
           if (/^\./i.test(file)) {
-            file = Path.join(filedir, file)
+            file = Path.resolve(Path.dirname(filename), file).replace(this.root, this.prefix).replace(/\\/g, '/')
           } else if(file.startsWith('~/')) {
-            file = this.resolve(file)
+            file = file.replace('~', this.prefix).replace(/\\/g, '/')
           } else {
             // debug(file)
           }

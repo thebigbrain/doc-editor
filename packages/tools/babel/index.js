@@ -28,7 +28,7 @@ async function start() {
   debug('parsing ...')
 
   if (filename) {
-    parser.parse(filename)
+    parser.parse()
   } else if (directory) {
     await parseFiles(parser, directory, graph)
   } else if (misses) {

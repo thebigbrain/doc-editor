@@ -1,105 +1,84 @@
 const Path = require('path')
-const fs = require('fs')
+
 const Transformer = require('./transformer')
 const debug = require('../common/debug')
+const { parseProjectInfo, getPackageName } = require('./resolver')
+const { isRuntimeDeps } = require('../common/utils')
 
-const skip = (...args) => {
-  debug('skip:', ...args)
-}
-
-const resolveModules = [
-  Path.resolve('.'),
-]
-
-function isSymLink(filename) {
-  let stat = fs.lstatSync(filename)
-  return stat.isSymbolicLink()
-}
-
-function isRuntimeDeps(filename) {
-  return new RegExp('^(core-js|\@babel\/runtime)').test(filename)
-    || filename === 'path'
-}
-
-function findPackage(entry) {
-  let stats = fs.lstatSync(entry)
-  let dir = entry = Path.resolve(entry)
-
-  if (stats.isFile()) {
-    dir = Path.dirname(entry)
-  }
-  let name = Path.resolve(dir, 'package.json')
-  while(true) {
-    if (fs.existsSync(name)) {
-      let pkg = JSON.parse(fs.readFileSync(name).toString('utf-8'))
-      let root = Path.resolve(dir)
-      return {pkg, root, entry: Path.relative(root, entry)}
-    }
-
-    let prev = dir
-    dir = Path.dirname(dir)
-    if (prev === dir) return null
-    name = Path.resolve(dir, 'package.json')
-  }
-}
-
-function parseProjectInfo(entry) {
-  let pkg = findPackage(entry)
-  if (pkg == null) throw `Invalid project: ${entry}`
-  let {root, pkg: {name}} = pkg
-
-  return {name, root}
-}
-
-class BaseParser {
-  constructor(entry, cache) {
-    this.projectInfo = parseProjectInfo(entry)
-    this.transformer = new Transformer(this._moduleName)
+class Parser {
+  constructor(filename, cache, modulePaths = []) {
+    const { name, root, entry } = parseProjectInfo(filename, [Path.resolve('.')])
+    modulePaths.push(root)
+    this.transformer = new Transformer(name, root, modulePaths)
     this.cache = cache
     this.skipped = new Set()
+
+    this.name = name
+    this.entry = entry
+    this.root = root
   }
 
   get moduleName() {
-    return this.projectInfo.name
+    return this.name
   }
 
-  parse(filename) {
-    if (this.cache.has(filename)) return
+  parse() {
+    let filename = this.entry
+    this.doParse(filename)
+  }
+
+  doParse(filename) {
+    if (this.cache.has(filename)) return null
 
     let result = this.transformer.transform(filename)
     this.cache.set(filename, result)
-
     // debug(result.deps)
+    if (result.deps && result.deps.length > 0) this.parseDeps(result)
+  }
 
+  parseDeps(result) {
     result.deps.forEach(d => {
+      if (this.cache.has(d)) return
+
       try {
-        if (isRuntimeDeps(d)) {
-          if (!this.skipped.has(d)) {
-            this.skipped.add(d)
-            // skip(d)
-          }
-          return
-        }
         if (this.transformer.isInProject(d)) {
-          this.parse(d)
+          this.parseProjectDeps(d)
         } else {
-          debug(d)
+          if (this.parseNodeModules) this.parseNodeModules(d, result.id)
         }
-      } catch(e) {
+      } catch (e) {
         debug(result.id, '  ', d, '\t', e.message)
       }
     })
   }
+
+  parseProjectDeps(filename) {
+    this.doParse(filename)
+  }
+
+  parseNodeModules(filename, parent) {
+    if (isRuntimeDeps(filename)) {
+      if (!this.skipped.has(filename)) {
+        this.skipped.add(filename)
+      }
+      return
+    }
+
+    // if (parent.startsWith(this.name)) debug(parent, this.root)
+
+    let parser = new Parser(filename, this.cache, [Path.resolve('.'), this.root])
+    parser.parse()
+  }
 }
 
-class Parser extends BaseParser {
-
-}
 
 module.exports = {
-  Parser
+  Parser,
 };
 
-(async () => {
-  parseProjectInfo('../../icons/lib/icons.js')
-})()
+// (async () => {
+//   let filename = 'react'
+//   filename = require.resolve('@csb/common/lib/version.js', {paths: [Path.resolve('../../../projects/codesandbox-app')]})
+//   debug(filename)
+//   debug(require('module').builtinModules)
+// })()

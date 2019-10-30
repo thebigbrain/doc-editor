@@ -4,7 +4,7 @@ const {beforeFind} = require('../../hooks/modules')
 module.exports = {
   before: {
     all: [],
-    find: [beforeFind()],
+    find: [],
     get: [],
     create: [authenticate('jwt')],
     update: [authenticate('jwt')],

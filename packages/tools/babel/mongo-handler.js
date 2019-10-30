@@ -7,13 +7,13 @@ module.exports = function(moduleName, graph = null) {
     await updateProject(db, graph)
   }
 
-  async function updateProject(db, graph, filename = '.') {
+  async function updateProject(db, graph, filename = null) {
     const c = db.collection('projects')
     try {
       const query = {name: moduleName}
       const newValues = {$set: {
           name: moduleName,
-          entry: filename,
+          entry: filename || moduleName,
           graph: Array.from(graph.values()).map(v => ({id: v.id, deps: v.deps})),
         }}
       const r = await c.updateOne(query, newValues, {upsert: true})
@@ -27,8 +27,6 @@ module.exports = function(moduleName, graph = null) {
     const c = db.collection('modules')
 
     let promises = Array.from(graph.values()).map(async v => {
-      if (!v.id.startsWith(moduleName) && v.id !== '.') v.id = '.'
-      v.project = moduleName
       const query = {id: v.id, project: v.project}
       const newValues = {$set: v}
       await c.updateOne(query, newValues, {upsert: true})

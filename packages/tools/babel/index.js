@@ -22,13 +22,12 @@ const misses = program.misses
 
 async function start() {
   const graph = new Map()
-  const parser = new Parser(filename, graph)
-  const moduleName = parser.moduleName
+  const parser = new Parser(graph)
 
   debug('parsing ...')
 
   if (filename) {
-    await parser.parse()
+    parser.parse(filename)
   } else if (directory) {
     await parseFiles(parser, directory, graph)
   } else if (misses) {
@@ -37,11 +36,12 @@ async function start() {
 
   debug('parsed')
 
-  // console.log(Array.from(graph.values()))
+  // console.log(Array.from(graph.values()).map(v => v.id))
 
-  graph.clear()
-
-  if (graph.size) mongoHandle(moduleName, graph)
+  // graph.clear()
+  const moduleName = parser.moduleName
+  console.log(graph.size)
+  if (graph.size > 0) mongoHandle(moduleName, graph)
 }
 
 (async () => await start())()

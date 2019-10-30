@@ -12,6 +12,9 @@ const presets = [
       corejs: 3
     },
   ],
+  // ["minify", {
+  //   builtIns: false
+  // }],
   [
     "@babel/preset-react",
   ]

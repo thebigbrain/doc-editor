@@ -31,23 +31,21 @@ class Transformer {
     this.prefix = name
     this.deps = []
     this.root = root
+    if (!modulePaths.includes(root)) modulePaths.push(root)
     this.modulePaths = modulePaths
   }
 
-  async resolve(filename) {
-    if (filename.startsWith(this.prefix + '/')) {
+  resolve(filename) {
+    if (filename === this.prefix || filename.startsWith(this.prefix + '/')) {
       filename = Path.resolve(this.root, filename.replace(this.prefix, '.'))
-    } else if (filename === this.prefix) {
-      filename = Path.resolve(this.root)
     }
-    return await resolve(filename, {paths: this.modulePaths})
+    return resolve(filename, {paths: this.modulePaths})
   }
 
-  async transform(filename) {
+  transform(id) {
     this.deps = []
 
-    let id = filename
-    filename = await this.resolve(filename)
+    let filename = this.resolve(id)
     let code = fs.readFileSync(filename)
     let type = 'js'
 
@@ -60,7 +58,7 @@ class Transformer {
       code = code.toString()
     }
 
-    return {id, code, deps: this.deps, type}
+    return {id, code, deps: this.deps, type, project: this.prefix}
   }
 
   transformJs(code, filename) {

@@ -9,5 +9,6 @@
     "lerna": "^3.16.4"
   },
   "dependencies": {
+    "utf-8-validate": "^5.0.2"
   }
 }

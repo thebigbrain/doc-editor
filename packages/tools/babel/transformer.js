@@ -34,16 +34,20 @@ class Transformer {
     this.modulePaths = modulePaths
   }
 
-  resolve(filename) {
-    if (filename.startsWith(this.prefix + '/')) filename = Path.resolve(this.root, filename.replace(this.prefix, '.'))
-    return resolve(filename, {paths: this.modulePaths})
+  async resolve(filename) {
+    if (filename.startsWith(this.prefix + '/')) {
+      filename = Path.resolve(this.root, filename.replace(this.prefix, '.'))
+    } else if (filename === this.prefix) {
+      filename = Path.resolve(this.root)
+    }
+    return await resolve(filename, {paths: this.modulePaths})
   }
 
-  transform(filename) {
+  async transform(filename) {
     this.deps = []
 
     let id = filename
-    filename = this.resolve(filename)
+    filename = await this.resolve(filename)
     let code = fs.readFileSync(filename)
     let type = 'js'
 

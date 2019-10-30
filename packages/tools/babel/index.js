@@ -28,7 +28,7 @@ async function start() {
   debug('parsing ...')
 
   if (filename) {
-    parser.parse()
+    await parser.parse()
   } else if (directory) {
     await parseFiles(parser, directory, graph)
   } else if (misses) {
@@ -36,6 +36,8 @@ async function start() {
   }
 
   debug('parsed')
+
+  // console.log(Array.from(graph.values()))
 
   graph.clear()
 

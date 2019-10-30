@@ -1,0 +1,3 @@
+[submodule "packages/enhanced-resolve"]
+	path = packages/enhanced-resolve
+	url = https://github.com/webpack/enhanced-resolve.git

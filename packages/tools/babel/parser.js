@@ -5,58 +5,64 @@ const debug = require('../common/debug')
 const { parseProjectInfo, getPackageName } = require('./resolver')
 const { isRuntimeDeps } = require('../common/utils')
 
+const resolvedPaths = Path.resolve('.')
+
 class Parser {
-  constructor(filename, cache, modulePaths = []) {
-    const { name, root, entry } = parseProjectInfo(filename, [Path.resolve('.')])
-    modulePaths.push(root)
-    this.transformer = new Transformer(name, root, modulePaths)
+  constructor(filename, cache, modulePaths = [resolvedPaths]) {
+    this.filename = filename
+    this.paths = modulePaths
     this.cache = cache
     this.skipped = new Set()
-
-    this.name = name
-    this.entry = entry
-    this.root = root
   }
 
   get moduleName() {
     return this.name
   }
 
-  parse() {
-    let filename = this.entry
-    this.doParse(filename)
+  async preParse() {
+    const { name, root, entry } = await parseProjectInfo(this.filename, this.paths)
+    this.transformer = new Transformer(name, root, this.paths)
+    this.name = name
+    return entry
   }
 
-  doParse(filename) {
+  async parse() {
+    let filename = await this.preParse()
+    await this.doParse(filename)
+  }
+
+  async doParse(filename) {
     if (this.cache.has(filename)) return null
 
-    let result = this.transformer.transform(filename)
+    let result = await this.transformer.transform(filename)
     this.cache.set(filename, result)
     // debug(result.deps)
-    if (result.deps && result.deps.length > 0) this.parseDeps(result)
+    if (result.deps && result.deps.length > 0) await this.parseDeps(result)
   }
 
   parseDeps(result) {
-    result.deps.forEach(d => {
+    let promises = result.deps.map(async d => {
       if (this.cache.has(d)) return
 
       try {
         if (this.transformer.isInProject(d)) {
           this.parseProjectDeps(d)
         } else {
-          if (this.parseNodeModules) this.parseNodeModules(d, result.id)
+          if (this.parseNodeModules) await this.parseNodeModules(d)
         }
       } catch (e) {
         debug(result.id, '  ', d, '\t', e.message)
       }
     })
+
+    return Promise.all(promises)
   }
 
   parseProjectDeps(filename) {
     this.doParse(filename)
   }
 
-  parseNodeModules(filename, parent) {
+  async parseNodeModules(filename) {
     if (isRuntimeDeps(filename)) {
       if (!this.skipped.has(filename)) {
         this.skipped.add(filename)
@@ -64,10 +70,8 @@ class Parser {
       return
     }
 
-    // if (parent.startsWith(this.name)) debug(parent, this.root)
-
-    let parser = new Parser(filename, this.cache, [Path.resolve('.'), this.root])
-    parser.parse()
+    let parser = new Parser(filename, this.cache, [].concat(this.paths))
+    await parser.parse()
   }
 }
 
@@ -75,10 +79,3 @@ class Parser {
 module.exports = {
   Parser,
 };
-
-// (async () => {
-//   let filename = 'react'
-//   filename = require.resolve('@csb/common/lib/version.js', {paths: [Path.resolve('../../../projects/codesandbox-app')]})
-//   debug(filename)
-//   debug(require('module').builtinModules)
-// })()

@@ -4,8 +4,8 @@ import { RightIcon, LeftIcon } from '@muggle/icons'
 import { Navigation } from '~/pages/common/Navigation'
 import { SignInButton } from '~/pages/common/SignInButton'
 
-import SidebarContents from './Sidebar/index'
-import Content from './Content/index'
+import SidebarContents from './Sidebar'
+import Content from './Content'
 import {
   Centered,
   Container,

@@ -3,8 +3,8 @@ import Helmet from 'react-helmet'
 import {useOvermind} from '@muggle/hooks'
 
 import getMostUsedTemplate from '../../../utils/get-most-used-template'
-import { Content as Sandboxes } from '../../Sandboxes/index'
-import CreateNewSandbox from '../../CreateNewSandbox/index'
+import { Content as Sandboxes } from '../../Sandboxes'
+import CreateNewSandbox from '../../CreateNewSandbox'
 
 
 const RecentSandboxes = (props) => {

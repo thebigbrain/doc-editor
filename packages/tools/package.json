@@ -22,6 +22,7 @@
     "enhanced-resolve": "^4.1.1",
     "html-webpack-plugin": "^3.2.0",
     "merge-deep": "^3.0.2",
+    "minio": "^7.0.12",
     "mkdirp": "^0.5.1",
     "mongodb": "^3.3.2",
     "recursive-readdir": "^2.2.2",

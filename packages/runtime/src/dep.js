@@ -54,6 +54,8 @@ export class DependencyCache {
     this.cache = new Map();
     this.depGraph = new Map();
     this.misses = new Set();
+
+    this.pendingModules = new Set()
   }
 
   init(modules = []) {
@@ -109,11 +111,16 @@ export class DependencyCache {
   }
 
   hasLoaded(mod) {
-    return this.cache.has(mod.id) || this.misses.has(mod.id);
+    return this.cache.has(mod.id) || this.misses.has(mod.id) ||  this.pendingModules.has(mod.id);
   }
 
   async tryFindModule(id) {
+    if (this.pendingModules.has(id)) return null;
+
+    this.pendingModules.add(id);
     let r = await this.fetch(id);
+    this.pendingModules.delete(id);
+
     if (r.err === FetchError.OK) return r.data;
 
     if (r.err === FetchError.NOT_FOUND) {

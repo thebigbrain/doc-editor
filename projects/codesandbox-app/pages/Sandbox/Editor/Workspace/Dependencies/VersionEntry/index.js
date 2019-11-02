@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  MdClear as CrossIcon,
-  MdRefresh as RefreshIcon
-} from 'react-icons/md'
-
-import {
-  MdKeyboardArrowDown as ArrowDropDown,
-  MdKeyboardArrowUp as ArrowDropUp
-} from 'react-icons/md'
+import {CrossIcon, RefreshIcon, ArrowDropDown, ArrowDropUp} from '@muggle/icons'
 import algoliasearch from 'algoliasearch/lite'
 import compareVersions from 'compare-versions'
 import Tooltip from '@csb/common/lib/components/Tooltip'
@@ -107,13 +99,15 @@ export class VersionEntry extends React.PureComponent {
         <Link href={`https://www.npmjs.com/package/${dependency}`}>
           {dependency}
         </Link>
-        <VersionSelect hovering={hovering} onChange={e => {
-          this.props.onRefresh(dependency, e.target.value)
-          this.setState({ hovering: false })
-        }}>
-          {versions.map(a => (<option key={a} selected={a === dependencies[dependency]}>
-            {a}
-          </option>))}
+        <VersionSelect 
+          hovering={hovering} 
+          onChange={e => {
+            this.props.onRefresh(dependency, e.target.value)
+            this.setState({ hovering: false })
+          }}
+          value={dependencies[dependency]}
+        >
+          {versions.map(a => (<option key={a}>{a}</option>))}
         </VersionSelect>
         <Version hovering={hovering}>
           {formatVersion(dependencies[dependency])}{' '}

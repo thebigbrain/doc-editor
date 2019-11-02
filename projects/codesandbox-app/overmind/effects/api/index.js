@@ -51,7 +51,8 @@ export default {
   },
   async getSandbox(id) {
     const s = api.getService('sandboxes')
-    let sandbox = await s.get(id)
+    let r = await s.find({query: {id}})
+    let sandbox = r.data[0]
 
     return {
       ...sandbox,

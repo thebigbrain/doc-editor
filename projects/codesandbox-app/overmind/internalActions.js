@@ -24,7 +24,7 @@ export const signIn = async (
     actions.refetchSandboxInfo()
   } catch (error) {
     actions.internal.addNotification({
-      title: 'Github Authentication Error',
+      title: `Github Authentication Error: ${error}`,
       type: 'error',
     })
   }
@@ -90,7 +90,8 @@ export const signInGithub = ({ effects }, options) => {
   return effects.browser
     .waitForMessage('signin')
     .then(data => {
-      const { jwt } = data
+      console.log(data)
+      const { access_token: jwt, error } = data
 
       popup.close()
 
@@ -98,7 +99,7 @@ export const signInGithub = ({ effects }, options) => {
         return jwt
       }
 
-      throw new Error('Could not get sign in token')
+      throw new Error(error)
     })
 }
 
@@ -221,28 +222,28 @@ export const setCurrentSandbox = async (
 
   state.workspace.openedWorkspaceItem = defaultItem.id
 
-  await effects.executor.initializeExecutor(sandbox);
+  // await effects.executor.initializeExecutor(sandbox);
 
-  [
-    'connect',
-    'disconnect',
-    'sandbox:status',
-    'sandbox:start',
-    'sandbox:stop',
-    'sandbox:error',
-    'sandbox:log',
-    'sandbox:hibernate',
-    'sandbox:update',
-    'sandbox:port',
-    'shell:out',
-    'shell:exit',
-  ].forEach(message => {
-    effects.executor.listen(message, actions.server.onSSEMessage)
-  })
+  // [
+  //   'connect',
+  //   'disconnect',
+  //   'sandbox:status',
+  //   'sandbox:start',
+  //   'sandbox:stop',
+  //   'sandbox:error',
+  //   'sandbox:log',
+  //   'sandbox:hibernate',
+  //   'sandbox:update',
+  //   'sandbox:port',
+  //   'shell:out',
+  //   'shell:exit',
+  // ].forEach(message => {
+  //   effects.executor.listen(message, actions.server.onSSEMessage)
+  // })
 
-  effects.executor.setupExecutor()
+  // effects.executor.setupExecutor()
 
-  effects.fsSync.syncCurrentSandbox()
+  // effects.fsSync.syncCurrentSandbox()
 
   /*
     There seems to be a race condition here? Verify if this still happens with Overmind

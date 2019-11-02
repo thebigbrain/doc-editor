@@ -2,20 +2,20 @@ import React from 'react';
 //  Fix css prop types in styled-components (see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31245#issuecomment-463640878)
 // import VERSION from '@csb/common/lib/version';
 // import { SocialInfo } from '~/components/SocialInfo';
-// import ConfigurationFiles from './items/ConfigurationFiles/index';
-// import { Deployment } from './items/Deployment/index';
-import Files from './items/Files/index';
-// import { GitHub } from './items/GitHub/index';
-// import Live from './items/Live/index';
-// import { More } from './items/More/index';
+// import ConfigurationFiles from './items/ConfigurationFiles';
+// import { Deployment } from './items/Deployment';
+import Files from './items/Files';
+// import { GitHub } from './items/GitHub';
+// import Live from './items/Live';
+// import { More } from './items/More';
 import { NotOwnedSandboxInfo } from './items/NotOwnedSandboxInfo';
-import { ProjectInfo } from './items/ProjectInfo/index';
+import { ProjectInfo } from './items/ProjectInfo';
 // import { Server } from './items/Server';
-// import { Advertisement } from './Advertisement/index';
-import { Chat } from './Chat/index';
-import { ConnectionNotice } from './ConnectionNotice/index';
-import { SSEDownNotice } from './SSEDownNotice/index';
-import { WorkspaceItem } from './WorkspaceItem/index';
+// import { Advertisement } from './Advertisement';
+import { Chat } from './Chat';
+import { ConnectionNotice } from './ConnectionNotice';
+import { SSEDownNotice } from './SSEDownNotice';
+import { WorkspaceItem } from './WorkspaceItem';
 import { ContactContainer, Container, ItemTitle, VersionContainer } from './elements';
 import {useOvermind} from "@muggle/hooks"
 

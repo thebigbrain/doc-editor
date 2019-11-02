@@ -6,8 +6,8 @@ import { Alert } from '~/components/Alert'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 import validateTitle from './validateTitle'
-import Entry from './Entry/index'
-import DirectoryChildren from './DirectoryChildren/index'
+import Entry from './Entry'
+import DirectoryChildren from './DirectoryChildren'
 import { EntryContainer, Opener, Overlay } from './elements'
 import { withOvermind } from '@muggle/hooks'
 

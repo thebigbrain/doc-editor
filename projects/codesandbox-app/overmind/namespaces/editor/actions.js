@@ -113,12 +113,12 @@ export const sandboxChanged = withLoadApp(async ({ state, actions, effects }, { 
       actions.internal.setCurrentSandbox(sandbox)
     }
   } catch (error) {
+    console.log(error)
     state.editor.notFound = true
     state.editor.error = error.message
   }
 
   const sandbox = state.editor.currentSandbox
-
 
   actions.internal.ensurePackageJSON()
 
@@ -226,10 +226,10 @@ export const createZipClicked = ({ state, effects }) => {
 }
 
 export const forkSandboxClicked = async ({
-                                           state,
-                                           effects,
-                                           actions,
-                                         }) => {
+  state,
+  effects,
+  actions,
+}) => {
   if (
     state.editor.currentSandbox.owned &&
     !effects.browser.confirm('Do you want to fork your own sandbox?')
@@ -338,10 +338,10 @@ export const tabMoved = ({ state }, { prevIndex, nextIndex }) => {
 }
 
 export const prettifyClicked = async ({
-                                        state,
-                                        effects,
-                                        actions,
-                                      }) => {
+  state,
+  effects,
+  actions,
+}) => {
   effects.analytics.track('Prettify Code')
   const module = state.editor.currentModule
   const newCode = await effects.prettyfier.prettify(
@@ -424,9 +424,9 @@ export const discardModuleChanges = ({ state, effects, actions }, { moduleShorti
 }
 
 export const fetchEnvironmentVariables = async ({
-                                                  state,
-                                                  effects,
-                                                }) => {
+  state,
+  effects,
+}) => {
   state.editor.currentSandbox.environmentVariables = await effects.api.getEnvironmentVariables(
     state.editor.currentId,
   )

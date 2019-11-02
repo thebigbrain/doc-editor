@@ -18,10 +18,10 @@ export const NotFound = () => {
         re looking for.
       </SubTitle>
       <Buttons>
-        <Button small block style={{ margin: '.5rem' }} to={newSandboxWizard()}>
+        <Button small='small' block='block' style={{ margin: '.5rem' }} to={newSandboxWizard()}>
           Create Sandbox
         </Button>
-        <Button small block style={{ margin: '.5rem' }} href="/">
+        <Button small='small' block='block' style={{ margin: '.5rem' }} href="/">
           {state.hasLogIn ? 'Dashboard' : 'Homepage'}
         </Button>
       </Buttons>

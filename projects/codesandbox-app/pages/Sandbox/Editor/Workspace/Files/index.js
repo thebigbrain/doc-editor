@@ -1,83 +1,68 @@
 import * as React from 'react'
-import {getModulePath} from '@csb/common/lib/sandbox/modules'
+import { getModulePath } from '@csb/common/lib/sandbox/modules'
 
-import DirectoryEntry from './DirectoryEntry/index'
-import EditIcons from './DirectoryEntry/Entry/EditIcons/index'
-import {withOvermind} from '@muggle/hooks'
+import DirectoryEntry from './DirectoryEntry'
+import EditIcons from './DirectoryEntry/Entry/EditIcons'
+import { useOvermind } from '@muggle/hooks'
 
-class Files extends React.Component {
-  createModule = () => {
-    // INCREDIBLY BAD PRACTICE! TODO: FIX THIS
-    this._createModule()
+export default function Files(props) {
+  const { state, actions } = useOvermind()
+  const sandbox = state.editor.currentSandbox
+
+  let createModule = null
+  let createDirectory = null
+  let uploadFile = null
+
+  const onDownload = () => {
+    actions.editor.createZipClicked()
   }
 
-  createDirectory = () => {
-    // INCREDIBLY BAD PRACTICE! TODO: FIX THIS
-    this._createDirectory()
-  }
-
-  uploadFile = () => {
-    // INCREDIBLY BAD PRACTICE! TODO: FIX THIS
-    this._uploadFile()
-  }
-
-  onDownload = () => {
-    this.props.actions.editor.createZipClicked()
-  }
-
-  getModulePath = (moduleId) => {
+  const _getModulePath = (moduleId) => {
     try {
-      const sandbox = this.props.state.editor.currentSandbox
+      const sandbox = state.editor.currentSandbox
       return getModulePath(sandbox.modules, sandbox.directories, moduleId)
     } catch (e) {
       return ''
     }
   }
 
-  render() {
-    const { state, actions } = this.props.overmind
-    const sandbox = state.editor.currentSandbox
+  return (
+    <DirectoryEntry
+      root
+      getModulePath={_getModulePath}
+      title={sandbox.title || 'Project'}
+      signals={
+        actions /* TODO: Just pass what is needed by the DragDrop */
+      }
+      initializeProperties={({
+        onCreateModuleClick,
+        onCreateDirectoryClick,
+        onUploadFileClick,
+      }) => {
+        createModule = onCreateModuleClick
+        createDirectory = onCreateDirectoryClick
+        uploadFile = onUploadFileClick
 
-    return (
-      <DirectoryEntry
-        root
-        getModulePath={this.getModulePath}
-        title={sandbox.title || 'Project'}
-        signals={
-          actions /* TODO: Just pass what is needed by the DragDrop */
+        if (props.setEditActions) {
+          props.setEditActions(
+            <EditIcons
+              hovering
+              forceShow={window.__isTouch}
+              onCreateFile={createModule}
+              onCreateDirectory={createDirectory}
+              onDownload={onDownload}
+              onUploadFile={
+                state.isLoggedIn && sandbox.privacy === 0
+                  ? uploadFile
+                  : undefined
+              }
+            />,
+          )
         }
-        initializeProperties={({
-                                 onCreateModuleClick,
-                                 onCreateDirectoryClick,
-                                 onUploadFileClick,
-                               }) => {
-          this._createModule = onCreateModuleClick
-          this._createDirectory = onCreateDirectoryClick
-          this._uploadFile = onUploadFileClick
-
-          if (this.props.setEditActions) {
-            this.props.setEditActions(
-              <EditIcons
-                hovering
-                forceShow={window.__isTouch}
-                onCreateFile={this.createModule}
-                onCreateDirectory={this.createDirectory}
-                onDownload={this.onDownload}
-                onUploadFile={
-                  state.isLoggedIn && sandbox.privacy === 0
-                    ? this.uploadFile
-                    : undefined
-                }
-              />,
-            )
-          }
-        }}
-        depth={-1}
-        id={null}
-        shortid={null}
-      />
-    )
-  }
+      }}
+      depth={-1}
+      id={null}
+      shortid={null}
+    />
+  )
 }
-
-export default withOvermind(Files)

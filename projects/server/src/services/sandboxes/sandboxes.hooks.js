@@ -1,4 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const {createIfNotFound} = require('../../hooks/sandboxes')
 
 module.exports = {
   before: {
@@ -24,7 +25,7 @@ module.exports = {
   error: {
     all: [],
     find: [],
-    get: [],
+    get: [createIfNotFound()],
     create: [],
     update: [],
     patch: [],

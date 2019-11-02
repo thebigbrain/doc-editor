@@ -23,7 +23,7 @@ export const GithubIntegration = ({ small = false }) => {
       name="GitHub"
       onSignIn={() => signInGithubClicked({ useExtraScopes: true })}
       onSignOut={signOutGithubIntegration}
-      small={small}
+      small={small ? 'small' : ''}
       userInfo={github}
     />
   )

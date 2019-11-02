@@ -7,10 +7,16 @@
 <body>
 
   <script>
+    let paramsString = window.location.hash.substr(1)
+    var searchParams = new URLSearchParams(paramsString);
+    let data = {}
+    //Iterate the search parameters.
+    for (let p of searchParams.keys()) {
+      data[p] = searchParams.get(p)
+    }
     let messgae = {
-      type: 'signin', data: {
-        jwt: window.location.hash.substr(1).split('=')[1]
-      }
+      type: 'signin', 
+      data
     }
     window.opener.postMessage(messgae, '*')
   </script>

@@ -1,13 +1,16 @@
 const { OAuthStrategy } = require('@feathersjs/authentication-oauth');
 
 class GithubStrategy extends OAuthStrategy {
-  async getEntityData(profile) {
+  async getEntityData(profile, entity, params) {
     // Include the `email` from the GitHub profile when creating
     // or updating a user that logged in with GitHub
 
-    // const baseData = await super.getEntityData(profile);
+    const baseData = await super.getEntityData(profile);
 
-    return profile;
+    return {
+      ...baseData,
+      ...profile
+    };
   }
 }
 

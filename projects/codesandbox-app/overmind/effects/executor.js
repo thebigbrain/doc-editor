@@ -1,4 +1,4 @@
-import { executorsManager } from 'codesandbox-app/utils/executor-manager';
+import { executorsManager } from '~/utils/executor-manager';
 export default {
     initializeExecutor(sandbox) {
         return executorsManager.initializeExecutor(sandbox);

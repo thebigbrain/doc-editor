@@ -2,7 +2,6 @@
   "name": "@muggle/icons",
   "version": "1.0.0",
   "description": "> TODO: description",
-  "author": "thebigbrain <uibrick@126.com>",
   "homepage": "https://github.com/thebigbrain/doc-editor#readme",
   "license": "ISC",
   "main": "lib/icons.js",

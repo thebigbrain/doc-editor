@@ -6,10 +6,10 @@ import {useOvermind} from "@muggle/hooks"
 
 import {WorkspaceSubtitle} from '../elements'
 
-import AddVersion from './AddVersion/index'
-import {VersionEntry} from './VersionEntry/index'
-import AddResource from './AddResource/index'
-import ExternalResource from './ExternalResource/index'
+import AddVersion from './AddVersion'
+import {VersionEntry} from './VersionEntry'
+import AddResource from './AddResource'
+import ExternalResource from './ExternalResource'
 
 import {ErrorMessage} from './elements'
 

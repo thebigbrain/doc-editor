@@ -1,16 +1,7 @@
 import React from 'react'
-
 import {
-  MdClear as CrossIcon,
-  MdInsertDriveFile as AddFileIcon,
-  MdCreateNewFolder as AddDirectoryIcon,
-  MdFileUpload as UploadFileIcon,
-  MdFileDownload as DownloadIcon
-} from 'react-icons/md'
-import {
-  GoPencil as EditIcon
-} from 'react-icons/go'
-
+  CrossIcon, AddFileIcon, AddFolderIcon, DownloadIcon, UploadFileIcon, EditIcon
+} from '@muggle/icons'
 import Tooltip from '@csb/common/lib/components/Tooltip'
 
 import { Icon } from '../../../../elements'
@@ -22,18 +13,18 @@ const handleClick = func => e => {
   func()
 }
 
-function EditIcons({
-                     className,
-                     hovering,
-                     onDelete,
-                     onEdit,
-                     onCreateFile,
-                     onCreateDirectory,
-                     active,
-                     onUploadFile,
-                     onDownload,
-                     forceShow,
-                   }) {
+export default function EditIcons({
+  className,
+  hovering,
+  onDelete,
+  onEdit,
+  onCreateFile,
+  onCreateDirectory,
+  active,
+  onUploadFile,
+  onDownload,
+  forceShow,
+}) {
   // Phones need double click if we show elements on click, that's why we only want
   // to show these edit icons when the user clicks and hasn't activated the module
   if (window.__isTouch && !active && !forceShow) {
@@ -47,42 +38,42 @@ function EditIcons({
           {onDownload && (
             <Tooltip content="Export to ZIP">
               <Icon onClick={handleClick(onDownload)}>
-                <DownloadIcon/>
+                <DownloadIcon />
               </Icon>
             </Tooltip>
           )}
           {onUploadFile && (
             <Tooltip content="Upload Files">
               <Icon onClick={handleClick(onUploadFile)}>
-                <UploadFileIcon/>
+                <UploadFileIcon />
               </Icon>
             </Tooltip>
           )}
           {onEdit && (
             <Tooltip content="Rename">
               <Icon onClick={handleClick(onEdit)}>
-                <EditIcon/>
+                <EditIcon />
               </Icon>
             </Tooltip>
           )}
           {onCreateFile && (
             <Tooltip content="New File">
               <Icon onClick={handleClick(onCreateFile)}>
-                <AddFileIcon/>
+                <AddFileIcon />
               </Icon>
             </Tooltip>
           )}
           {onCreateDirectory && (
             <Tooltip content="New Directory">
               <Icon onClick={handleClick(onCreateDirectory)}>
-                <AddDirectoryIcon/>
+                <AddFolderIcon />
               </Icon>
             </Tooltip>
           )}
           {onDelete && (
             <Tooltip content="Delete">
               <Icon onClick={handleClick(onDelete)}>
-                <CrossIcon/>
+                <CrossIcon />
               </Icon>
             </Tooltip>
           )}
@@ -91,5 +82,3 @@ function EditIcons({
     </div>
   )
 }
-
-export default EditIcons

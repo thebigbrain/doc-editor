@@ -58,8 +58,7 @@ class DirectoryChildren extends React.Component {
               siblings={[...directories, ...modules]}
               depth={depth + 1}
               signals={
-                this.props
-                  .signals /* TODO: Just pass what is needed by the DragDrop */
+                this.props.overmind.actions /* TODO: Just pass what is needed by the DragDrop */
               }
               id={dir.id}
               shortid={dir.shortid}

@@ -20,21 +20,24 @@ export class WorkspaceItem extends React.Component {
   render() {
     const { children, title, keepState, disabled, actions, style, showOverflow } = this.props
     const { open } = this.state
-    return (<>
-      <ItemHeader style={style} onClick={this.toggleOpen}>
-        <ExpandIconContainer open={open}/>
-        <Title>{title}</Title>
 
-        {open && <Actions>{actions}</Actions>}
-      </ItemHeader>
-      <ReactShow style={{
-        height: 'auto',
-        overflow: showOverflow ? 'initial' : 'hidden',
-      }} transitionOnMount start={{
-        height: 0,
-      }} show={open} duration={250} stayMounted={keepState}>
-        <ChildContainer disabled={disabled}>{children}</ChildContainer>
-      </ReactShow>
-    </>)
+    return (
+      <>
+        <ItemHeader style={style} onClick={this.toggleOpen}>
+          <ExpandIconContainer open={open}/>
+          <Title>{title}</Title>
+
+          {open && <Actions>{actions}</Actions>}
+        </ItemHeader>
+        <ReactShow style={{
+          height: 'auto',
+          overflow: showOverflow ? 'initial' : 'hidden',
+        }} transitionOnMount start={{
+          height: 0,
+        }} show={open} duration={250} stayMounted={keepState}>
+          <ChildContainer disabled={disabled}>{children}</ChildContainer>
+        </ReactShow>
+      </>
+    )
   }
 }

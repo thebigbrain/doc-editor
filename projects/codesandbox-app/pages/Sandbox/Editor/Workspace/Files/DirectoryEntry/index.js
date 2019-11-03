@@ -150,7 +150,8 @@ class DirectoryEntry extends React.Component {
   constructor(props) {
     super(props)
 
-    const { id, state } = this.props
+    const { id } = this.props
+    const {state} = this.props.overmind
 
     this.state = {
       creating: '',
@@ -175,8 +176,8 @@ class DirectoryEntry extends React.Component {
       () => this.props.overmind.state.editor.currentModuleShortid,
       () => {
         if (!this.state.open) {
-          const { id, state } = this.props
-
+          const { id } = this.props
+          const {state} = this.props.overmid
           this.setState({ open: state.editor.shouldDirectoryBeOpen(id) })
         }
       },

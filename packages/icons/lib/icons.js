@@ -34,6 +34,9 @@ export {
   MdArrowDownward as ArrowDown,
   MdNaturePeople as PeopleIcon,
   MdRefresh as RefreshIcon,
+  MdInsertDriveFile as AddFileIcon,
+  MdFileUpload as UploadFileIcon,
+  MdFileDownload as DownloadIcon,
 } from 'react-icons/md'
 
 export {

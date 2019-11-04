@@ -90,7 +90,6 @@ export const signInGithub = ({ effects }, options) => {
   return effects.browser
     .waitForMessage('signin')
     .then(data => {
-      console.log(data)
       const { access_token: jwt, error } = data
 
       popup.close()

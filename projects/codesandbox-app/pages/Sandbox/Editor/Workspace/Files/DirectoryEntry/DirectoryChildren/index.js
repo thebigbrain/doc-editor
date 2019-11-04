@@ -44,7 +44,7 @@ class DirectoryChildren extends React.Component {
     return (
       <div>
         {sortBy(directories, 'title')
-          .filter(x => x.directoryShortid === parentShortid)
+          .filter(x => x.directory_shortid === parentShortid)
           .filter(
             x =>
               !(
@@ -77,7 +77,7 @@ class DirectoryChildren extends React.Component {
             />
           ))}
         {sortBy(
-          modules.filter(x => x.directoryShortid === parentShortid),
+          modules.filter(x => x.directory_shortid === parentShortid),
           'title',
         ).map(m => (
           <ModuleEntry

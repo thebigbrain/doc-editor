@@ -207,6 +207,8 @@ class DirectoryEntry extends React.Component {
       ? 'Project'
       : currentSandbox.directories.find(m => m.id === id).title;
 
+    console.log(title)
+
     return connectDropTarget(
       <div style={{ position: 'relative' }}>
         <Overlay isOver={isOver}/>

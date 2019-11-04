@@ -1,130 +1,130 @@
-import React from 'react'
-import { DropTarget } from 'react-dnd'
-import { reaction } from 'mobx'
-import Modal from '~/components/Modal'
-import { Alert } from '~/components/Alert'
-import { NativeTypes } from 'react-dnd-html5-backend'
+import React from 'react';
+import { DropTarget } from 'react-dnd';
+import { reaction } from 'mobx';
+import Modal from '~/components/Modal';
+import { Alert } from '~/components/Alert';
+import { NativeTypes } from 'react-dnd-html5-backend';
 
-import validateTitle from './validateTitle'
-import Entry from './Entry'
-import DirectoryChildren from './DirectoryChildren'
-import { EntryContainer, Opener, Overlay } from './elements'
-import { withOvermind } from '@muggle/hooks'
+import validateTitle from './validateTitle';
+import Entry from './Entry';
+import DirectoryChildren from './DirectoryChildren';
+import { EntryContainer, Opener, Overlay } from './elements';
+import { withOvermind } from '@muggle/hooks';
 
 const readDataURL = imageFile =>
   new Promise(resolve => {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = e => {
-      resolve(e.target.result)
-    }
-    reader.readAsDataURL(imageFile)
-  })
+      resolve(e.target.result);
+    };
+    reader.readAsDataURL(imageFile);
+  });
 
 const getFiles = async files => {
-  const returnedFiles = {}
+  const returnedFiles = {};
   await Promise.all(
     Array.from(files)
       .filter(Boolean)
       .map(async file => {
-        const dataURI = await readDataURL(file)
+        const dataURI = await readDataURL(file);
         returnedFiles[file.path || file.name] = {
           dataURI,
           type: file.type,
-        }
+        };
       }),
-  )
+  );
 
-  return returnedFiles
-}
+  return returnedFiles;
+};
 
 class DirectoryEntry extends React.Component {
-  resetState = () => this.setState({ creating: '' })
+  resetState = () => this.setState({ creating: '' });
   onCreateModuleClick = () => {
     this.setState({
       creating: 'module',
       open: true,
-    })
+    });
 
-    return true
-  }
+    return true;
+  };
   createModule = (_, title) => {
-    const { shortid } = this.props
+    const { shortid } = this.props;
     this.props.overmind.actions.files.moduleCreated({
       title,
       directoryShortid: shortid,
-    })
-    this.resetState()
-  }
+    });
+    this.resetState();
+  };
   renameModule = (moduleShortid, title) => {
-    this.props.overmind.actions.files.moduleRenamed({ moduleShortid, title })
-  }
+    this.props.overmind.actions.files.moduleRenamed({ moduleShortid, title });
+  };
   deleteModuleFromSandbox = (shortid, title) => {
     this.setState({
       showDeleteModuleModal: true,
       moduleToDeleteShortid: shortid,
       moduleToDeleteTitle: title,
-    })
-  }
+    });
+  };
   onCreateDirectoryClick = () => {
     this.setState({
       creating: 'directory',
       open: true,
-    })
-    return true
-  }
+    });
+    return true;
+  };
   createDirectory = (_, title) => {
-    const { shortid } = this.props
+    const { shortid } = this.props;
     this.props.overmind.actions.files.directoryCreated({
       title,
       directoryShortid: shortid,
-    })
-    this.resetState()
-  }
+    });
+    this.resetState();
+  };
   onUploadFileClick = () => {
-    const fileSelector = document.createElement('input')
-    fileSelector.setAttribute('type', 'file')
-    fileSelector.setAttribute('multiple', 'true')
+    const fileSelector = document.createElement('input');
+    fileSelector.setAttribute('type', 'file');
+    fileSelector.setAttribute('multiple', 'true');
     fileSelector.onchange = async event => {
-      const files = await getFiles(event.target.files)
+      const files = await getFiles(event.target.files);
 
       this.props.overmind.actions.files.filesUploaded({
         files,
         directoryShortid: this.props.shortid,
-      })
-    }
+      });
+    };
 
-    fileSelector.click()
-  }
+    fileSelector.click();
+  };
   renameDirectory = (directoryShortid, title) => {
-    this.props.overmind.actions.files.directoryRenamed({ title, directoryShortid })
-  }
+    this.props.overmind.actions.files.directoryRenamed({ title, directoryShortid });
+  };
   closeModals = () => {
     this.setState({
       showDeleteDirectoryModal: false,
       showDeleteModuleModal: false,
-    })
-  }
+    });
+  };
   deleteDirectory = () => {
     this.setState({
       showDeleteDirectoryModal: true,
-    })
-  }
-  toggleOpen = () => this.setOpen(!this.state.open)
-  closeTree = () => this.setOpen(false)
-  setOpen = open => this.setState({ open })
+    });
+  };
+  toggleOpen = () => this.setOpen(!this.state.open);
+  closeTree = () => this.setOpen(false);
+  setOpen = open => this.setState({ open });
   validateModuleTitle = (_, title) => {
-    const { state, id } = this.props
-    const { directories, modules } = state.editor.currentSandbox
-    return validateTitle(id, title, [...directories, ...modules])
-  }
+    const { state, id } = this.props;
+    const { directories, modules } = state.editor.currentSandbox;
+    return validateTitle(id, title, [...directories, ...modules]);
+  };
   validateDirectoryTitle = (id, title) => {
-    const { root, siblings } = this.props
-    if (root) return false
+    const { root, siblings } = this.props;
+    if (root) return false;
 
-    return validateTitle(id, title, siblings)
-  }
+    return validateTitle(id, title, siblings);
+  };
   getChildren = () => {
-    const { shortid } = this.props
+    const { shortid } = this.props;
 
     return [
       ...this.props.overmind.state.editor.currentSandbox.modules.filter(
@@ -133,25 +133,25 @@ class DirectoryEntry extends React.Component {
       ...this.props.overmind.state.editor.currentSandbox.directories.filter(
         d => d.directoryShortid === shortid,
       ),
-    ]
-  }
+    ];
+  };
   setCurrentModule = moduleId => {
-    this.props.overmind.actions.editor.moduleSelected({ id: moduleId })
-  }
+    this.props.overmind.actions.editor.moduleSelected({ id: moduleId });
+  };
   markTabsNotDirty = () => {
-    this.props.overmind.actions.editor.moduleDoubleClicked()
-  }
+    this.props.overmind.actions.editor.moduleDoubleClicked();
+  };
   discardChanges = moduleShortid => {
-    this.props.overmind.actions.editor.discardModuleChanges({ moduleShortid })
+    this.props.overmind.actions.editor.discardModuleChanges({ moduleShortid });
 
-    return true
-  }
+    return true;
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    const { id } = this.props
-    const {state} = this.props.overmind
+    const { id } = this.props;
+    const { state } = this.props.overmind;
 
     this.state = {
       creating: '',
@@ -160,7 +160,7 @@ class DirectoryEntry extends React.Component {
       showDeleteModuleModal: false,
       moduleToDeleteTitle: null,
       moduleToDeleteShortid: null,
-    }
+    };
   }
 
   componentDidMount() {
@@ -169,24 +169,24 @@ class DirectoryEntry extends React.Component {
         onCreateModuleClick: this.onCreateModuleClick,
         onCreateDirectoryClick: this.onCreateDirectoryClick,
         onUploadFileClick: this.onUploadFileClick,
-      })
+      });
     }
 
     this.openListener = reaction(
       () => this.props.overmind.state.editor.currentModuleShortid,
       () => {
         if (!this.state.open) {
-          const { id } = this.props
-          const {state} = this.props.overmid
-          this.setState({ open: state.editor.shouldDirectoryBeOpen(id) })
+          const { id } = this.props;
+          const { state } = this.props.overmid;
+          this.setState({ open: state.editor.shouldDirectoryBeOpen(id) });
         }
       },
-    )
+    );
   }
 
   componentWillUnmount() {
     if (this.openListener) {
-      this.openListener()
+      this.openListener();
     }
   }
 
@@ -199,13 +199,13 @@ class DirectoryEntry extends React.Component {
       depth = 0,
       root,
       getModulePath,
-    } = this.props
-    const { creating, open } = this.state
-    const { currentSandbox } = this.props.overmind.state.editor
+    } = this.props;
+    const { creating, open } = this.state;
+    const { currentSandbox } = this.props.overmind.state.editor;
 
     const title = root
       ? 'Project'
-      : currentSandbox.directories.find(m => m.id === id).title
+      : currentSandbox.directories.find(m => m.id === id).title;
 
     return connectDropTarget(
       <div style={{ position: 'relative' }}>
@@ -255,10 +255,10 @@ class DirectoryEntry extends React.Component {
                   onConfirm={() => {
                     this.setState({
                       showDeleteDirectoryModal: false,
-                    })
+                    });
                     this.props.overmind.actions.files.directoryDeleted({
                       directoryShortid: shortid,
-                    })
+                    });
                   }}
                 />
               </Modal>
@@ -316,10 +316,10 @@ class DirectoryEntry extends React.Component {
                 onConfirm={() => {
                   this.setState({
                     showDeleteModuleModal: false,
-                  })
+                  });
                   this.props.overmind.actions.files.moduleDeleted({
                     moduleShortid: this.state.moduleToDeleteShortid,
-                  })
+                  });
                 }}
               />
             </Modal>
@@ -337,49 +337,49 @@ class DirectoryEntry extends React.Component {
           )}
         </Opener>
       </div>,
-    )
+    );
   }
 }
 
 const entryTarget = {
   drop: (props, monitor) => {
-    if (monitor == null) return
+    if (monitor == null) return;
 
     // Check if only child is selected:
-    if (!monitor.isOver({ shallow: true })) return
+    if (!monitor.isOver({ shallow: true })) return;
 
-    const sourceItem = monitor.getItem()
+    const sourceItem = monitor.getItem();
     if (sourceItem.dirContent) {
       sourceItem.dirContent.then(async droppedFiles => {
-        const files = await getFiles(droppedFiles)
+        const files = await getFiles(droppedFiles);
 
         props.signals.files.filesUploaded({
           files,
           directoryShortid: props.shortid,
-        })
-      })
+        });
+      });
     } else if (sourceItem.directory) {
       props.signals.files.directoryMovedToDirectory({
         shortid: sourceItem.shortid,
         directoryShortid: props.shortid,
-      })
+      });
     } else {
       props.signals.files.moduleMovedToDirectory({
         moduleShortid: sourceItem.shortid,
         directoryShortid: props.shortid,
-      })
+      });
     }
   },
 
   canDrop: (props, monitor) => {
-    if (monitor == null) return false
-    const source = monitor.getItem()
-    if (source == null) return false
+    if (monitor == null) return false;
+    const source = monitor.getItem();
+    if (source == null) return false;
 
-    if (source.id === props.id) return false
-    return true
+    if (source.id === props.id) return false;
+    return true;
   },
-}
+};
 
 function collectTarget(connectMonitor, monitor) {
   return {
@@ -390,7 +390,7 @@ function collectTarget(connectMonitor, monitor) {
     isOver: monitor.isOver({ shallow: true }),
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType(),
-  }
+  };
 }
 
-export default withOvermind(DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry))
+export default withOvermind(DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry));

@@ -16,8 +16,8 @@ import { Chat } from './Chat';
 import { ConnectionNotice } from './ConnectionNotice';
 import { SSEDownNotice } from './SSEDownNotice';
 import { WorkspaceItem } from './WorkspaceItem';
-import { ContactContainer, Container, ItemTitle, VersionContainer } from './elements';
-import {useOvermind} from "@muggle/hooks"
+import { Container, ItemTitle } from './elements';
+import { useOvermind } from '@muggle/hooks';
 
 const workspaceTabs = {
   project: ProjectInfo,
@@ -32,7 +32,7 @@ const workspaceTabs = {
 };
 
 export const Workspace = () => {
-  const {state, actions} = useOvermind()
+  const { state, actions } = useOvermind();
 
   const {
     editor: {
@@ -50,7 +50,7 @@ export const Workspace = () => {
     return null;
   }
 
-  console.log(activeTab)
+  console.log(activeTab);
 
   const Component = workspaceTabs[activeTab];
   const item =
@@ -75,11 +75,11 @@ export const Workspace = () => {
           {/*{!(isPatron || owned) && <Advertisement/>}*/}
 
           {/*<ContactContainer>*/}
-            {/*/!*<SocialInfo style={{ display: 'inline-block' }}/>*!/*/}
+          {/*/!*<SocialInfo style={{ display: 'inline-block' }}/>*!/*/}
 
-            {/*<VersionContainer className="codesandbox-version">*/}
-              {/*{VERSION}*/}
-            {/*</VersionContainer>*/}
+          {/*<VersionContainer className="codesandbox-version">*/}
+          {/*{VERSION}*/}
+          {/*</VersionContainer>*/}
           {/*</ContactContainer>*/}
 
           <SSEDownNotice/>

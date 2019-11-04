@@ -1,30 +1,30 @@
-import * as React from 'react'
-import { getModulePath } from '@csb/common/lib/sandbox/modules'
+import * as React from 'react';
+import { getModulePath } from '@csb/common/lib/sandbox/modules';
 
-import DirectoryEntry from './DirectoryEntry'
-import EditIcons from './DirectoryEntry/Entry/EditIcons'
-import { useOvermind } from '@muggle/hooks'
+import DirectoryEntry from './DirectoryEntry';
+import EditIcons from './DirectoryEntry/Entry/EditIcons';
+import { useOvermind } from '@muggle/hooks';
 
 export default function Files(props) {
-  const { state, actions } = useOvermind()
-  const sandbox = state.editor.currentSandbox
+  const { state, actions } = useOvermind();
+  const sandbox = state.editor.currentSandbox;
 
-  let createModule = null
-  let createDirectory = null
-  let uploadFile = null
+  let createModule = null;
+  let createDirectory = null;
+  let uploadFile = null;
 
   const onDownload = () => {
-    actions.editor.createZipClicked()
-  }
+    actions.editor.createZipClicked();
+  };
 
   const _getModulePath = (moduleId) => {
     try {
-      const sandbox = state.editor.currentSandbox
-      return getModulePath(sandbox.modules, sandbox.directories, moduleId)
+      const sandbox = state.editor.currentSandbox;
+      return getModulePath(sandbox.modules, sandbox.directories, moduleId);
     } catch (e) {
-      return ''
+      return '';
     }
-  }
+  };
 
   return (
     <DirectoryEntry
@@ -35,13 +35,13 @@ export default function Files(props) {
         actions /* TODO: Just pass what is needed by the DragDrop */
       }
       initializeProperties={({
-        onCreateModuleClick,
-        onCreateDirectoryClick,
-        onUploadFileClick,
-      }) => {
-        createModule = onCreateModuleClick
-        createDirectory = onCreateDirectoryClick
-        uploadFile = onUploadFileClick
+                               onCreateModuleClick,
+                               onCreateDirectoryClick,
+                               onUploadFileClick,
+                             }) => {
+        createModule = onCreateModuleClick;
+        createDirectory = onCreateDirectoryClick;
+        uploadFile = onUploadFileClick;
 
         if (props.setEditActions) {
           props.setEditActions(
@@ -57,12 +57,12 @@ export default function Files(props) {
                   : undefined
               }
             />,
-          )
+          );
         }
       }}
       depth={-1}
       id={null}
       shortid={null}
     />
-  )
+  );
 }

@@ -9,7 +9,7 @@ import codesandbox from '@csb/common/lib/themes/codesandbox.json'
 import {ForkFrozenSandboxModal} from './ForkFrozenSandboxModal'
 import {Container} from './elements'
 import {Workspace} from './Workspace/index'
-// import Content from './Content'
+import Content from './Content'
 import {Header} from './Header'
 import {Navigation} from './Navigation'
 import getVSCodeTheme from './utils/get-vscode-theme'
@@ -135,8 +135,7 @@ function ContentSplit(props) {
               }}
             >
               {state.workspace.workspaceHidden ? <div/> : <Workspace/>}
-              {/*<Content match={match}/>*/}
-              <div>content here...</div>
+              <Content match={match}/>
             </SplitPane>
 
             {vscode && (<VsCodeStatusBar visible={statusBar}/>)}

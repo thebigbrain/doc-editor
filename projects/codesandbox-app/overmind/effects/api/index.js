@@ -23,24 +23,21 @@ export default {
     return await api.getAccessToken();
   },
   createPatronSubscription(token, amount, coupon) {
-    return api.post('/users/current_user/subscription', {
-      subscription: {
-        amount,
-        coupon,
-        token,
-      },
-    });
+    const s = api.getService('subscriptions');
+    return s.create({token, amount, coupon});
   },
   updatePatronSubscription(amount, coupon) {
-    return api.patch('/users/current_user/subscription', {
-      subscription: {
+    const s = api.getService('subscriptions');
+    return s.patch(null, {
+      query: {
         amount,
         coupon,
       },
     });
   },
   cancelPatronSubscription() {
-    return api.delete('/users/current_user/subscription');
+    const s = api.getService('subscriptions');
+    return s.remove();
   },
   async getCurrentUser() {
     return await api.getCurrentUser();

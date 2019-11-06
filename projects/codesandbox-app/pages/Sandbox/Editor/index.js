@@ -1,29 +1,29 @@
-import * as React from 'react'
-import SplitPane from 'react-split-pane'
-import styled, {ThemeProvider} from 'styled-components'
-import {templateColor} from '~/utils/template-color'
-import Fullscreen from '@csb/common/lib/components/flex/Fullscreen'
-import getTemplateDefinition from '@csb/common/lib/templates'
-import codesandbox from '@csb/common/lib/themes/codesandbox.json'
+import * as React from 'react';
+import SplitPane from 'react-split-pane';
+import styled, { ThemeProvider } from 'styled-components';
+import { templateColor } from '~/utils/template-color';
+import Fullscreen from '@csb/common/lib/components/flex/Fullscreen';
+import getTemplateDefinition from '@csb/common/lib/templates';
+import codesandbox from '@csb/common/lib/themes/codesandbox.json';
 
-import {ForkFrozenSandboxModal} from './ForkFrozenSandboxModal'
-import {Container} from './elements'
-import {Workspace} from './Workspace/index'
-import Content from './Content'
-import {Header} from './Header'
-import {Navigation} from './Navigation'
-import getVSCodeTheme from './utils/get-vscode-theme'
-import {useOvermind} from '@muggle/hooks'
+import { ForkFrozenSandboxModal } from './ForkFrozenSandboxModal';
+import { Container } from './elements';
+import { Workspace } from './Workspace/index';
+import Content from './Content';
+import { Header } from './Header';
+import { Navigation } from './Navigation';
+import getVSCodeTheme from './utils/get-vscode-theme';
+import { useOvermind } from '@muggle/hooks';
 
-const STATUS_BAR_SIZE = 22
+const STATUS_BAR_SIZE = 22;
 
 const StatusBar = styled.div`
   a {
     color: inherit;
   }
-`
+`;
 
-const VsCodeStatusBar = ({visible = true}) => (
+const VsCodeStatusBar = ({ visible = true }) => (
   <StatusBar
     style={{
       position: 'fixed',
@@ -40,44 +40,44 @@ const VsCodeStatusBar = ({visible = true}) => (
       id="workbench.parts.statusbar"
     />
   </StatusBar>
-)
+);
 
 function ContentSplit(props) {
-  const {state, actions} = useOvermind()
-  const customVSCodeTheme = state.preferences.settings.customVSCodeTheme
+  const { state, actions } = useOvermind();
+  const customVSCodeTheme = state.preferences.settings.customVSCodeTheme;
   const [theme, setTheme] = React.useState({
     colors: {},
     vscodeTheme: codesandbox,
-  })
+  });
 
   React.useEffect(() => {
-    let aborted = false
+    let aborted = false;
     getVSCodeTheme('', customVSCodeTheme)
       .then(() => {
-        if (aborted) return null
-        setTheme(theme)
+        if (aborted) return null;
+        setTheme(theme);
       })
-      .catch(console.error)
+      .catch(console.error);
 
     return () => {
-      aborted = true
-    }
-  }, [customVSCodeTheme])
+      aborted = true;
+    };
+  }, [customVSCodeTheme]);
 
-  const {match} = props
-  const sandbox = state.editor.currentSandbox
+  const { match } = props;
+  const sandbox = state.editor.currentSandbox;
 
-  const vscode = state.preferences.settings.experimentVSCode
+  const vscode = state.preferences.settings.experimentVSCode;
 
   const hideNavigation =
-    state.preferences.settings.zenMode && state.workspace.workspaceHidden
+    state.preferences.settings.zenMode && state.workspace.workspaceHidden;
 
-  const {statusBar} = state.editor
+  const { statusBar } = state.editor;
 
-  const templateDef = sandbox && getTemplateDefinition(sandbox.template)
+  const templateDef = sandbox && getTemplateDefinition(sandbox.template);
 
-  const topOffset = state.preferences.settings.zenMode ? 0 : 3 * 16
-  const bottomOffset = vscode ? STATUS_BAR_SIZE : 0
+  const topOffset = state.preferences.settings.zenMode ? 0 : 3 * 16;
+  const bottomOffset = vscode ? STATUS_BAR_SIZE : 0;
 
   return (
     <ThemeProvider
@@ -88,12 +88,12 @@ function ContentSplit(props) {
       }}
     >
       <Container
-        style={{lineHeight: 'initial'}}
+        style={{ lineHeight: 'initial' }}
         className="monaco-workbench"
       >
         <Header zenMode={state.preferences.settings.zenMode}/>
 
-        <Fullscreen style={{width: 'initial'}}>
+        <Fullscreen style={{ width: 'initial' }}>
           {!hideNavigation && (
             <Navigation topOffset={topOffset} bottomOffset={bottomOffset}/>
           )}
@@ -116,9 +116,9 @@ function ContentSplit(props) {
               onDragFinished={() => actions.editor.resizingStopped()}
               onChange={size => {
                 if (size > 0 && state.workspace.workspaceHidden) {
-                  actions.workspace.setWorkspaceHidden({hidden: false})
+                  actions.workspace.setWorkspaceHidden({ hidden: false });
                 } else if (size === 0 && !state.workspace.workspaceHidden) {
-                  actions.workspace.setWorkspaceHidden({hidden: true})
+                  actions.workspace.setWorkspaceHidden({ hidden: true });
                 }
               }}
               pane1Style={{
@@ -144,8 +144,8 @@ function ContentSplit(props) {
         <ForkFrozenSandboxModal/>
       </Container>
     </ThemeProvider>
-  )
+  );
 
 }
 
-export default ContentSplit
+export default ContentSplit;

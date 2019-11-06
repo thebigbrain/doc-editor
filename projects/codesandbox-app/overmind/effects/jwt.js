@@ -1,10 +1,10 @@
 // import store from 'store/dist/store.modern';
 // import { identify, resetUserId } from '@csb/common/lib/utils/analytics';
-import * as api from './api/feathers'
+import * as api from './api/feathers';
 
 
 export async function reAuthenticate() {
-  return await api.reAuthenticate()
+  return await api.reAuthenticate();
 }
 
 export async function get() {
@@ -12,8 +12,8 @@ export async function get() {
 }
 
 export async function set(jwt) {
-  await api.setAccessToken(jwt)
-  await api.reAuthenticate()
+  await api.setAccessToken(jwt);
+  await api.reAuthenticate();
 }
 
 export function reset() {
@@ -24,5 +24,5 @@ export function reset() {
   // resetUserId();
   //
   // return store.set('jwt', null);
-  api.reset()
+  api.reset();
 }

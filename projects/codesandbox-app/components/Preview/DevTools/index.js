@@ -1,10 +1,10 @@
-import React from 'react'
-import {Elastic, TweenMax} from 'gsap'
-import {FaAngleUp} from 'react-icons/fa'
-import store from 'store/dist/store.modern'
-import track from '@csb/common/lib/utils/analytics'
-import {DevToolTabs} from './Tabs/index'
-import {Container, ContentContainer, Header} from './elements'
+import React from 'react';
+import { Elastic, TweenMax } from 'gsap';
+import { FaAngleUp } from 'react-icons/fa';
+import store from 'store/dist/store.modern';
+import track from '@csb/common/lib/utils/analytics';
+import { DevToolTabs } from './Tabs/index';
+import { Container, ContentContainer, Header } from './elements';
 
 function unFocus(document, window) {
   if (document.selection) {
@@ -20,7 +20,7 @@ function unFocus(document, window) {
 }
 
 function normalizeTouchEvent(
-  event
+  event,
 ) {
   // @ts-ignore
   return {
@@ -31,18 +31,18 @@ function normalizeTouchEvent(
 }
 
 export class DevTools extends React.PureComponent {
-  node
-  closedHeight = () => (this.props.primary ? 35 : 28)
-  allViews
+  node;
+  closedHeight = () => (this.props.primary ? 35 : 28);
+  allViews;
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    const isOpen = Boolean(props.viewConfig.open)
+    const isOpen = Boolean(props.viewConfig.open);
 
     this.allViews = props.addedViews
-      ? {...VIEWS, ...props.addedViews}
-      : VIEWS
+      ? { ...VIEWS, ...props.addedViews }
+      : VIEWS;
 
     this.state = {
       status: {},
@@ -55,11 +55,11 @@ export class DevTools extends React.PureComponent {
       hidden: !props.primary && !isOpen,
 
       currentTabIndex: 0,
-    }
+    };
   }
 
   getCurrentPane = () =>
-    this.props.viewConfig.views[this.state.currentTabIndex]
+    this.props.viewConfig.views[this.state.currentTabIndex];
 
   /**
    * Set the current tab based on whether the selection has changed to the current
@@ -72,15 +72,15 @@ export class DevTools extends React.PureComponent {
           props.currentTabPosition,
           props.viewConfig.views.length - 1,
         ),
-      }
+      };
     }
 
     // Prevent selecting the last tab
     if (state.currentTabIndex > props.viewConfig.views.length - 1) {
-      return {currentTabIndex: props.viewConfig.views.length - 1}
+      return { currentTabIndex: props.viewConfig.views.length - 1 };
     }
 
-    return null
+    return null;
   }
 
   normalizeHeight = (el) => {
@@ -184,40 +184,40 @@ export class DevTools extends React.PureComponent {
     }
   };
   handleClick = () => {
-    this.openDevTools()
-  }
+    this.openDevTools();
+  };
 
   handleTouchEnd = (event) => {
     this.handleMouseUp(event);
   };
   openDevTools = () => {
-    this.setHidden(false)
-    const heightObject = {height: this.state.height}
+    this.setHidden(false);
+    const heightObject = { height: this.state.height };
     if (this.props.setDevToolsOpen) {
-      this.props.setDevToolsOpen(true)
+      this.props.setDevToolsOpen(true);
     }
     TweenMax.to(heightObject, 0.3, {
       height: store.get('devtools.height') || 300,
       onUpdate: () => {
-        this.setState(heightObject)
+        this.setState(heightObject);
       },
       ease: Elastic.easeOut.config(0.25, 1),
-    })
-  }
+    });
+  };
   hideDevTools = () => {
-    this.setHidden(true)
-    const heightObject = {height: this.state.height}
+    this.setHidden(true);
+    const heightObject = { height: this.state.height };
     if (this.props.setDevToolsOpen) {
-      this.props.setDevToolsOpen(false)
+      this.props.setDevToolsOpen(false);
     }
     TweenMax.to(heightObject, 0.3, {
       height: this.closedHeight(),
       onUpdate: () => {
-        this.setState(heightObject)
+        this.setState(heightObject);
       },
       ease: Elastic.easeOut.config(0.25, 1),
-    })
-  }
+    });
+  };
 
   handleMouseUp = (e) => {
     if (this.state.mouseDown) {
@@ -306,7 +306,7 @@ export class DevTools extends React.PureComponent {
     }));
   };
 
-  getViews = () => this.allViews
+  getViews = () => this.allViews;
 
   componentDidUpdate(prevProps, prevState) {
     if (

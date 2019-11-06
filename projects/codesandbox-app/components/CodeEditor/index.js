@@ -1,71 +1,71 @@
-import React from 'react'
-import {MdDvr as UIIcon} from 'react-icons/md'
-import {GoQuestion as QuestionIcon} from 'react-icons/go'
-import getUI from '@csb/common/lib/templates/configuration/ui'
-import Centered from '@csb/common/lib/components/flex/Centered'
-import Margin from '@csb/common/lib/components/spacing/Margin'
-import isImage from '@csb/common/lib/utils/is-image'
-import getDefinition from '@csb/common/lib/templates'
-import {getModulePath} from '@csb/common/lib/sandbox/modules'
-import Tooltip from '@csb/common/lib/components/Tooltip'
-import {Title} from '~/components/Title'
-import {SubTitle} from '~/components/SubTitle'
-import Loadable from '~/utils/Loadable'
-import {ImageViewer} from './ImageViewer/index'
-import {Configuration} from './Configuration/index'
-import {VSCode} from './VSCode/index'
-import MonacoDiff from './MonacoDiff/index'
-import {Icon, Icons} from './elements'
+import React from 'react';
+import { MdDvr as UIIcon } from 'react-icons/md';
+import { GoQuestion as QuestionIcon } from 'react-icons/go';
+import getUI from '@csb/common/lib/templates/configuration/ui';
+import Centered from '@csb/common/lib/components/flex/Centered';
+import Margin from '@csb/common/lib/components/spacing/Margin';
+import isImage from '@csb/common/lib/utils/is-image';
+import getDefinition from '@csb/common/lib/templates';
+import { getModulePath } from '@csb/common/lib/sandbox/modules';
+import Tooltip from '@csb/common/lib/components/Tooltip';
+import { Title } from '~/components/Title';
+import { SubTitle } from '~/components/SubTitle';
+import Loadable from '~/utils/Loadable';
+import { ImageViewer } from './ImageViewer/index';
+import { Configuration } from './Configuration/index';
+import { VSCode } from './VSCode/index';
+import MonacoDiff from './MonacoDiff/index';
+import { Icon, Icons } from './elements';
 
 const CodeMirror = Loadable(() =>
   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
-)
+);
 
 const Monaco = Loadable(() =>
   import(/* webpackChunkName: 'codemirror-editor' */ './Monaco/index'),
-)
+);
 
 const getDependencies = (sandbox) => {
   const packageJSON = sandbox.modules.find(
     m => m.title === 'package.json' && m.directoryShortid == null,
-  )
+  );
 
   if (packageJSON != null) {
     try {
       const { dependencies = {}, devDependencies = {} } = JSON.parse(
         packageJSON.code || '',
-      )
+      );
 
-      const usedDevDependencies = {}
+      const usedDevDependencies = {};
       Object.keys(devDependencies).forEach(d => {
         if (d.startsWith('@types')) {
-          usedDevDependencies[d] = devDependencies[d]
+          usedDevDependencies[d] = devDependencies[d];
         }
-      })
+      });
 
-      return { ...dependencies, ...usedDevDependencies }
+      return { ...dependencies, ...usedDevDependencies };
     } catch (e) {
-      console.error(e)
-      return null
+      console.error(e);
+      return null;
     }
   } else {
     return typeof sandbox.npmDependencies.toJS === 'function'
       ? (sandbox.npmDependencies).toJS()
-      : sandbox.npmDependencies
+      : sandbox.npmDependencies;
   }
-}
+};
 
 export class CodeEditor extends React.PureComponent {
   state = {
     showConfigUI: true,
-  }
+  };
 
   toggleConfigUI = () => {
-    this.setState(state => ({ showConfigUI: !state.showConfigUI }))
-  }
+    this.setState(state => ({ showConfigUI: !state.showConfigUI }));
+  };
 
   render() {
-    const { props } = this
+    const { props } = this;
 
     const {
       isModuleSynced,
@@ -73,7 +73,7 @@ export class CodeEditor extends React.PureComponent {
       sandbox,
       currentModule: module,
       settings,
-    } = props
+    } = props;
 
     if (currentTab && currentTab.type === 'DIFF') {
       return (
@@ -95,18 +95,18 @@ export class CodeEditor extends React.PureComponent {
             {...props}
           />
         </div>
-      )
+      );
     }
 
-    const dependencies = getDependencies(sandbox)
+    const dependencies = getDependencies(sandbox);
 
-    const template = getDefinition(sandbox.template)
+    const template = getDefinition(sandbox.template);
     const modulePath = getModulePath(
       sandbox.modules,
       sandbox.directories,
       module.id,
-    )
-    const config = template.configurationFiles[modulePath]
+    );
+    const config = template.configurationFiles[modulePath];
 
     if (
       !settings.experimentVSCode &&
@@ -121,14 +121,14 @@ export class CodeEditor extends React.PureComponent {
           config={config}
           toggleConfigUI={this.toggleConfigUI}
         />
-      )
+      );
     }
 
     if (!settings.experimentVSCode && module.isBinary) {
       if (isImage(module.title)) {
-        return <ImageViewer {...props} dependencies={dependencies}/>
+        return <ImageViewer {...props} dependencies={dependencies}/>;
       }
-    
+
       return (
         <Margin
           style={{
@@ -143,19 +143,19 @@ export class CodeEditor extends React.PureComponent {
             <SubTitle>
               We will add support for this as soon as possible.
             </SubTitle>
-    
+
             <a href={module.code} target="_blank" rel="noreferrer noopener">
               Open file externally
             </a>
           </Centered>
         </Margin>
-      )
+      );
     }
 
-    let Editor = settings.codeMirror && !props.isLive ? CodeMirror : Monaco
+    let Editor = settings.codeMirror && !props.isLive ? CodeMirror : Monaco;
 
     if (settings.experimentVSCode) {
-      Editor = VSCode
+      Editor = VSCode;
     }
 
     return (
@@ -207,6 +207,6 @@ export class CodeEditor extends React.PureComponent {
         ))}
         <Editor {...props} dependencies={dependencies}/>
       </div>
-    )
+    );
   }
 }

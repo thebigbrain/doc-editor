@@ -1,33 +1,33 @@
-import React from 'react'
-import Helmet from 'react-helmet'
-import { Link } from 'react-router-dom'
-import { getSandboxName } from '@csb/common/lib/utils/get-sandbox-name'
-import { Button } from '@csb/common/lib/components/Button'
-import Centered from '@csb/common/lib/components/flex/Centered'
-import Fullscreen from '@csb/common/lib/components/flex/Fullscreen'
-import Padding from '@csb/common/lib/components/spacing/Padding'
+import React from 'react';
+import Helmet from 'react-helmet';
+import { Link } from 'react-router-dom';
+import { getSandboxName } from '@csb/common/lib/utils/get-sandbox-name';
+import { Button } from '@csb/common/lib/components/Button';
+import Centered from '@csb/common/lib/components/flex/Centered';
+import Fullscreen from '@csb/common/lib/components/flex/Fullscreen';
+import Padding from '@csb/common/lib/components/spacing/Padding';
 
-import { Title } from '~/components/Title'
-import { Skeleton } from '~/components/Skeleton'
-import { QuickActions } from '~/pages/Sandbox/QuickActions'
-import { NotFound } from '~/pages/common/NotFound'
-import { Navigation } from '~/pages/common/Navigation'
-import { GithubIntegration } from '~/pages/common/GithubIntegration'
-import Editor from './Editor'
-import { useOvermind } from '@muggle/hooks'
+import { Title } from '~/components/Title';
+import { Skeleton } from '~/components/Skeleton';
+import { QuickActions } from '~/pages/Sandbox/QuickActions';
+import { NotFound } from '~/pages/common/NotFound';
+import { Navigation } from '~/pages/common/Navigation';
+import { GithubIntegration } from '~/pages/common/GithubIntegration';
+import Editor from './Editor';
+import { useOvermind } from '@muggle/hooks';
 
 function getContent(props) {
   const {
-    state: {editor, user, live, hasLogIn}
-  } = useOvermind()
+    state: { editor, user, live, hasLogIn },
+  } = useOvermind();
 
   if (editor.notFound) {
-    return <NotFound/>
+    return <NotFound/>;
   }
 
   if (editor.error) {
-    const isGithub = props.match.params.id.includes('github')
-    const hasPrivateAccess = user && user.integrations.github
+    const isGithub = props.match.params.id.includes('github');
+    const hasPrivateAccess = user && user.integrations.github;
     return (
       <>
         <div
@@ -72,7 +72,7 @@ function getContent(props) {
           </div>
         )}
       </>
-    )
+    );
   }
 
   if (
@@ -95,23 +95,23 @@ function getContent(props) {
           ]}
         />
       </>
-    )
+    );
   }
 
-  return null
+  return null;
 }
 
 export default function(props) {
-  const { match } = props
-  const {state: {editor}, actions} = useOvermind()
-  const { id } = match.params
-  const sandbox = editor.currentSandbox
+  const { match } = props;
+  const { state: { editor }, actions } = useOvermind();
+  const { id } = match.params;
+  const sandbox = editor.currentSandbox;
 
   React.useEffect(() => {
-    actions.editor.sandboxChanged({ id })
-  }, [id])
+    actions.editor.sandboxChanged({ id });
+  }, [id]);
 
-  const content = getContent(props)
+  const content = getContent(props);
   if (content) {
     return (
       <Fullscreen>
@@ -134,7 +134,7 @@ export default function(props) {
           </Centered>
         </Padding>
       </Fullscreen>
-    )
+    );
   }
 
   return (
@@ -145,5 +145,5 @@ export default function(props) {
       <Editor match={match}/>
       <QuickActions/>
     </>
-  )
+  );
 }

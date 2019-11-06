@@ -92,7 +92,7 @@ export default class Module {
             return require('debug');
         }
         if (request == '/vscode/node_modules.asar/vscode-textmate') {
-            return require('vscode-textmate/out/main');
+            return require('vscode-textmate/release/main');
         }
         if (request === 'zlib') {
             return require('browserify-zlib');

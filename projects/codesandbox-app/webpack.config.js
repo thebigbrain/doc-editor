@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const builtin = require('module').builtinModules;
 
 exports.merge = require('merge-deep');
 
@@ -9,7 +10,7 @@ const baseConfig = {
   devServer: {
     hot: true,
   },
-  externals: [],
+  externals: [...builtin],
   resolve: {
     symlinks: false,
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],

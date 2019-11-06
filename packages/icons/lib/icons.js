@@ -7,7 +7,6 @@ export {
   GoSearch as SearchIcon,
   GoBrowser as BrowserIcon,
   GoPencil as EditIcon,
-  GoPrimitiveSquare as NotSyncedIcon,
 } from 'react-icons/go'
 
 export {

@@ -147,9 +147,9 @@ export const state = {
       : generateFileFromSandbox(currentSandbox);
   },
   shouldDirectoryBeOpen: ({
-                            currentSandbox,
-                            currentModule,
-                          }) => directoryShortid => {
+    currentSandbox,
+    currentModule,
+  }) => directoryShortid => {
     const { modules, directories } = currentSandbox;
     const currentModuleId = currentModule.id;
     const currentModuleParents = getModuleParents(
@@ -162,10 +162,10 @@ export const state = {
     return isParentOfModule;
   },
   devToolTabs: ({
-                  currentSandbox: sandbox,
-                  parsedConfigurations,
-                  workspaceConfigCode: intermediatePreviewCode,
-                }) => {
+    currentSandbox: sandbox,
+    parsedConfigurations,
+    workspaceConfigCode: intermediatePreviewCode,
+  }) => {
     if (!sandbox) {
       return [];
     }

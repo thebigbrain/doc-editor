@@ -118,6 +118,7 @@
     "store": "^2.0.12",
     "styled-components": "^4.4.0",
     "subworkers": "^1.0.1",
+    "vscode-textmate": "4.3.0",
     "vue-eslint-parser": "^6.0.4",
     "xterm": "^4.1.0"
   },

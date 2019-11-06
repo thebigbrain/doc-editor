@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components'
-import CloseIcon from 'react-icons/lib/go/x'
+import {CloseIcon} from '@muggle/icons'
 
 export const Container = styled.div`
   position: relative;

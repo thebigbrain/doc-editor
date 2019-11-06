@@ -90,7 +90,7 @@ function initializeRequires() {
         'vscode-proxy-agent': '0.4.0',
         'vscode-ripgrep': '^1.2.5',
         'vscode-sqlite3': '4.0.7',
-        'vscode-textmate': '^4.0.1',
+        'vscode-textmate': '^4.3.0',
         'vscode-xterm': '3.13.0-beta1',
         winreg: '^1.2.4',
         ws: '^6.1.0',
@@ -306,7 +306,7 @@ function initializeRequires() {
     return require('stream');
   });
   global.require.define('vscode-textmate', [], () => {
-    return require('vscode-textmate/out/main');
+    return require('vscode-textmate/release/main');
   });
   global.require.define('yazl', [], () => {
     // TODO: install yazl

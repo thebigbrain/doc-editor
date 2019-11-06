@@ -1,42 +1,42 @@
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import Modal from '~/components/Modal'
-import Loadable from '~/utils/Loadable'
-import { templateColor } from '~/utils/template-color'
-import getTemplateDefinition from '@csb/common/lib/templates'
-import codesandbox from '@csb/common/lib/themes/codesandbox.json'
-import getVSCodeTheme from '~/pages/Sandbox/Editor/utils/get-vscode-theme'
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import Modal from '~/components/Modal';
+import Loadable from '~/utils/Loadable';
+import { templateColor } from '~/utils/template-color';
+import getTemplateDefinition from '@csb/common/lib/templates';
+import codesandbox from '@csb/common/lib/themes/codesandbox.json';
+import getVSCodeTheme from '~/pages/Sandbox/Editor/utils/get-vscode-theme';
 
-import NewSandbox from './NewSandbox'
-import PreferencesModal from './PreferencesModal'
-import DeleteSandboxModal from './DeleteSandboxModal'
-import DeleteDeploymentModal from './DeleteDeploymentModal'
-import ShareModal from './ShareModal'
-import DeploymentModal from './DeploymentModal'
-import ExportGitHubModal from './ExportGitHubModal'
-import CommitModal from './CommitModal'
-import PRModal from './PRModal'
-import SelectSandboxModal from './SelectSandboxModal'
-import SearchDependenciesModal from './SearchDependenciesModal'
-import DeleteProfileSandboxModal from './DeleteProfileSandboxModal'
-import EmptyTrash from './EmptyTrash'
-import LiveSessionEnded from './LiveSessionEnded'
-import LiveSessionVersionMismatch from './LiveSessionVersionMismatch'
-import UploadModal from './UploadModal'
-import StorageManagementModal from './StorageManagementModal'
-import ForkServerModal from './ForkServerModal'
-import PrivacyServerWarning from './PrivacyServerWarning'
-import PickSandboxModal from './PickSandboxModal'
-import FeedbackModal from './FeedbackModal'
-import NetlifyLogs from './NetlifyLogs'
+import NewSandbox from './NewSandbox';
+import PreferencesModal from './PreferencesModal';
+import DeleteSandboxModal from './DeleteSandboxModal';
+import DeleteDeploymentModal from './DeleteDeploymentModal';
+import ShareModal from './ShareModal';
+import DeploymentModal from './DeploymentModal';
+import ExportGitHubModal from './ExportGitHubModal';
+import CommitModal from './CommitModal';
+import PRModal from './PRModal';
+import SelectSandboxModal from './SelectSandboxModal';
+import SearchDependenciesModal from './SearchDependenciesModal';
+import DeleteProfileSandboxModal from './DeleteProfileSandboxModal';
+import EmptyTrash from './EmptyTrash';
+import LiveSessionEnded from './LiveSessionEnded';
+import LiveSessionVersionMismatch from './LiveSessionVersionMismatch';
+import UploadModal from './UploadModal';
+import StorageManagementModal from './StorageManagementModal';
+import ForkServerModal from './ForkServerModal';
+import PrivacyServerWarning from './PrivacyServerWarning';
+import PickSandboxModal from './PickSandboxModal';
+import FeedbackModal from './FeedbackModal';
+import NetlifyLogs from './NetlifyLogs';
 
-import {SignInForTemplates} from './SignInForTemplates'
-import { SurveyModal } from './SurveyModal'
-import {useOvermind} from '@muggle/hooks'
+import { SignInForTemplates } from './SignInForTemplates';
+import { SurveyModal } from './SurveyModal';
+import { useOvermind } from '@muggle/hooks';
 
 const MoveSandboxFolderModal = Loadable(() =>
   import('./MoveSandboxFolderModal'),
-)
+);
 
 const modals = {
   preferences: {
@@ -139,30 +139,30 @@ const modals = {
     Component: SurveyModal,
     width: 850,
   },
-}
+};
 
 export default function() {
-  const {state, actions} = useOvermind()
-  const [theme, setTheme] = React.useState({colors: {}, vscodeTheme: codesandbox})
+  const { state, actions } = useOvermind();
+  const [theme, setTheme] = React.useState({ colors: {}, vscodeTheme: codesandbox });
 
-  const customVSCodeTheme = state.preferences.settings.customVSCodeTheme
-  const sandbox = state.editor.currentSandbox
-  const templateDef = sandbox && getTemplateDefinition(sandbox.template)
-  const modal = state.currentModal && modals[state.currentModal]
+  const customVSCodeTheme = state.preferences.settings.customVSCodeTheme;
+  const sandbox = state.editor.currentSandbox;
+  const templateDef = sandbox && getTemplateDefinition(sandbox.template);
+  const modal = state.currentModal && modals[state.currentModal];
 
   React.useEffect(() => {
-    let aborted = false
+    let aborted = false;
     getVSCodeTheme('', customVSCodeTheme)
       .then(theme => {
-        if (aborted) return null
-        setTheme(theme)
+        if (aborted) return null;
+        setTheme(theme);
       })
-      .catch(console.error)
+      .catch(console.error);
 
     return () => {
-      aborted = true
-    }
-  }, [customVSCodeTheme])
+      aborted = true;
+    };
+  }, [customVSCodeTheme]);
 
   return (
     <ThemeProvider
@@ -184,5 +184,5 @@ export default function() {
           : null}
       </Modal>
     </ThemeProvider>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import React from 'react'
-import Icon from 'react-icon-base'
+import React from 'react';
+import Icon from 'react-icon-base';
 
 const Preview = props => (
   <Icon viewBox="0 0 200 200" {...props}>
@@ -9,6 +9,6 @@ const Preview = props => (
       fill="inherit"
     />
   </Icon>
-)
+);
 
-export default Preview
+export default Preview;

@@ -1,32 +1,32 @@
-import React, { Component } from 'react'
-import {withOvermind} from '@muggle/hooks'
-import { Button } from '@csb/common/lib/components/Button'
-import { Container } from '../LiveSessionEnded/elements'
-import { Explanation, Heading } from '../elements'
+import React, { Component } from 'react';
+import { withOvermind } from '@muggle/hooks';
+import { Button } from '@csb/common/lib/components/Button';
+import { Container } from '../LiveSessionEnded/elements';
+import { Explanation, Heading } from '../elements';
 
-import { Item, List } from './elements'
+import { Item, List } from './elements';
 
 class NetlifyLogs extends Component {
-  state = { logs: ['Contacting Netlify'] }
+  state = { logs: ['Contacting Netlify'] };
   getLogs = async () => {
-    const url = this.props.overmind.state.deployment.netlifyLogs
+    const url = this.props.overmind.state.deployment.netlifyLogs;
 
-    const data = await fetch(url)
-    const { logs } = await data.json()
+    const data = await fetch(url);
+    const { logs } = await data.json();
 
-    this.setState({ logs })
-  }
+    this.setState({ logs });
+  };
 
   componentDidMount() {
-    this.interval = setInterval(this.getLogs, 2000)
+    this.interval = setInterval(this.getLogs, 2000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    clearInterval(this.interval);
   }
 
   render() {
-    const { actions } = this.props.overmind
+    const { actions } = this.props.overmind;
 
     return (
       <Container>
@@ -43,8 +43,8 @@ class NetlifyLogs extends Component {
           Close
         </Button>
       </Container>
-    )
+    );
   }
 }
 
-export default withOvermind(NetlifyLogs)
+export default withOvermind(NetlifyLogs);

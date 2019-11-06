@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import Centered from '@codesandbox/common/lib/components/flex/Centered';
+import Centered from '@csb/common/lib/components/flex/Centered';
+
 export const Container = styled(Centered) `
   height: 100%;
   color: ${props => props.theme['editor.foreground'] || 'rgba(255, 255, 255, 0.9)'};
@@ -8,7 +9,6 @@ export const Container = styled(Centered) `
 `;
 export const Title = styled.div `
   font-size: 2rem;
-  margin-top: 3rem;
   margin: 1rem 0;
 `;
 export const SubTitle = styled.div `
@@ -24,7 +24,7 @@ export const Image = styled.img `
 `;
 export const MaxWidth = styled.form `
   display: flex;
-  justify-content: centered;
+  justify-content: center;
   flex-direction: row;
   width: 80%;
 

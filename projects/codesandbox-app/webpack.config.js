@@ -1,8 +1,8 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-exports.merge = require('merge-deep')
+exports.merge = require('merge-deep');
 
 const baseConfig = {
   mode: process.env.mode || 'development',
@@ -15,10 +15,10 @@ const baseConfig = {
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
     alias: {
       // ... and any other directories you might have
-      '~': path.resolve(__dirname, '.')
+      '~': path.resolve(__dirname, '.'),
     },
   },
-}
+};
 
 const clientConfig = {
   entry: './index.js',
@@ -48,7 +48,7 @@ const clientConfig = {
               '@babel/plugin-proposal-class-properties',
               '@babel/plugin-proposal-export-default-from',
               '@babel/plugin-proposal-export-namespace-from',
-              "babel-plugin-styled-components",
+              'babel-plugin-styled-components',
             ],
           },
         },
@@ -74,7 +74,7 @@ const clientConfig = {
           options: {
             name: 'Icon',
           },
-        }
+        },
         // loader: 'svg-inline-loader?classPrefix',
       },
       {
@@ -96,6 +96,15 @@ const clientConfig = {
           },
         ],
       },
+      {
+        test: /\.worker\.js$/i,
+        use: [
+          {
+            loader: 'worker-loader',
+            options: { publicPath: '/' }
+          }
+        ]
+      },
     ],
   },
   plugins: [
@@ -111,10 +120,10 @@ const clientConfig = {
     contentBase: './dist',
     historyApiFallback: true,
     proxy: {
-      '/oauth': 'http://localhost:3030'
-    }
+      '/oauth': 'http://localhost:3030',
+    },
   },
-  devtool: 'eval-source-map'
-}
+  devtool: 'eval-source-map',
+};
 
-module.exports = exports.merge(baseConfig, clientConfig)
+module.exports = exports.merge(baseConfig, clientConfig);

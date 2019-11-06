@@ -1,36 +1,37 @@
-import * as React from 'react'
-import Margin from '@csb/common/lib/components/spacing/Margin'
-import { Button } from '@csb/common/lib/components/Button'
+import * as React from 'react';
+import Margin from '@csb/common/lib/components/spacing/Margin';
+import { Button } from '@csb/common/lib/components/Button';
 
-import AutosizeTextArea from '@csb/common/lib/components/AutosizeTextArea'
-import Input from '@csb/common/lib/components/Input'
-import { useOvermind } from '@muggle/hooks'
+import AutosizeTextArea from '@csb/common/lib/components/AutosizeTextArea';
+import Input from '@csb/common/lib/components/Input';
+import { useOvermind } from '@muggle/hooks';
 
-import { EmojiButton } from './elements'
+import { EmojiButton } from './elements';
 
-const pushToAirtable = () => {};
+const pushToAirtable = () => {
+};
 
 export default function(props) {
-  const { actions } = useOvermind()
+  const { actions } = useOvermind();
   const [state, updateState] = React.useState({
     feedback: '',
     email: (props.user || {}).email,
     emoji: null,
     loading: false,
-  })
+  });
 
   function setState(partial) {
-    return updateState(Object.assign({}, state, partial))
+    return updateState(Object.assign({}, state, partial));
   }
 
   const onChange = e => {
-    setState({ [e.target.name]: e.target.value })
-  }
+    setState({ [e.target.name]: e.target.value });
+  };
 
   const onSubmit = evt => {
-    const { id, user } = props
-    const { feedback, emoji, email } = state
-    evt.preventDefault()
+    const { id, user } = props;
+    const { feedback, emoji, email } = state;
+    evt.preventDefault();
 
     setState({ loading: true }, () => {
       pushToAirtable({
@@ -48,14 +49,14 @@ export default function(props) {
               loading: false,
             },
             () => {
-              actions.modalClosed()
+              actions.modalClosed();
 
               actions.notificationAdded({
                 message: `Thanks for your feedback!`,
                 type: 'success',
-              })
+              });
             },
-          )
+          );
         })
         .catch(e => {
           actions.notificationAdded({
@@ -63,22 +64,22 @@ export default function(props) {
               e.message
               }`,
             type: 'error',
-          })
+          });
 
-          setState({ loading: false })
-        })
-    })
-  }
+          setState({ loading: false });
+        });
+    });
+  };
 
   const setHappy = () => {
-    setState({ emoji: 'happy' })
-  }
+    setState({ emoji: 'happy' });
+  };
 
   const setSad = () => {
-    setState({ emoji: 'sad' })
-  }
+    setState({ emoji: 'sad' });
+  };
 
-  const { feedback, emoji, email } = state
+  const { feedback, emoji, email } = state;
   return (
     <form onSubmit={onSubmit}>
       <AutosizeTextArea
@@ -151,5 +152,5 @@ export default function(props) {
         </div>
       </Margin>
     </form>
-  )
+  );
 }

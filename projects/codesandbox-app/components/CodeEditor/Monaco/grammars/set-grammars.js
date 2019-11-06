@@ -1,16 +1,16 @@
-const monacoTextmate1 = require('monaco-textmate')
+const monacoTextmate1 = require('monaco-textmate');
 
 class TokenizerState {
   constructor(_ruleStack) {
-    this._ruleStack = _ruleStack
+    this._ruleStack = _ruleStack;
   }
 
   get ruleStack() {
-    return this._ruleStack
+    return this._ruleStack;
   }
 
   clone() {
-    return new TokenizerState(this._ruleStack)
+    return new TokenizerState(this._ruleStack);
   }
 
   equals(other) {
@@ -20,9 +20,9 @@ class TokenizerState {
       other !== this ||
       other._ruleStack !== this._ruleStack
     ) {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 }
 
@@ -37,12 +37,12 @@ export function wireTmGrammars(monaco, registry, languages) {
   return Promise.all(
     Array.from(languages.keys()).map(async languageId => {
       try {
-        const grammar = await registry.loadGrammar(languages.get(languageId))
+        const grammar = await registry.loadGrammar(languages.get(languageId));
 
         monaco.languages.setTokensProvider(languageId, {
           getInitialState: () => new TokenizerState(monacoTextmate1.INITIAL),
           tokenize: (line, state) => {
-            const res = grammar.tokenizeLine(line, state.ruleStack)
+            const res = grammar.tokenizeLine(line, state.ruleStack);
 
             return {
               endState: new TokenizerState(res.ruleStack),
@@ -51,14 +51,14 @@ export function wireTmGrammars(monaco, registry, languages) {
                 // TODO: At the moment, monaco-editor doesn't seem to accept array of scopes
                 scopes: token.scopes[token.scopes.length - 1],
               })),
-            }
+            };
           },
-        })
+        });
       } catch (e) {
         if (process.env.NODE_ENV === 'development') {
-          console.warn(e) // eslint-disable-line
+          console.warn(e); // eslint-disable-line
         }
       }
     }),
-  )
+  );
 }

@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { flatten, groupBy, sortBy } from 'lodash-es'
-import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import { getModulePath } from '@csb/common/lib/sandbox/modules'
-import Input from '@csb/common/lib/components/Input'
-import EntryIcons from 'app/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons'
+import * as React from 'react';
+import { flatten, groupBy, sortBy } from 'lodash-es';
+import Downshift from 'downshift';
+import matchSorter from 'match-sorter';
+import { getModulePath } from '@csb/common/lib/sandbox/modules';
+import Input from '@csb/common/lib/components/Input';
+import EntryIcons from '~/pages/Sandbox/Editor/Workspace/Files/DirectoryEntry/Entry/EntryIcons';
 // eslint-disable-next-line import/extensions
-import getType from 'app/utils/get-type.ts'
-import { ESC } from '@csb/common/lib/utils/keycodes'
+import getType from '~/utils/get-type';
+import { ESC } from '@csb/common/lib/utils/keycodes';
 import {
   Container,
   CurrentModuleText,
@@ -17,42 +17,42 @@ import {
   Name,
   NotSyncedIconWithMargin,
   Path,
-} from './elements'
+} from './elements';
 
 export default class FuzzySearch extends React.PureComponent {
   // This is a precached map of paths to module
-  paths = {}
-  itemToString = m => (m ? m.path : '')
+  paths = {};
+  itemToString = m => (m ? m.path : '');
   getItems = (value = '') => {
-    const pathArray = Object.keys(this.paths).map(id => this.paths[id])
+    const pathArray = Object.keys(this.paths).map(id => this.paths[id]);
 
-    return matchSorter(pathArray, value, { keys: ['path'] })
-  }
+    return matchSorter(pathArray, value, { keys: ['path'] });
+  };
   onChange = item => {
-    this.props.setCurrentModule(item.m.id)
-  }
+    this.props.setCurrentModule(item.m.id);
+  };
   handleKeyUp = e => {
     if (e.keyCode === ESC) {
-      this.props.closeFuzzySearch()
+      this.props.closeFuzzySearch();
     }
-  }
+  };
 
   UNSAFE_componentWillMount() {
-    const { modules, directories } = this.props
+    const { modules, directories } = this.props;
     const modulePathData = modules.map(m => {
-      const path = getModulePath(modules, directories, m.id)
+      const path = getModulePath(modules, directories, m.id);
       return {
         m,
         path,
         depth: path.split('/').length,
-      }
-    })
+      };
+    });
 
-    const groupedPaths = groupBy(modulePathData, n => n.depth)
+    const groupedPaths = groupBy(modulePathData, n => n.depth);
     const sortedPaths = Object.values(groupedPaths).map(group =>
       sortBy(group, n => n.path),
-    )
-    const flattenedPaths = flatten(sortedPaths)
+    );
+    const flattenedPaths = flatten(sortedPaths);
 
     this.paths = flattenedPaths.reduce(
       (paths, { m, path }) => ({
@@ -60,11 +60,11 @@ export default class FuzzySearch extends React.PureComponent {
         [m.id]: { path: path.replace('/', ''), m },
       }),
       {},
-    )
+    );
   }
 
   render() {
-    const { currentModuleId } = this.props
+    const { currentModuleId } = this.props;
     return (
       <Container>
         <Downshift
@@ -123,6 +123,6 @@ export default class FuzzySearch extends React.PureComponent {
           )}
         </Downshift>
       </Container>
-    )
+    );
   }
 }

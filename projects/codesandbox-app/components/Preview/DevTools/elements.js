@@ -18,7 +18,7 @@ export const Container = styled.div`
   z-index: 7;
 `;
 
-export const Header = styled.div<{ primary: boolean; open: boolean }>`
+export const Header = styled.div`
   position: relative;
   display: flex;
   font-size: 0.75rem;

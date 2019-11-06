@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DragSource, DropTarget, } from 'react-dnd';
-import CrossIcon from 'react-icons/lib/md/clear';
+import {CrossIcon} from '@muggle/icons';
 import { CloseTab, Tab } from './elements';
 import { UnreadDevToolsCount } from './UnreadDevToolsCount';
 /**

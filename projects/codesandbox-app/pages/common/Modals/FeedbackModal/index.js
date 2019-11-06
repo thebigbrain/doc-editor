@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import Loadable from '~/utils/Loadable'
-import {useOvermind} from '@muggle/hooks'
+import Loadable from '~/utils/Loadable';
+import { useOvermind } from '@muggle/hooks';
 
-import { Container, Heading } from '../elements'
+import { Container, Heading } from '../elements';
 
 const Feedback = Loadable(() =>
   import(/* webpackChunkName: 'feedback' */ './Feedback'),
-)
+);
 
-function FeedbackModal() {
-  const {state} = useOvermind()
+export default function FeedbackModal() {
+  const { state } = useOvermind();
 
   return (
     <Container>
@@ -18,5 +18,5 @@ function FeedbackModal() {
 
       <Feedback user={state.user} id={state.editor.currentId}/>
     </Container>
-  )
+  );
 }

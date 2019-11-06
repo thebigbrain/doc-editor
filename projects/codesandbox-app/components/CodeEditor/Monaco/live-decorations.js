@@ -1,20 +1,20 @@
-import { css } from 'glamor'
-import { indexToLineAndColumn } from './monaco-index-converter'
+import { css } from 'glamor';
+import { indexToLineAndColumn } from './monaco-index-converter';
 
 const fadeIn = css.keyframes('fadeIn', {
   // optional name
   '0%': { opacity: 0 },
   '100%': { opacity: 1 },
-})
+});
 
 const fadeOut = css.keyframes('fadeOut', {
   // optional name
   '0%': { opacity: 1 },
   '100%': { opacity: 0 },
-})
+});
 
-const userClassesGenerated = {}
-const userSelectionDecorations = {}
+const userClassesGenerated = {};
+const userSelectionDecorations = {};
 
 export function updateUserSelections(
   monaco,
@@ -23,31 +23,31 @@ export function updateUserSelections(
   userSelections,
 ) {
   if (!editor.getModel()) {
-    return
+    return;
   }
 
-  const lines = editor.getModel().getLinesContent() || []
+  const lines = editor.getModel().getLinesContent() || [];
 
   userSelections.forEach(data => {
-    const { userId } = data
+    const { userId } = data;
 
-    const decorationId = currentModule.shortid + userId
+    const decorationId = currentModule.shortid + userId;
     if (data.selection === null) {
       userSelectionDecorations[decorationId] = editor.deltaDecorations(
         userSelectionDecorations[decorationId] || [],
         [],
         data.userId,
-      )
+      );
 
-      return
+      return;
     }
 
-    const decorations = []
-    const { selection, color, name } = data
+    const decorations = [];
+    const { selection, color, name } = data;
 
     if (selection) {
       const addCursor = (position, className) => {
-        const cursorPos = indexToLineAndColumn(lines, position)
+        const cursorPos = indexToLineAndColumn(lines, position);
 
         decorations.push({
           range: new monaco.Range(
@@ -59,12 +59,12 @@ export function updateUserSelections(
           options: {
             className: userClassesGenerated[className],
           },
-        })
-      }
+        });
+      };
 
       const addSelection = (start, end, className) => {
-        const from = indexToLineAndColumn(lines, start)
-        const to = indexToLineAndColumn(lines, end)
+        const from = indexToLineAndColumn(lines, start);
+        const to = indexToLineAndColumn(lines, end);
 
         decorations.push({
           range: new monaco.Range(
@@ -76,14 +76,14 @@ export function updateUserSelections(
           options: {
             className: userClassesGenerated[className],
           },
-        })
-      }
+        });
+      };
 
-      const prefix = color.join('-') + userId
-      const cursorClassName = prefix + '-cursor'
-      const secondaryCursorClassName = prefix + '-secondary-cursor'
-      const selectionClassName = prefix + '-selection'
-      const secondarySelectionClassName = prefix + '-secondary-selection'
+      const prefix = color.join('-') + userId;
+      const cursorClassName = prefix + '-cursor';
+      const secondaryCursorClassName = prefix + '-secondary-cursor';
+      const selectionClassName = prefix + '-selection';
+      const secondarySelectionClassName = prefix + '-secondary-selection';
 
       if (!userClassesGenerated[cursorClassName]) {
         const nameStyles = {
@@ -104,7 +104,7 @@ export function updateUserSelections(
           userSelect: 'none',
           pointerEvents: 'none',
           width: 'max-content',
-        }
+        };
         userClassesGenerated[cursorClassName] = `${css({
           backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.8)`,
           width: '2px !important',
@@ -125,14 +125,14 @@ export function updateUserSelections(
               ...nameStyles,
             },
           },
-        })}`
+        })}`;
       }
 
       if (!userClassesGenerated[secondaryCursorClassName]) {
         userClassesGenerated[secondaryCursorClassName] = `${css({
           backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.6)`,
           width: '2px !important',
-        })}`
+        })}`;
       }
 
       if (!userClassesGenerated[selectionClassName]) {
@@ -140,7 +140,7 @@ export function updateUserSelections(
           backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.3)`,
           borderRadius: '3px',
           minWidth: 7.6,
-        })}`
+        })}`;
       }
 
       if (!userClassesGenerated[secondarySelectionClassName]) {
@@ -148,30 +148,30 @@ export function updateUserSelections(
           backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
           borderRadius: '3px',
           minWidth: 7.6,
-        })}`
+        })}`;
       }
 
-      addCursor(selection.primary.cursorPosition, cursorClassName)
+      addCursor(selection.primary.cursorPosition, cursorClassName);
       if (selection.primary.selection.length) {
         addSelection(
           selection.primary.selection[0],
           selection.primary.selection[1],
           selectionClassName,
-        )
+        );
       }
 
       if (selection.secondary.length) {
         selection.secondary.forEach(s => {
-          addCursor(s.cursorPosition, secondaryCursorClassName)
+          addCursor(s.cursorPosition, secondaryCursorClassName);
 
           if (s.selection.length) {
             addSelection(
               s.selection[0],
               s.selection[1],
               secondarySelectionClassName,
-            )
+            );
           }
-        })
+        });
       }
     }
 
@@ -181,7 +181,7 @@ export function updateUserSelections(
         userSelectionDecorations[decorationId] || [],
         decorations,
         userId,
-      )
-    })
-  })
+      );
+    });
+  });
 }

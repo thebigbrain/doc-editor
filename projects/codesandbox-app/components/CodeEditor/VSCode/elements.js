@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import theme from '@codesandbox/common/lib/theme';
+import theme from '@csb/common/lib/theme';
 
 export const Container = styled.div `
   width: 100%;
@@ -51,7 +51,7 @@ export const CodeContainer = styled.div `
 
   /* For retina screens we will not do subpixel anti-aliasing. That looks uglier. */
   @media (-webkit-min-device-pixel-ratio: 1.5) {
-    -webkit-font-smoothing: auto;
+    -webkit-font-smoothing: antialiased;
   }
 `;
 export const GlobalStyles = createGlobalStyle `

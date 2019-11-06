@@ -1,7 +1,7 @@
 // import {client} from '~/graphql/client'
 // import {LIST_TEMPLATES} from '~/pages/Dashboard/queries'
 // import apiFactory from './apiFactory'
-import * as api from './feathers'
+import * as api from './feathers';
 
 // let api;
 
@@ -11,13 +11,13 @@ const SANDBOX_OP = {
   UNLIKE: 'unlike',
   LIKE: 'like',
   DEL_ENV: 'del.env',
-  DEL_DIRECTORY: 'del.directory'
-}
+  DEL_DIRECTORY: 'del.directory',
+};
 
 export default {
-  initialize({onError}) {
+  initialize({ onError }) {
     // api = apiFactory(config);
-    api.initialize({url: 'http://localhost:3030'})
+    api.initialize({ url: 'http://localhost:3030' });
   },
   async getAuthToken() {
     return await api.getAccessToken();
@@ -46,13 +46,13 @@ export default {
     return await api.getCurrentUser();
   },
   async getDependency(name) {
-    const s = api.getService('dependencies')
-    return await s.get(name, {version: 'latest'})
+    const s = api.getService('dependencies');
+    return await s.get(name, { version: 'latest' });
   },
   async getSandbox(id) {
-    const s = api.getService('sandboxes')
-    let r = await s.find({query: {id}})
-    let sandbox = r.data[0]
+    const s = api.getService('sandboxes');
+    let r = await s.find({ query: { id } });
+    let sandbox = r.data[0];
 
     return {
       ...sandbox,
@@ -61,168 +61,171 @@ export default {
         savedCode: null,
         isNotSynced: false,
       })),
-    }
+    };
   },
   async forkSandbox(id, body) {
-    const s = api.getService('sandboxes')
-    console.log(id, body)
-    return await s.create(body, {id, op: 'fork'})
+    const s = api.getService('sandboxes');
+    console.log(id, body);
+    return await s.create(body, { id, op: 'fork' });
 
   },
   async createModule(sandboxId, module) {
-    const s = api.getService('modules')
+    const s = api.getService('modules');
     return await s.create({
       title: module.title,
       directoryShortid: module.directoryShortid,
       code: module.code,
       isBinary: module.isBinary === undefined ? false : module.isBinary,
-    })
+    });
   },
   async deleteModuleFromSandbox(sandboxId, moduleShortid) {
-    const s = api.getService('sandboxes')
-    return await s.patch(sandboxId, {modules: [{id: moduleShortid}]}, {op: SANDBOX_OP.REMOVE})
+    const s = api.getService('sandboxes');
+    return await s.patch(sandboxId, { modules: [{ id: moduleShortid }] }, { op: SANDBOX_OP.REMOVE });
   },
   async saveModuleCode(sandboxId, module) {
-    const s = api.getService('sandboxes')
-    return await s.patch(sandboxId, {modules: [{code: module.code}]}, { op: SANDBOX_OP.UPDATE})
+    const s = api.getService('sandboxes');
+    return await s.patch(sandboxId, { modules: [{ code: module.code }] }, { op: SANDBOX_OP.UPDATE });
 
   },
   async saveModules(sandboxId, modules) {
-    const s = api.getService('sandboxes')
-    return await s.update(sandboxId, {modules})
+    const s = api.getService('sandboxes');
+    return await s.update(sandboxId, { modules });
   },
   async getGitChanges(sandboxId) {
-    const s = api.getService('sandboxes')
-    const sandbox = await s.get(sandboxId)
-    return sandbox && sandbox.git && sandbox.git.diff
+    const s = api.getService('sandboxes');
+    const sandbox = await s.get(sandboxId);
+    return sandbox && sandbox.git && sandbox.git.diff;
   },
   saveTemplate(sandboxId, template) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {sandbox: { template }})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { sandbox: { template } });
   },
   unlikeSandbox(sandboxId) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, null, {op: SANDBOX_OP.UNLIKE})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, null, { op: SANDBOX_OP.UNLIKE });
   },
   likeSandbox(sandboxId) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, null, {op: SANDBOX_OP.LIKE})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, null, { op: SANDBOX_OP.LIKE });
   },
   savePrivacy(sandboxId, privacy) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {privacy})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { privacy });
   },
   saveFrozen(sandboxId, isFrozen) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {is_frozen: isFrozen})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { is_frozen: isFrozen });
   },
   async getEnvironmentVariables(sandboxId) {
-    const s = api.getService('sandboxes')
-    const sandbox = await s.get(sandboxId)
-    return sandbox.env
+    const s = api.getService('sandboxes');
+    const sandbox = await s.get(sandboxId);
+    return sandbox.env;
   },
   saveEnvironmentVariable(
     sandboxId,
     environmentVariable,
   ) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {env: environmentVariable})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { env: environmentVariable });
   },
   deleteEnvironmentVariable(
     sandboxId,
     name,
   ) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {name}, {op: SANDBOX_OP.DEL_ENV})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { name }, { op: SANDBOX_OP.DEL_ENV });
   },
   saveModuleTitle(sandboxId, moduleShortid, title) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.patch(sandboxId, {
       module: { title },
-    })
+    });
   },
   getPopularSandboxes(date) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.find({
       query: {
         start_date: date,
-        $sort: { popular: -1 }
-      }
-    })
+        $sort: { popular: -1 },
+      },
+    });
   },
   saveSandboxPick(
     sandboxId,
     title,
     description,
   ) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {pick: {title, description}})
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { pick: { title, description } });
   },
   async getPickedSandboxes() {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.find({
       query: {
-        pick: { $ne: null }
-      }
-    })
+        pick: { $ne: null },
+      },
+    });
   },
   createDirectory(
     sandboxId,
     directoryShortid,
     title,
   ) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.patch(sandboxId, {
       directory: {
         title,
         directoryShortid,
-      }
-    })
+      },
+    });
   },
   saveModuleDirectory(
     sandboxId,
     moduleShortid,
     directoryShortid,
   ) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.patch(sandboxId, {
-      module: { directoryShortid }
-    })
+      module: { directoryShortid },
+    });
   },
   saveDirectoryDirectory(
     sandboxId,
     sourceDirectoryShortid,
     targetDirectoryShortId,
   ) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.patch(sandboxId, {
       directory: { directoryShortid: targetDirectoryShortId },
-    })
+    });
   },
   deleteDirectory(sandboxId, directoryShortid) {
-    const s = api.getService('sandboxes')
-    return s.patch(sandboxId, {directory: directoryShortid}, {
-      op: SANDBOX_OP.DEL_DIRECTORY
-    })
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { directory: directoryShortid }, {
+      op: SANDBOX_OP.DEL_DIRECTORY,
+    });
   },
   saveDirectoryTitle(
     sandboxId,
     directoryShortid,
     title,
   ) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.patch(sandboxId, {
       directory: { title },
-    })
+    });
   },
   getUploads() {
-    return api.get('/users/current_user/uploads');
+    const s = api.getService('uploads');
+    return s.find();
   },
   deleteUploadedFile(uploadId) {
-    return api.delete(`/users/current_user/uploads/${uploadId}`);
+    const s = api.getService('uploads');
+    return s.delete(uploadId);
   },
   createUpload(name, content) {
-    return api.post('/users/current_user/uploads', {
+    const s = api.getService('uploads');
+    return s.create({
       content,
       name,
     });
@@ -233,7 +236,9 @@ export default {
     modules,
     directories,
   ) {
-    return api.post(`/sandboxes/${sandboxId}/modules/mcreate`, {
+    const s = api.getService('modules');
+    return s.create({
+      sandboxId,
       directoryShortid,
       modules,
       directories,
@@ -244,122 +249,123 @@ export default {
     repoTitle,
     data,
   ) {
-    return api.post(`/sandboxes/${sandboxId}/git/repo/${repoTitle}`, data);
+    const s = api.getService('git.repos');
+    return s.create({ sandboxId, repoTitle, data });
   },
   createGitCommit(sandboxId, message) {
-    return api.post(`/sandboxes/${sandboxId}/git/commit`, {
+    const s = api.getService('git.commits');
+    return s.create({
       id: sandboxId,
       message,
     });
   },
   createGitPr(sandboxId, message) {
-    return api.post(`/sandboxes/${sandboxId}/git/pr`, {
+    const s = api.getService('git.prs');
+    return s.create({
       id: sandboxId,
       message,
     });
   },
   async createLiveRoom(sandboxId) {
-    const data = await api.post(`/sandboxes/${sandboxId}/live`, {
+    const s = api.getService('lives');
+    const r = await s.create({
       id: sandboxId,
     });
 
-    return data.id;
+    return r.data.id;
   },
   updateBadge(badgeId, visible) {
-    return api.patch(`/users/current_user/badges/${badgeId}`, {
-      badge: {
-        visible,
-      },
+    const s = api.getService('badges');
+    return s.create({
+      id: badgeId,
+      visible,
     });
   },
   getPaymentDetails() {
-    return api.get(`/users/current_user/payment_details`);
+    const s = api.getService('payment.details');
+    return s.find();
   },
   updatePaymentDetails(token) {
-    return api.patch('/users/current_user/payment_details', {
+    const s = api.getService('payment.details');
+    return s.patch({
       paymentDetails: {
         token,
       },
     });
   },
   getProfile(username) {
-    return api.get(`/users/${username}`);
+    const s = api.getService('profiles');
+    return s.find({ query: { username } });
   },
   getUserSandboxes(
     username,
     page,
   ) {
-    return api.get(`/users/${username}/sandboxes`, {
-      page: String(page),
-    });
+    const s = api.getService('sandboxes');
+    return s.find({ query: { username, page: page } });
   },
   getUserLikedSandboxes(
     username,
     page,
   ) {
-    return api.get(`/users/${username}/sandboxes/liked`, {
-      page: String(page),
-    });
+    const s = api.getService('sandboxes');
+    return s.find({ query: { username, page: page, liked: true } });
   },
   async getSandboxes() {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return s.find();
   },
   updateShowcasedSandbox(username, sandboxId) {
-    return api.patch(`/users/${username}`, {
-      user: {
-        showcasedSandboxShortid: sandboxId,
-      },
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, {
+      user: username,
     });
   },
   async deleteSandbox(sandboxId) {
-    const s = api.getService('sandboxes')
+    const s = api.getService('sandboxes');
     return await s.remove(sandboxId);
   },
   createTag(sandboxId, tagName) {
-    return api.post(`/sandboxes/${sandboxId}/tags`, {
+    const tags = api.getService('tags');
+    return s.create({
+      sandboxId,
       tag: tagName,
     });
   },
   deleteTag(sandboxId, tagName) {
-    return api.delete(`/sandboxes/${sandboxId}/tags/${tagName}`);
+    const tags = api.getService('tags');
+    return s.remove(null, { query: { sandboxId, tag: tagName } });
   },
   updateSandbox(sandboxId, data) {
-    return api.put(`/sandboxes/${sandboxId}`, {
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, {
       sandbox: data,
     });
   },
   createResource(sandboxId, resource) {
-    return api.post(`/sandboxes/${sandboxId}/resources`, {
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, {
       externalResource: resource,
     });
   },
   deleteResource(sandboxId, resource) {
-    return api.request({
-      method: 'DELETE',
-      url: `/sandboxes/${sandboxId}/resources/`,
-      data: {
-        id: resource,
-      },
-    });
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { resource });
   },
   updatePrivacy(sandboxId, privacy) {
-    return api.patch(`/sandboxes/${sandboxId}/privacy`, {
-      sandbox: {
-        privacy,
-      },
-    });
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { privacy });
   },
   createZeitIntegration(code) {
-    return api.post(`/users/current_user/integrations/zeit`, {
-      code,
-    });
+    const s = api.getService('zeits');
+    return s.create({ code });
   },
   signout() {
     return api.logout();
   },
   signoutGithubIntegration() {
-    return api.delete(`/users/current_user/integrations/github`);
+    const s = api.getService('integrations.github');
+    return s.remove();
   },
   preloadTemplates() {
     client.query({ query: LIST_TEMPLATES, variables: { showAll: true } });
@@ -368,29 +374,21 @@ export default {
     sandboxId,
     templateId,
   ) {
-    return api.delete(`/sandboxes/${sandboxId}/templates/${templateId}`);
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { templateId });
   },
   updateTemplate(
     sandboxId,
     template,
   ) {
-    return api
-      .put(
-        `/sandboxes/${sandboxId}/templates/${template.id}`,
-        {
-          template,
-        },
-      )
-      .then(data => data.template);
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { template }).then(r => r.data.template);
   },
   createTemplate(
     sandboxId,
     template,
   ) {
-    return api
-      .post(`/sandboxes/${sandboxId}/templates`, {
-        template,
-      })
-      .then(data => data.template);
+    const s = api.getService('sandboxes');
+    return s.patch(sandboxId, { template }).then(r => r.data.template);
   },
 };

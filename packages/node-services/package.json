@@ -8,9 +8,9 @@
 	},
 	"scripts": {
 		"build": "yarn clean && yarn babel --root-mode upward src -d lib --copy-files",
-    "clean": "rimraf lib",
-    "prepublish": "yarn build",
-    "start": "yarn build --watch"
+		"clean": "rimraf lib",
+		"prepublish": "yarn build",
+		"start": "yarn build --watch"
 	},
 	"dependencies": {
 		"@csb/common": "^1.0.8",
@@ -25,10 +25,11 @@
 		"@babel/cli": "^7.2.3",
 		"@babel/core": "^7.5.5",
 		"@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-async-to-generator": "^7.5.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/plugin-transform-async-to-generator": "^7.5.0",
 		"@babel/plugin-transform-runtime": "^7.5.5",
-		"@babel/preset-env": "^7.5.5"
+		"@babel/preset-env": "^7.5.5",
+		"rimraf": "^3.0.0"
 	}
 }

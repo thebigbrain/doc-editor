@@ -77,7 +77,7 @@
     "merge-deep": "^3.0.2",
     "mobx": "^5.14.0",
     "monaco-textmate": "^3.0.1",
-    "node-services": "^0.0.3",
+    "node-services": "^1.0.0",
     "normalize.css": "^8.0.1",
     "onigasm": "^2.2.2",
     "ot": "^0.0.15",

@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const builtin = require('module').builtinModules;
+// const builtin = require('module').builtinModules;
 
 exports.merge = require('merge-deep');
 
@@ -10,15 +10,24 @@ const baseConfig = {
   devServer: {
     hot: true,
   },
-  externals: [...builtin],
+  externals: [],
   resolve: {
     symlinks: false,
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
     alias: {
       // ... and any other directories you might have
       '~': path.resolve(__dirname, '.'),
+      'fs': 'browserfs/dist/shims/fs.js',
+      'buffer': 'browserfs/dist/shims/buffer.js',
+      'path': 'browserfs/dist/shims/path.js',
+      'processGlobal': 'browserfs/dist/shims/process.js',
+      'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
+      'bfsGlobal': require.resolve('browserfs')
     },
   },
+  module: {
+    noParse: /browserfs\.js/,
+  }
 };
 
 const clientConfig = {
@@ -108,11 +117,14 @@ const clientConfig = {
       },
     ],
   },
+  // REQUIRED to avoid issue "Uncaught TypeError: BrowserFS.BFSRequire is not a function"
+  // See: https://github.com/jvilk/BrowserFS/issues/201
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
   ],
   resolve: {
     extensions: ['*', '.js', '.jsx'],

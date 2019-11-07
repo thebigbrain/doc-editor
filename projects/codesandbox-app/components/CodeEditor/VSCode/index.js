@@ -12,10 +12,8 @@ import getUI from '@csb/common/lib/templates/configuration/ui'
 import getTemplate from '@csb/common/lib/templates'
 import theme from '@csb/common/lib/theme'
 import { getTextOperation } from '@csb/common/lib/utils/diff'
-/* eslint-disable import/no-webpack-loader-syntax */
-// @ts-ignore
-import LinterWorker from 'worker-loader?publicPath=/&name=monaco-linter.[hash:8].worker.js!../Monaco/workers/linter'
-/* eslint-enable import/no-webpack-loader-syntax */
+
+import LinterWorker from '../Monaco/workers/linter/index.worker'
 import eventToTransform from '../Monaco/event-to-transform'
 import MonacoEditorComponent from './MonacoReactComponent'
 import { Container, GlobalStyles } from './elements'

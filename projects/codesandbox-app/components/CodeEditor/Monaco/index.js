@@ -10,10 +10,8 @@ import getTemplate from '@csb/common/lib/templates';
 import { getTextOperation } from '@csb/common/lib/utils/diff';
 
 import delay from '@csb/common/lib/utils/delay';
-/* eslint-disable import/no-webpack-loader-syntax */
-import LinterWorker from 'worker-loader?publicPath=/&name=monaco-linter.[hash:8].worker.js!./workers/linter/index';
-import TypingsFetcherWorker
-  from 'worker-loader?publicPath=/&name=monaco-typings-ata.[hash:8].worker.js!./workers/fetch-dependency-typings';
+import LinterWorker from './workers/linter/index.worker';
+import TypingsFetcherWorker from './workers/fetch-dependency-typings.worker';
 import eventToTransform from './event-to-transform';
 import MonacoEditorComponent from './MonacoReactComponent';
 import FuzzySearch from '../FuzzySearch/index';
@@ -25,7 +23,6 @@ import { liftOff } from './grammars/configure-tokenizer';
 import { indexToLineAndColumn, lineAndColumnToIndex } from './monaco-index-converter';
 import { updateUserSelections } from './live-decorations';
 
-/* eslint-enable import/no-webpack-loader-syntax */
 
 function getSelection(lines, selection) {
   const startSelection = lineAndColumnToIndex(

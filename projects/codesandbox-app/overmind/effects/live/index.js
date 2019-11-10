@@ -82,7 +82,7 @@ export default {
       channel
         .join()
         .receive('ok', resp =>
-          resolve(camelizeKeys(resp) as JoinChannelResponse),
+          resolve(camelizeKeys(resp)),
         )
         .receive('error', resp => reject(camelizeKeys(resp)))
     })

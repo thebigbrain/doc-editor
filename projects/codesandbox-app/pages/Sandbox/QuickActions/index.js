@@ -96,8 +96,8 @@ function QuickActionsComponent() {
       <Downshift
         defaultHighlightedIndex={0}
         defaultIsOpen
-        onChange={this.onChange}
-        itemToString={this.itemToString}
+        onChange={onChange}
+        itemToString={itemToString}
       >
         {({
             getInputProps,
@@ -111,7 +111,7 @@ function QuickActionsComponent() {
               inputValue = ev.target.value
             },
             innerRef: el => el && el.focus(),
-            onKeyUp: this.handleKeyUp,
+            onKeyUp: handleKeyUp,
             // Timeout so the fuzzy handler can still select the module
             onBlur: () => setTimeout(closeQuickActions, 100),
           })
@@ -122,7 +122,7 @@ function QuickActionsComponent() {
               </InputContainer>
 
               <Items>
-                {this.getItems(inputValue).map((item, index) => (
+                {getItems(inputValue).map((item, index) => (
                   <Entry
                     {...getItemProps({
                       item,

@@ -38,9 +38,11 @@ const NotFound = Loadable(() => import('./common/NotFound'));
 const Boundary = withRouter(ErrorBoundary);
 
 export const Routes = () => {
-  const { actions } = useOvermind();
+  const { actions, state } = useOvermind();
 
-  useEffect(() => () => actions.appUnmounted(), [actions.appUnmounted]);
+  useEffect(() => {
+    actions.appUnmounted();
+  }, [actions.appUnmounted]);
 
   return (
     <DndProvider backend={HTML5Backend}>

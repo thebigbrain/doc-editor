@@ -37,10 +37,10 @@ object-assign@^4.1.1:
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
-overmind-react@latest:
+overmind-react@^21.0.0:
   version "21.0.0"
-  resolved "https://registry.yarnpkg.com/overmind-react/-/overmind-react-21.0.0.tgz#34a1e656b206687e0d915155b0384862c37ca4f2"
-  integrity sha512-MTCPa6G+Y4RtMr2xPrWkXI32eBLCHzrpvRbC6F57arauh6OIAWpoSkaOsonqAL/mUpRuJD2Oswvh9qEAZ8q/AA==
+  resolved "https://registry.npm.taobao.org/overmind-react/download/overmind-react-21.0.0.tgz#34a1e656b206687e0d915155b0384862c37ca4f2"
+  integrity sha1-NKHmVrIGaH4NkVFVsDhIYsN8pPI=
   dependencies:
     overmind "20.0.0"
 
@@ -74,10 +74,10 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.2.tgz#984120fd4d16800e9a738208ab1fba422d23b5ab"
   integrity sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
 
-react@latest:
-  version "16.10.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.10.2.tgz#a5ede5cdd5c536f745173c8da47bda64797a4cf0"
-  integrity sha512-MFVIq0DpIhrHFyqLU0S3+4dIcBhhOvBE8bJ/5kHPVOVaGdo0KuiQzpcjCPsf585WvhypqtrMILyoE2th6dT+Lw==
+react@^16.11.0:
+  version "16.11.0"
+  resolved "https://registry.npm.taobao.org/react/download/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
+  integrity sha1-0pRUX+YimczugzY1mb+QTkoH/bs=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

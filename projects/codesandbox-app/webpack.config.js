@@ -24,9 +24,6 @@ const baseConfig = {
       'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
       'bfsGlobal': require.resolve('browserfs')
     },
-  },
-  module: {
-    noParse: /browserfs\.js/,
   }
 };
 

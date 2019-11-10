@@ -19,14 +19,18 @@ export const signIn = async (
     actions.internal.setPatronPrice();
     actions.internal.setSignedInCookie();
     actions.internal.setStoredSettings();
-    effects.live.connect();
+    // effects.live.connect();
     actions.userNotifications.internal.initialize(); // Seemed a bit differnet originally?
     actions.refetchSandboxInfo();
+
+    console.log(state.user);
   } catch (error) {
-    actions.internal.addNotification({
-      title: `Github Authentication Error: ${error}`,
-      type: 'error',
-    });
+    // actions.internal.addNotification({
+    //   title: `Github Authentication Error: ${error}`,
+    //   type: 'error',
+    // });
+
+    effects.notificationToast.error(`Github Authentication Error: ${error}`);
   }
 };
 
@@ -90,6 +94,7 @@ export const signInGithub = ({ effects }, options) => {
   return effects.browser
     .waitForMessage('signin')
     .then(data => {
+      console.log(data);
       const { access_token: jwt, error } = data;
 
       popup.close();
@@ -265,10 +270,10 @@ export const updateCurrentSandbox = async (
 
 export const ensurePackageJSON =
   async ({
-           state,
-           effects,
-           actions,
-         }) => {
+    state,
+    effects,
+    actions,
+  }) => {
     const sandbox = state.editor.currentSandbox;
     const existingPackageJson = sandbox.modules.find(
       module => module.directoryShortid == null && module.title === 'package.json',

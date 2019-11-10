@@ -6,7 +6,7 @@ import * as internalActions from './internalActions'
 export const internal = internalActions
 
 export const appUnmounted = async ({ effects, actions }) => {
-  effects.connection.removeListener(actions.connectionChanged)
+  effects.connection.removeListener(actions.connectionChanged);
 }
 
 export const sandboxPageMounted = withLoadApp()
@@ -108,10 +108,10 @@ export const removeNotification = ({ state }, id) => {
 }
 
 export const signInZeitClicked = async ({
-                                          state,
-                                          effects: { browser, api, notificationToast },
-                                          actions,
-                                        }) => {
+  state,
+  effects: { browser, api, notificationToast },
+  actions,
+}) => {
   state.isLoadingZeit = true
 
   const popup = browser.openPopup('/auth/zeit', 'sign in')
@@ -153,10 +153,10 @@ export const signInGithubClicked = async ({ state, actions }) => {
 }
 
 export const signOutClicked = async ({
-                                       state,
-                                       effects,
-                                       actions,
-                                     }) => {
+  state,
+  effects,
+  actions,
+}) => {
   effects.analytics.track('Sign Out', {})
   state.workspace.openedWorkspaceItem = 'files'
   if (state.live.isLive) {
@@ -169,9 +169,9 @@ export const signOutClicked = async ({
 }
 
 export const signOutGithubIntegration = async ({
-                                                 state,
-                                                 effects,
-                                               }) => {
+  state,
+  effects,
+}) => {
   await effects.api.signoutGithubIntegration()
   state.user.integrations.github = null
 }
@@ -191,10 +191,10 @@ export const track = (
 }
 
 export const refetchSandboxInfo = async ({
-                                           state,
-                                           effects,
-                                           actions,
-                                         }) => {
+  state,
+  effects,
+  actions,
+}) => {
   if (state.editor.currentId) {
     const id = state.editor.currentId
     const sandbox = state.editor.currentSandbox

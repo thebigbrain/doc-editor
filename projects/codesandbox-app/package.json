@@ -20,7 +20,7 @@
     "not op_mini all"
   ],
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --progress",
     "babel:build": "node ../../packages/tools/babel -e ."
   },
   "dependencies": {
@@ -93,7 +93,7 @@
     "normalize.css": "^8.0.1",
     "onigasm": "^2.2.2",
     "ot": "^0.0.15",
-    "overmind": "^19.2.0",
+    "overmind": "^20.0.0",
     "overmind-react": "^21.0.0",
     "path-to-regexp": "^3.1.0",
     "phoenix": "^1.4.10",

@@ -1,8 +1,8 @@
-import {Channel, Socket} from 'phoenix'
+import * as api from './api/feathers';
 
-
-let channel = null
+let channel = {}
 let _options = null
+let service = null
 
 /*
   TODO: Refactor to pass in data instead of using context
@@ -10,31 +10,22 @@ let _options = null
 export default {
   initialize(options) {
     _options = options;
+    if (!service) return;
+
+    service = api.getService('notifications');
+    service.on('created', (newNotis) => {
+      if (channel.name == null) return;
+      if (typeof channel.onMessage === 'function'){
+        channel.onMessage('new-notification', newNotis);
+      }
+    });
   },
   disconnect() {
-    return new Promise((resolve, reject) => {
-      channel
-        .leave()
-        .receive('ok', resp => {
-          channel.onMessage = d => d;
-          channel = null;
-
-          return resolve(resp);
-        })
-        .receive('error', resp => reject(resp));
-    });
+    service.off('created');
   },
   joinChannel(userId) {
-    const socket = _options.provideSocket();
-
-    channel = socket.channel(`notification:${userId}`, {});
-
-    return new Promise((resolve, reject) => {
-      channel
-        .join()
-        .receive('ok', resp => resolve(resp))
-        .receive('error', resp => reject(resp));
-    });
+    channel.name = `notification:${userId}`;
+    return {unread: 0};
   },
   listen(action) {
     channel.onMessage = (event, data) => {

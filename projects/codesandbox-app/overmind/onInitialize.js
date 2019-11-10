@@ -1,8 +1,16 @@
+import { withLoadApp } from "./factories";
+
 export const onInitialize = (
   { state, effects, actions },
   overmindInstance,
 ) => {
   // const provideJwtToken = () => state.jwt || effects.jwt.get();
+  effects.api.initialize({
+    // provideJwtToken,
+    onError(error) {
+      effects.notificationToast.error(error);
+    }
+  });
 
   effects.fsSync.initialize({
     getCurrentSandboxId() {
@@ -20,18 +28,11 @@ export const onInitialize = (
 
   effects.keybindingManager.initialize(overmindInstance);
 
-  effects.api.initialize({
-    // provideJwtToken,
-    onError(error) {
-      effects.notificationToast.error(error);
-    }
+  effects.notifications.initialize({
+    // provideSocket() {
+    //   return effects.live.getSocket();
+    // },
   });
-
-  // effects.notifications.initialize({
-  //   provideSocket() {
-  //     return effects.live.getSocket();
-  //   },
-  // });
   //
   // effects.zeit.initialize({
   //   getToken() {

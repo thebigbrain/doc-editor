@@ -291,7 +291,7 @@ export default function EditorPreview(props) {
     actions.editor.onDevToolsTabClosed({ pos });
   };
 
-  useEffect(() => {}, [preferences.settings.codeMirror]);
+  useEffect(() => {}, [state.preferences.settings.codeMirror]);
 
   useEffect(() => {
     actions.editor.contentMounted();
@@ -343,7 +343,7 @@ export default function EditorPreview(props) {
   };
 
   const views = state.editor.devToolTabs;
-  const currentPosition = props.overmind.state.editor.currentDevToolsPosition;
+  const currentPosition = state.editor.currentDevToolsPosition;
 
   const browserConfig = {
     id: 'codesandbox.browser',

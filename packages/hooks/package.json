@@ -2,7 +2,7 @@
 	"name": "@muggle/hooks",
 	"version": "1.0.0",
 	"dependencies": {
-		"overmind-react": "latest",
-		"react": "latest"
+		"overmind-react": "^21.0.0",
+		"react": "^16.11.0"
 	}
 }

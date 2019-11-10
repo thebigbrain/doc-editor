@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "storybook": "start-storybook"
+  },
   "devDependencies": {
     "@babel/core": "^7.6.3",
     "@storybook/react": "^5.2.3",
@@ -10,8 +13,12 @@
     "react-scripts": "^3.2.0"
   },
   "dependencies": {
-    "@codesandbox/common": "^1.0.8",
+    "@csb/common": "^1.0.8",
+    "@muggle/hooks": "^1.0.0",
+    "@storybook/addon-actions": "^5.2.6",
     "antd": "^3.23.6",
+    "overmind": "^20.0.0",
+    "overmind-react": "^21.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "styled-components": "^1.0.0"

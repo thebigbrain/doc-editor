@@ -75,6 +75,8 @@ function getContent(props) {
     );
   }
 
+  console.log(editor.isLoading, live.isTeam, live.isLoading, editor.currentSandbox);
+
   if (
     editor.isLoading ||
     (live.isTeam && live.isLoading) ||
@@ -103,9 +105,9 @@ function getContent(props) {
 
 export default function(props) {
   const { match } = props;
-  const { state: { editor }, actions } = useOvermind();
+  const { state, actions } = useOvermind();
   const { id } = match.params;
-  const sandbox = editor.currentSandbox;
+  const sandbox = state.editor.currentSandbox;
 
   React.useEffect(() => {
     actions.editor.sandboxChanged({ id });

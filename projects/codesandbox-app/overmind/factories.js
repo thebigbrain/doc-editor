@@ -30,7 +30,7 @@ export const withLoadApp = (
       actions.internal.setPatronPrice()
       actions.internal.setSignedInCookie()
       // effects.live.connect()
-      // actions.userNotifications.internal.initialize()
+      actions.userNotifications.internal.initialize()
       // effects.api.preloadTemplates()
     } catch (error) {
       effects.notificationToast.error(

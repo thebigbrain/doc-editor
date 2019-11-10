@@ -71,10 +71,10 @@ async function initialize() {
   */
 
   const overmind = createOvermind(config, {
-    devtools:
-      (window.opener && window.opener !== window) || !window.chrome
-        ? false
-        : 'localhost:3031',
+    devtools: false,
+      // (window.opener && window.opener !== window) || !window.chrome
+      //   ? false
+      //   : 'localhost:3031',
     name:
       'CodeSandbox - ' +
       (navigator.userAgent.indexOf('Chrome/76') > 0 ? 'Chrome' : 'Canary'),

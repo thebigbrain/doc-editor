@@ -23,6 +23,8 @@ export const Navigation = ({ title, searchNoInput }) => {
     actions: { modalOpened, userNotifications: userNotificationsSignals },
   } = useOvermind()
 
+  console.log(isLoggedIn);
+
   return (
     <Row justifyContent="space-between">
       <TitleWrapper>

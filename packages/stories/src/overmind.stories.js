@@ -1,5 +1,5 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
+// import { action } from '@storybook/addon-actions';
 import { OvermindProvider, useOvermind } from '@muggle/hooks';
 import { createOvermind } from 'overmind';
 import { merge, namespaced } from 'overmind/config'
@@ -38,13 +38,13 @@ const App = () => {
   return (
     <div>
       <span>{state.hello}</span>
-      <button onClick={actions.updateState}></button>
+      <button onClick={actions.updateState}>click here</button>
     </div>
   );
 };
 
 export const useOM = () => (
-  <OvermindProvider value={config}>
+  <OvermindProvider value={createOvermind(config, {devtools: false})}>
     <App />
   </OvermindProvider>
 );

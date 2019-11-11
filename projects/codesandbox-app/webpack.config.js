@@ -10,19 +10,24 @@ const baseConfig = {
   devServer: {
     hot: true,
   },
-  externals: [],
+  externals: {
+    'BrowserFS': 'BrowserFS',
+    'fs': 'BrowserFS.BFSRequire("fs")',
+    'path': 'BrowserFS.BFSRequire("path")',
+    'buffer': 'BrowserFS.BFSRequire("buffer")',
+  },
   resolve: {
     symlinks: false,
     modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
     alias: {
       // ... and any other directories you might have
       '~': path.resolve(__dirname, '.'),
-      'fs': 'browserfs/dist/shims/fs.js',
-      'buffer': 'browserfs/dist/shims/buffer.js',
-      'path': 'browserfs/dist/shims/path.js',
-      'processGlobal': 'browserfs/dist/shims/process.js',
-      'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
-      'bfsGlobal': require.resolve('browserfs')
+      // 'fs': 'browserfs/dist/shims/fs.js',
+      // 'buffer': 'browserfs/dist/shims/buffer.js',
+      // 'path': 'browserfs/dist/shims/path.js',
+      // 'processGlobal': 'browserfs/dist/shims/process.js',
+      // 'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
+      // 'bfsGlobal': require.resolve('browserfs')
     },
   },
   // REQUIRED to avoid issue "Uncaught TypeError: BrowserFS.BFSRequire is not a function"
@@ -126,12 +131,12 @@ const clientConfig = {
       template: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    // new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
+    // new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal' }),
   ],
-  // node: {
-  //   process: false,
-  //   Buffer: false
-  // },
+  node: {
+    process: false,
+    Buffer: false
+  },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },

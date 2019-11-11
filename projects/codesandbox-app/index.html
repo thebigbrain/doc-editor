@@ -64,11 +64,12 @@
           nextTick: function(cb) {
             return requestAnimationFrame(cb)
           },
-          once: BrowserFS.BFSRequire('process').once,
+          once: window.BrowserFS.BFSRequire('process').once,
           removeListener: function() {
           },
         }
-        window.Buffer = BrowserFS.BFSRequire('buffer').Buffer
+        window.Buffer = window.BrowserFS.BFSRequire('buffer').Buffer;
+        window.require = window.BrowserFS.BFSRequire.bind(BrowserFS);
       }
     </script>
 

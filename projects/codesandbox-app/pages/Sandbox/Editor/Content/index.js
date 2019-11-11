@@ -275,7 +275,7 @@ export default function EditorPreview(props) {
   };
 
   const sendTransforms = operation => {
-    const { currentModuleShortid } = props.overmind.state.editor;
+    const { currentModuleShortid } = state.editor;
 
     actions.live.onTransformMade({
       moduleShortid: currentModuleShortid,
@@ -401,7 +401,7 @@ export default function EditorPreview(props) {
           style={{
             overflow: 'visible', // For VSCode Context Menu
           }}
-          split={props.overmind.state.editor.previewWindowOrientation}
+          split={state.editor.previewWindowOrientation}
           defaultSize="50%"
           pane1Style={
             windowVisible

@@ -1,34 +1,34 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const {createIfNotFound} = require('../../hooks/sandboxes')
+const { createIfNotFound } = require('../../hooks/sandboxes');
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   after: {
     all: [],
-    find: [],
+    find: [createIfNotFound()],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
     all: [],
     find: [],
-    get: [createIfNotFound()],
+    get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

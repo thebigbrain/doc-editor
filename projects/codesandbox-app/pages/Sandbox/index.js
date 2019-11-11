@@ -13,7 +13,7 @@ import { QuickActions } from '~/pages/Sandbox/QuickActions';
 import { NotFound } from '~/pages/common/NotFound';
 import { Navigation } from '~/pages/common/Navigation';
 import { GithubIntegration } from '~/pages/common/GithubIntegration';
-// import Editor from './Editor';
+import Editor from './Editor';
 import { useOvermind } from '@muggle/hooks';
 
 function getContent(props) {
@@ -74,8 +74,6 @@ function getContent(props) {
       </>
     );
   }
-
-  console.log(editor.isLoading, live.isTeam, live.isLoading, editor.currentSandbox);
 
   if (
     editor.isLoading ||
@@ -144,7 +142,7 @@ export default function(props) {
       <Helmet>
         <title>{getSandboxName(sandbox)} - CodeSandbox</title>
       </Helmet>
-      {/* <Editor match={match}/> */}
+       <Editor match={match}/>
       <QuickActions/>
     </>
   );

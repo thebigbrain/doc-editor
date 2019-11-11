@@ -2,7 +2,7 @@ import Tooltip from '@csb/common/lib/components/Tooltip';
 import { actions, dispatch } from 'codesandbox-api';
 import { sortBy } from 'lodash';
 import React from 'react';
-import FileIcon from 'react-icons/lib/md/insert-drive-file';
+import {FileIcon} from '@muggle/icons';
 import { Animate } from 'react-show';
 import { Actions, AnimatedChevron, File, FileName, Path } from './elements';
 import { ProblemMessage } from './Message';

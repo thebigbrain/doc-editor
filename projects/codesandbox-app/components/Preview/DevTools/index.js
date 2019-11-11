@@ -4,6 +4,11 @@ import { FaAngleUp } from 'react-icons/fa';
 import store from 'store/dist/store.modern';
 import track from '@csb/common/lib/utils/analytics';
 import { DevToolTabs } from './Tabs/index';
+import {console} from './Console';
+import { problems } from './Problems';
+import { reactDevTools } from './React-Devtools';
+import { terminal } from './Terminal';
+import { tests } from './Tests';
 import { Container, ContentContainer, Header } from './elements';
 
 function unFocus(document, window) {
@@ -30,10 +35,20 @@ function normalizeTouchEvent(
   };
 }
 
+const VIEWS = {
+  [console.id]: console,
+  [problems.id]: problems,
+  [tests.id]: tests,
+  [terminal.id]: terminal,
+  [reactDevTools.id]: reactDevTools,
+};
+
+
 export class DevTools extends React.PureComponent {
   node;
-  closedHeight = () => (this.props.primary ? 35 : 28);
   allViews;
+
+  closedHeight = () => (this.props.primary ? 35 : 28);
 
   constructor(props) {
     super(props);

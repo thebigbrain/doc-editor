@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
-import CrossIconClean from 'react-icons/lib/md/clear';
-export const Container = styled.div `
+import { CrossIcon as CrossIconClean } from '@muggle/icons';
+
+export const Container = styled.div`
   display: flex;
   background-color: ${props => props.theme['editorGroupHeader.tabsBackground'] || props.theme.background4};
 
@@ -10,7 +11,7 @@ export const Container = styled.div `
 
   color: ${props => props.theme.light ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.7)'};
 `;
-export const CrossIcon = styled(CrossIconClean) `
+export const CrossIcon = styled(CrossIconClean)`
   transition: 0.3s ease color;
   position: absolute;
   right: 1rem;
@@ -21,7 +22,7 @@ export const CrossIcon = styled(CrossIconClean) `
     color: ${props => props.theme.light ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.7)'};
   }
 `;
-export const Tab = styled.div `
+export const Tab = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -37,27 +38,27 @@ export const Tab = styled.div `
     ${props => props.theme.light ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.4)'};
 
   ${props => props.selected
-    ? css `
+  ? css`
           background-color: ${props.theme['tab.activeBackground'] ||
-        props.theme.background2};
+  props.theme.background2};
           color: ${props.theme.light
-        ? 'rgba(0, 0, 0, 0.8)'
-        : 'rgba(255, 255, 255, 0.9)'};
+    ? 'rgba(0, 0, 0, 0.8)'
+    : 'rgba(255, 255, 255, 0.9)'};
           font-weight: 400;
         `
-    : css `
+  : css`
           border-bottom: 1px solid
             ${props.theme.light ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.4)'};
           &:hover {
             background-color: ${props.theme['tab.inactiveBackground'] ||
-        props.theme.background2.darken(0.2)};
+  props.theme.background2.darken(0.2)};
             color: ${props.theme.light
-        ? 'rgba(0, 0, 0, 0.8)'
-        : 'rgba(255, 255, 255, 0.9)'};
+    ? 'rgba(0, 0, 0, 0.8)'
+    : 'rgba(255, 255, 255, 0.9)'};
           }
         `};
 `;
-export const PlusContainer = styled.button `
+export const PlusContainer = styled.button`
   transition: 0.3s ease all;
 
   border: 0;

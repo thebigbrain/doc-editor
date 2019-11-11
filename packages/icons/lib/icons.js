@@ -1,15 +1,22 @@
 'use strict';
 
 export {
+  GoPrimitiveDot as DotIcon,
   GoPrimitiveDot as NotSyncedIcon,
+  GoSync as SyncIcon,
   GoRepoForked as ForkIcon,
   GoQuestion as Question,
   GoSearch as SearchIcon,
   GoBrowser as BrowserIcon,
   GoPencil as EditIcon,
+  GoPlay as PlayIcon,
 } from 'react-icons/go'
 
 export {
+  MdInfo as NoticeIcon,
+  MdError as ErrorIcon,
+  MdWarning as WarningIcon,
+  MdAttachFile as FileIcon,
   MdClear as CrossIcon,
   MdKeyboardArrowDown as ExpandIcon,
   MdPeople as TeamIcon,
@@ -37,9 +44,13 @@ export {
   MdInsertDriveFile as AddFileIcon,
   MdFileUpload as UploadFileIcon,
   MdFileDownload as DownloadIcon,
+  MdBlock as ClearIcon,
+  MdAddBox as PlusIcon,
 } from 'react-icons/md'
 
 export {
+  FaExpand as ExpandTestsIcon,
+  FaMinus as CollapseTestsIcon,
   FaEye as EyeIcon,
   FaTrash as TrashIcon,
   FaAngleDown as Down,

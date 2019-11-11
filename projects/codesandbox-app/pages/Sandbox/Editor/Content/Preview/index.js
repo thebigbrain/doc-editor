@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
-import BasePreview from '@csb/common/lib/components/Preview'
-import RunOnClick from '@csb/common/lib/components/RunOnClick'
-import getTemplate from '@csb/common/lib/templates'
-import {withOvermind} from "@muggle/hooks"
+import BasePreview from '@csb/common/lib/components/Preview';
+import RunOnClick from '@csb/common/lib/components/RunOnClick';
+import getTemplate from '@csb/common/lib/templates';
+import { withOvermind } from '@muggle/hooks';
 
 
 class PreviewComponent extends Component {
@@ -85,7 +85,7 @@ class PreviewComponent extends Component {
   };
 
   handleCodeChange = preview => {
-    const {settings} = this.props.overmind.state.preferences
+    const { settings } = this.props.overmind.state.preferences;
     const { isServer } = getTemplate(
       this.props.overmind.state.editor.currentSandbox.template,
     );
@@ -99,7 +99,7 @@ class PreviewComponent extends Component {
   };
 
   handleStructureChange = preview => {
-    const {settings} = this.props.overmind.state.preferences
+    const { settings } = this.props.overmind.state.preferences;
     if (settings.livePreviewEnabled) {
       if (settings.instantPreviewEnabled) {
         preview.executeCodeImmediately();
@@ -110,7 +110,7 @@ class PreviewComponent extends Component {
   };
 
   handleModuleSyncedChange = (preview, change) => {
-    const {settings} = this.props.overmind.state.preferences
+    const { settings } = this.props.overmind.state.preferences;
 
     if (
       change &&
@@ -159,8 +159,8 @@ class PreviewComponent extends Component {
   };
 
   render() {
-    const {options} = this.props
-    const {state: store, actions: signals} = this.props.overmind
+    const { options } = this.props;
+    const { state: store, actions: signals } = this.props.overmind;
 
     const completelyHidden = !store.editor.previewWindowVisible;
 
@@ -191,4 +191,4 @@ class PreviewComponent extends Component {
   }
 }
 
-export const Preview = PreviewComponent
+export const Preview = withOvermind(PreviewComponent);

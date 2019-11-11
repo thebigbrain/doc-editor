@@ -113,7 +113,7 @@ export const sandboxChanged = withLoadApp(async ({ state, actions, effects }, { 
       actions.internal.setCurrentSandbox(sandbox);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     state.editor.notFound = true;
     state.editor.error = error.message;
   }

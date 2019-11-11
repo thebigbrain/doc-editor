@@ -24,7 +24,12 @@ const baseConfig = {
       'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
       'bfsGlobal': require.resolve('browserfs')
     },
-  }
+  },
+  // REQUIRED to avoid issue "Uncaught TypeError: BrowserFS.BFSRequire is not a function"
+  // See: https://github.com/jvilk/BrowserFS/issues/201
+  module: {
+    noParse: /browserfs\.js/
+  },
 };
 
 const clientConfig = {
@@ -121,8 +126,12 @@ const clientConfig = {
       template: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
+    // new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' }),
   ],
+  // node: {
+  //   process: false,
+  //   Buffer: false
+  // },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },

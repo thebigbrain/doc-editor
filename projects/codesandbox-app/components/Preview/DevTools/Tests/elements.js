@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
-import Check from 'react-icons/lib/go/check';
-import Cross from 'react-icons/lib/go/x';
-import DotIcon from 'react-icons/lib/go/primitive-dot';
+import { Check, CrossIcon, DotIcon } from '@muggle/icons';
 import { LoadingBubbles } from './LoadingBubbles';
-export const Container = styled.div `
+
+export const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
@@ -11,50 +10,50 @@ export const Container = styled.div `
   background-color: ${props => props.theme['sideBar.background']};
   color: ${props => props.theme.light ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'};
 `;
-export const Navigation = styled.div `
+export const Navigation = styled.div`
   flex: 2;
 
   box-sizing: border-box;
   overflow-y: auto;
   min-width: 450px;
 `;
-export const TestContainer = styled(Navigation) `
+export const TestContainer = styled(Navigation)`
   background-color: ${props => props.theme['sideBar.background']};
   height: 100%;
 `;
-export const TestDetails = styled.div `
+export const TestDetails = styled.div`
   flex: 3;
   background-color: ${props => props.theme['sideBar.background']};
   height: 100%;
 `;
-const iconStyles = css `
+const iconStyles = css`
   margin-right: 0.25rem;
   font-size: 1.125em;
   flex: 0 0 1.125em;
 `;
-export const Loading = styled(LoadingBubbles) `
+export const Loading = styled(LoadingBubbles)`
   ${iconStyles};
   color: ${props => props.theme.secondary};
 `;
-export const Success = styled(Check) `
+export const Success = styled(Check)`
   ${iconStyles};
   color: ${props => props.theme.green};
 `;
-export const Fail = styled(Cross) `
+export const Fail = styled(CrossIcon)`
   ${iconStyles};
   color: ${props => props.theme.red};
 `;
-export const Dot = styled(DotIcon) `
+export const Dot = styled(DotIcon)`
   ${iconStyles};
   color: ${props => props.theme.light ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)'};
 `;
 export const StatusElements = {
-    pass: Success,
-    fail: Fail,
-    running: Loading,
-    idle: Dot,
+  pass: Success,
+  fail: Fail,
+  running: Loading,
+  idle: Dot,
 };
-export const Tests = styled.div `
+export const Tests = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   overflow-y: auto;

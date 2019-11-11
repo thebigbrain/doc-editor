@@ -1,29 +1,27 @@
-import * as React from 'react'
-import { Link } from 'react-router-dom'
-import Media from 'react-media'
-import { exploreUrl, patronUrl, searchUrl } from '@csb/common/lib/utils/url-generator'
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import Media from 'react-media';
+import { exploreUrl, patronUrl, searchUrl } from '@csb/common/lib/utils/url-generator';
 
-import { GoFlame as FlameIcon, GoPlus as PlusIcon, GoSearch as SearchIcon } from 'react-icons/go'
-import { MdNotifications as BellIcon } from 'react-icons/md'
-import Row from '@csb/common/lib/components/flex/Row'
-import Tooltip from '@csb/common/lib/components/Tooltip'
-import { HeaderSearchBar } from '~/components/HeaderSearchBar'
-import { Overlay } from '~/components/Overlay'
-import PatronBadge from '@csb/common/lib/utils/badges/svg/patron-4.svg'
-import { Notifications } from './Notifications/index'
+import { GoFlame as FlameIcon, GoPlus as PlusIcon, GoSearch as SearchIcon } from 'react-icons/go';
+import { MdNotifications as BellIcon } from 'react-icons/md';
+import Row from '@csb/common/lib/components/flex/Row';
+import Tooltip from '@csb/common/lib/components/Tooltip';
+import { HeaderSearchBar } from '~/components/HeaderSearchBar';
+import { Overlay } from '~/components/Overlay';
+import PatronBadge from '@csb/common/lib/utils/badges/svg/patron-4.svg';
+import { Notifications } from './Notifications/index';
 
-import { SignInButton } from '../SignInButton'
-import { UserMenu } from '../UserMenu/index'
-import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements'
-import { useOvermind } from '@muggle/hooks'
+import { SignInButton } from '../SignInButton';
+import { UserMenu } from '../UserMenu/index';
+import { Action, Actions, Border, LogoWithBorder, Title, TitleWrapper, UnreadIcon, Wrapper } from './elements';
+import { useOvermind } from '@muggle/hooks';
 
 export const Navigation = ({ title, searchNoInput }) => {
   const {
     state: { isLoggedIn, isPatron, user, userNotifications },
     actions: { modalOpened, userNotifications: userNotificationsSignals },
-  } = useOvermind()
-
-  console.log(isLoggedIn);
+  } = useOvermind();
 
   return (
     <Row justifyContent="space-between">
@@ -80,25 +78,25 @@ export const Navigation = ({ title, searchNoInput }) => {
               noHeightAnimation
             >
               {open => (
-                  <Action
-                    style={{ position: 'relative', fontSize: '1.25rem' }}
-                    onClick={open}
+                <Action
+                  style={{ position: 'relative', fontSize: '1.25rem' }}
+                  onClick={open}
+                >
+                  <Tooltip
+                    placement="bottom"
+                    content={
+                      userNotifications.unreadCount > 0
+                        ? 'Show Notifications'
+                        : 'No Notifications'
+                    }
                   >
-                    <Tooltip
-                      placement="bottom"
-                      content={
-                        userNotifications.unreadCount > 0
-                          ? 'Show Notifications'
-                          : 'No Notifications'
-                      }
-                    >
-                      <BellIcon height={35}/>
-                      {userNotifications.unreadCount > 0 && (
-                        <UnreadIcon/>
-                      )}
-                    </Tooltip>
-                  </Action>
-                )
+                    <BellIcon height={35}/>
+                    {userNotifications.unreadCount > 0 && (
+                      <UnreadIcon/>
+                    )}
+                  </Tooltip>
+                </Action>
+              )
               }
             </Overlay>
           )}
@@ -120,5 +118,5 @@ export const Navigation = ({ title, searchNoInput }) => {
         {isLoggedIn ? <UserMenu/> : <SignInButton/>}
       </Wrapper>
     </Row>
-  )
-}
+  );
+};

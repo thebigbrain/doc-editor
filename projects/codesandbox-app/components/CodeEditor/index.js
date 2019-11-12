@@ -10,12 +10,14 @@ import { getModulePath } from '@csb/common/lib/sandbox/modules';
 import Tooltip from '@csb/common/lib/components/Tooltip';
 import { Title } from '~/components/Title';
 import { SubTitle } from '~/components/SubTitle';
-import Loadable from '~/utils/Loadable';
+// import Loadable from '~/utils/Loadable';
 import { ImageViewer } from './ImageViewer/index';
 import { Configuration } from './Configuration/index';
-import { VSCode } from './VSCode/index';
+// import { VSCode } from './VSCode/index';
 import MonacoDiff from './MonacoDiff/index';
 import { Icon, Icons } from './elements';
+
+import Editor from './VSCode/Editor';
 
 // const CodeMirror = Loadable(() =>
 //   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
@@ -153,7 +155,7 @@ export function CodeEditor(props) {
   //   Editor = VSCode;
   // }
 
-  let Editor = VSCode;
+  // let Editor = VSCode;
 
   return (
     <div

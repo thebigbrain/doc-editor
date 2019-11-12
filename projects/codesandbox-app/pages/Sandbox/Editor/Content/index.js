@@ -7,7 +7,7 @@ import getTemplateDefinition from '@csb/common/lib/templates';
 import SplitPane from 'react-split-pane';
 
 import { CodeEditor } from '~/components/CodeEditor';
-import { DevTools } from '~/components/Preview/DevTools';
+// import { DevTools } from '~/components/Preview/DevTools';
 
 import { Preview } from './Preview';
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll';
@@ -314,7 +314,7 @@ export default function EditorPreview(props) {
   const { currentModule } = state.editor;
   const notSynced = !state.editor.isAllModulesSynced;
   const sandbox = state.editor.currentSandbox;
-  const { preferences } = state;
+  // const { preferences } = state;
   const { currentTab } = state.editor;
 
   const windowVisible = state.editor.previewWindowVisible;
@@ -342,20 +342,20 @@ export default function EditorPreview(props) {
     return false;
   };
 
-  const views = state.editor.devToolTabs;
-  const currentPosition = state.editor.currentDevToolsPosition;
+  // const views = state.editor.devToolTabs;
+  // const currentPosition = state.editor.currentDevToolsPosition;
 
-  const browserConfig = {
-    id: 'codesandbox.browser',
-    title: options =>
-      options.port || options.title
-        ? `Browser (${options.title || `:${options.port}`})`
-        : `Browser`,
-    Content: ({ hidden, options }) => (
-      <Preview options={options} hidden={hidden} width="100%" height="100%"/>
-    ),
-    actions: [],
-  };
+  // const browserConfig = {
+  //   id: 'codesandbox.browser',
+  //   title: options =>
+  //     options.port || options.title
+  //       ? `Browser (${options.title || `:${options.port}`})`
+  //       : `Browser`,
+  //   Content: ({ hidden, options }) => (
+  //     <Preview options={options} hidden={hidden} width="100%" height="100%"/>
+  //   ),
+  //   actions: [],
+  // };
 
   return (
     <ThemeProvider
@@ -482,7 +482,7 @@ export default function EditorPreview(props) {
             />
           </div>
 
-          <div
+          {/* <div
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -525,7 +525,7 @@ export default function EditorPreview(props) {
                 }
               />
             ))}
-          </div>
+          </div> */}
         </SplitPane>
       </div>
     </ThemeProvider>

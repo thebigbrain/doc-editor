@@ -1,8 +1,10 @@
 import { convertTypeToStatus, notificationState } from '@csb/common/lib/utils/notifications';
+import * as monaco from 'monaco-editor';
 import { blocker } from '~/utils/blocker';
 import { KeyCode, KeyMod } from './keyCodes';
 import bootstrap from './dev-bootstrap';
 import { MenuId } from './menus';
+
 const context = window;
 /**
  * Handles the VSCode instance for the whole app. The goal is to deprecate/remove this service at one point
@@ -44,7 +46,7 @@ class VSCodeManager {
             const instantiationService = this.serviceCache.get(IInstantiationService);
             instantiationService.invokeFunction(accessor => {
                 const workspaceService = accessor.get(IConfigurationService);
-                workspaceService.initialize(context.monaco.editor.getDefaultWorkspace());
+                workspaceService.initialize(monaco.editor.getDefaultWorkspace());
                 cb(accessor);
             });
             return;
@@ -60,7 +62,7 @@ class VSCodeManager {
             context.require('vs/workbench/services/extensions/common/extensions'),
             context.require('vs/platform/extensionManagement/common/extensionManagement'),
         ];
-        context.monaco.editor.create(container, {
+        monaco.editor.create(container, {
             codesandboxService: i => new SyncDescriptor(CodeSandboxService, [this.controller, this]),
             codesandboxConfigurationUIService: i => new SyncDescriptor(CodeSandboxConfigurationUIService, [
                 customEditorAPI,
@@ -109,10 +111,10 @@ class VSCodeManager {
         return commandService.executeCommand(id, ...args);
     }
     appendMenuItem(menubarId, item) {
-        context.monaco.editor.appendMenuItem(menubarId, item);
+        monaco.editor.appendMenuItem(menubarId, item);
     }
     addWorkbenchAction({ id, label, commandLabel = label, category = 'CodeSandbox', run, keybindings = { primary: 0 }, }) {
-        context.monaco.editor.addWorkbenchActions({
+        monaco.editor.addWorkbenchActions({
             id,
             label,
             commandLabel,

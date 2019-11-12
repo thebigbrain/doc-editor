@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 // const builtin = require('module').builtinModules;
 
 exports.merge = require('merge-deep');
@@ -132,6 +133,7 @@ const clientConfig = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     // new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal' }),
+    new MonacoWebpackPlugin(),
   ],
   node: {
     process: false,

@@ -10,6 +10,7 @@ import { parseConfigurations } from '../../utils/parse-configurations'
 import { mainModule as getMainModule } from '../../utils/main-module'
 
 export const state = {
+  monacoEditor: null,
   sandboxes: {},
   currentId: null,
   isForkingSandbox: false,

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { json } from 'overmind';
 import { ThemeProvider } from 'styled-components';
 import { Prompt } from 'react-router-dom';
@@ -9,7 +9,7 @@ import SplitPane from 'react-split-pane';
 import { CodeEditor } from '~/components/CodeEditor';
 // import { DevTools } from '~/components/Preview/DevTools';
 
-import { Preview } from './Preview';
+// import { Preview } from './Preview';
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll';
 import Tabs from './Tabs';
 import { useOvermind } from '@muggle/hooks';
@@ -35,11 +35,16 @@ const settings = state => ({
 export default function EditorPreview(props) {
   const { state, actions } = useOvermind();
   const [bounds, setBounds] = useState({ width: null, height: null });
-  let contentNode;
+  let contentNode = useRef(null);
+  let currentRef = useRef(null);
+
+  console.log(currentRef);
 
   const getBounds = el => {
+    el = el || currentRef.current;
     if (el) {
       const { width, height } = el.getBoundingClientRect();
+      console.log(width, height);
       if (width !== bounds.width || height !== bounds.height) {
         setBounds({ width, height });
       }
@@ -103,9 +108,7 @@ export default function EditorPreview(props) {
 
     useEffect(
       () => {
-        setTimeout(() => {
-          getBounds();
-        });
+        getBounds();
       },
       [
         state.preferences.settings.zenMode,
@@ -298,15 +301,15 @@ export default function EditorPreview(props) {
 
     window.addEventListener('resize', getBounds);
 
-    if (contentNode) {
-      preventGestureScroll(contentNode);
+    if (contentNode && contentNode.current) {
+      preventGestureScroll(contentNode.current);
     }
 
     return () => {
       window.removeEventListener('resize', getBounds);
 
-      if (contentNode) {
-        removeListener(contentNode);
+      if (contentNode && contentNode.current) {
+        removeListener(contentNode.current);
       }
     };
   });
@@ -373,11 +376,7 @@ export default function EditorPreview(props) {
           display: 'flex',
           flexDirection: 'column',
         }}
-        ref={node => {
-          if (node) {
-            contentNode = node;
-          }
-        }}
+        ref={contentNode}
       >
         <Prompt
           when={notSynced && !state.editor.isForkingSandbox}
@@ -423,7 +422,7 @@ export default function EditorPreview(props) {
           }}
         >
           <div
-            ref={getBounds}
+            ref={currentRef}
             style={{
               position: 'relative',
               display: 'flex',
@@ -481,6 +480,7 @@ export default function EditorPreview(props) {
               }
             />
           </div>
+          <div>devtool</div>
 
           {/* <div
             style={{

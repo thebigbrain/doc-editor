@@ -16,6 +16,10 @@ export * from './items';
 
 export const internal = internalActions;
 
+export const setMonaco = ({state}, editor) => {
+  state.monacoEditor = editor;
+};
+
 export const saveAllModules = ({ state, actions }) => {
   const sandbox = state.editor.currentSandbox;
 

@@ -1,5 +1,5 @@
 // Typing info only.
-import * as _fs from 'FS';
+import * as _fs from 'fs';
 import Stats from './node_fs_stats';
 
 const EventEmitter = require('events');

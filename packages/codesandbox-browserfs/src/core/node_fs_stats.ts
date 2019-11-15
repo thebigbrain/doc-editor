@@ -1,4 +1,4 @@
-import * as fs from 'FS';
+import * as fs from 'fs';
 
 /**
  * Indicates the type of the given file. Applied to 'mode'.

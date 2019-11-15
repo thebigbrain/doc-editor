@@ -7,7 +7,7 @@ import Stats, { FileType } from './node_fs_stats';
 import setImmediate from '../generic/setImmediate';
 
 // Typing info only.
-import * as _fs from 'FS';
+import * as _fs from 'fs';
 import { FileWatcher } from './file_watcher';
 
 /** Used for unit testing. Defaults to a NOP. */

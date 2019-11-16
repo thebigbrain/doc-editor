@@ -17,6 +17,7 @@ export default function(props) {
   }, [container]);
 
   if (editor) {
+    console.log(width, height);
     editor.layout({width, height});
   }
 

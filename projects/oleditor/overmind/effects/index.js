@@ -3,7 +3,7 @@ export { default as utils } from './utils';
 export {default as api} from './api'
 export { default as browser } from './browser';
 export { default as connection } from './connection';
-export { default as fsSync } from './fsSync';
+// export { default as fsSync } from './fsSync';
 // export { default as jsZip } from './jsZip';
 export { default as keybindingManager } from './keybindingManager';
 // export { default as live } from './live';
@@ -15,7 +15,7 @@ export { default as settingsStore } from './settingsStore';
 export { default as http } from './http';
 export { default as analytics } from './analytics';
 export { default as notificationToast } from './notificationToast';
-export { default as vscode } from './vscode';
+// export { default as vscode } from './vscode';
 // export { default as zeit } from './zeit';
 // export { default as netlify } from './netlify';
 // export { default as prettyfier } from './prettyfier';

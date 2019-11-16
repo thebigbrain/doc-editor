@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "start:csb-app": "lerna run start --scope @csb/app --scope @muggle/server --parallel",
-    "start:ole": "lerna run start --scope @csb/app --scope @muggle/server --parallel"
+    "start:ole": "lerna run start --scope @muggle/oleditor --scope @muggle/server --parallel"
   },
   "devDependencies": {
     "lerna": "^3.16.4"

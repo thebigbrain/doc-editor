@@ -19,14 +19,6 @@ import { Icon, Icons } from './elements';
 
 import Editor from './VSCode/Editor';
 
-// const CodeMirror = Loadable(() =>
-//   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
-// );
-
-// const Monaco = Loadable(() =>
-//   import(/* webpackChunkName: 'codemirror-editor' */ './Monaco/index'),
-// );
-
 const getDependencies = (sandbox) => {
   const packageJSON = sandbox.modules.find(
     m => m.title === 'package.json' && m.directoryShortid == null,
@@ -104,8 +96,6 @@ export function CodeEditor(props) {
     module.id,
   );
   const config = template.configurationFiles[modulePath];
-
-  // let Editor = VSCode;
 
   return (
     <div

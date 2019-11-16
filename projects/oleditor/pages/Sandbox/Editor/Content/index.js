@@ -7,9 +7,7 @@ import getTemplateDefinition from '@csb/common/lib/templates';
 import SplitPane from 'react-split-pane';
 
 import { CodeEditor } from '~/components/CodeEditor';
-// import { DevTools } from '~/components/Preview/DevTools';
 
-// import { Preview } from './Preview';
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll';
 import Tabs from './Tabs';
 import { useOvermind } from '@muggle/hooks';
@@ -345,21 +343,6 @@ export default function EditorPreview(props) {
     return false;
   };
 
-  // const views = state.editor.devToolTabs;
-  // const currentPosition = state.editor.currentDevToolsPosition;
-
-  // const browserConfig = {
-  //   id: 'codesandbox.browser',
-  //   title: options =>
-  //     options.port || options.title
-  //       ? `Browser (${options.title || `:${options.port}`})`
-  //       : `Browser`,
-  //   Content: ({ hidden, options }) => (
-  //     <Preview options={options} hidden={hidden} width="100%" height="100%"/>
-  //   ),
-  //   actions: [],
-  // };
-
   return (
     <ThemeProvider
       theme={{
@@ -384,44 +367,7 @@ export default function EditorPreview(props) {
             'You have not saved this sandbox, are you sure you want to navigate away?'
           }
         />
-        <SplitPane
-          maxSize={-100}
-          onDragFinished={() => {
-            actions.editor.resizingStopped();
-          }}
-          onDragStarted={() => {
-            actions.editor.resizingStarted();
-          }}
-          onChange={() => {
-            requestAnimationFrame(() => {
-              getBounds();
-            });
-          }}
-          style={{
-            overflow: 'visible', // For VSCode Context Menu
-          }}
-          split={state.editor.previewWindowOrientation}
-          defaultSize="50%"
-          pane1Style={
-            windowVisible
-              ? {
-                minWidth: 100,
-              }
-              : {
-                width: '100%',
-                minWidth: '100%',
-                height: '100%',
-                minHeight: '100%',
-              }
-          }
-          pane2Style={{
-            visibility: windowVisible ? 'visible' : 'hidden',
-            maxWidth: windowVisible ? 'inherit' : 0,
-            width: windowVisible ? 'inherit' : 0,
-            zIndex: 0, // For VSCode hovers, beware this is also dynamically changed in PreviewTabs
-          }}
-        >
-          <div
+        <div
             ref={currentRef}
             style={{
               position: 'relative',
@@ -480,53 +426,6 @@ export default function EditorPreview(props) {
               }
             />
           </div>
-          <div>devtool</div>
-
-          {/* <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-            }}
-            id="csb-devtools" // used for tabs for highlighting
-          >
-            {views.map((v, i) => (
-              <DevTools
-                key={i} // eslint-disable-line react/no-array-index-key
-                devToolIndex={i}
-                addedViews={{
-                  'codesandbox.browser': browserConfig,
-                }}
-                setDragging={dragging => {
-                  if (dragging) {
-                    actions.editor.resizingStarted();
-                  } else {
-                    actions.editor.resizingStopped();
-                  }
-                }}
-                sandboxId={sandbox.id}
-                template={sandbox.template}
-                shouldExpandDevTools={state.preferences.showDevtools}
-                zenMode={preferences.settings.zenMode}
-                setDevToolsOpen={open =>
-                  actions.preferences.setDevtoolsOpen({ open })
-                }
-                owned={sandbox.owned}
-                primary={i === 0}
-                viewConfig={v}
-                moveTab={moveDevToolsTab}
-                closeTab={closeDevToolsTab}
-                currentDevToolIndex={currentPosition.devToolIndex}
-                currentTabPosition={currentPosition.tabPosition}
-                setPane={position =>
-                  actions.editor.onDevToolsPositionChanged({
-                    position,
-                  })
-                }
-              />
-            ))}
-          </div> */}
-        </SplitPane>
       </div>
     </ThemeProvider>
   );

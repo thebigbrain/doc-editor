@@ -30,6 +30,7 @@
     "@csb/common": "^1.0.8",
     "@emmetio/codemirror-plugin": "^0.5.4",
     "@feathersjs/client": "^4.3.5",
+    "@microsoft/typescript-etw": "^0.1.0",
     "@muggle/hooks": "^1.0.0",
     "@muggle/icons": "^1.0.0",
     "@typeform/embed": "^0.13.1",

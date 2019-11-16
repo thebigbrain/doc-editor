@@ -12,14 +12,14 @@ export const onInitialize = (
     }
   });
 
-  effects.fsSync.initialize({
-    getCurrentSandboxId() {
-      return state.editor.currentId;
-    },
-    getModulesByPath() {
-      return state.editor.modulesByPath;
-    },
-  });
+  // effects.fsSync.initialize({
+  //   getCurrentSandboxId() {
+  //     return state.editor.currentId;
+  //   },
+  //   getModulesByPath() {
+  //     return state.editor.modulesByPath;
+  //   },
+  // });
   //
   // effects.live.initialize({
   //   provideJwtToken,

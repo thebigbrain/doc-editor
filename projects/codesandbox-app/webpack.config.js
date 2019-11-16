@@ -114,15 +114,15 @@ const clientConfig = {
           },
         ],
       },
-      {
-        test: /\.worker\.js$/i,
-        use: [
-          {
-            loader: 'worker-loader',
-            options: { publicPath: '/' }
-          }
-        ]
-      },
+      // {
+      //   test: /\.worker\.js$/i,
+      //   use: [
+      //     {
+      //       loader: 'worker-loader',
+      //       options: { publicPath: '/' }
+      //     }
+      //   ]
+      // },
     ],
   },
   // REQUIRED to avoid issue "Uncaught TypeError: BrowserFS.BFSRequire is not a function"

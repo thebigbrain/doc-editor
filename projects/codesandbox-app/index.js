@@ -20,18 +20,18 @@ import { Routes as App } from './pages';
 import { config } from './overmind';
 import { OvermindProvider } from '@muggle/hooks';
 import './split-pane.css';
-import { getTypeFetcher } from './vscode/extensionHostWorker/common/type-downloader';
-import { vscode } from './vscode';
-import {
-  initializeThemeCache,
-  initializeSettings,
-  initializeExtensionsFolder,
-  initializeCustomTheme,
-  setVimExtensionEnabled,
-} from './vscode/initializers';
-import { EXTENSIONS_LOCATION } from './vscode/constants';
+// import { getTypeFetcher } from './vscode/extensionHostWorker/common/type-downloader';
+// import { vscode } from './vscode';
+// import {
+//   initializeThemeCache,
+//   initializeSettings,
+//   initializeExtensionsFolder,
+//   initializeCustomTheme,
+//   setVimExtensionEnabled,
+// } from './vscode/initializers';
+// import { EXTENSIONS_LOCATION } from './vscode/constants';
 
-import BrowserFS from 'browserfs';
+// import BrowserFS from 'browserfs';
 
 const debug = _debug('cs:app');
 
@@ -93,121 +93,123 @@ async function initialize() {
     logProxies: true,
   });
 
-  const getState = () => overmind.state;
-  const getSignal = () => overmind.actions;
+  boot(overmind);
 
-  window.process = {
-    env: {
-      VSCODE_DEV: false,
-    },
-    nextTick: function(cb) {
-      return requestAnimationFrame(cb)
-    },
-    once: BrowserFS.BFSRequire('process').once,
-    removeListener: function() {
-    },
-  };
+  // const getState = () => overmind.state;
+  // const getSignal = () => overmind.actions;
+
+  // window.process = {
+  //   env: {
+  //     VSCODE_DEV: false,
+  //   },
+  //   nextTick: function(cb) {
+  //     return requestAnimationFrame(cb)
+  //   },
+  //   once: BrowserFS.BFSRequire('process').once,
+  //   removeListener: function() {
+  //   },
+  // };
   
-  window.Buffer = BrowserFS.BFSRequire('buffer').Buffer;
-  window.require =BrowserFS.BFSRequire.bind(BrowserFS);
+  // window.Buffer = BrowserFS.BFSRequire('buffer').Buffer;
+  // window.require =BrowserFS.BFSRequire.bind(BrowserFS);
 
-  // Configures BrowserFS to use the LocalStorage file system.
-  BrowserFS.configure(
-    {
-      fs: 'MountableFileSystem',
-      options: {
-        '/': { fs: 'InMemory', options: {} },
-        '/sandbox': {
-          fs: 'CodeSandboxEditorFS',
-          options: {
-            api: {
-              getState: () => ({
-                modulesByPath: getState().editor.currentSandbox
-                  ? getState().editor.modulesByPath
-                  : {},
-              }),
-            },
-          },
-        },
-        '/sandbox/node_modules': {
-          fs: 'CodeSandboxFS',
-          options: getTypeFetcher().options,
-        },
-        '/vscode': {
-          fs: 'LocalStorage',
-        },
-        '/home': {
-          fs: 'LocalStorage',
-        },
-        '/extensions': {
-          fs: 'BundledHTTPRequest',
-          options: {
-            index: EXTENSIONS_LOCATION + '/extensions/index.json',
-            baseUrl: EXTENSIONS_LOCATION + '/extensions',
-            bundle: EXTENSIONS_LOCATION + '/bundles/main.min.json',
-            logReads: process.env.NODE_ENV === 'development',
-          },
-        },
-        '/extensions/custom-theme': {
-          fs: 'InMemory',
-        },
-      },
-    },
-    async e => {
-      if (e) {
-        console.error('Problems initializing FS', e);
-        // An error happened!
-        throw e;
-      }
+  // // Configures BrowserFS to use the LocalStorage file system.
+  // BrowserFS.configure(
+  //   {
+  //     fs: 'MountableFileSystem',
+  //     options: {
+  //       '/': { fs: 'InMemory', options: {} },
+  //       '/sandbox': {
+  //         fs: 'CodeSandboxEditorFS',
+  //         options: {
+  //           api: {
+  //             getState: () => ({
+  //               modulesByPath: getState().editor.currentSandbox
+  //                 ? getState().editor.modulesByPath
+  //                 : {},
+  //             }),
+  //           },
+  //         },
+  //       },
+  //       '/sandbox/node_modules': {
+  //         fs: 'CodeSandboxFS',
+  //         options: getTypeFetcher().options,
+  //       },
+  //       '/vscode': {
+  //         fs: 'LocalStorage',
+  //       },
+  //       '/home': {
+  //         fs: 'LocalStorage',
+  //       },
+  //       '/extensions': {
+  //         fs: 'BundledHTTPRequest',
+  //         options: {
+  //           index: EXTENSIONS_LOCATION + '/extensions/index.json',
+  //           baseUrl: EXTENSIONS_LOCATION + '/extensions',
+  //           bundle: EXTENSIONS_LOCATION + '/bundles/main.min.json',
+  //           logReads: process.env.NODE_ENV === 'development',
+  //         },
+  //       },
+  //       '/extensions/custom-theme': {
+  //         fs: 'InMemory',
+  //       },
+  //     },
+  //   },
+  //   async e => {
+  //     if (e) {
+  //       console.error('Problems initializing FS', e);
+  //       // An error happened!
+  //       throw e;
+  //     }
 
-      const isVSCode = true;
+  //     const isVSCode = true;
 
-      if (isVSCode) {
-        // For first-timers initialize a theme in the cache so it doesn't jump colors
-        initializeExtensionsFolder();
-        initializeCustomTheme();
-        initializeThemeCache();
-        initializeSettings();
-        setVimExtensionEnabled(
-          localStorage.getItem('settings.vimmode') === 'true'
-        );
-      }
+  //     if (isVSCode) {
+  //       // For first-timers initialize a theme in the cache so it doesn't jump colors
+  //       initializeExtensionsFolder();
+  //       initializeCustomTheme();
+  //       initializeThemeCache();
+  //       initializeSettings();
+  //       setVimExtensionEnabled(
+  //         localStorage.getItem('settings.vimmode') === 'true'
+  //       );
+  //     }
 
-      // eslint-disable-next-line global-require
-      vscode.loadScript(
-        ['vs/editor/codesandbox.editor.main'],
-        true,
-        () => {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('Loaded Monaco'); // eslint-disable-line
-          }
+  //     // eslint-disable-next-line global-require
+  //     vscode.loadScript(
+  //       ['vs/editor/codesandbox.editor.main'],
+  //       true,
+  //       () => {
+  //         if (process.env.NODE_ENV === 'development') {
+  //           console.log('Loaded Monaco'); // eslint-disable-line
+  //         }
 
-          vscode.acquireController({
-            getSignal,
-            getState,
-          });
+  //         vscode.acquireController({
+  //           getSignal,
+  //           getState,
+  //         });
 
-          import(
-            './vscode/extensionHostWorker/bootstrappers/ext-host.worker'
-          ).then(ExtHostWorkerLoader => {
-            childProcess.addDefaultForkHandler(ExtHostWorkerLoader.default);
-            // child_process.preloadWorker('/vs/bootstrap-fork');
-          });
+  //         import(
+  //           './vscode/extensionHostWorker/bootstrappers/ext-host.worker'
+  //         ).then(ExtHostWorkerLoader => {
+  //           childProcess.addDefaultForkHandler(ExtHostWorkerLoader.default);
+  //           // child_process.preloadWorker('/vs/bootstrap-fork');
+  //         });
 
-          // import('worker-loader?publicPath=/&name=ext-host-worker.[hash:8].worker.js!./vscode/extensionHostWorker/services/searchService').then(
-          //   SearchServiceWorker => {
-          //     child_process.addForkHandler(
-          //       'csb:search-service',
-          //       SearchServiceWorker.default
-          //     );
-          //   }
-          // );
+  //         // import('worker-loader?publicPath=/&name=ext-host-worker.[hash:8].worker.js!./vscode/extensionHostWorker/services/searchService').then(
+  //         //   SearchServiceWorker => {
+  //         //     child_process.addForkHandler(
+  //         //       'csb:search-service',
+  //         //       SearchServiceWorker.default
+  //         //     );
+  //         //   }
+  //         // );
 
-          boot(overmind);
-        }
-      );
-    }
-  );
+  //         boot(overmind);
+  //       }
+  //     );
+  //   }
+  // );
 }
 
 initialize();

@@ -1,4 +1,5 @@
-import { vscode } from 'app/vscode';
+import { vscode } from '~/vscode';
+
 export default {
     callCallbackError(id, message) {
         // @ts-ignore

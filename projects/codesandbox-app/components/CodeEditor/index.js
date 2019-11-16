@@ -13,11 +13,11 @@ import Tooltip from '@csb/common/lib/components/Tooltip';
 // import Loadable from '~/utils/Loadable';
 // import { ImageViewer } from './ImageViewer/index';
 // import { Configuration } from './Configuration/index';
-// import { VSCode } from './VSCode/index';
+import { VSCode } from './VSCode/index';
 import MonacoDiff from './MonacoDiff/index';
 import { Icon, Icons } from './elements';
 
-import Editor from './VSCode/Editor';
+// import Editor from './VSCode/Editor';
 
 // const CodeMirror = Loadable(() =>
 //   import(/* webpackChunkName: 'codemirror-editor' */ './CodeMirror/index'),
@@ -105,7 +105,7 @@ export function CodeEditor(props) {
   );
   const config = template.configurationFiles[modulePath];
 
-  // let Editor = VSCode;
+  let Editor = VSCode;
 
   return (
     <div

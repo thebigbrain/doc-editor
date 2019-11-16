@@ -12,10 +12,10 @@ const baseConfig = {
     hot: true,
   },
   externals: {
-    'BrowserFS': 'BrowserFS',
-    'fs': 'BrowserFS.BFSRequire("fs")',
-    'path': 'BrowserFS.BFSRequire("path")',
-    'buffer': 'BrowserFS.BFSRequire("buffer")',
+    // 'BrowserFS': 'BrowserFS',
+    // 'fs': 'BrowserFS.BFSRequire("fs")',
+    // 'path': 'BrowserFS.BFSRequire("path")',
+    // 'buffer': 'BrowserFS.BFSRequire("buffer")',
   },
   resolve: {
     symlinks: false,
@@ -135,10 +135,10 @@ const clientConfig = {
     // new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal' }),
     new MonacoWebpackPlugin(),
   ],
-  node: {
-    process: false,
-    Buffer: false
-  },
+  // node: {
+  //   process: false,
+  //   Buffer: false
+  // },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },

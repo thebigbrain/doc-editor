@@ -1,4 +1,4 @@
-import setImmediate from './setImmediate';
+import setImmediate from '../generic/setImmediate';
 
 /**
  * Non-recursive mutex

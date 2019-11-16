@@ -12,6 +12,11 @@ import {
   GoTrashcan as DeleteIcon
 } from 'react-icons/go'
 
+// import {
+//   AddFileIcon,
+//   AddDirectoryIcon
+// } from '@muggle/icons'
+
 import theme from '@csb/common/lib/theme'
 
 import { EntryContainer } from '../../../elements'
@@ -177,9 +182,9 @@ class Entry extends React.PureComponent {
                 onCommit={this.handleRename}
               />
             ) : (
-              <EntryTitle title={title}/>
-            )}
-            {isNotSynced && !state && <NotSyncedIconWithMargin/>}
+                <EntryTitle title={title} />
+              )}
+            {isNotSynced && !state && <NotSyncedIconWithMargin />}
             {state === '' && (
               <Right>
                 {isMainModule && (

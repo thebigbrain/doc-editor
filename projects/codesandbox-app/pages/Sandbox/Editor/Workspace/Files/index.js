@@ -26,6 +26,33 @@ export default function Files(props) {
     }
   };
 
+  const initializeProperties = ({
+    onCreateModuleClick,
+    onCreateDirectoryClick,
+    onUploadFileClick,
+  }) => {
+    createModule = onCreateModuleClick;
+    createDirectory = onCreateDirectoryClick;
+    uploadFile = onUploadFileClick;
+
+    if (props.setEditActions) {
+      props.setEditActions(
+        <EditIcons
+          hovering
+          forceShow={window.__isTouch}
+          onCreateFile={createModule}
+          onCreateDirectory={createDirectory}
+          onDownload={onDownload}
+          onUploadFile={
+            state.isLoggedIn && sandbox.privacy === 0
+              ? uploadFile
+              : undefined
+          }
+        />,
+      );
+    }
+  };
+
   return (
     <DirectoryEntry
       root
@@ -34,32 +61,7 @@ export default function Files(props) {
       signals={
         actions /* TODO: Just pass what is needed by the DragDrop */
       }
-      initializeProperties={({
-                               onCreateModuleClick,
-                               onCreateDirectoryClick,
-                               onUploadFileClick,
-                             }) => {
-        createModule = onCreateModuleClick;
-        createDirectory = onCreateDirectoryClick;
-        uploadFile = onUploadFileClick;
-
-        if (props.setEditActions) {
-          props.setEditActions(
-            <EditIcons
-              hovering
-              forceShow={window.__isTouch}
-              onCreateFile={createModule}
-              onCreateDirectory={createDirectory}
-              onDownload={onDownload}
-              onUploadFile={
-                state.isLoggedIn && sandbox.privacy === 0
-                  ? uploadFile
-                  : undefined
-              }
-            />,
-          );
-        }
-      }}
+      initializeProperties={initializeProperties}
       depth={-1}
       id={null}
       shortid={null}

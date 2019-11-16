@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "start:cs-app": "lerna run start --scope @csb/app --scope @muggle/server --parallel"
+    "start:csb-app": "lerna run start --scope @csb/app --scope @muggle/server --parallel",
+    "start:ole": "lerna run start --scope @csb/app --scope @muggle/server --parallel"
   },
   "devDependencies": {
     "lerna": "^3.16.4"

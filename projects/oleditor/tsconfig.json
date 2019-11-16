@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "target": "ESNext",
+    "jsx": "preserve",
+    "declaration": false,
+    "allowJs": true
+  }
+}

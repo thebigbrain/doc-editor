@@ -316,8 +316,6 @@ export const moduleDoubleClicked = ({ state, effects }) => {
   //   effects.vscode.runCommand('workbench.action.keepEditor');
   // }
 
-  console.log(state.editor.currentModule);
-
   const { currentModule } = state.editor;
   const tabs = state.editor.tabs;
   const tab = tabs.find(

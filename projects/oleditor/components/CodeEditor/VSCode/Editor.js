@@ -24,8 +24,6 @@ export default function(props) {
     if (currentModule) {
       monacoEditor.setValue(currentModule.code);
     }
-
-    console.log(currentModule);
   }
 
   return (

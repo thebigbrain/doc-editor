@@ -6,7 +6,7 @@ import { TextOperation } from 'ot';
 import getTemplateDefinition from '@csb/common/lib/templates';
 
 import { CodeEditor } from '~/components/CodeEditor';
-
+import Tabs from './Tabs';
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll';
 import { useOvermind } from '@muggle/hooks';
 
@@ -82,17 +82,6 @@ export default function EditorPreview(props) {
         editor.changeSettings(newSettings);
       }
     }, [state.preferences.settings]);
-
-    useEffect(
-      () => {
-        getBounds();
-      },
-      [
-        state.preferences.settings.zenMode,
-        state.workspace.workspaceHidden,
-        state.editor.previewWindowOrientation,
-      ],
-    );
 
     useEffect(
       () => {
@@ -275,9 +264,17 @@ export default function EditorPreview(props) {
     };
   });
 
-  useEffect(() => {
-    getBounds();
-  }, [bounds.width, bounds.height]);
+  useEffect(
+    () => {
+      getBounds();
+    },
+    [
+      bounds.width, bounds.height,
+      state.preferences.settings.zenMode,
+      state.workspace.workspaceHidden,
+      state.editor.previewWindowOrientation,
+    ],
+  );
 
   const { currentModule } = state.editor;
   const notSynced = !state.editor.isAllModulesSynced;
@@ -331,6 +328,7 @@ export default function EditorPreview(props) {
             'You have not saved this sandbox, are you sure you want to navigate away?'
           }
         />
+        <Tabs/>
         <div
             ref={currentRef}
             style={{

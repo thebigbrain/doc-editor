@@ -207,11 +207,9 @@ class DirectoryEntry extends React.Component {
       ? 'Project'
       : currentSandbox.directories.find(m => m.id === id).title;
 
-    console.log(title)
-
     return connectDropTarget(
       <div style={{ position: 'relative' }}>
-        <Overlay isOver={isOver}/>
+        <Overlay isOver={isOver} />
         {!root && (
           <EntryContainer>
             <Entry
@@ -249,7 +247,7 @@ class DirectoryEntry extends React.Component {
                   body={
                     <span>
                       Are you sure you want to delete <b>{title}</b>?
-                      <br/>
+                      <br />
                       The directory will be permanently removed.
                     </span>
                   }
@@ -299,18 +297,18 @@ class DirectoryEntry extends React.Component {
               <Alert
                 css={`
                   background-color: ${props =>
-                  props.theme['sideBar.background'] || 'auto'};
+                    props.theme['sideBar.background'] || 'auto'};
                   color: ${props =>
-                  props.theme.light
-                    ? 'rgba(0,0,0,0.9)'
-                    : 'rgba(255,255,255,0.9)'};
+                    props.theme.light
+                      ? 'rgba(0,0,0,0.9)'
+                      : 'rgba(255,255,255,0.9)'};
                 `}
                 title="Delete File"
                 body={
                   <span>
                     Are you sure you want to delete{' '}
                     <b>{this.state.moduleToDeleteTitle}</b>?
-                    <br/>
+                    <br />
                     The file will be permanently removed.
                   </span>
                 }
@@ -395,4 +393,6 @@ function collectTarget(connectMonitor, monitor) {
   };
 }
 
-export default withOvermind(DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry));
+export default withOvermind(
+  DropTarget(['ENTRY', NativeTypes.FILE], entryTarget, collectTarget)(DirectoryEntry)
+);

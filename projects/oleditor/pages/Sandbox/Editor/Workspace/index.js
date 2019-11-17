@@ -1,5 +1,4 @@
 import React from 'react';
-//  Fix css prop types in styled-components (see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31245#issuecomment-463640878)
 // import VERSION from '@csb/common/lib/version';
 // import { SocialInfo } from '~/components/SocialInfo';
 // import ConfigurationFiles from './items/ConfigurationFiles';
@@ -50,8 +49,6 @@ export const Workspace = () => {
     return null;
   }
 
-  console.log(activeTab);
-
   const Component = workspaceTabs[activeTab];
   const item =
     actions.workspace.getWorkspaceItems().find(({ id }) => id === activeTab) ||
@@ -72,16 +69,6 @@ export const Workspace = () => {
 
       {!zenMode && (
         <>
-          {/*{!(isPatron || owned) && <Advertisement/>}*/}
-
-          {/*<ContactContainer>*/}
-          {/*/!*<SocialInfo style={{ display: 'inline-block' }}/>*!/*/}
-
-          {/*<VersionContainer className="codesandbox-version">*/}
-          {/*{VERSION}*/}
-          {/*</VersionContainer>*/}
-          {/*</ContactContainer>*/}
-
           <SSEDownNotice/>
 
           <ConnectionNotice/>

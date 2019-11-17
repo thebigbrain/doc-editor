@@ -1,3 +1,5 @@
+import React from 'react';
+
 import folderSvg from '@csb/common/lib/components/icons/folder.svg'
 import folderOpenSvg from '@csb/common/lib/components/icons/folder-open.svg'
 import fileSvg from '@csb/common/lib/components/icons/file.svg'
@@ -5,53 +7,44 @@ import imageSvg from '@csb/common/lib/components/icons/image.svg'
 import codesandboxSvg from '@csb/common/lib/components/icons/codesandbox.svg'
 import nowSvg from '@csb/common/lib/components/icons/now.svg'
 
-function imageExists(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = resolve
-    img.onerror = reject
-    img.src = url
-  })
-}
+import { SVGIcon } from './elements'
 
-async function getIconURL(type) {
+function getIcon(type) {
   const base =
     'https://cdn.jsdelivr.net/gh/PKief/vscode-material-icon-theme@master/icons'
 
-  let url
+  let icon
 
   switch (type) {
     case 'codesandbox':
-      url = codesandboxSvg
+      icon = codesandboxSvg
       break
 
     case 'image':
-      url = imageSvg
+      icon = imageSvg
       break
 
     case 'now':
-      url = nowSvg
+      icon = nowSvg
       break
 
     case 'directory':
-      url = folderSvg
+      icon = folderSvg
       break
 
     case 'directory-open':
-      url = folderOpenSvg
+      icon = folderOpenSvg
       break
 
     default:
-      url = `${base}/${type}.svg`
+      icon = (props) => <SVGIcon {...props} url={`${base}/${type}.svg`}/>
   }
 
   try {
-    await imageExists(url)
-
-    return url
+    return icon
   } catch (_) {
     return fileSvg
   }
 }
 
-export default getIconURL
+export default getIcon

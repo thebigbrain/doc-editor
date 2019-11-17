@@ -16,8 +16,8 @@ export * from './items';
 
 export const internal = internalActions;
 
-export const setMonaco = ({state}, editor) => {
-  state.monacoEditor = editor;
+export const setMonaco = ({ state }, editor) => {
+  state.editor.monacoEditor = editor;
 };
 
 export const saveAllModules = ({ state, actions }) => {
@@ -230,10 +230,10 @@ export const createZipClicked = ({ state, effects }) => {
 };
 
 export const forkSandboxClicked = async ({
-                                           state,
-                                           effects,
-                                           actions,
-                                         }) => {
+  state,
+  effects,
+  actions,
+}) => {
   if (
     state.editor.currentSandbox.owned &&
     !effects.browser.confirm('Do you want to fork your own sandbox?')
@@ -312,9 +312,11 @@ export const clearModuleSelected = ({ state }) => {
 };
 
 export const moduleDoubleClicked = ({ state, effects }) => {
-  if (state.preferences.settings.experimentVSCode) {
-    effects.vscode.runCommand('workbench.action.keepEditor');
-  }
+  // if (state.preferences.settings.experimentVSCode) {
+  //   effects.vscode.runCommand('workbench.action.keepEditor');
+  // }
+
+  console.log(state.editor.currentModule);
 
   const { currentModule } = state.editor;
   const tabs = state.editor.tabs;
@@ -342,10 +344,10 @@ export const tabMoved = ({ state }, { prevIndex, nextIndex }) => {
 };
 
 export const prettifyClicked = async ({
-                                        state,
-                                        effects,
-                                        actions,
-                                      }) => {
+  state,
+  effects,
+  actions,
+}) => {
   effects.analytics.track('Prettify Code');
   const module = state.editor.currentModule;
   const newCode = await effects.prettyfier.prettify(
@@ -428,9 +430,9 @@ export const discardModuleChanges = ({ state, effects, actions }, { moduleShorti
 };
 
 export const fetchEnvironmentVariables = async ({
-                                                  state,
-                                                  effects,
-                                                }) => {
+  state,
+  effects,
+}) => {
   state.editor.currentSandbox.environmentVariables = await effects.api.getEnvironmentVariables(
     state.editor.currentId,
   );

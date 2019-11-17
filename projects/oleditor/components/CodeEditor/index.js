@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { MdDvr as UIIcon } from 'react-icons/md';
-import { GoQuestion as QuestionIcon } from 'react-icons/go';
-import getUI from '@csb/common/lib/templates/configuration/ui';
+import React from 'react';
+// import { MdDvr as UIIcon } from 'react-icons/md';
+// import { GoQuestion as QuestionIcon } from 'react-icons/go';
+// import getUI from '@csb/common/lib/templates/configuration/ui';
 // import Centered from '@csb/common/lib/components/flex/Centered';
 // import Margin from '@csb/common/lib/components/spacing/Margin';
 // import isImage from '@csb/common/lib/utils/is-image';
-import getDefinition from '@csb/common/lib/templates';
-import { getModulePath } from '@csb/common/lib/sandbox/modules';
-import Tooltip from '@csb/common/lib/components/Tooltip';
+// import getDefinition from '@csb/common/lib/templates';
+// import { getModulePath } from '@csb/common/lib/sandbox/modules';
+// import Tooltip from '@csb/common/lib/components/Tooltip';
 // import { Title } from '~/components/Title';
 // import { SubTitle } from '~/components/SubTitle';
 // import Loadable from '~/utils/Loadable';
@@ -15,7 +15,7 @@ import Tooltip from '@csb/common/lib/components/Tooltip';
 // import { Configuration } from './Configuration/index';
 // import { VSCode } from './VSCode/index';
 import MonacoDiff from './MonacoDiff/index';
-import { Icon, Icons } from './elements';
+import { Icons } from './elements';
 
 import Editor from './VSCode/Editor';
 
@@ -49,19 +49,12 @@ const getDependencies = (sandbox) => {
   }
 };
 
-export function CodeEditor(props) {
-  const [showConfigUI, setShowConfigUI] = useState(true);
-
-  const toggleConfigUI = () => {
-    setShowConfigUI(!showConfigUI);
-  };
-
+export function CodeEditor(props) {  
   const {
     isModuleSynced,
     currentTab,
     sandbox,
     currentModule: module,
-    settings,
   } = props;
 
   if (currentTab && currentTab.type === 'DIFF') {
@@ -89,14 +82,6 @@ export function CodeEditor(props) {
 
   const dependencies = getDependencies(sandbox);
 
-  const template = getDefinition(sandbox.template);
-  const modulePath = getModulePath(
-    sandbox.modules,
-    sandbox.directories,
-    module.id,
-  );
-  const config = template.configurationFiles[modulePath];
-
   return (
     <div
       style={{
@@ -116,34 +101,6 @@ export function CodeEditor(props) {
           changes
           </Icons>
       )}
-      {config &&
-        (getUI(config.type) && !settings.experimentVSCode ? (
-          <Icons>
-            <Tooltip content="Switch to UI Configuration">
-              <Icon onClick={toggleConfigUI}>
-                <UIIcon />
-              </Icon>
-            </Tooltip>
-          </Icons>
-        ) : (
-            <Icons>
-              {config.partialSupportDisclaimer ? (
-                <Tooltip
-                  placement="bottom"
-                  content={config.partialSupportDisclaimer}
-                  style={{
-                    display: 'flex',
-                    'align-items': 'center',
-                  }}
-                >
-                  Partially Supported Config{' '}
-                  <QuestionIcon style={{ marginLeft: '.5rem' }} />
-                </Tooltip>
-              ) : (
-                  <div>Supported Configuration</div>
-                )}
-            </Icons>
-          ))}
       <Editor {...props} dependencies={dependencies} />
     </div>
   );

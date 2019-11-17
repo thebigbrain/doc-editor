@@ -4,31 +4,11 @@ import { ThemeProvider } from 'styled-components';
 import { Prompt } from 'react-router-dom';
 import { TextOperation } from 'ot';
 import getTemplateDefinition from '@csb/common/lib/templates';
-import SplitPane from 'react-split-pane';
 
 import { CodeEditor } from '~/components/CodeEditor';
 
 import preventGestureScroll, { removeListener } from './prevent-gesture-scroll';
-import Tabs from './Tabs';
 import { useOvermind } from '@muggle/hooks';
-
-const settings = state => ({
-  fontFamily: state.preferences.settings.fontFamily,
-  fontSize: state.preferences.settings.fontSize,
-  lineHeight: state.preferences.settings.lineHeight,
-  autoCompleteEnabled: state.preferences.settings.autoCompleteEnabled,
-  autoDownloadTypes: state.preferences.settings.autoDownloadTypes,
-  vimMode: state.preferences.settings.vimMode,
-  lintEnabled: state.preferences.settings.lintEnabled,
-  codeMirror: state.preferences.settings.codeMirror,
-  tabWidth: state.preferences.settings.prettierConfig
-    ? state.preferences.settings.prettierConfig.tabWidth || 2
-    : 2,
-  enableLigatures: state.preferences.settings.enableLigatures,
-  experimentVSCode: state.preferences.settings.experimentVSCode,
-  prettierConfig: state.preferences.settings.prettierConfig,
-  forceRefresh: state.preferences.settings.forceRefresh,
-});
 
 export default function EditorPreview(props) {
   const { state, actions } = useOvermind();
@@ -36,16 +16,15 @@ export default function EditorPreview(props) {
   let contentNode = useRef(null);
   let currentRef = useRef(null);
 
-  console.log(currentRef);
-
-  const getBounds = el => {
-    el = el || currentRef.current;
+  const getBounds = () => {
+    let el = currentRef.current;
     if (el) {
-      const { width, height } = el.getBoundingClientRect();
-      console.log(width, height);
-      if (width !== bounds.width || height !== bounds.height) {
-        setBounds({ width, height });
-      }
+      requestAnimationFrame(() => {
+        const { width, height } = el.getBoundingClientRect();
+        if (width !== bounds.width || height !== bounds.height) {
+          setBounds({ width, height });
+        }
+      });
     }
   };
 
@@ -102,7 +81,7 @@ export default function EditorPreview(props) {
       if (editor.changeSettings) {
         editor.changeSettings(newSettings);
       }
-    }, Object.values(settings(state)));
+    }, [state.preferences.settings]);
 
     useEffect(
       () => {
@@ -252,13 +231,7 @@ export default function EditorPreview(props) {
         // Only code changed from outside the editor
         editor.changeCode(newModule.code || '', newModule.id);
       }
-    },[state.editor.currentModule, state.editor.currentModule.code]);
-
-    useEffect(() => {
-      requestAnimationFrame(() => {
-        getBounds();
-      });
-    }, [state.editor.previewWindowVisible]);
+    },[state.editor.currentModule, state.editor.currentMosdule.code]);
   };
 
   const detectStructureChange = ({ editor }) => {
@@ -284,16 +257,6 @@ export default function EditorPreview(props) {
     });
   };
 
-  const moveDevToolsTab = (prevPos, nextPos) => {
-    actions.editor.onDevToolsTabMoved({ prevPos, nextPos });
-  };
-
-  const closeDevToolsTab = pos => {
-    actions.editor.onDevToolsTabClosed({ pos });
-  };
-
-  useEffect(() => {}, [state.preferences.settings.codeMirror]);
-
   useEffect(() => {
     actions.editor.contentMounted();
 
@@ -312,13 +275,14 @@ export default function EditorPreview(props) {
     };
   });
 
+  useEffect(() => {
+    getBounds();
+  }, [bounds.width, bounds.height]);
+
   const { currentModule } = state.editor;
   const notSynced = !state.editor.isAllModulesSynced;
   const sandbox = state.editor.currentSandbox;
-  // const { preferences } = state;
   const { currentTab } = state.editor;
-
-  const windowVisible = state.editor.previewWindowVisible;
 
   const { width: editorWidth, height: editorHeight } = bounds;
 
@@ -378,7 +342,6 @@ export default function EditorPreview(props) {
               marginTop: 0,
             }}
           >
-            {!state.preferences.settings.experimentVSCode && <Tabs/>}
             <CodeEditor
               style={{
                 top: state.preferences.settings.experimentVSCode ? 0 : 35,
@@ -392,7 +355,7 @@ export default function EditorPreview(props) {
               }
               width={editorWidth}
               height={editorHeight}
-              settings={settings(state)}
+              settings={state.preferences.settings}
               sendTransforms={sendTransforms}
               readOnly={isReadOnly()}
               isLive={state.live.isLive}

@@ -17,7 +17,7 @@ export default function EditorTabs(props) {
   let containerRef = useRef(null);
 
   const closeTab = tabIndex => {
-    actions.editor.tabClosed({ tabIndex });
+    actions.editor.tabClosed(tabIndex);
   };
   const moveTab = (prevIndex, nextIndex) => {
     actions.editor.tabMoved({ prevIndex, nextIndex });

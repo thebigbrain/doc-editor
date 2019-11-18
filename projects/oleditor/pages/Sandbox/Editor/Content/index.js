@@ -265,11 +265,8 @@ export default function EditorPreview(props) {
   });
 
   useEffect(
-    () => {
-      getBounds();
-    },
+    () => { getBounds(); },
     [
-      bounds.width, bounds.height,
       state.preferences.settings.zenMode,
       state.workspace.workspaceHidden,
       state.editor.previewWindowOrientation,
@@ -337,12 +334,12 @@ export default function EditorPreview(props) {
               flex: 1,
               height: '100%',
               width: '100%',
-              marginTop: 0,
+              marginTop: 35,
             }}
           >
             <CodeEditor
               style={{
-                top: 35,
+                top: 0,
               }}
               onInitialized={onInitialized}
               sandbox={sandbox}

@@ -35,7 +35,7 @@ export const config = merge(
     workspace,
     dashboard,
     // deployment,
-    // files,
+    files,
     // git,
     // explore,
     // profile,

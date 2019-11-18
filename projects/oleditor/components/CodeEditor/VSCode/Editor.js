@@ -18,13 +18,25 @@ export default function(props) {
     actions.editor.setMonaco(e);
   }, [container]);
 
-  if (monacoEditor) {
-    monacoEditor.layout({width, height});
-    
-    if (currentModule) {
+  useEffect(() => {
+    if (monacoEditor) monacoEditor.layout({width, height});
+  }, [monacoEditor, width, height]);
+
+  useEffect(() => {
+    if (monacoEditor && currentModule) {
       monacoEditor.setValue(currentModule.code);
     }
-  }
+  }, [monacoEditor, currentModule, currentModule && currentModule.code]);
+
+  useEffect(() => {
+    if (!monacoEditor) return;
+    
+    let disposer = monacoEditor.onDidChangeModelContent((e) => {
+      if (props.onChange) props.onChange(monacoEditor.getValue(), currentModule.id);
+    });
+
+    return () => disposer.dispose();
+  }, [monacoEditor]);
 
   return (
     <div style={{width:'100%', height: '100%'}} ref={container}></div>

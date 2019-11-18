@@ -1,117 +1,116 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react';
 
-import { canPrettify } from '~/utils/prettify'
-import Tooltip from '@csb/common/lib/components/Tooltip'
+import { canPrettify } from '~/utils/prettify';
+import Tooltip from '@csb/common/lib/components/Tooltip';
 
-import TabContainer from './TabContainer/index'
-import PreviewIcon from './PreviewIcon'
+import TabContainer from './TabContainer/index';
+import PreviewIcon from './PreviewIcon';
 
-import { Container, IconContainer, IconWrapper, Line, StyledPrettierIcon, TabsContainer } from './elements'
+import { Container, IconContainer, IconWrapper, Line, StyledPrettierIcon, TabsContainer } from './elements';
 
-import ModuleTab from './ModuleTab'
-import { useOvermind } from '@muggle/hooks'
+import ModuleTab from './ModuleTab';
+import { useOvermind } from '@muggle/hooks';
 
 
 export default function EditorTabs(props) {
   const { state, actions } = useOvermind();
+  let containerRef = useRef(null);
 
   const closeTab = tabIndex => {
-    actions.editor.tabClosed({ tabIndex })
-  }
+    actions.editor.tabClosed({ tabIndex });
+  };
   const moveTab = (prevIndex, nextIndex) => {
-    actions.editor.tabMoved({ prevIndex, nextIndex })
-  }
+    actions.editor.tabMoved({ prevIndex, nextIndex });
+  };
   /**
    * Mark all tabs not dirty (not cursive)
    */
   const markNotDirty = () => {
-    actions.editor.moduleDoubleClicked()
-  }
+    actions.editor.moduleDoubleClicked();
+  };
   const setCurrentModule = moduleId => {
-    actions.editor.moduleSelected({ id: moduleId })
-  }
+    actions.editor.moduleSelected({ id: moduleId });
+  };
   const discardModuleChanges = moduleShortid => {
-    actions.editor.discardModuleChanges({ moduleShortid })
-  }
+    actions.editor.discardModuleChanges({ moduleShortid });
+  };
   const prettifyModule = () => {
     actions.editor.prettifyClicked({
       moduleShortid: state.editor.currentModuleShortid,
-    })
-  }
+    });
+  };
   const wrappedCanPrettify = module => {
     if (!module) {
-      return false
+      return false;
     }
 
-    return canPrettify(module.title)
-  }
+    return canPrettify(module.title);
+  };
 
-  let container = null;
-  let tabEls = {}
+  let container = containerRef.current;
+  let tabEls = {};
 
   useEffect(() => {
-    const currentTab = tabEls[props.currentModuleId]
+    const currentTab = tabEls[props.currentModuleId];
 
     // We need to scroll to the tab
     if (currentTab && container) {
-      const { width } = container.getBoundingClientRect()
-      const scroll = container.scrollLeft
-      const { left } = currentTab.getBoundingClientRect()
+      const { width } = container.getBoundingClientRect();
+      const scroll = container.scrollLeft;
+      const { left } = currentTab.getBoundingClientRect();
 
       if (left > scroll && left < scroll + width) {
         // if it's already in view
-        return
+        return;
       }
 
-      currentTab.scrollIntoView(false)
+      currentTab.scrollIntoView(false);
     }
 
   }, [props.currentModuleId]);
 
-  const sandbox = state.editor.currentSandbox
-  const moduleObject = {}
+  const sandbox = state.editor.currentSandbox;
+  const moduleObject = {};
   // We keep this object to keep track if there are duplicate titles.
   // In that case we need to show which directory the module is in.
-  const tabNamesObject = {}
+  const tabNamesObject = {};
 
   sandbox.modules.forEach(m => {
-    moduleObject[m.shortid] = m
-  })
+    moduleObject[m.shortid] = m;
+  });
 
   state.editor.tabs
     .filter(tab => tab.type === 'MODULE')
     .filter(tab => moduleObject[tab.moduleShortid])
     .forEach(tab => {
-      const module = moduleObject[tab.moduleShortid]
+      const module = moduleObject[tab.moduleShortid];
 
-      tabNamesObject[module.title] = tabNamesObject[module.title] || []
-      tabNamesObject[module.title].push(module.shortid)
-    })
+      tabNamesObject[module.title] = tabNamesObject[module.title] || [];
+      tabNamesObject[module.title].push(module.shortid);
+    });
 
-  const { currentTab } = state.editor
-  const { currentModule } = state.editor
+  const { currentTab } = state.editor;
+  const { currentModule } = state.editor;
 
-  const previewVisible = state.editor.previewWindowVisible
+  const previewVisible = state.editor.previewWindowVisible;
 
   return (
     <Container>
       <TabsContainer
-        ref={el => {
-          container = el
-        }}
+        ref={containerRef}
       >
         {state.editor.tabs
           .map(tab => ({ ...tab, module: moduleObject[tab.moduleShortid] }))
           .map((tab, i) => {
             if (tab.type === 'MODULE') {
               if (tab.module == null) {
-                return null
+                return null;
               }
 
-              const { module } = tab
-              const modulesWithName = tabNamesObject[module.title]
-              const { id } = tab.module
-              let dirName = null
+              const { module } = tab;
+              const modulesWithName = tabNamesObject[module.title];
+              const { id } = tab.module;
+              let dirName = null;
 
               if (
                 modulesWithName.length > 1 &&
@@ -121,10 +120,10 @@ export default function EditorTabs(props) {
                   d =>
                     d.shortid === module.directoryShortid &&
                     d.sourceId === module.sourceId,
-                )
+                );
 
                 if (dir) {
-                  dirName = dir.title
+                  dirName = dir.title;
                 }
               }
 
@@ -155,10 +154,10 @@ export default function EditorTabs(props) {
                     ),
                   )}
                   ref={el => {
-                    tabEls[id] = el
+                    tabEls[id] = el;
                   }}
                 />
-              )
+              );
             }
             if (tab.type === 'DIFF') {
               return (
@@ -174,14 +173,14 @@ export default function EditorTabs(props) {
                   position={i}
                   dirty={tab.dirty}
                   ref={el => {
-                    tabEls[tab.id] = el
+                    tabEls[tab.id] = el;
                   }}
                   title={`Diff: ${tab.titleA} - ${tab.titleB}`}
                 />
-              )
+              );
             }
 
-            return null
+            return null;
           })}
       </TabsContainer>
 
@@ -195,7 +194,7 @@ export default function EditorTabs(props) {
             onClick={prettifyModule}
           />
         </Tooltip>
-        <Line />
+        <Line/>
 
         <Tooltip content={previewVisible ? 'Hide Browser' : 'Show Browser'}>
           <IconWrapper active={previewVisible}>
@@ -208,5 +207,5 @@ export default function EditorTabs(props) {
         </Tooltip>
       </IconContainer>
     </Container>
-  )
+  );
 }

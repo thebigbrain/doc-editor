@@ -342,7 +342,7 @@ export default function EditorPreview(props) {
           >
             <CodeEditor
               style={{
-                top: state.preferences.settings.experimentVSCode ? 0 : 35,
+                top: 35,
               }}
               onInitialized={onInitialized}
               sandbox={sandbox}

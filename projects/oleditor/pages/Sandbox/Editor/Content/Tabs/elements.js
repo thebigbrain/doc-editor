@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import {
-  MdBrush as PrettierIcon,
-} from 'react-icons/md';
+  PrettierIcon,
+} from '@muggle/icons';
 
 const HEIGHT = '35px';
 

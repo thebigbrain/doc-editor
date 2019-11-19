@@ -13,6 +13,7 @@ export {
 } from 'react-icons/go'
 
 export {
+  MdBrush as PrettierIcon,
   MdInfo as NoticeIcon,
   MdError as ErrorIcon,
   MdWarning as WarningIcon,

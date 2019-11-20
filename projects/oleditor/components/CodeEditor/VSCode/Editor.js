@@ -26,19 +26,19 @@ export default function(props) {
     if (monacoEditor && currentModule) {
       monacoEditor.setValue(currentModule.code);
     }
-  }, [monacoEditor, currentModule, currentModule && currentModule.code]);
+  }, [monacoEditor, currentModule]);
 
   useEffect(() => {
     if (!monacoEditor) return;
-    
+
     let disposer = monacoEditor.onDidChangeModelContent((e) => {
-      if (props.onChange) props.onChange(monacoEditor.getValue(), currentModule.id);
+      if (props.onChange) props.onChange(monacoEditor.getValue());
     });
 
     return () => disposer.dispose();
   }, [monacoEditor]);
 
   return (
-    <div style={{width:'100%', height: '100%'}} ref={container}></div>
+    <div style={{ width: '100%', height: '100%' }} ref={container}/>
   );
 }
